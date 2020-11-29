@@ -7,7 +7,9 @@ password:
 toc: true
 mathjax: true
 summary:
+categories: 
+           - 分类
 tags:
-categories:
+           - 标签
 ---
 

@@ -147,7 +147,3 @@ public class CustomHandlerExpectionResovle extends AbstractHandlerExceptionResol
 # 四、总结
 
 ![image-20201115011418803](image-20201115011418803.png)
-
-![image-20201115011638203](image-20201115011638203.png)
-
-![image-20201115013053350](image-20201115013053350.png)

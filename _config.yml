@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Curioity的博客
+title: Curiosity的博客
 subtitle: '个人读书笔记'
 description: 'SpringBoot | Mybatis | Java | Mysql'
 keywords:
@@ -96,17 +96,28 @@ deploy:
   repo: git@github.com:lijinzedev/lijinzedev.github.io.git
   branch: master
   
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
   
+local_search:
+  enable: true
 highlight:
   enable: false
 #此处要为false,不然会代码高亮，有些不会，但有些会被拉到侧面
 prism_plugin:
-  mode: 'preprocess'    # realtime/preprocess
+  mode: 'preprocess'    #  realtime/preprocess
   theme: 'tomorrow'  #这个是代码块的主题
   line_number: false    # default falses
   #如果为true就会显示代码号，而且会分两边显示，显得不友好
   custom_css:
-  
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: true
+  tab_replace: ''  
 # highlight:
   # enable: true
   # line_number: true
