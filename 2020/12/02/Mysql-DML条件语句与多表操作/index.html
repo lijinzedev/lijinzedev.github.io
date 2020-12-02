@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Git 基础, Curiosity的博客">
+    <meta name="keywords" content="Mysql DML条件语句与多表操作, Curiosity的博客">
     <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Git 基础 | Curiosity的博客</title>
+    <title>Mysql DML条件语句与多表操作 | Curiosity的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Git 基础</h1>
+                    <h1 class="description center-align post-title">Mysql DML条件语句与多表操作</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +431,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Git-%E5%9F%BA%E7%A1%80/">
-                                <span class="chip bg-color">Git - 基础</span>
+                            <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/">
+                                <span class="chip bg-color">Mysql - DML条件语句</span>
                             </a>
                         
                     </div>
@@ -443,8 +443,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Git-%E5%9F%BA%E7%A1%80/" class="post-category">
-                                Git - 基础
+                            <a href="/categories/Mysql-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/" class="post-category">
+                                Mysql - 多表操作
                             </a>
                         
                     </div>
@@ -456,7 +456,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-30
+                    2020-12-02
                 </div>
                 
 
@@ -480,416 +480,92 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>[toc]</p>
-<h1 id="git命令补充学习"><a href="#git命令补充学习" class="headerlink" title="git命令补充学习"></a>git命令补充学习</h1><h2 id="git设置别名"><a href="#git设置别名" class="headerlink" title="git设置别名"></a>git设置别名</h2><h3 id="全局"><a href="#全局" class="headerlink" title="全局"></a>全局</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">alias gs&#x3D;&quot;git status&quot;
-alias ga&#x3D;&quot;git add .&quot;
-alias gc&#x3D;&quot;git commit -m&quot;
-alias gl&#x3D;&quot;git log --graph --pretty&#x3D;format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset | %C(bold)%cn&#39; --abbrev-commit --date&#x3D;relative&quot;
-alias gck&#x3D;&quot;git checkout&quot;
-alias gcb&#x3D;&quot;git checkout -b&quot;
-alias gb&#x3D;&quot;git branch&quot;
-alias gm&#x3D;&quot;git merge&quot;
-alias grb&#x3D;&quot;git rebase&quot;
-alias grs&#x3D;&quot;git reset HEAD .&quot;
-alias gca&#x3D;&quot;git commit --amend&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+                <h1 id="1-条件与多表语句"><a href="#1-条件与多表语句" class="headerlink" title="1 条件与多表语句"></a>1 条件与多表语句</h1><h2 id="1-条件插入"><a href="#1-条件插入" class="headerlink" title="1 条件插入"></a>1 条件插入</h2><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 第一种情况插入指定字段
+insert into table_name(column1,column2)values(value1,value2);
+# 第二种情况插入所有字段:前提条件是字段顺序必须与表中字段顺序一致
+insert into table_name values(value1,value2);
+# 第三种情况批量插入数据
+insert into table_name values (value1,value2),(value1,value2);
+# 也可以指定插入批量数据
+insert into table_name(column1,column2) values(value1,value2),(value1,value2);
+# 第四种情况就是当满足了指定条件时才插入数据
+insert into (column1,column2) select value1,value2 from table_name where ...
+# 也就是后面select子句中查询出来的列作为前面的值插入到表中，但是这个列的个数要和前面的字段个数一致。select子句就可以随便写了。
+# 例如
+insert into role_menu(id,menuId) select &#39;1&#39;,menuId from Menu where menuId&#x3D;1 and isLead&#x3D;&#39;1&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="非全局"><a href="#非全局" class="headerlink" title="非全局"></a>非全局</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config  --global alias.st status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="2-多表删除"><a href="#2-多表删除" class="headerlink" title="2  多表删除"></a>2  多表删除</h2><h3 id="1-基本删除"><a href="#1-基本删除" class="headerlink" title="1 基本删除"></a>1 基本删除</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 基本删除，从数据表1中删除匹配的的记录
+delete t1 
+from t1 
+inner join t2 
+on t1.id&#x3D;t2.id 
+where t1.name is null
+# 或者
+delete t1 
+from t1 
+inner join t2 
+using(id)
+where t1.name is null
+# 或者 这里的using 表示要删除的表
+DELETE FROM t1 USING t1，t2 WHERE t1.id&#x3D;t2.id
+# order 与 limit 删除
+DELETE FROM somelog WHERE user &#x3D; &#39;jcole&#39;
+ORDER BY timestamp_column LIMIT 1;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="git-tag以及log的命令技巧"><a href="#git-tag以及log的命令技巧" class="headerlink" title="git tag以及log的命令技巧"></a>git tag以及log的命令技巧</h2><h1 id="Git初学"><a href="#Git初学" class="headerlink" title="Git初学"></a>Git初学</h1><h2 id="0-常用命令解析"><a href="#0-常用命令解析" class="headerlink" title="0 常用命令解析"></a>0 常用命令解析</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。
-git add .
-
-# 他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add --update的缩写）
-git add -u
-
-# 是上面两个功能的合集（git add --all的缩写）
-git add -A
-
-git reset
-
-# 查看本地分支
-git branch -v
-# 查看本地及其远端所有分支
-git branch -va<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="1-使用git需要做的小配置"><a href="#1-使用git需要做的小配置" class="headerlink" title="1 使用git需要做的小配置"></a>1 使用git需要做的小配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config --global user.name &#39;your_name&#39;
-git config --global user.email &#39;your_email&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="1-Config-的三个作用域"><a href="#1-Config-的三个作用域" class="headerlink" title="1. Config 的三个作用域"></a>1. Config 的三个作用域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 只对某个仓库有效
-git config --local
-# 对当前用户的所有仓库有效
-git config --global
-# 对系统所有登录的账户有效
-git config --system
-
-# 显示 config 的配置， 家--list
-git config --list --local
-git config --list --global
-git config --list --system<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="2-工作区与暂存区"><a href="#2-工作区与暂存区" class="headerlink" title="2 工作区与暂存区"></a>2 工作区与暂存区</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj09omlj30ju08n0ud.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211143954709"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj08peqj30la08ota9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144014011"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj07z2ej30ig08vta6.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144021875"></p>
-<h2 id="3-给文件重命名"><a href="#3-给文件重命名" class="headerlink" title="3 给文件重命名"></a>3 给文件重命名</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 普通方法
-mv readme readme.md
-git add readme.md
-git rm readme
-# 简便的方法
-git mv readme readme.md
-# 查看命令详情
-git log --help --web
-# 查看类型
-git cat-file -t 3d4731d
-# 查看内容
-git cat-file -p 3d4731d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="4-gitk-图形界面"><a href="#4-gitk-图形界面" class="headerlink" title="4 gitk 图形界面"></a>4 gitk 图形界面</h2><h2 id="5-分离头指针"><a href="#5-分离头指针" class="headerlink" title="5 分离头指针"></a>5 分离头指针</h2><blockquote>
-<p>当在checkout 一个 commit 的时候 产生分离头指针</p>
-<p>使用场景： 做尝试性的变更使用分离头指针</p>
-<p>分离头指针指的是：变更没基于某个branch去做 做分支切换的时候 分离头指针产生的commit 可能会被git当做垃圾清理掉，切记要和branch 绑定在一起</p>
-</blockquote>
-<h2 id="6-查看版本历史"><a href="#6-查看版本历史" class="headerlink" title="6 查看版本历史"></a>6 查看版本历史</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看简单的历史
-git log --oneline
-# 查看最近几个简单的历史
-git log --n2 --oneline
-# 图形化查看
-git log --all --graph<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="7-HEAD"><a href="#7-HEAD" class="headerlink" title="7 HEAD"></a>7 HEAD</h2><blockquote>
-<p>HEAD 指向commit 或者指向分离头指针的commit</p>
-</blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 比较两个commit之间的差异
-git diff HEAD HEAD^<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="8-git原理探秘"><a href="#8-git原理探秘" class="headerlink" title="8 git原理探秘"></a>8 git原理探秘</h2><blockquote>
-<p>git 的对象 commit tree blob</p>
-</blockquote>
-<ul>
-<li>config目录：仓库配置文件</li>
-<li>HEAD</li>
-<li>objects：git中只要任何文件中文件内容相同那么他就是唯一的blob</li>
-<li>refs :引用/分支<ul>
-<li>heads：分支 内容为 commit</li>
-<li>tags: 标签 内容为 commit</li>
-</ul>
-</li>
-<li>commit tree blob 的关系</li>
-</ul>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiootxqaoj30ky0cp0yh.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211215858843"></p>
-<ul>
-<li><p>新建一个 仓库</p>
-<pre class="line-numbers language-none"><code class="language-none">git init  test<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioq4rohdj30jn0a6gm8.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211221038828"></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 创建一个文件
-echo &quot;Hello World&quot; &gt;&gt; readme.md
-# 查看 objects 文件下是否有东西
-find .git&#x2F;objects&#x2F; -type f  
-# 添加到暂存区
-git add .<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioqjlvpyj30k30bpdgv.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211222153328"></p>
-</li>
-</ul>
-<h2 id="9-删除不需要的分支"><a href="#9-删除不需要的分支" class="headerlink" title="9 删除不需要的分支"></a>9 删除不需要的分支</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git branch -d 分支名
-# 小d删除不了用D
-git branch -D 分支名 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="10-修改commit的message"><a href="#10-修改commit的message" class="headerlink" title="10 修改commit的message"></a>10 修改commit的message</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 修改最新commit的message
-git commit --amend
-# 修改老旧的commit的message
-# 变基要选择 被变得父亲的commit
-git rebase -i <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiosta3ztj30kb0cht9t.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212192200334"></p>
+<p><strong>小贴士：</strong></p>
 <blockquote>
-<p>将变更的 第一个 7c6e74b 前面的 pick 改为 reword（或者偷懒谢一个 r） 保存 退出 git 会自己弹出另外一个 交互的界面</p>
+<p> 用using关键字进行简化。<br>       <strong>1.**查询必须是等值连接。<br>       **2</strong>.等值连接中的列必须具有相同的名称和数据类型。</p>
 </blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq4m4w7cj30kb0chgmh.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212192418247"></p>
+<h3 id="2-多表删除-1"><a href="#2-多表删除-1" class="headerlink" title="2 多表删除"></a>2 多表删除</h3><h5 id="1-外键约束"><a href="#1-外键约束" class="headerlink" title="1 外键约束"></a>1 外键约束</h5><p>给表新增约束外键并使用级联(cascade)方式对表与表之间关系进行约束。具体的SQL如下:</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">alter table goods_price
+add constraint FK_goods_id foreign key(goods_id)
+ references goods(id) on delete cascade on update cascade;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>修改完后我们后期删除主表数据，关联表数据也会被删除。</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">delete from goods where id&#x3D;5;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h5 id="2-联合删除"><a href="#2-联合删除" class="headerlink" title="2 联合删除"></a>2 联合删除</h5><p>不能使用<code>ORDER BY</code>或<code>LIMIT</code></p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">DELETE t1,t2 from t1 LEFT JOIN t2 ON t1.id&#x3D;t2.id WHERE t1.id&#x3D;25<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>小贴士：</strong></p>
 <blockquote>
-<p>保存退出 出现successfull 就成功了</p>
-<p>这里用到了分离头指针 然后做调整 然后 master与head 指向最新的 commit</p>
-<p>变基的行为：已经贡献到集成的分支上 建议不要 否则会影响其他同事</p>
+<p>​        对于多表删除的<code>left join</code> 、<code>inner join</code>、<code>right join</code> 和<code>select</code> 的一样，删除各个表交集的部分。</p>
+<p>​        个人理解的执行方式就是从t1表取出一条数据，关联t2表，关联的结果通过where进行筛选，最后左右两张表关联的行会被删除。。</p>
 </blockquote>
-<h2 id="11-如何将几个commit合并为一个"><a href="#11-如何将几个commit合并为一个" class="headerlink" title="11 如何将几个commit合并为一个"></a>11 如何将几个commit合并为一个</h2><ul>
-<li>将连续的commit合并</li>
-</ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 如果合并前四个那么就选择 第五个的 commit
-git rebase -i 第五个
-# 基于哪个一个合道哪一个commit上去<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/image-20201202171603690.png" alt="image-20201202171603690"></p>
+<h2 id="3-多表更新"><a href="#3-多表更新" class="headerlink" title="3 多表更新"></a>3 多表更新</h2><blockquote>
+<p>​        MySQL可以在一个SQL语句中更新多张表的记录，也可以通过多个表之间的关联关系更新某个表的数据。</p>
+<p>​        假定目前有两张表<code>goods</code>和<code>goods_price</code>表，前者是保存商品的具体信息，后者是保存商品的价格，具体的表结构如下：</p>
+</blockquote>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">create table goods (
+&#96;id&#96; int unsigned primary key auto_increment,
+&#96;goods_name&#96; varchar(30) not null default &#39;&#39;,
+&#96;deleted_at&#96; int unsigned default null
+)engine innodb charset utf8;
+create table goods_price (
+&#96;goods_id&#96; int unsigned not null,
+&#96;price&#96; decimal(8,2) not null default &#39;0.00&#39;
+)engine innodb charset utf8;
+insert into goods (id,goods_name) values (1,&#39;商品1&#39;),(2,&#39;商品2&#39;),(3,&#39;商品3&#39;),(4,&#39;商品4&#39;),(5,&#39;商品5&#39;);
+insert into goods_price values (1,&#39;5.44&#39;),(2,&#39;3.22&#39;),(3,&#39;5.55&#39;),(4,&#39;0.00&#39;),(5,&#39;4.54&#39;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<blockquote>
-<p>那些commit 变更的文件都要但是要把他合并到前面的commit上去</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq546m6cj30kp0ch0tw.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212210308978"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5ft0o1j30gp04l407.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212224256596"></p>
-<ul>
-<li><p>将不连续的 commit 合并</p>
-<p>合并两个 添加readme的 commit</p>
-<blockquote>
-<p>将最古老的 commit</p>
-<p>git rebase -i 最古老的</p>
-</blockquote>
-</li>
-</ul>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5q6revj30pi0eqdl7.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225139935"></p>
-<blockquote>
-<p>发现不够手动添加最古老的</p>
-<p>pick 最古老的commit</p>
-<p>然后调整pick ’commit‘ 的位置 吧 需要合并的挨着放</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6g0g7lj316f0ksqb7.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225549125"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6rbkphj30m0034761.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225725697"></p>
-<blockquote>
-<p>输入 git statue 然后根据提示 接着做</p>
-<p>变基完成</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq77wxwmj30up0g6gsm.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230015054"></p>
-<blockquote>
-<p>出现了两个 commit 没有祖先的</p>
-<p>但是和master 无关的分支已经没啥用##了</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq7ha4sgj30a107gmy5.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230320205"></p>
-<h2 id="12-如何比较暂存区和HEAD所含文件的差异"><a href="#12-如何比较暂存区和HEAD所含文件的差异" class="headerlink" title="12 如何比较暂存区和HEAD所含文件的差异"></a>12 如何比较暂存区和HEAD所含文件的差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git diff --cached<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="1-在update时使用逗号分割更新"><a href="#1-在update时使用逗号分割更新" class="headerlink" title="1 在update时使用逗号分割更新"></a>1 在update时使用逗号分割更新</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods as g , goods_price as p 
+SET p.price &#x3D; p.price*0.5 
+WHERE p.goods_id &#x3D; g.id AND g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8dedjtj30kz09x0vd.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230934332"></p>
-<h2 id="13-如何比较工作区和暂存区的差异"><a href="#13-如何比较工作区和暂存区的差异" class="headerlink" title="13 如何比较工作区和暂存区的差异"></a>13 如何比较工作区和暂存区的差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 工作区与暂存区所有的差别
-git diff
-# 工作区与暂存区 某些文件的差别 
-git diff -- readme style&#x2F;style.css<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-使用inner-join更新数据"><a href="#2-使用inner-join更新数据" class="headerlink" title="2 使用inner join更新数据"></a>2 使用inner join更新数据</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods g 
+INNER JOIN goods_price p 
+ON g.id&#x3D;p.goods_id 
+SET p.price&#x3D;p.price*0.5 
+where g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8obmbvj30gc0bvgr0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212231543413"></p>
-<h2 id="14-如何让暂存区恢复和HEAD一样"><a href="#14-如何让暂存区恢复和HEAD一样" class="headerlink" title="14 如何让暂存区恢复和HEAD一样"></a>14 如何让暂存区恢复和HEAD一样</h2><blockquote>
-<p>场景：不想保留暂存区</p>
-</blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将暂存区 恢复成和HEAD一样
-git reset HEAD
-# 比较暂存区与HEAD 没有输出 就表示一致
-git diff --cached<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="15-如何将工作区回复和暂存区的状态"><a href="#15-如何将工作区回复和暂存区的状态" class="headerlink" title="15 如何将工作区回复和暂存区的状态"></a>15 如何将工作区回复和暂存区的状态</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 变更工作区使用checkout
-git checkout -- &#39;文件名&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="16-如何取消暂存区部分文件的修改"><a href="#16-如何取消暂存区部分文件的修改" class="headerlink" title="16 如何取消暂存区部分文件的修改"></a>16 如何取消暂存区部分文件的修改</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># git reset HEAD -- &#39;具体的文件可以多个&#39;
-git reset HEAD -- styles&#x2F;style.css readme.md<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="17-消除最近的几次提交"><a href="#17-消除最近的几次提交" class="headerlink" title="17 消除最近的几次提交"></a>17 消除最近的几次提交</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 暂存区和工作区都恢复到指定的内容了
-git reset --hrad ‘commit’<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="18-看看不同提交的指定文件差异"><a href="#18-看看不同提交的指定文件差异" class="headerlink" title="18 看看不同提交的指定文件差异"></a>18 看看不同提交的指定文件差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 分支即为指针 (显示所有)
-git diff temp master
-# 显示感兴趣的文件
-git diff temp master -- &#39;文件名&#39;
-# 也可以用 master 对应的 commit 和 temp 对应的commit
-git branch -av
-git diff &#39;commmit&#39; &#39;commit&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="19-正确删除文件的方法"><a href="#19-正确删除文件的方法" class="headerlink" title="19 正确删除文件的方法"></a>19 正确删除文件的方法</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 普通方法
-# 工作目录下删除
-rm readme
-# 暂存区删除
-git rm readme 
-
-# 简单方法 
-# 直接把删除文件放到暂存区
-git rm ‘file_name’<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="20-开发中临时加塞了紧急任务怎么处理"><a href="#20-开发中临时加塞了紧急任务怎么处理" class="headerlink" title="20 开发中临时加塞了紧急任务怎么处理"></a>20 开发中临时加塞了紧急任务怎么处理</h2><blockquote>
-<p>场景：正在做新功能的开发但是开发未结束，其他分支产生了bug 需要去解决</p>
-</blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 使用 stash 
-git stash 
-# 查看 stash 信息
-# stash 相当于 堆栈
-git stash list
-# 去执行紧急任务
-# 紧急任务修复完成
-# 恢复 使用 apply 或者pop
-# apply两个作用：
-1 把之前的内容弹出来 放入工作区
-2 stash 的信息还在可以反复使用
-git stash apply
-# pop  把之前的内容弹出来 放入工作区
-# 与栈的pop一样<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="21-如何制定不需要git管理的文件"><a href="#21-如何制定不需要git管理的文件" class="headerlink" title="21 如何制定不需要git管理的文件"></a>21 如何制定不需要git管理的文件</h2><blockquote>
-<ul>
-<li><p>.gitignore 文件</p>
-<p><strong>a.忽略指定文件/目录</strong></p>
-</li>
-<li><p>忽略指定文件</p>
-<ul>
-<li>HelloWrold.class</li>
-</ul>
-</li>
-<li><p>忽略指定文件夹</p>
-<ul>
-<li>bin/</li>
-</ul>
-</li>
-<li><p>bin/gen/</p>
-<p><strong>b.通配符忽略规则</strong></p>
-</li>
-<li><p>忽略.class的所有文件 *.class</p>
-</li>
-<li><p>忽略名称中末尾为ignore的文件夹</p>
-</li>
-<li><p>*ignore/</p>
-</li>
-<li><p>忽略名称中间包含ignore的文件夹</p>
-<ul>
-<li><em>ignore</em>/</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h2 id="22-Git-的备份"><a href="#22-Git-的备份" class="headerlink" title="22 Git 的备份"></a>22 Git 的备份</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq94we8ij30ql0i1td0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200213122814992"></p>
-<blockquote>
-<p><strong>直观区别：</strong> 哑协议传输进度不可见；智能传输协议可见</p>
-<p><strong>传输速度:</strong> 智能协议比哑协议传输速度快</p>
-</blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 克隆不带工作区的 裸仓库
-git clone --bare ‘协议地址’
-# 哑协议
-git clone --bare &#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 智能协议 带进度显示 并且更快
-git clone --bare file:&#x2F;&#x2F;&#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 与远端仓库同步
-# -v 查看remote
-git remote -v
-# 删除remote
-git remote remove &#39;name&#39;
-# 创建 remote
-git remote add zhineng  file:&#x2F;&#x2F;&#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 格式
-git remote add &#39;name&#39; &#39;address&#39;
-# 更新到远端
-git push &#39;remote_name&#39; &#39;branch_name&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="23-配置公钥"><a href="#23-配置公钥" class="headerlink" title="23 配置公钥"></a>23 配置公钥</h2><blockquote>
-<p>在github上面的help 搜索ssh即可</p>
-</blockquote>
-<h2 id="24-push到GitHub上面去"><a href="#24-push到GitHub上面去" class="headerlink" title="24 push到GitHub上面去"></a>24 push到GitHub上面去</h2><blockquote>
-<p>首先复制ssh链接</p>
-</blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将本地所有的分支push 到 远程去
-git push origin --all
-# git pull
-1. fetch 把远端分支的内容拉下来
-2. 将本地的分支与远端的分支marge
-# 将本地的 master 与远端的master合并
-git marge origin&#x2F;master
-# 由于是不想干的两个 合并查询marge做出命令改动
-git merge origin&#x2F;master  --allow-unrelated-histories<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="25-不同人修改了不同文件如何处理"><a href="#25-不同人修改了不同文件如何处理" class="headerlink" title="25 不同人修改了不同文件如何处理"></a>25 不同人修改了不同文件如何处理</h2><blockquote>
-<p><strong>场景：</strong>多人同时维护一个分支的时候 有一个人修改了 一个文件 另一个人修改了不同的文件 这种合并起来 是非常顺利的</p>
-<p><strong>本地与远端的master的关系如下：</strong></p>
-<p><strong>不是 Fast-Forward：</strong>两个<master>没有共同的祖先</master></p>
-<p>**不是 No-Fast-Forward: ** 不是基于远端的commit做变更的</p>
-<p><strong>Fast-Forward</strong></p>
-<p>当前分支合并到另一分支时，如果没有分歧解决，就会直接移动文件指针。这个过程叫做fastforward。</p>
-<p>举例来说，开发一直在master分支进行，但忽然有一个新的想法，于是新建了一个develop的分支，并在其上进行一系列提交，完成时，回到 master分支，此时，master分支在创建develop分支之后并未产生任何新的commit。此时的合并就叫fast forward。</p>
-<p>示例：</p>
-<ol>
-<li>新建一个work tree，在master中做几次commit</li>
-<li>新建develop的branch，然后再做多次commits</li>
-</ol>
-<p>此时的分支流图如下(gitx)：</p>
-<p><strong>正常合并</strong></p>
-<p>(master)$ git merge develop Updating 5999848..7355122 <strong><em>Fast-forward\</em></strong> c.txt | 1 + d.txt | 1 + 2 files changed, 2 insertions(+), 0 deletions(-) create mode 100644 c.txt create mode 100644 d.txt</p>
-<p>可以看出这是一次fast-forward式的合并，且合并完之后的视图为扁平状，看不出develop分支开发的任何信息。</p>
-<p><strong>使用–no-ff进行合并</strong></p>
-<p>—no-ff (no fast foward)，使得每一次的合并都创建一个新的commit记录。即使这个commit只是fast-foward，用来避免丢失信息。</p>
-<p>(master)$ git merge –no-ff develop <strong>Merge made by recursive.</strong> c.txt | 2 +- d.txt | 2 +- 2 files changed, 2 insertions(+), 2 deletions(-)</p>
-<p>可以看出，使用no-ff后，会多生成一个commit 记录，并强制保留develop分支的开发记录（而fast-forward的话则是直接合并，看不出之前Branch的任何记录）。这对于以后代码进行分析特别有用，故有以下最佳实践。</p>
-<p><strong>好的实践</strong></p>
-<p>–no-ff，其作用是：要求git merge即使在fast forward条件下也要产生一个新的merge commit。此处，要求采用–no-ff的方式进行分支合并，其目的在于，希望保持原有“develop branches”整个提交链的完整性。Git – Fast Forward 和 no fast foward</p>
-</blockquote>
-<blockquote>
-<p>ahead 1 behind 1 的意思</p>
-<p><strong>ahead</strong> ：本地分支比远端新一个commit</p>
-<p><strong>behind</strong> ：远端比本地多一个commit</p>
-<p>这种问题解决方案</p>
-<pre class="line-numbers language-none"><code class="language-none"># 1. 获取远程分支debug的修改 
-git fetch origin debug 
-
-# 2.合并远程分支debug  
-git merge origin debug 
-
-# 更新本地分支  
-3. git pull origin debug <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9h5s8xj30sg08bjw9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200213190214751"></p>
-<h2 id="26-不同人修改了同文件的不同区域"><a href="#26-不同人修改了同文件的不同区域" class="headerlink" title="26 不同人修改了同文件的不同区域"></a>26 不同人修改了同文件的不同区域</h2><blockquote>
-<p>与远端同步</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull 
-# 与 25一样<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</blockquote>
-<h2 id="27-两个人修改了同文件的同一区域"><a href="#27-两个人修改了同文件的同一区域" class="headerlink" title="27 两个人修改了同文件的同一区域"></a>27 两个人修改了同文件的同一区域</h2><blockquote>
-<p>git pull 之后自己做处理</p>
-<p>然后commit 然后 push</p>
-</blockquote>
-<h2 id="28-同时变更了文件名和文件内容"><a href="#28-同时变更了文件名和文件内容" class="headerlink" title="28 同时变更了文件名和文件内容"></a>28 同时变更了文件名和文件内容</h2><blockquote>
-<p>git pull 可以做出智能处理</p>
-<p>然后commit 然后 push</p>
-</blockquote>
-<h2 id="29-多人修改同一文件名"><a href="#29-多人修改同一文件名" class="headerlink" title="29 多人修改同一文件名"></a>29 多人修改同一文件名</h2><blockquote>
-<p>git pull 之后自己做处理</p>
-<p>然后commit 然后 push</p>
-</blockquote>
-<h2 id="30-Git-继承使用禁忌"><a href="#30-Git-继承使用禁忌" class="headerlink" title="30 Git 继承使用禁忌"></a>30 Git 继承使用禁忌</h2><h3 id="1-禁止向集成分支执行push"><a href="#1-禁止向集成分支执行push" class="headerlink" title="1. 禁止向集成分支执行push"></a>1. 禁止向集成分支执行push</h3><blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 直接干掉 强制更新
-git push -f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</blockquote>
-<h3 id="2-禁止向继承分支执行变更历史的操作"><a href="#2-禁止向继承分支执行变更历史的操作" class="headerlink" title="2. 禁止向继承分支执行变更历史的操作"></a>2. 禁止向继承分支执行变更历史的操作</h3><blockquote>
-<p>等着别人砍你吧</p>
-</blockquote>
-<h2 id="31-如何在GitHub搜索自己感兴趣的项目"><a href="#31-如何在GitHub搜索自己感兴趣的项目" class="headerlink" title="31 如何在GitHub搜索自己感兴趣的项目"></a>31 如何在GitHub搜索自己感兴趣的项目</h2><blockquote>
-<p><code>in:readme</code> <strong>在readme里面搜索</strong></p>
-<p><code>stars:&gt;1000</code> <strong>stars大于1000的</strong></p>
-<p><strong>Code Option：</strong></p>
-<p>‘dsc’ filename：<filename></filename></p>
-<p><strong>例子：</strong>‘public’ + ‘static’ filename:config.java</p>
-</blockquote>
-<h2 id="32-开源项目如何保质保量"><a href="#32-开源项目如何保质保量" class="headerlink" title="32 开源项目如何保质保量"></a>32 开源项目如何保质保量</h2><blockquote>
-<p>pull request 然后 通过 review与checks</p>
-</blockquote>
-<h2 id="33怎样选择适合自己团队的工作流"><a href="#33怎样选择适合自己团队的工作流" class="headerlink" title="33怎样选择适合自己团队的工作流"></a>33怎样选择适合自己团队的工作流</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9vbmgqj30po0h8419.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100653733"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqam8nn1j30po0iawiw.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100726831"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqb0ftc6j30sg0i941i.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100736627"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbbma3tj30oz0grq4r.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100752269"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbvphqaj30rj0gmgo2.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100810162"></p>
-<h2 id="34-如何挑选和是的分支集成策略"><a href="#34-如何挑选和是的分支集成策略" class="headerlink" title="34 如何挑选和是的分支集成策略"></a>34 如何挑选和是的分支集成策略</h2><blockquote>
-<p>查看一些信息</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqc8wuocj30xq0flaar.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214102353830"></p>
-<blockquote>
-<p>选择集成方式</p>
-<p>线性方式：选择–&gt;allow rebase merging</p>
-<p>公共集成分支不允许 push -f</p>
-<p>第一种 产生marge commit</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcjss4xj30t00ak3z0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214102608582"></p>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcu6l1vj30gz08rjs5.jpg?ynotemdtimestamp=1606703976531" alt="merge commits"></p>
-<blockquote>
-<p>第二种 将产生的 commit 组合为一个commit 放入 master</p>
-</blockquote>
-<blockquote>
-<p>第三种 将长生的commit 一个一个跳出来放入master</p>
-</blockquote>
-<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqd6pgmdj30gj0a70te.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214121045925"></p>
-<h2 id="35-启用issue跟踪需求和任务"><a href="#35-启用issue跟踪需求和任务" class="headerlink" title="35 启用issue跟踪需求和任务"></a>35 启用issue跟踪需求和任务</h2><blockquote>
-<p>利用project看板来管理issue</p>
-</blockquote>
-<h2 id="36-项目内部怎么实施code-review"><a href="#36-项目内部怎么实施code-review" class="headerlink" title="36 项目内部怎么实施code review"></a>36 项目内部怎么实施code review</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqdi7bjlj30sy0hgmyp.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214123352048"></p>
-<h2 id="37团队协作时如何做多分支的集成"><a href="#37团队协作时如何做多分支的集成" class="headerlink" title="37团队协作时如何做多分支的集成"></a>37团队协作时如何做多分支的集成</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 让远端集成分支 强制回退
-# 不建议这样做
-git push -f origin &lt; 要回退commit &gt; :&lt;分支名&gt;
-git push -f origin 6b231c14 : master
-# 将分支回退
-git reset --hard origin&#x2F;s
-# 去了解
-git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-更新多个表"><a href="#3-更新多个表" class="headerlink" title="3 更新多个表"></a>3 更新多个表</h3><p>上面的更新语句使用另一个表的条件，更新一张表，也可以更新多个表。具体SQL语句如下：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods g 
+INNER JOIN goods_price p on g.id&#x3D;p.goods_id 
+set p.price&#x3D;p.price*0.5,g.deleted_at&#x3D;unix_timestamp(now())
+where g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -915,7 +591,7 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lijinzedev.github.io/2020/11/30/Git-%E5%9F%BA%E7%A1%80/">https://lijinzedev.github.io/2020/11/30/Git-%E5%9F%BA%E7%A1%80/</a>
+                    <a href="https://lijinzedev.github.io/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">https://lijinzedev.github.io/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -953,8 +629,8 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Git-%E5%9F%BA%E7%A1%80/">
-                                    <span class="chip bg-color">Git - 基础</span>
+                                <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/">
+                                    <span class="chip bg-color">Mysql - DML条件语句</span>
                                 </a>
                             
                         </div>
@@ -1124,9 +800,10 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">
                     <div class="card-image">
@@ -1144,9 +821,9 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1159,6 +836,7 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1177,13 +855,13 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/29/docker%E5%AE%89%E8%A3%85gitlab/">
+                <a href="/2020/11/30/Git-%E5%9F%BA%E7%A1%80/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="docker安装gitlab">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Git 基础">
                         
-                        <span class="card-title">docker安装gitlab</span>
+                        <span class="card-title">Git 基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1194,14 +872,14 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-30
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/linux-CentOS/" class="post-category">
-                                    linux - CentOS
+                            <a href="/categories/Git-%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    Git - 基础
                                 </a>
                             
                             
@@ -1211,8 +889,8 @@ git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-CentOS-gitlab/">
-                        <span class="chip bg-color">linux - CentOS - gitlab</span>
+                    <a href="/tags/Git-%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">Git - 基础</span>
                     </a>
                     
                 </div>
