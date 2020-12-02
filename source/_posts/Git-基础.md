@@ -11,58 +11,12 @@ tags:
 date: 2020-11-30 11:07:32
 password:
 summary:
+
 ---
 
-- git命令补充学习
-  - git设置别名
-    - [全局](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#全局)
-    - [非全局](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#非全局)
-  - [git tag以及log的命令技巧](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#git-tag以及log的命令技巧)
-- Git初学
-  - [0 常用命令解析](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#0-常用命令解析)
-  - 1 使用git需要做的小配置
-    - [1. Config 的三个作用域](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#1-config-的三个作用域)
-  - [2 工作区与暂存区](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#2-工作区与暂存区)
-  - [3 给文件重命名](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#3-给文件重命名)
-  - [4 gitk 图形界面](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#4-gitk-图形界面)
-  - [5 分离头指针](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#5-分离头指针)
-  - [6 查看版本历史](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#6-查看版本历史)
-  - [7 HEAD](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#7-head)
-  - [8 git原理探秘](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#8-git原理探秘)
-  - [9 删除不需要的分支](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#9-删除不需要的分支)
-  - [10 修改commit的message](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#10-修改commit的message)
-  - 
-  - [11 如何将几个commit合并为一个](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#11-如何将几个commit合并为一个)
-  - [12 如何比较暂存区和HEAD所含文件的差异](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#12-如何比较暂存区和head所含文件的差异)
-  - [13 如何比较工作区和暂存区的差异](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#13-如何比较工作区和暂存区的差异)
-  - [14 如何让暂存区恢复和HEAD一样](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#14-如何让暂存区恢复和head一样)
-  - [15 如何将工作区回复和暂存区的状态](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#15-如何将工作区回复和暂存区的状态)
-  - [16 如何取消暂存区部分文件的修改](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#16-如何取消暂存区部分文件的修改)
-  - [17 消除最近的几次提交](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#17-消除最近的几次提交)
-  - [18 看看不同提交的指定文件差异](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#18-看看不同提交的指定文件差异)
-  - [19 正确删除文件的方法](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#19-正确删除文件的方法)
-  - [20 开发中临时加塞了紧急任务怎么处理](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#20-开发中临时加塞了紧急任务怎么处理)
-  - [21 如何制定不需要git管理的文件](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#21-如何制定不需要git管理的文件)
-  - [22 Git 的备份](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#22-git-的备份)
-  - [23 配置公钥](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#23-配置公钥)
-  - [24 push到GitHub上面去](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#24-push到github上面去)
-  - [25 不同人修改了不同文件如何处理](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#25-不同人修改了不同文件如何处理)
-  - [26 不同人修改了同文件的不同区域](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#26-不同人修改了同文件的不同区域)
-  - [27 两个人修改了同文件的同一区域](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#27-两个人修改了同文件的同一区域)
-  - [28 同时变更了文件名和文件内容](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#28-同时变更了文件名和文件内容)
-  - [29 多人修改同一文件名](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#29-多人修改同一文件名)
-  - 30 Git 继承使用禁忌
-    - [1. 禁止向集成分支执行push](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#1-禁止向集成分支执行push)
-    - [2. 禁止向继承分支执行变更历史的操作](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#2-禁止向继承分支执行变更历史的操作)
-  - [31 如何在GitHub搜索自己感兴趣的项目](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#31-如何在github搜索自己感兴趣的项目)
-  - [32 开源项目如何保质保量](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#32-开源项目如何保质保量)
-  - [33怎样选择适合自己团队的工作流](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#33怎样选择适合自己团队的工作流)
-  - [34 如何挑选和是的分支集成策略](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#34-如何挑选和是的分支集成策略)
-  - [35 启用issue跟踪需求和任务](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#35-启用issue跟踪需求和任务)
-  - [36 项目内部怎么实施code review](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#36-项目内部怎么实施code-review)
-  - [37团队协作时如何做多分支的集成](https://note.youdao.com/md/?defaultMode=view&fileId=WEB14bfc1f021240fa9efe0b0b590f6cff0#37团队协作时如何做多分支的集成)
 
 
+[toc]
 
 # git命令补充学习
 
@@ -70,7 +24,7 @@ summary:
 
 ### 全局
 
-```
+```bash
 alias gs="git status"
 alias ga="git add ."
 alias gc="git commit -m"
@@ -86,7 +40,7 @@ alias gca="git commit --amend"
 
 ### 非全局
 
-```
+```bash
 git config  --global alias.st status
 ```
 
