@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 5.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 
@@ -481,85 +481,81 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[toc]</p>
-<h1 id="git命令补充学习"><a href="#git命令补充学习" class="headerlink" title="git命令补充学习"></a>git命令补充学习</h1><h2 id="git设置别名"><a href="#git设置别名" class="headerlink" title="git设置别名"></a>git设置别名</h2><h3 id="全局"><a href="#全局" class="headerlink" title="全局"></a>全局</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">alias gs&#x3D;&quot;git status&quot;
-alias ga&#x3D;&quot;git add .&quot;
-alias gc&#x3D;&quot;git commit -m&quot;
-alias gl&#x3D;&quot;git log --graph --pretty&#x3D;format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset | %C(bold)%cn&#39; --abbrev-commit --date&#x3D;relative&quot;
-alias gck&#x3D;&quot;git checkout&quot;
-alias gcb&#x3D;&quot;git checkout -b&quot;
-alias gb&#x3D;&quot;git branch&quot;
-alias gm&#x3D;&quot;git merge&quot;
-alias grb&#x3D;&quot;git rebase&quot;
-alias grs&#x3D;&quot;git reset HEAD .&quot;
-alias gca&#x3D;&quot;git commit --amend&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="git命令补充学习"><a href="#git命令补充学习" class="headerlink" title="git命令补充学习"></a>git命令补充学习</h1><h2 id="git更新-gitignore"><a href="#git更新-gitignore" class="headerlink" title="git更新.gitignore"></a>git更新.gitignore</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">rm</span> -r --cached .//清空缓存
+<span class="token function">git</span> add .//重新提交
+<span class="token function">git</span> commit -m <span class="token string">"update .gitignore"</span>
+<span class="token function">git</span> push</code></pre>
+<h2 id="git设置别名"><a href="#git设置别名" class="headerlink" title="git设置别名"></a>git设置别名</h2><h3 id="全局"><a href="#全局" class="headerlink" title="全局"></a>全局</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">alias</span> gs<span class="token operator">=</span><span class="token string">"git status"</span>
+<span class="token function">alias</span> ga<span class="token operator">=</span><span class="token string">"git add ."</span>
+<span class="token function">alias</span> gc<span class="token operator">=</span><span class="token string">"git commit -m"</span>
+<span class="token function">alias</span> gl<span class="token operator">=</span><span class="token string">"git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset | %C(bold)%cn' --abbrev-commit --date=relative"</span>
+<span class="token function">alias</span> gck<span class="token operator">=</span><span class="token string">"git checkout"</span>
+<span class="token function">alias</span> gcb<span class="token operator">=</span><span class="token string">"git checkout -b"</span>
+<span class="token function">alias</span> gb<span class="token operator">=</span><span class="token string">"git branch"</span>
+<span class="token function">alias</span> gm<span class="token operator">=</span><span class="token string">"git merge"</span>
+<span class="token function">alias</span> grb<span class="token operator">=</span><span class="token string">"git rebase"</span>
+<span class="token function">alias</span> grs<span class="token operator">=</span><span class="token string">"git reset HEAD ."</span>
+<span class="token function">alias</span> gca<span class="token operator">=</span><span class="token string">"git commit --amend"</span></code></pre>
+<h3 id="非全局"><a href="#非全局" class="headerlink" title="非全局"></a>非全局</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config  --global alias.st status</code></pre>
+<h2 id="git-tag以及log的命令技巧"><a href="#git-tag以及log的命令技巧" class="headerlink" title="git tag以及log的命令技巧"></a>git tag以及log的命令技巧</h2><h1 id="Git初学"><a href="#Git初学" class="headerlink" title="Git初学"></a>Git初学</h1><h2 id="0-常用命令解析"><a href="#0-常用命令解析" class="headerlink" title="0 常用命令解析"></a>0 常用命令解析</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。</span>
+<span class="token function">git</span> add <span class="token keyword">.</span>
 
-<h3 id="非全局"><a href="#非全局" class="headerlink" title="非全局"></a>非全局</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config  --global alias.st status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<span class="token comment" spellcheck="true"># 他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add --update的缩写）</span>
+<span class="token function">git</span> add -u
 
-<h2 id="git-tag以及log的命令技巧"><a href="#git-tag以及log的命令技巧" class="headerlink" title="git tag以及log的命令技巧"></a>git tag以及log的命令技巧</h2><h1 id="Git初学"><a href="#Git初学" class="headerlink" title="Git初学"></a>Git初学</h1><h2 id="0-常用命令解析"><a href="#0-常用命令解析" class="headerlink" title="0 常用命令解析"></a>0 常用命令解析</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。
-git add .
+<span class="token comment" spellcheck="true"># 是上面两个功能的合集（git add --all的缩写）</span>
+<span class="token function">git</span> add -A
 
-# 他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add --update的缩写）
-git add -u
+<span class="token function">git</span> reset
 
-# 是上面两个功能的合集（git add --all的缩写）
-git add -A
+<span class="token comment" spellcheck="true"># 查看本地分支</span>
+<span class="token function">git</span> branch -v
+<span class="token comment" spellcheck="true"># 查看本地及其远端所有分支</span>
+<span class="token function">git</span> branch -va</code></pre>
+<h2 id="1-使用git需要做的小配置"><a href="#1-使用git需要做的小配置" class="headerlink" title="1 使用git需要做的小配置"></a>1 使用git需要做的小配置</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config --global user.name <span class="token string">'your_name'</span>
+<span class="token function">git</span> config --global user.email <span class="token string">'your_email'</span></code></pre>
+<h3 id="1-Config-的三个作用域"><a href="#1-Config-的三个作用域" class="headerlink" title="1. Config 的三个作用域"></a>1. Config 的三个作用域</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 只对某个仓库有效</span>
+<span class="token function">git</span> config --local
+<span class="token comment" spellcheck="true"># 对当前用户的所有仓库有效</span>
+<span class="token function">git</span> config --global
+<span class="token comment" spellcheck="true"># 对系统所有登录的账户有效</span>
+<span class="token function">git</span> config --system
 
-git reset
-
-# 查看本地分支
-git branch -v
-# 查看本地及其远端所有分支
-git branch -va<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="1-使用git需要做的小配置"><a href="#1-使用git需要做的小配置" class="headerlink" title="1 使用git需要做的小配置"></a>1 使用git需要做的小配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config --global user.name &#39;your_name&#39;
-git config --global user.email &#39;your_email&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="1-Config-的三个作用域"><a href="#1-Config-的三个作用域" class="headerlink" title="1. Config 的三个作用域"></a>1. Config 的三个作用域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 只对某个仓库有效
-git config --local
-# 对当前用户的所有仓库有效
-git config --global
-# 对系统所有登录的账户有效
-git config --system
-
-# 显示 config 的配置， 家--list
-git config --list --local
-git config --list --global
-git config --list --system<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token comment" spellcheck="true"># 显示 config 的配置， 家--list</span>
+<span class="token function">git</span> config --list --local
+<span class="token function">git</span> config --list --global
+<span class="token function">git</span> config --list --system</code></pre>
 <h2 id="2-工作区与暂存区"><a href="#2-工作区与暂存区" class="headerlink" title="2 工作区与暂存区"></a>2 工作区与暂存区</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj09omlj30ju08n0ud.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211143954709"></p>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj08peqj30la08ota9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144014011"></p>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj07z2ej30ig08vta6.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144021875"></p>
-<h2 id="3-给文件重命名"><a href="#3-给文件重命名" class="headerlink" title="3 给文件重命名"></a>3 给文件重命名</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 普通方法
-mv readme readme.md
-git add readme.md
-git rm readme
-# 简便的方法
-git mv readme readme.md
-# 查看命令详情
-git log --help --web
-# 查看类型
-git cat-file -t 3d4731d
-# 查看内容
-git cat-file -p 3d4731d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<h2 id="3-给文件重命名"><a href="#3-给文件重命名" class="headerlink" title="3 给文件重命名"></a>3 给文件重命名</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 普通方法</span>
+<span class="token function">mv</span> readme readme.md
+<span class="token function">git</span> add readme.md
+<span class="token function">git</span> <span class="token function">rm</span> readme
+<span class="token comment" spellcheck="true"># 简便的方法</span>
+<span class="token function">git</span> <span class="token function">mv</span> readme readme.md
+<span class="token comment" spellcheck="true"># 查看命令详情</span>
+<span class="token function">git</span> log --help --web
+<span class="token comment" spellcheck="true"># 查看类型</span>
+<span class="token function">git</span> cat-file -t 3d4731d
+<span class="token comment" spellcheck="true"># 查看内容</span>
+<span class="token function">git</span> cat-file -p 3d4731d</code></pre>
 <h2 id="4-gitk-图形界面"><a href="#4-gitk-图形界面" class="headerlink" title="4 gitk 图形界面"></a>4 gitk 图形界面</h2><h2 id="5-分离头指针"><a href="#5-分离头指针" class="headerlink" title="5 分离头指针"></a>5 分离头指针</h2><blockquote>
 <p>当在checkout 一个 commit 的时候 产生分离头指针</p>
 <p>使用场景： 做尝试性的变更使用分离头指针</p>
 <p>分离头指针指的是：变更没基于某个branch去做 做分支切换的时候 分离头指针产生的commit 可能会被git当做垃圾清理掉，切记要和branch 绑定在一起</p>
 </blockquote>
-<h2 id="6-查看版本历史"><a href="#6-查看版本历史" class="headerlink" title="6 查看版本历史"></a>6 查看版本历史</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看简单的历史
-git log --oneline
-# 查看最近几个简单的历史
-git log --n2 --oneline
-# 图形化查看
-git log --all --graph<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<h2 id="6-查看版本历史"><a href="#6-查看版本历史" class="headerlink" title="6 查看版本历史"></a>6 查看版本历史</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看简单的历史</span>
+<span class="token function">git</span> log --oneline
+<span class="token comment" spellcheck="true"># 查看最近几个简单的历史</span>
+<span class="token function">git</span> log --n2 --oneline
+<span class="token comment" spellcheck="true"># 图形化查看</span>
+<span class="token function">git</span> log --all --graph</code></pre>
 <h2 id="7-HEAD"><a href="#7-HEAD" class="headerlink" title="7 HEAD"></a>7 HEAD</h2><blockquote>
 <p>HEAD 指向commit 或者指向分离头指针的commit</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 比较两个commit之间的差异
-git diff HEAD HEAD^<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 比较两个commit之间的差异</span>
+<span class="token function">git</span> <span class="token function">diff</span> HEAD HEAD^</code></pre>
 <h2 id="8-git原理探秘"><a href="#8-git原理探秘" class="headerlink" title="8 git原理探秘"></a>8 git原理探秘</h2><blockquote>
 <p>git 的对象 commit tree blob</p>
 </blockquote>
@@ -577,29 +573,25 @@ git diff HEAD HEAD^<span aria-hidden="true" class="line-numbers-rows"><span></sp
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiootxqaoj30ky0cp0yh.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211215858843"></p>
 <ul>
 <li><p>新建一个 仓库</p>
-<pre class="line-numbers language-none"><code class="language-none">git init  test<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
+<pre><code>git init  test</code></pre>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioq4rohdj30jn0a6gm8.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211221038828"></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 创建一个文件
-echo &quot;Hello World&quot; &gt;&gt; readme.md
-# 查看 objects 文件下是否有东西
-find .git&#x2F;objects&#x2F; -type f  
-# 添加到暂存区
-git add .<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 创建一个文件</span>
+<span class="token keyword">echo</span> <span class="token string">"Hello World"</span> <span class="token operator">>></span> readme.md
+<span class="token comment" spellcheck="true"># 查看 objects 文件下是否有东西</span>
+<span class="token function">find</span> .git/objects/ -type f  
+<span class="token comment" spellcheck="true"># 添加到暂存区</span>
+<span class="token function">git</span> add <span class="token keyword">.</span></code></pre>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioqjlvpyj30k30bpdgv.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211222153328"></p>
 </li>
 </ul>
-<h2 id="9-删除不需要的分支"><a href="#9-删除不需要的分支" class="headerlink" title="9 删除不需要的分支"></a>9 删除不需要的分支</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git branch -d 分支名
-# 小d删除不了用D
-git branch -D 分支名 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="10-修改commit的message"><a href="#10-修改commit的message" class="headerlink" title="10 修改commit的message"></a>10 修改commit的message</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 修改最新commit的message
-git commit --amend
-# 修改老旧的commit的message
-# 变基要选择 被变得父亲的commit
-git rebase -i <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<h2 id="9-删除不需要的分支"><a href="#9-删除不需要的分支" class="headerlink" title="9 删除不需要的分支"></a>9 删除不需要的分支</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> branch -d 分支名
+<span class="token comment" spellcheck="true"># 小d删除不了用D</span>
+<span class="token function">git</span> branch -D 分支名 </code></pre>
+<h2 id="10-修改commit的message"><a href="#10-修改commit的message" class="headerlink" title="10 修改commit的message"></a>10 修改commit的message</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 修改最新commit的message</span>
+<span class="token function">git</span> commit --amend
+<span class="token comment" spellcheck="true"># 修改老旧的commit的message</span>
+<span class="token comment" spellcheck="true"># 变基要选择 被变得父亲的commit</span>
+<span class="token function">git</span> rebase -i </code></pre>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiosta3ztj30kb0cht9t.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212192200334"></p>
 <blockquote>
 <p>将变更的 第一个 7c6e74b 前面的 pick 改为 reword（或者偷懒谢一个 r） 保存 退出 git 会自己弹出另外一个 交互的界面</p>
@@ -613,10 +605,9 @@ git rebase -i <span aria-hidden="true" class="line-numbers-rows"><span></span><s
 <h2 id="11-如何将几个commit合并为一个"><a href="#11-如何将几个commit合并为一个" class="headerlink" title="11 如何将几个commit合并为一个"></a>11 如何将几个commit合并为一个</h2><ul>
 <li>将连续的commit合并</li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 如果合并前四个那么就选择 第五个的 commit
-git rebase -i 第五个
-# 基于哪个一个合道哪一个commit上去<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 如果合并前四个那么就选择 第五个的 commit</span>
+<span class="token function">git</span> rebase -i 第五个
+<span class="token comment" spellcheck="true"># 基于哪个一个合道哪一个commit上去</span></code></pre>
 <blockquote>
 <p>那些commit 变更的文件都要但是要把他合并到前面的commit上去</p>
 </blockquote>
@@ -649,68 +640,59 @@ git rebase -i 第五个
 <p>但是和master 无关的分支已经没啥用##了</p>
 </blockquote>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq7ha4sgj30a107gmy5.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230320205"></p>
-<h2 id="12-如何比较暂存区和HEAD所含文件的差异"><a href="#12-如何比较暂存区和HEAD所含文件的差异" class="headerlink" title="12 如何比较暂存区和HEAD所含文件的差异"></a>12 如何比较暂存区和HEAD所含文件的差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git diff --cached<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
+<h2 id="12-如何比较暂存区和HEAD所含文件的差异"><a href="#12-如何比较暂存区和HEAD所含文件的差异" class="headerlink" title="12 如何比较暂存区和HEAD所含文件的差异"></a>12 如何比较暂存区和HEAD所含文件的差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">diff</span> --cached</code></pre>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8dedjtj30kz09x0vd.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230934332"></p>
-<h2 id="13-如何比较工作区和暂存区的差异"><a href="#13-如何比较工作区和暂存区的差异" class="headerlink" title="13 如何比较工作区和暂存区的差异"></a>13 如何比较工作区和暂存区的差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 工作区与暂存区所有的差别
-git diff
-# 工作区与暂存区 某些文件的差别 
-git diff -- readme style&#x2F;style.css<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
+<h2 id="13-如何比较工作区和暂存区的差异"><a href="#13-如何比较工作区和暂存区的差异" class="headerlink" title="13 如何比较工作区和暂存区的差异"></a>13 如何比较工作区和暂存区的差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 工作区与暂存区所有的差别</span>
+<span class="token function">git</span> <span class="token function">diff</span>
+<span class="token comment" spellcheck="true"># 工作区与暂存区 某些文件的差别 </span>
+<span class="token function">git</span> <span class="token function">diff</span> -- readme style/style.css</code></pre>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8obmbvj30gc0bvgr0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212231543413"></p>
 <h2 id="14-如何让暂存区恢复和HEAD一样"><a href="#14-如何让暂存区恢复和HEAD一样" class="headerlink" title="14 如何让暂存区恢复和HEAD一样"></a>14 如何让暂存区恢复和HEAD一样</h2><blockquote>
 <p>场景：不想保留暂存区</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将暂存区 恢复成和HEAD一样
-git reset HEAD
-# 比较暂存区与HEAD 没有输出 就表示一致
-git diff --cached<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 将暂存区 恢复成和HEAD一样</span>
+<span class="token function">git</span> reset HEAD
+<span class="token comment" spellcheck="true"># 比较暂存区与HEAD 没有输出 就表示一致</span>
+<span class="token function">git</span> <span class="token function">diff</span> --cached</code></pre>
+<h2 id="15-如何将工作区回复和暂存区的状态"><a href="#15-如何将工作区回复和暂存区的状态" class="headerlink" title="15 如何将工作区回复和暂存区的状态"></a>15 如何将工作区回复和暂存区的状态</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 变更工作区使用checkout</span>
+<span class="token function">git</span> checkout -- <span class="token string">'文件名'</span></code></pre>
+<h2 id="16-如何取消暂存区部分文件的修改"><a href="#16-如何取消暂存区部分文件的修改" class="headerlink" title="16 如何取消暂存区部分文件的修改"></a>16 如何取消暂存区部分文件的修改</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># git reset HEAD -- '具体的文件可以多个'</span>
+<span class="token function">git</span> reset HEAD -- styles/style.css readme.md</code></pre>
+<h2 id="17-消除最近的几次提交"><a href="#17-消除最近的几次提交" class="headerlink" title="17 消除最近的几次提交"></a>17 消除最近的几次提交</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 暂存区和工作区都恢复到指定的内容了</span>
+<span class="token function">git</span> reset --hrad ‘commit’</code></pre>
+<h2 id="18-看看不同提交的指定文件差异"><a href="#18-看看不同提交的指定文件差异" class="headerlink" title="18 看看不同提交的指定文件差异"></a>18 看看不同提交的指定文件差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 分支即为指针 (显示所有)</span>
+<span class="token function">git</span> <span class="token function">diff</span> temp master
+<span class="token comment" spellcheck="true"># 显示感兴趣的文件</span>
+<span class="token function">git</span> <span class="token function">diff</span> temp master -- <span class="token string">'文件名'</span>
+<span class="token comment" spellcheck="true"># 也可以用 master 对应的 commit 和 temp 对应的commit</span>
+<span class="token function">git</span> branch -av
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token string">'commmit'</span> <span class="token string">'commit'</span></code></pre>
+<h2 id="19-正确删除文件的方法"><a href="#19-正确删除文件的方法" class="headerlink" title="19 正确删除文件的方法"></a>19 正确删除文件的方法</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 普通方法</span>
+<span class="token comment" spellcheck="true"># 工作目录下删除</span>
+<span class="token function">rm</span> readme
+<span class="token comment" spellcheck="true"># 暂存区删除</span>
+<span class="token function">git</span> <span class="token function">rm</span> readme 
 
-<h2 id="15-如何将工作区回复和暂存区的状态"><a href="#15-如何将工作区回复和暂存区的状态" class="headerlink" title="15 如何将工作区回复和暂存区的状态"></a>15 如何将工作区回复和暂存区的状态</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 变更工作区使用checkout
-git checkout -- &#39;文件名&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="16-如何取消暂存区部分文件的修改"><a href="#16-如何取消暂存区部分文件的修改" class="headerlink" title="16 如何取消暂存区部分文件的修改"></a>16 如何取消暂存区部分文件的修改</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># git reset HEAD -- &#39;具体的文件可以多个&#39;
-git reset HEAD -- styles&#x2F;style.css readme.md<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="17-消除最近的几次提交"><a href="#17-消除最近的几次提交" class="headerlink" title="17 消除最近的几次提交"></a>17 消除最近的几次提交</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 暂存区和工作区都恢复到指定的内容了
-git reset --hrad ‘commit’<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="18-看看不同提交的指定文件差异"><a href="#18-看看不同提交的指定文件差异" class="headerlink" title="18 看看不同提交的指定文件差异"></a>18 看看不同提交的指定文件差异</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 分支即为指针 (显示所有)
-git diff temp master
-# 显示感兴趣的文件
-git diff temp master -- &#39;文件名&#39;
-# 也可以用 master 对应的 commit 和 temp 对应的commit
-git branch -av
-git diff &#39;commmit&#39; &#39;commit&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="19-正确删除文件的方法"><a href="#19-正确删除文件的方法" class="headerlink" title="19 正确删除文件的方法"></a>19 正确删除文件的方法</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 普通方法
-# 工作目录下删除
-rm readme
-# 暂存区删除
-git rm readme 
-
-# 简单方法 
-# 直接把删除文件放到暂存区
-git rm ‘file_name’<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token comment" spellcheck="true"># 简单方法 </span>
+<span class="token comment" spellcheck="true"># 直接把删除文件放到暂存区</span>
+<span class="token function">git</span> <span class="token function">rm</span> ‘file_name’</code></pre>
 <h2 id="20-开发中临时加塞了紧急任务怎么处理"><a href="#20-开发中临时加塞了紧急任务怎么处理" class="headerlink" title="20 开发中临时加塞了紧急任务怎么处理"></a>20 开发中临时加塞了紧急任务怎么处理</h2><blockquote>
 <p>场景：正在做新功能的开发但是开发未结束，其他分支产生了bug 需要去解决</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 使用 stash 
-git stash 
-# 查看 stash 信息
-# stash 相当于 堆栈
-git stash list
-# 去执行紧急任务
-# 紧急任务修复完成
-# 恢复 使用 apply 或者pop
-# apply两个作用：
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 使用 stash </span>
+<span class="token function">git</span> stash 
+<span class="token comment" spellcheck="true"># 查看 stash 信息</span>
+<span class="token comment" spellcheck="true"># stash 相当于 堆栈</span>
+<span class="token function">git</span> stash list
+<span class="token comment" spellcheck="true"># 去执行紧急任务</span>
+<span class="token comment" spellcheck="true"># 紧急任务修复完成</span>
+<span class="token comment" spellcheck="true"># 恢复 使用 apply 或者pop</span>
+<span class="token comment" spellcheck="true"># apply两个作用：</span>
 1 把之前的内容弹出来 放入工作区
 2 stash 的信息还在可以反复使用
-git stash apply
-# pop  把之前的内容弹出来 放入工作区
-# 与栈的pop一样<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token function">git</span> stash apply
+<span class="token comment" spellcheck="true"># pop  把之前的内容弹出来 放入工作区</span>
+<span class="token comment" spellcheck="true"># 与栈的pop一样</span></code></pre>
 <h2 id="21-如何制定不需要git管理的文件"><a href="#21-如何制定不需要git管理的文件" class="headerlink" title="21 如何制定不需要git管理的文件"></a>21 如何制定不需要git管理的文件</h2><blockquote>
 <ul>
 <li><p>.gitignore 文件</p>
@@ -747,40 +729,38 @@ git stash apply
 <p><strong>直观区别：</strong> 哑协议传输进度不可见；智能传输协议可见</p>
 <p><strong>传输速度:</strong> 智能协议比哑协议传输速度快</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 克隆不带工作区的 裸仓库
-git clone --bare ‘协议地址’
-# 哑协议
-git clone --bare &#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 智能协议 带进度显示 并且更快
-git clone --bare file:&#x2F;&#x2F;&#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 与远端仓库同步
-# -v 查看remote
-git remote -v
-# 删除remote
-git remote remove &#39;name&#39;
-# 创建 remote
-git remote add zhineng  file:&#x2F;&#x2F;&#x2F;d&#x2F;00_aa_lijinze_java_web_stady&#x2F;gitsu
-# 格式
-git remote add &#39;name&#39; &#39;address&#39;
-# 更新到远端
-git push &#39;remote_name&#39; &#39;branch_name&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 克隆不带工作区的 裸仓库</span>
+<span class="token function">git</span> clone --bare ‘协议地址’
+<span class="token comment" spellcheck="true"># 哑协议</span>
+<span class="token function">git</span> clone --bare /d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 智能协议 带进度显示 并且更快</span>
+<span class="token function">git</span> clone --bare file:///d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 与远端仓库同步</span>
+<span class="token comment" spellcheck="true"># -v 查看remote</span>
+<span class="token function">git</span> remote -v
+<span class="token comment" spellcheck="true"># 删除remote</span>
+<span class="token function">git</span> remote remove <span class="token string">'name'</span>
+<span class="token comment" spellcheck="true"># 创建 remote</span>
+<span class="token function">git</span> remote add zhineng  file:///d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 格式</span>
+<span class="token function">git</span> remote add <span class="token string">'name'</span> <span class="token string">'address'</span>
+<span class="token comment" spellcheck="true"># 更新到远端</span>
+<span class="token function">git</span> push <span class="token string">'remote_name'</span> <span class="token string">'branch_name'</span></code></pre>
 <h2 id="23-配置公钥"><a href="#23-配置公钥" class="headerlink" title="23 配置公钥"></a>23 配置公钥</h2><blockquote>
 <p>在github上面的help 搜索ssh即可</p>
 </blockquote>
 <h2 id="24-push到GitHub上面去"><a href="#24-push到GitHub上面去" class="headerlink" title="24 push到GitHub上面去"></a>24 push到GitHub上面去</h2><blockquote>
 <p>首先复制ssh链接</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将本地所有的分支push 到 远程去
-git push origin --all
-# git pull
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 将本地所有的分支push 到 远程去</span>
+<span class="token function">git</span> push origin --all
+<span class="token comment" spellcheck="true"># git pull</span>
 1. fetch 把远端分支的内容拉下来
 2. 将本地的分支与远端的分支marge
-# 将本地的 master 与远端的master合并
-git marge origin&#x2F;master
-# 由于是不想干的两个 合并查询marge做出命令改动
-git merge origin&#x2F;master  --allow-unrelated-histories<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token comment" spellcheck="true"># 将本地的 master 与远端的master合并</span>
+<span class="token function">git</span> marge origin/master
+<span class="token comment" spellcheck="true"># 由于是不想干的两个 合并查询marge做出命令改动</span>
+<span class="token function">git</span> merge origin/master  --allow-unrelated-histories</code></pre>
 <h2 id="25-不同人修改了不同文件如何处理"><a href="#25-不同人修改了不同文件如何处理" class="headerlink" title="25 不同人修改了不同文件如何处理"></a>25 不同人修改了不同文件如何处理</h2><blockquote>
 <p><strong>场景：</strong>多人同时维护一个分支的时候 有一个人修改了 一个文件 另一个人修改了不同的文件 这种合并起来 是非常顺利的</p>
 <p><strong>本地与远端的master的关系如下：</strong></p>
@@ -810,20 +790,20 @@ git merge origin&#x2F;master  --allow-unrelated-histories<span aria-hidden="true
 <p><strong>ahead</strong> ：本地分支比远端新一个commit</p>
 <p><strong>behind</strong> ：远端比本地多一个commit</p>
 <p>这种问题解决方案</p>
-<pre class="line-numbers language-none"><code class="language-none"># 1. 获取远程分支debug的修改 
+<pre><code># 1. 获取远程分支debug的修改 
 git fetch origin debug 
 
 # 2.合并远程分支debug  
 git merge origin debug 
 
 # 更新本地分支  
-3. git pull origin debug <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+3. git pull origin debug </code></pre>
 </blockquote>
 <p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9h5s8xj30sg08bjw9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200213190214751"></p>
 <h2 id="26-不同人修改了同文件的不同区域"><a href="#26-不同人修改了同文件的不同区域" class="headerlink" title="26 不同人修改了同文件的不同区域"></a>26 不同人修改了同文件的不同区域</h2><blockquote>
 <p>与远端同步</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull 
-# 与 25一样<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> pull 
+<span class="token comment" spellcheck="true"># 与 25一样</span></code></pre>
 </blockquote>
 <h2 id="27-两个人修改了同文件的同一区域"><a href="#27-两个人修改了同文件的同一区域" class="headerlink" title="27 两个人修改了同文件的同一区域"></a>27 两个人修改了同文件的同一区域</h2><blockquote>
 <p>git pull 之后自己做处理</p>
@@ -838,8 +818,8 @@ git merge origin debug
 <p>然后commit 然后 push</p>
 </blockquote>
 <h2 id="30-Git-继承使用禁忌"><a href="#30-Git-继承使用禁忌" class="headerlink" title="30 Git 继承使用禁忌"></a>30 Git 继承使用禁忌</h2><h3 id="1-禁止向集成分支执行push"><a href="#1-禁止向集成分支执行push" class="headerlink" title="1. 禁止向集成分支执行push"></a>1. 禁止向集成分支执行push</h3><blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 直接干掉 强制更新
-git push -f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 直接干掉 强制更新</span>
+<span class="token function">git</span> push -f</code></pre>
 </blockquote>
 <h3 id="2-禁止向继承分支执行变更历史的操作"><a href="#2-禁止向继承分支执行变更历史的操作" class="headerlink" title="2. 禁止向继承分支执行变更历史的操作"></a>2. 禁止向继承分支执行变更历史的操作</h3><blockquote>
 <p>等着别人砍你吧</p>
@@ -882,14 +862,15 @@ git push -f<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <p>利用project看板来管理issue</p>
 </blockquote>
 <h2 id="36-项目内部怎么实施code-review"><a href="#36-项目内部怎么实施code-review" class="headerlink" title="36 项目内部怎么实施code review"></a>36 项目内部怎么实施code review</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqdi7bjlj30sy0hgmyp.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214123352048"></p>
-<h2 id="37团队协作时如何做多分支的集成"><a href="#37团队协作时如何做多分支的集成" class="headerlink" title="37团队协作时如何做多分支的集成"></a>37团队协作时如何做多分支的集成</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 让远端集成分支 强制回退
-# 不建议这样做
-git push -f origin &lt; 要回退commit &gt; :&lt;分支名&gt;
-git push -f origin 6b231c14 : master
-# 将分支回退
-git reset --hard origin&#x2F;s
-# 去了解
-git rerere<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="37团队协作时如何做多分支的集成"><a href="#37团队协作时如何做多分支的集成" class="headerlink" title="37团队协作时如何做多分支的集成"></a>37团队协作时如何做多分支的集成</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 让远端集成分支 强制回退</span>
+<span class="token comment" spellcheck="true"># 不建议这样做</span>
+<span class="token function">git</span> push -f origin <span class="token operator">&lt;</span> 要回退commit <span class="token operator">></span> :<span class="token operator">&lt;</span>分支名<span class="token operator">></span>
+<span class="token function">git</span> push -f origin 6b231c14 <span class="token keyword">:</span> master
+<span class="token comment" spellcheck="true"># 将分支回退</span>
+<span class="token function">git</span> reset --hard origin/s
+<span class="token comment" spellcheck="true"># 去了解</span>
+<span class="token function">git</span> rerere</code></pre>
+
                 
             </div>
             <hr/>

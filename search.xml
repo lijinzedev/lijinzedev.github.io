@@ -1,0 +1,1975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CentOS常用Linux命令</title>
+    <url>/2020/11/29/CentOS%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h1 id="1-命令行相关"><a href="#1-命令行相关" class="headerlink" title="1 命令行相关"></a>1 命令行相关</h1><ul>
+<li><kbd>Ctrl + a</kbd> 与<kbd>Ctrl + e</kbd> 分别代表把光标移动到最前和最后</li>
+</ul>
+<blockquote>
+<p>小贴士:</p>
+<p><code>a</code>代表单词<code>ahead</code></p>
+</blockquote>
+<ul>
+<li><kbd>Ctrl + u</kbd> 与<kbd>Ctrl + k</kbd> 分别代表光标处往前和光标处往后删除</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux - CentOS</category>
+      </categories>
+      <tags>
+        <tag>linux - CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS配置网络</title>
+    <url>/2020/11/29/CentOS%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 命令
+vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens33
+
+TYPE&#x3D;Ethernet                # 网卡类型：为以太网
+PROXY_METHOD&#x3D;none            # 代理方式：关闭状态
+BROWSER_ONLY&#x3D;no                # 只是浏览器：否
+# BOOTPROTO&#x3D;dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]
+BOOTPROTO&#x3D;static
+IPADDR&#x3D;192.168.0.110 # 静态ip
+GATEWAY&#x3D;192.168.0.1 # 网关
+NETMASK&#x3D;255.255.255.0 # 子网掩码
+DNS1&#x3D;192.168.1.1 # dns
+DEFROUTE&#x3D;yes                # 默认路由：是, 不明白的可以百度关键词 &#96;默认路由&#96; 
+IPV4_FAILURE_FATAL&#x3D;no        # 是不开启IPV4致命错误检测：否
+IPV6INIT&#x3D;yes                # IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]
+IPV6_AUTOCONF&#x3D;yes            # IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]
+IPV6_DEFROUTE&#x3D;yes            # IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]
+IPV6_FAILURE_FATAL&#x3D;no        # 是不开启IPV6致命错误检测：否
+IPV6_ADDR_GEN_MODE&#x3D;stable-privacy            # IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]
+NAME&#x3D;ens33                    # 网卡物理设备名称
+UUID&#x3D;f47bde51-fa78-4f79-b68f-d5dd90cfc698    # 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用
+DEVICE&#x3D;ens33                    # 网卡设备名称, 必须和 &#96;NAME&#96; 值一样
+ONBOOT&#x3D;yes  # 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 重启网络
+service network restart
+systemctl restart network<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>linux - CentOS</category>
+      </categories>
+      <tags>
+        <tag>linux - CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring MVC 相关组件以及组件初始化</title>
+    <url>/2020/11/29/Spring-MVC-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%BB%84%E4%BB%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</url>
+    <content><![CDATA[<p>[toc]</p>
+<h1 id="相关组件及其初始化"><a href="#相关组件及其初始化" class="headerlink" title="相关组件及其初始化"></a>相关组件及其初始化</h1><h2 id="1-相关组件列表"><a href="#1-相关组件列表" class="headerlink" title="1 相关组件列表"></a>1 相关组件列表</h2><ul>
+<li><p>WebAsyncManager（异步请求管理器）</p>
+<blockquote>
+<p>用于异步请求和响应提供支持</p>
+</blockquote>
+</li>
+<li><p>LocaleResolver（本地化解析器）</p>
+<blockquote>
+<p>用于解析请求对应的Locale。可以是其子接口LocaleContextResolver本地化上下文解析器，额外添加获取时区的功能</p>
+</blockquote>
+</li>
+<li><p>ThemeResovler（主题解析器）</p>
+<blockquote>
+<p>用于封装不同主题对应的资源包，通过主题源的getTheme方法，可以根据主题名获取对应的主题资源包</p>
+</blockquote>
+</li>
+<li><p>ThemeSource（主题源）</p>
+<blockquote>
+<p>用于封装不同主题对应的资源包。通过主题源的getTheme方法，可以根据主题名获取对应的主题资源包</p>
+</blockquote>
+</li>
+<li><p>MessageSource（消息源）</p>
+<blockquote>
+<p>用于对国际化提供支持，消息源封装了不同Code在不同Locale中对应的消息字符串</p>
+</blockquote>
+</li>
+<li><p>FlashMapMannger（闪存管理器）</p>
+<blockquote>
+<p>用于提供重定向跨请求传递Model参数，其中存储内容在下次请求发生后即清空。同时该管理器还用于获取上次请求输出的FlashMap作为本地请求输入的FlashMap，把当前请求的输出FlashMap保存起来作为下一次请求的输入FlashMap</p>
+</blockquote>
+</li>
+<li><p>MultipartResolver（多块请求解析器）</p>
+<blockquote>
+<p>用于判断请求是否为多块请求，对于多块请求进行一些预先解析</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerMapping&gt; （处理器映射列表）</p>
+<blockquote>
+<p>用于根据请求查找对应的处理器执行链</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerAdapter&gt; (处理器适配器列表)</p>
+<blockquote>
+<p>用于对处理器执行链进行适配执行</p>
+</blockquote>
+</li>
+<li><p>ViewNameTranslator（视图名翻译器）</p>
+<blockquote>
+<p>类型为RequestToViewNameTranslator，用于通过请求获取请求对应的默认视图名</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerExceptionResolver&gt; (处理器异常解析器列表)</p>
+<blockquote>
+<p>用于解析整个处理过程发生的异常，把异常解析为ModelAndView的模型视图结果，并执行统一的渲染逻辑</p>
+</blockquote>
+</li>
+<li><p>List&lt;ViewResolver&gt; （视图解析器列表）</p>
+<blockquote>
+<p>用于根据视图名解析获取对应的视图</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>除了WebAsyncManager、ThemeSource、MessageSource不是在Dispatchcher中定义的之外，其他九大组件均在DispatchServlet中定义的，这就是常说的DispatchServlet的九大组件。其属性定义的源码如下</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;** MultipartResolver used by this servlet. *&#x2F;
+@Nullable
+private MultipartResolver multipartResolver;
+
+&#x2F;** LocaleResolver used by this servlet. *&#x2F;
+@Nullable
+private LocaleResolver localeResolver;
+
+&#x2F;** ThemeResolver used by this servlet. *&#x2F;
+@Nullable
+private ThemeResolver themeResolver;
+
+&#x2F;** List of HandlerMappings used by this servlet. *&#x2F;
+@Nullable
+private List&lt;HandlerMapping&gt; handlerMappings;
+
+&#x2F;** List of HandlerAdapters used by this servlet. *&#x2F;
+@Nullable
+private List&lt;HandlerAdapter&gt; handlerAdapters;
+
+&#x2F;** List of HandlerExceptionResolvers used by this servlet. *&#x2F;
+@Nullable
+private List&lt;HandlerExceptionResolver&gt; handlerExceptionResolvers;
+
+&#x2F;** RequestToViewNameTranslator used by this servlet. *&#x2F;
+@Nullable
+private RequestToViewNameTranslator viewNameTranslator;
+
+&#x2F;** FlashMapManager used by this servlet. *&#x2F;
+@Nullable
+private FlashMapManager flashMapManager;
+
+&#x2F;** List of ViewResolvers used by this servlet. *&#x2F;
+@Nullable
+private List&lt;ViewResolver&gt; viewResolvers;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-组件初始化"><a href="#2-组件初始化" class="headerlink" title="2 组件初始化"></a>2 组件初始化</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 初始化本类使用的多块请求解析器
+ * 如果在ApplicationContext 中没有一个MultipartResovler类型且名称为multipartResolver的Bean被定义，则默认为空，不对多块请求进行特殊处理
+ *&#x2F;
+private void initMultipartResolver(ApplicationContext context) &#123;
+   try &#123;
+       &#x2F;&#x2F; 从application中获取name为multipartResolver，类型为MultipartResolver的Bean
+      this.multipartResolver &#x3D; context.getBean(MULTIPART_RESOLVER_BEAN_NAME, MultipartResolver.class);
+      if (logger.isTraceEnabled()) &#123;
+         logger.trace(&quot;Detected &quot; + this.multipartResolver);
+      &#125;
+      else if (logger.isDebugEnabled()) &#123;
+         logger.debug(&quot;Detected &quot; + this.multipartResolver.getClass().getSimpleName());
+      &#125;
+   &#125;
+   catch (NoSuchBeanDefinitionException ex) &#123;
+      &#x2F;&#x2F; Default is no multipart resolver.
+       &#x2F;&#x2F;没有这种bean的时候，设置null
+      this.multipartResolver &#x3D; null;
+      if (logger.isTraceEnabled()) &#123;
+         logger.trace(&quot;No MultipartResolver &#39;&quot; + MULTIPART_RESOLVER_BEAN_NAME + &quot;&#39; declared&quot;);
+      &#125;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>​            组件初始化是延迟加载，也就是第一个请求耗时比较长的原因，可以通过指定配置项<code>spring.mvc.servlet.load-on-startup</code>为任意非负数强制指定启动时执行初始化，默认为-1.</p>
+</blockquote>
+<p>​            在HttpServeletBean的init方法中，先为当前DispatcherServlet实例绑定ServletContext，中初始化的一些属性（在Spring Boot中为空，此段逻辑不执行），接着执行initServletBean方法，该方法由DispatchServlet的父类FrameworkServlet实现。</p>
+<p>​            在FrameworkServlet的initServletBean方法，执行了本类initwebApplicationContext方法，此方法就是核心的初始化方法入口，在该方法中调用onRefresh方法，即上面DisorderServlet初始化入口方法，</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 初始化此Servlet的Web应用上下文
+ * @return the WebApplicationContext instance
+ * @see #FrameworkServlet(WebApplicationContext)
+ * @see #setContextClass
+ * @see #setContextConfigLocation
+ *&#x2F;
+protected WebApplicationContext initWebApplicationContext() &#123;
+       &#x2F;&#x2F;  先尝试Servlet上下文获取已初始化的Web应用上下文作为根上文
+       &#x2F;&#x2F;  此处已经可以获取rootContext，设置该值的代码在第七章中提到的selfInitialize方法的prepareWebApplicationContext方法中
+	WebApplicationContext rootContext &#x3D;
+			WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+       &#x2F;&#x2F; 定义最终要返回的Web应用上下文
+	WebApplicationContext wac &#x3D; null;
+	&#x2F;&#x2F; 如果当前Web应用上下文不为空 
+	if (this.webApplicationContext !&#x3D; null) &#123;
+		&#x2F;&#x2F; 在默认情况下，在DispatcherServlet作为Bean初始化的时候，就通过setApplicationContext设置其值
+		wac &#x3D; this.webApplicationContext;
+           &#x2F;&#x2F; 如果当前Web应用上下文是可配置的Web应用上下文
+		if (wac instanceof ConfigurableWebApplicationContext) &#123;
+			ConfigurableWebApplicationContext cwac &#x3D; (ConfigurableWebApplicationContext) wac;
+      		&#x2F;&#x2F; 且Web应用上下文还刷新，则执行此逻辑。默认情况下，该上下文未刷新，不执行此逻辑
+			if (!cwac.isActive()) &#123;
+                   &#x2F;&#x2F; 当其父上下文为空时
+				if (cwac.getParent() &#x3D;&#x3D; null) &#123;
+					&#x2F;&#x2F; 则设置其父上下文未上面获取的根本上下文
+					cwac.setParent(rootContext);
+				&#125;
+				configureAndRefreshWebApplicationContext(cwac);
+			&#125;
+		&#125;
+	&#125;
+	if (wac &#x3D;&#x3D; null) &#123;
+		&#x2F;&#x2F; 如果在上一逻辑未获取到Web上下文，此时执行查找逻辑获取
+           &#x2F;&#x2F; 该方法内部通过查找Servlet上下文中本类指定的contextAttribute属性名对应的属性值找到Web上下文
+		wac &#x3D; findWebApplicationContext();
+	&#125;
+	if (wac &#x3D;&#x3D; null) &#123;
+		 &#x2F;&#x2F; 在上一逻辑未获取到Web上下文，则创建一个
+            &#x2F;&#x2F; 在Springboot中第一逻辑获取到了Web应用上下文，故不执行此逻辑
+		wac &#x3D; createWebApplicationContext(rootContext);
+	&#125;
+	&#x2F;&#x2F; 如果此时已接受过用上下文刷新事件，则不执行下面的if块逻辑
+       &#x2F;&#x2F; 在上下文刷新时间中，也会执行onRefresh的方法
+       &#x2F;&#x2F; 如果已经执行了onRefresh方法，则不再执行
+	if (!this.refreshEventReceived) &#123;
+		&#x2F;&#x2F; 执行onRefresh方法，其中执行整个Servlet中组件的初始化操作
+		synchronized (this.onRefreshMonitor) &#123;
+			onRefresh(wac);
+		&#125;
+	&#125;
+	&#x2F;&#x2F; 如果配置发布Web应用上下文到Servlet上下文
+	if (this.publishContext) &#123;
+		&#x2F;&#x2F; 同时把Web应用上下文添加到Servlet上下文属性中，以供整个Web应用使用
+		String attrName &#x3D; getServletContextAttributeName();
+		getServletContext().setAttribute(attrName, wac);
+	&#125;
+
+	return wac;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>以上便是初始化此Servlet对应的Web应用上下文的过程，在这个过程中执行了DispatcherServlet中使用到的组件初始化，因为一些初始化逻辑需要使用Web应用上下文获取组件，故需先执行此处逻辑</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>源代码 - SpringMvc源码</category>
+      </categories>
+      <tags>
+        <tag>源码 - SpringMvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring异常解析</title>
+    <url>/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1 id="一、异常解析器使用"><a href="#一、异常解析器使用" class="headerlink" title="一、异常解析器使用"></a>一、异常解析器使用</h1><ul>
+<li><strong><code>@ExceptionHandler</code></strong></li>
+</ul>
+<blockquote>
+<p>仅能处理**<code>HandlerMethod</code>**方式的异常，基本上满足99.9%的日常开发需求</p>
+</blockquote>
+<ul>
+<li> <strong><code>AbstractHandlerExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p>HandlerResolver实现类，可以实现<code>排序</code>（实现了Ordered接口）与<code>条件过滤</code>，这里的条件过滤主要支持两种类型的条件过滤。首先是为特定的Handler实例支持setMappedHandlers，第二个是支持与Class＃setMappedHandlerClasses相关的特定子类的实例</p>
+</blockquote>
+<ul>
+<li><code>DefaultHandlerExceptionResolver</code></li>
+</ul>
+<blockquote>
+<p>解析标准Spring MVC异常并将其转换为相应的HTTP状态代码，也就是说，如果HandlerMapping参数无法解析，或者其他未解析的参数都由于此参数而转换为相应的response.sendError（HttpServletResponse.SC_NOT_FOUND),用于处理试图</p>
+</blockquote>
+<ul>
+<li><strong><code>ResponseEntityExceptionHandler</code></strong></li>
+</ul>
+<blockquote>
+<p>为了解决返回视图的问题，spring提供了一个返回ResponseEntity ResponseEntityExceptionHandler的解决方案。通过@ExpectionHandler和@ControlerAdvice一起处理ResponseEntityExceptionHandler。这是上述DefaultHandlerExceptionResolver的副本，需要继承此类，然后在该类上使用@ControllerAdvice，并且必须全局注册ExceptionHandlerExceptionResolver</p>
+</blockquote>
+<ul>
+<li> <strong><code>ResponseStatusExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p><strong><code>@ResponseStatus</code>标注在异常类上此处理器才会处理</strong>，而不是标注在处理方法上，或者所在类上，<strong>所以一般用于自定义异常时使用</strong>。</p>
+</blockquote>
+<ul>
+<li> <strong><code>SimpleMappingExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p>顾名思义它就是通过<strong>简单映射</strong>关系来决定由<strong>哪个错误视图</strong>来处理当前的异常信息。它提供了多种映射关系可以使用：</p>
+</blockquote>
+<ul>
+<li><code>ExceptionHandlerExceptionResolver</code></li>
+</ul>
+<blockquote>
+<p>它是一个会在<strong>Class及Class的父类</strong>中找出带有<code>@ExceptionHandler</code>注解的类，该类带有key为<code>Throwable</code>，value为<code>Method</code>的<strong>缓存属性</strong>，提供匹配效率。</p>
+</blockquote>
+<p><strong>示例：</strong></p>
+<h2 id="1-全局异常处理"><a href="#1-全局异常处理" class="headerlink" title="1. 全局异常处理"></a>1. 全局异常处理</h2><blockquote>
+<p>全局异常处理，指的是处理整个应用程序的异常，包括<code>过滤器</code>与<code>Controller</code></p>
+</blockquote>
+<h3 id="GlobalExpectionHandler"><a href="#GlobalExpectionHandler" class="headerlink" title="GlobalExpectionHandler"></a>GlobalExpectionHandler</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@RestController
+public class GlobalExpectionHandler extends ResponseEntityExceptionHandler &#123;
+
+    &#x2F;**
+     * 未知错误处理
+     * @return
+     *&#x2F;
+    @ExceptionHandler(value &#x3D; Exception.class)
+    public String handler() &#123;
+        return &quot; unknow error&quot;;
+    &#125;
+
+
+    &#x2F;**
+     * 兜底处理器，避免返回视图
+     * @param ex
+     * @param headers
+     * @param status
+     * @param request
+     * @return
+     *&#x2F;
+    @Override
+    protected ResponseEntity&lt;Object&gt; handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) &#123;
+        &#x2F;&#x2F;...定义自己的处理逻辑
+        return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
+    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="GlobalErrorController"><a href="#GlobalErrorController" class="headerlink" title="GlobalErrorController"></a>GlobalErrorController</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@RestController
+public class GlobalErrorController extends BasicErrorController &#123;
+    private final ErrorAttributes errorAttributes;
+
+    public GlobalErrorController(ErrorAttributes errorAttributes, ServerProperties serverProperties) &#123;
+        super(errorAttributes, serverProperties.getError());
+        this.errorAttributes &#x3D; errorAttributes;
+
+    &#125;
+
+    @RequestMapping(consumes &#x3D; MediaType.APPLICATION_JSON_VALUE, produces &#x3D; MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity&lt;Object&gt; errorJson(HttpServletRequest request) &#123;
+        HttpStatus status &#x3D; getStatus(request);
+        if (status &#x3D;&#x3D; HttpStatus.NO_CONTENT) &#123;
+            return new ResponseEntity&lt;&gt;(status);
+        &#125;
+        return new ResponseEntity&lt;&gt;(&quot;error &quot;, status);
+    &#125;
+
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="二、自定义异常解析器"><a href="#二、自定义异常解析器" class="headerlink" title="二、自定义异常解析器"></a>二、自定义异常解析器</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Component
+public class CustomHandlerExpectionResovle extends AbstractHandlerExceptionResolver &#123;
+    public CustomHandlerExpectionResovle() &#123;
+        super();
+        &#x2F;&#x2F; 仅对TestController类型的处理器做处理
+        setMappedHandlerClasses(TestController.class);
+        &#x2F;&#x2F; 这里可以拿到对应的mappedHandlers 进行设置
+&#x2F;&#x2F;        setMappedHandlers();
+        setOrder(Ordered.HIGHEST_PRECEDENCE);
+    &#125;
+
+    @Override
+    protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) &#123;
+        System.out.println();
+        return new ModelAndView();
+    &#125;
+
+    @Override
+    protected boolean shouldApplyTo(HttpServletRequest request, Object handler) &#123;
+        if (handler instanceof HandlerMethod) &#123;
+            return super.shouldApplyTo(request, ((HandlerMethod) handler).getBean());
+        &#125;
+        return false;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h1 id="三、源码初探"><a href="#三、源码初探" class="headerlink" title="三、源码初探"></a>三、源码初探</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p><img src="/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/image-20201115011418803.png" alt="image-20201115011418803"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>docker安装gitlab</title>
+    <url>/2020/11/29/docker%E5%AE%89%E8%A3%85gitlab/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1 id="Docker安装Gitlab"><a href="#Docker安装Gitlab" class="headerlink" title="Docker安装Gitlab"></a>Docker安装Gitlab</h1><p>参考：</p>
+<p><a href="https://blog.csdn.net/qq_33619378/article/details/89706222">参阅链接</a></p>
+<p><a href="https://www.cnblogs.com/zuxing/articles/9329152.html">参阅链接</a></p>
+<p><a href="https://segmentfault.com/a/1190000021229534">参阅链接</a></p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#1.卸载旧版本
+yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+
+#2.需要的安装包
+yum install -y yum-utils
+
+#3.设置镜像的仓库
+yum-config-manager \
+    --add-repo \
+    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
+#默认是从国外的，不推荐
+#推荐使用国内的
+yum-config-manager \
+    --add-repo \
+    https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
+
+#更新yum软件包索引
+yum makecache fast
+
+#4.安装docker相关的(docker-ce 社区版 而ee是企业版)
+yum install docker-ce docker-ce-cli containerd.io
+
+#5.启动Docker
+systemctl start docker
+
+#6.使用docker version查看是否按照成功
+docker version
+
+#7.开机自启
+systemctl enable docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="配置阿里云镜像加速"><a href="#配置阿里云镜像加速" class="headerlink" title="配置阿里云镜像加速"></a>配置阿里云镜像加速</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mkdir -p &#x2F;etc&#x2F;docker
+sudo tee &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;-&#39;EOF&#39;
+&#123;
+  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;4bj04jx5.mirror.aliyuncs.com&quot;]
+&#125;
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="准备挂载目录bash"><a href="#准备挂载目录bash" class="headerlink" title="准备挂载目录bash"></a>准备挂载目录bash</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">通常会将 GitLab 的配置 (etc) 、 日志 (log) 、数据 (data) 放到容器之外， 便于日后升级， 因此请先准备这三个目录。
+
+
+mkdir -p &#x2F;home&#x2F;gitlab&#x2F;etc
+mkdir -p &#x2F;home&#x2F;gitlab&#x2F;log
+mkdir -p &#x2F;home&#x2F;gitlab&#x2F;data<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h2><p>方式一、在线下载gitlab</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">拉取镜像
+docker pull gitlab&#x2F;gitlab-ce:latest
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>方式二、离线安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">在事先安装好的服务器上，打包镜像
+docker save -o E:\gitlab-ce-latest.tar gitlab&#x2F;gitlab-ce:latest
+
+然后拷贝到目标服务器上，docker加载镜像：tar-&gt;image
+
+1.从tar包载入镜像：
+
+docker load -i &#123;image_name&#125;.tar
+
+2.查看载入是否成功：
+
+docker images | grep &#123;image_name&#125;
+
+3.如果看到加载的镜像没有tag和镜像名，则手动打tag:
+
+docker tag &#123;image_id&#125; &#123;image_name&#125;:&#123;image_tag&#125;
+
+4.确认镜像是否成功打上tag<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="启动容器，指定端口及挂载"><a href="#启动容器，指定端口及挂载" class="headerlink" title="启动容器，指定端口及挂载"></a>启动容器，指定端口及挂载</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker run -d \
+-p 8002:443 \
+-p 8001:80 \
+-p 8000:22 \
+--name gitlab \
+--restart always \
+--hostname 192.168.0.100 \
+-v &#x2F;home&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab  \
+-v &#x2F;home&#x2F;gitlab&#x2F;logs:&#x2F;var&#x2F;log&#x2F;gitlab  \
+-v &#x2F;home&#x2F;gitlab&#x2F;data:&#x2F;var&#x2F;opt&#x2F;gitlab  \
+gitlab&#x2F;gitlab-ce
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="修改gitlab配置"><a href="#修改gitlab配置" class="headerlink" title="修改gitlab配置"></a>修改gitlab配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">1、修改&#x2F;home&#x2F;gitlab&#x2F;etc&#x2F;gitlab.rb
+
+把external_url改成部署机器的域名或者IP地址
+
+vi &#x2F;home&#x2F;gitlab&#x2F;etc&#x2F;gitlab.rb
+
+# 配置http协议所使用的访问地址
+external_url &#39;http:&#x2F;&#x2F;172.16.7.110:8001&#39;
+# 配置ssh协议所使用的访和端口
+gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] &#x3D; 8002
+
+# nginx 的监听端口号需要改成 80。
+# 默认情况下 nginx 的监听端口号会从 external_url 中取，也就是 9080。
+# 但在启动容器时，我们把宿主机 9080 端口导向了容器的 80 端口，所以容器内 nginx 服务端口应该为 80。
+nginx[&#39;listen_port&#39;] &#x3D; 80
+
+gitlab_rails[&#39;time_zone&#39;] &#x3D; &#39;Asia&#x2F;Shanghai&#39;
+2、修改&#x2F;home&#x2F;gitlab&#x2F;data&#x2F;gitlab-rails&#x2F;etc&#x2F;gitlab.yml
+vi &#x2F;home&#x2F;gitlab&#x2F;data&#x2F;gitlab-rails&#x2F;etc&#x2F;gitlab.yml
+
+找到关键字 * ## Web server settings * 
+
+将host的值改成映射的外部主机ip地址和端口，这里会显示在gitlab克隆地址
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">改完后，重启docker容器。先停止该容器，删掉该容器信息，重启完docke之后，重新运行GitLab容器
+
+查询容器列表
+docker ps
+
+停止容器
+docker stop 容器id
+
+删除容器
+doccker rm 容器id
+
+查询容器列表
+docker ps
+
+重启
+systemctl restart docker
+
+启动gitlab
+docker run -d     --hostname 172.16.7.14     --publish 7001:443 --publish 7002:80 --publish 7003:22     --name gitlab --restart always     --volume &#x2F;home&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab     --volume &#x2F;home&#x2F;gitlab&#x2F;logs:&#x2F;var&#x2F;log&#x2F;gitlab     --volume &#x2F;home&#x2F;gitlab&#x2F;data:&#x2F;var&#x2F;opt&#x2F;gitlab 镜像id
+
+
+关闭防火墙（选做）
+systemctl stop firewalld.service
+
+如果不关闭防火墙，还可以通过暴露指定端口
+firewall-cmd --permanent --add-port&#x3D;7002&#x2F;tcp
+firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="开始访问"><a href="#开始访问" class="headerlink" title="开始访问"></a>开始访问</h2><p>Gitlab容器启动后，直接访问 <a href="http://ip/">http://ip</a>  就可以进入gitlab访问页面，第一步要做的就是给root用户设置密码，设置完后，通过root + 设置的密码登录。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><blockquote>
+<p>常用的几个Gitlab命令</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 重新应用gitlab的配置
+gitlab-ctl reconfigure
+ 
+# 重启gitlab服务
+gitlab-ctl restart
+ 
+# 查看gitlab运行状态
+gitlab-ctl status
+ 
+#停止gitlab服务
+gitlab-ctl stop
+ 
+# 查看gitlab运行日志
+gitlab-ctl tail
+ 
+# 停止相关数据连接服务
+gitlab-ctl stop unicorn
+gitlab-ctl stop sideki<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>修改了GitLab的ip地址一样，临时修改了GitLab的配置之后，得执行如下的命令，应用重新配好的配置并重启GitLab，然后查看GitLab的状态。</p>
+</blockquote>
+<p>因为是容器，所以要进入到gitlab容器中执行命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">进入容器
+docker exec -ti gitlab &#x2F;bin&#x2F;bash
+
+容器内部执行命令
+gitlab-ctl reconfigure  #花时间比较多
+gitlab-ctl restart    #改IP重启就可以了
+gitlab-ctl status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>linux - CentOS</category>
+      </categories>
+      <tags>
+        <tag>linux - CentOS - gitlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式——组合模式</title>
+    <url>/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h1><h2 id="一-概念"><a href="#一-概念" class="headerlink" title="一 概念"></a>一 概念</h2><blockquote>
+<p>组合（Composite Pattern）模式的定义：有时又叫作整体-部分（Part-Whole）模式，它是一种将对象组合成树状的层次结构的模式，用来表示“整体-部分”的关系，使用户对单个对象和组合对象具有一致的访问性，属于结构型<a href="http://c.biancheng.net/design_pattern/">设计模式</a>。</p>
+</blockquote>
+<h3 id="1-结构图"><a href="#1-结构图" class="headerlink" title="1 结构图"></a>1 结构图</h3><blockquote>
+<p>由下图可以看出，其实根节点和树枝节点本质上属于同一种数据类型，可以作为容器使用；而叶子节点与树枝节点在语义上不属于用一种类型。但是在组合模式中，会把树枝节点和叶子节点看作属于同一种数据类型（用统一接口定义），让它们具备一致行为。</p>
+</blockquote>
+<p><strong>这样，在组合模式中，整个树形结构中的对象都属于同一种类型，带来的好处就是用户不需要辨别是树枝节点还是叶子节点，可以直接进行操作，给用户的使用带来极大的便利。</strong></p>
+<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115164732400.png" alt="组合模式结构图"></p>
+<h3 id="2-主要优点"><a href="#2-主要优点" class="headerlink" title="2 主要优点"></a>2 主要优点</h3><ol>
+<li>组合模式使得客户端代码可以一致地处理单个对象和组合对象，无须关心自己处理的是单个对象，还是组合对象，这简化了客户端代码；</li>
+</ol>
+<p><strong>例如：</strong><code>SpringMvc当中的参数解析器</code></p>
+<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115160159399.png" alt="Mvc参数解析器"></p>
+<ol start="2">
+<li>更容易在组合体内加入新的对象，客户端不会因为加入了新的对象而更改源代码，满足“开闭原则”；</li>
+</ol>
+<h3 id="3-主要缺点"><a href="#3-主要缺点" class="headerlink" title="3 主要缺点"></a>3 主要缺点</h3><ol>
+<li>设计较复杂，客户端需要花更多时间理清类之间的层次关系；</li>
+<li>不容易限制容器中的构件；</li>
+<li>不容易用继承的方法来增加构件的新功能；</li>
+</ol>
+<h3 id="4-分类"><a href="#4-分类" class="headerlink" title="4 分类"></a>4 分类</h3><ul>
+<li>安全性</li>
+</ul>
+<blockquote>
+<p>​        在该方式中，将管理子构件的方法移到树枝构件中，抽象构件和树叶构件没有对子对象的管理方法，这样就避免了上一种方式的安全性问题，但由于叶子和分支有不同的接口，客户端在调用时要知道树叶对象和树枝对象的存在，所以失去了透明性。</p>
+</blockquote>
+<ul>
+<li>非安全</li>
+</ul>
+<blockquote>
+<p>​        在该方式中，由于抽象构件声明了所有子类中的全部方法，所以客户端无须区别树叶对象和树枝对象，对客户端来说是透明的。但其缺点是：树叶构件本来没有 Add()、Remove() 及 GetChild() 方法，却要实现它们（空实现或抛异常），这样会带来一些安全性问题。</p>
+</blockquote>
+<h2 id="二-应用"><a href="#二-应用" class="headerlink" title="二 应用"></a>二 应用</h2><h3 id="1-权限管理——菜单与功能点"><a href="#1-权限管理——菜单与功能点" class="headerlink" title="1 权限管理——菜单与功能点"></a>1 权限管理——菜单与功能点</h3><blockquote>
+<p>权限管理,菜单分为一级菜单、二级菜单、三级菜单、四级菜单、功能点</p>
+</blockquote>
+<h3 id="2-结构图"><a href="#2-结构图" class="headerlink" title="2 结构图"></a>2 结构图</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115155505436.png" alt="结构图"></p>
+<h3 id="3-数据库表"><a href="#3-数据库表" class="headerlink" title="3 数据库表"></a>3 数据库表</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115175513119.png" alt="菜单功能点数据库"></p>
+<blockquote>
+<p>​    关于这里数据库表的设计，不做讨论，因为不同的设计，处理方式不同，之阐述对于组合模式的一个实例</p>
+</blockquote>
+<h3 id="4-构建组合树关系"><a href="#4-构建组合树关系" class="headerlink" title="4 构建组合树关系"></a>4 构建组合树关系</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * @author: Curiosity
+ * @Date: 2020&#x2F;11&#x2F;15 17:59
+ * @Description: 抽象菜单，祖先类
+ *&#x2F;
+@Data
+public abstract class AbstractMenu &#123;
+    protected String id;
+    protected String name;
+    protected String path;
+&#125;
+
+&#x2F;**
+ * @author: Curiosity
+ * @Date: 2020&#x2F;11&#x2F;15 18:01
+ * @Description: 菜单类对应树杈
+ *&#x2F;
+public class Menu extends AbstractMenu &#123;
+    List&lt;AbstractMenu&gt; menus &#x3D; new ArrayList&lt;&gt;();
+
+    public void addMenu(AbstractMenu abstractMenu) &#123;
+        menus.add(abstractMenu);
+    &#125;
+
+&#125;
+
+
+&#x2F;**
+ * @author: Curiosity
+ * @Date: 2020&#x2F;11&#x2F;15 18:05
+ * @Description: 功能点类对应树叶
+ *&#x2F;
+public class Function extends AbstractMenu &#123;
+    private String funcation;
+&#125;
+
+&#x2F;**
+ * @author: Curiosity
+ * @Date: 2020&#x2F;11&#x2F;15 18:11
+ * @Description:
+ *&#x2F;
+public class Build &#123;
+    @Autowired
+    MenuDao menuDao;
+    @Autowired
+    FunctionDao functionDao;
+
+    private void buildTree(Menu rootMenu) &#123;
+        List&lt;Menu&gt; menus &#x3D; menuDao.findMenusByMenusId(rootMenu.getId());
+
+        for (Menu menu : menus) &#123;
+            rootMenu.addMenu(menu);
+            buildTree(menu);
+        &#125;
+        List&lt;Function&gt; functions &#x3D; functionDao.findFunctionByMenusId(rootMenu.getId());
+        for (Function function : functions) &#123;
+            rootMenu.addMenu(function);
+        &#125;
+    &#125;
+
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>设计模式 - 结构型设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式 - 结构型设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 基础</title>
+    <url>/2020/11/30/Git-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<p>[toc]</p>
+<h1 id="git命令补充学习"><a href="#git命令补充学习" class="headerlink" title="git命令补充学习"></a>git命令补充学习</h1><h2 id="git更新-gitignore"><a href="#git更新-gitignore" class="headerlink" title="git更新.gitignore"></a>git更新.gitignore</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">rm</span> -r --cached .//清空缓存
+<span class="token function">git</span> add .//重新提交
+<span class="token function">git</span> commit -m <span class="token string">"update .gitignore"</span>
+<span class="token function">git</span> push</code></pre>
+<h2 id="git设置别名"><a href="#git设置别名" class="headerlink" title="git设置别名"></a>git设置别名</h2><h3 id="全局"><a href="#全局" class="headerlink" title="全局"></a>全局</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">alias</span> gs<span class="token operator">=</span><span class="token string">"git status"</span>
+<span class="token function">alias</span> ga<span class="token operator">=</span><span class="token string">"git add ."</span>
+<span class="token function">alias</span> gc<span class="token operator">=</span><span class="token string">"git commit -m"</span>
+<span class="token function">alias</span> gl<span class="token operator">=</span><span class="token string">"git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset | %C(bold)%cn' --abbrev-commit --date=relative"</span>
+<span class="token function">alias</span> gck<span class="token operator">=</span><span class="token string">"git checkout"</span>
+<span class="token function">alias</span> gcb<span class="token operator">=</span><span class="token string">"git checkout -b"</span>
+<span class="token function">alias</span> gb<span class="token operator">=</span><span class="token string">"git branch"</span>
+<span class="token function">alias</span> gm<span class="token operator">=</span><span class="token string">"git merge"</span>
+<span class="token function">alias</span> grb<span class="token operator">=</span><span class="token string">"git rebase"</span>
+<span class="token function">alias</span> grs<span class="token operator">=</span><span class="token string">"git reset HEAD ."</span>
+<span class="token function">alias</span> gca<span class="token operator">=</span><span class="token string">"git commit --amend"</span></code></pre>
+<h3 id="非全局"><a href="#非全局" class="headerlink" title="非全局"></a>非全局</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config  --global alias.st status</code></pre>
+<h2 id="git-tag以及log的命令技巧"><a href="#git-tag以及log的命令技巧" class="headerlink" title="git tag以及log的命令技巧"></a>git tag以及log的命令技巧</h2><h1 id="Git初学"><a href="#Git初学" class="headerlink" title="Git初学"></a>Git初学</h1><h2 id="0-常用命令解析"><a href="#0-常用命令解析" class="headerlink" title="0 常用命令解析"></a>0 常用命令解析</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。</span>
+<span class="token function">git</span> add <span class="token keyword">.</span>
+
+<span class="token comment" spellcheck="true"># 他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add --update的缩写）</span>
+<span class="token function">git</span> add -u
+
+<span class="token comment" spellcheck="true"># 是上面两个功能的合集（git add --all的缩写）</span>
+<span class="token function">git</span> add -A
+
+<span class="token function">git</span> reset
+
+<span class="token comment" spellcheck="true"># 查看本地分支</span>
+<span class="token function">git</span> branch -v
+<span class="token comment" spellcheck="true"># 查看本地及其远端所有分支</span>
+<span class="token function">git</span> branch -va</code></pre>
+<h2 id="1-使用git需要做的小配置"><a href="#1-使用git需要做的小配置" class="headerlink" title="1 使用git需要做的小配置"></a>1 使用git需要做的小配置</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config --global user.name <span class="token string">'your_name'</span>
+<span class="token function">git</span> config --global user.email <span class="token string">'your_email'</span></code></pre>
+<h3 id="1-Config-的三个作用域"><a href="#1-Config-的三个作用域" class="headerlink" title="1. Config 的三个作用域"></a>1. Config 的三个作用域</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 只对某个仓库有效</span>
+<span class="token function">git</span> config --local
+<span class="token comment" spellcheck="true"># 对当前用户的所有仓库有效</span>
+<span class="token function">git</span> config --global
+<span class="token comment" spellcheck="true"># 对系统所有登录的账户有效</span>
+<span class="token function">git</span> config --system
+
+<span class="token comment" spellcheck="true"># 显示 config 的配置， 家--list</span>
+<span class="token function">git</span> config --list --local
+<span class="token function">git</span> config --list --global
+<span class="token function">git</span> config --list --system</code></pre>
+<h2 id="2-工作区与暂存区"><a href="#2-工作区与暂存区" class="headerlink" title="2 工作区与暂存区"></a>2 工作区与暂存区</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj09omlj30ju08n0ud.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211143954709"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj08peqj30la08ota9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144014011"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj07z2ej30ig08vta6.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211144021875"></p>
+<h2 id="3-给文件重命名"><a href="#3-给文件重命名" class="headerlink" title="3 给文件重命名"></a>3 给文件重命名</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 普通方法</span>
+<span class="token function">mv</span> readme readme.md
+<span class="token function">git</span> add readme.md
+<span class="token function">git</span> <span class="token function">rm</span> readme
+<span class="token comment" spellcheck="true"># 简便的方法</span>
+<span class="token function">git</span> <span class="token function">mv</span> readme readme.md
+<span class="token comment" spellcheck="true"># 查看命令详情</span>
+<span class="token function">git</span> log --help --web
+<span class="token comment" spellcheck="true"># 查看类型</span>
+<span class="token function">git</span> cat-file -t 3d4731d
+<span class="token comment" spellcheck="true"># 查看内容</span>
+<span class="token function">git</span> cat-file -p 3d4731d</code></pre>
+<h2 id="4-gitk-图形界面"><a href="#4-gitk-图形界面" class="headerlink" title="4 gitk 图形界面"></a>4 gitk 图形界面</h2><h2 id="5-分离头指针"><a href="#5-分离头指针" class="headerlink" title="5 分离头指针"></a>5 分离头指针</h2><blockquote>
+<p>当在checkout 一个 commit 的时候 产生分离头指针</p>
+<p>使用场景： 做尝试性的变更使用分离头指针</p>
+<p>分离头指针指的是：变更没基于某个branch去做 做分支切换的时候 分离头指针产生的commit 可能会被git当做垃圾清理掉，切记要和branch 绑定在一起</p>
+</blockquote>
+<h2 id="6-查看版本历史"><a href="#6-查看版本历史" class="headerlink" title="6 查看版本历史"></a>6 查看版本历史</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看简单的历史</span>
+<span class="token function">git</span> log --oneline
+<span class="token comment" spellcheck="true"># 查看最近几个简单的历史</span>
+<span class="token function">git</span> log --n2 --oneline
+<span class="token comment" spellcheck="true"># 图形化查看</span>
+<span class="token function">git</span> log --all --graph</code></pre>
+<h2 id="7-HEAD"><a href="#7-HEAD" class="headerlink" title="7 HEAD"></a>7 HEAD</h2><blockquote>
+<p>HEAD 指向commit 或者指向分离头指针的commit</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 比较两个commit之间的差异</span>
+<span class="token function">git</span> <span class="token function">diff</span> HEAD HEAD^</code></pre>
+<h2 id="8-git原理探秘"><a href="#8-git原理探秘" class="headerlink" title="8 git原理探秘"></a>8 git原理探秘</h2><blockquote>
+<p>git 的对象 commit tree blob</p>
+</blockquote>
+<ul>
+<li>config目录：仓库配置文件</li>
+<li>HEAD</li>
+<li>objects：git中只要任何文件中文件内容相同那么他就是唯一的blob</li>
+<li>refs :引用/分支<ul>
+<li>heads：分支 内容为 commit</li>
+<li>tags: 标签 内容为 commit</li>
+</ul>
+</li>
+<li>commit tree blob 的关系</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiootxqaoj30ky0cp0yh.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211215858843"></p>
+<ul>
+<li><p>新建一个 仓库</p>
+<pre><code>git init  test</code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioq4rohdj30jn0a6gm8.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211221038828"></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 创建一个文件</span>
+<span class="token keyword">echo</span> <span class="token string">"Hello World"</span> <span class="token operator">>></span> readme.md
+<span class="token comment" spellcheck="true"># 查看 objects 文件下是否有东西</span>
+<span class="token function">find</span> .git/objects/ -type f  
+<span class="token comment" spellcheck="true"># 添加到暂存区</span>
+<span class="token function">git</span> add <span class="token keyword">.</span></code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioqjlvpyj30k30bpdgv.jpg?ynotemdtimestamp=1606703976531" alt="image-20200211222153328"></p>
+</li>
+</ul>
+<h2 id="9-删除不需要的分支"><a href="#9-删除不需要的分支" class="headerlink" title="9 删除不需要的分支"></a>9 删除不需要的分支</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> branch -d 分支名
+<span class="token comment" spellcheck="true"># 小d删除不了用D</span>
+<span class="token function">git</span> branch -D 分支名 </code></pre>
+<h2 id="10-修改commit的message"><a href="#10-修改commit的message" class="headerlink" title="10 修改commit的message"></a>10 修改commit的message</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 修改最新commit的message</span>
+<span class="token function">git</span> commit --amend
+<span class="token comment" spellcheck="true"># 修改老旧的commit的message</span>
+<span class="token comment" spellcheck="true"># 变基要选择 被变得父亲的commit</span>
+<span class="token function">git</span> rebase -i </code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiosta3ztj30kb0cht9t.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212192200334"></p>
+<blockquote>
+<p>将变更的 第一个 7c6e74b 前面的 pick 改为 reword（或者偷懒谢一个 r） 保存 退出 git 会自己弹出另外一个 交互的界面</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq4m4w7cj30kb0chgmh.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212192418247"></p>
+<blockquote>
+<p>保存退出 出现successfull 就成功了</p>
+<p>这里用到了分离头指针 然后做调整 然后 master与head 指向最新的 commit</p>
+<p>变基的行为：已经贡献到集成的分支上 建议不要 否则会影响其他同事</p>
+</blockquote>
+<h2 id="11-如何将几个commit合并为一个"><a href="#11-如何将几个commit合并为一个" class="headerlink" title="11 如何将几个commit合并为一个"></a>11 如何将几个commit合并为一个</h2><ul>
+<li>将连续的commit合并</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 如果合并前四个那么就选择 第五个的 commit</span>
+<span class="token function">git</span> rebase -i 第五个
+<span class="token comment" spellcheck="true"># 基于哪个一个合道哪一个commit上去</span></code></pre>
+<blockquote>
+<p>那些commit 变更的文件都要但是要把他合并到前面的commit上去</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq546m6cj30kp0ch0tw.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212210308978"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5ft0o1j30gp04l407.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212224256596"></p>
+<ul>
+<li><p>将不连续的 commit 合并</p>
+<p>合并两个 添加readme的 commit</p>
+<blockquote>
+<p>将最古老的 commit</p>
+<p>git rebase -i 最古老的</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5q6revj30pi0eqdl7.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225139935"></p>
+<blockquote>
+<p>发现不够手动添加最古老的</p>
+<p>pick 最古老的commit</p>
+<p>然后调整pick ’commit‘ 的位置 吧 需要合并的挨着放</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6g0g7lj316f0ksqb7.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225549125"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6rbkphj30m0034761.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212225725697"></p>
+<blockquote>
+<p>输入 git statue 然后根据提示 接着做</p>
+<p>变基完成</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq77wxwmj30up0g6gsm.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230015054"></p>
+<blockquote>
+<p>出现了两个 commit 没有祖先的</p>
+<p>但是和master 无关的分支已经没啥用##了</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq7ha4sgj30a107gmy5.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230320205"></p>
+<h2 id="12-如何比较暂存区和HEAD所含文件的差异"><a href="#12-如何比较暂存区和HEAD所含文件的差异" class="headerlink" title="12 如何比较暂存区和HEAD所含文件的差异"></a>12 如何比较暂存区和HEAD所含文件的差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> <span class="token function">diff</span> --cached</code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8dedjtj30kz09x0vd.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212230934332"></p>
+<h2 id="13-如何比较工作区和暂存区的差异"><a href="#13-如何比较工作区和暂存区的差异" class="headerlink" title="13 如何比较工作区和暂存区的差异"></a>13 如何比较工作区和暂存区的差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 工作区与暂存区所有的差别</span>
+<span class="token function">git</span> <span class="token function">diff</span>
+<span class="token comment" spellcheck="true"># 工作区与暂存区 某些文件的差别 </span>
+<span class="token function">git</span> <span class="token function">diff</span> -- readme style/style.css</code></pre>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8obmbvj30gc0bvgr0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200212231543413"></p>
+<h2 id="14-如何让暂存区恢复和HEAD一样"><a href="#14-如何让暂存区恢复和HEAD一样" class="headerlink" title="14 如何让暂存区恢复和HEAD一样"></a>14 如何让暂存区恢复和HEAD一样</h2><blockquote>
+<p>场景：不想保留暂存区</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 将暂存区 恢复成和HEAD一样</span>
+<span class="token function">git</span> reset HEAD
+<span class="token comment" spellcheck="true"># 比较暂存区与HEAD 没有输出 就表示一致</span>
+<span class="token function">git</span> <span class="token function">diff</span> --cached</code></pre>
+<h2 id="15-如何将工作区回复和暂存区的状态"><a href="#15-如何将工作区回复和暂存区的状态" class="headerlink" title="15 如何将工作区回复和暂存区的状态"></a>15 如何将工作区回复和暂存区的状态</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 变更工作区使用checkout</span>
+<span class="token function">git</span> checkout -- <span class="token string">'文件名'</span></code></pre>
+<h2 id="16-如何取消暂存区部分文件的修改"><a href="#16-如何取消暂存区部分文件的修改" class="headerlink" title="16 如何取消暂存区部分文件的修改"></a>16 如何取消暂存区部分文件的修改</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># git reset HEAD -- '具体的文件可以多个'</span>
+<span class="token function">git</span> reset HEAD -- styles/style.css readme.md</code></pre>
+<h2 id="17-消除最近的几次提交"><a href="#17-消除最近的几次提交" class="headerlink" title="17 消除最近的几次提交"></a>17 消除最近的几次提交</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 暂存区和工作区都恢复到指定的内容了</span>
+<span class="token function">git</span> reset --hrad ‘commit’</code></pre>
+<h2 id="18-看看不同提交的指定文件差异"><a href="#18-看看不同提交的指定文件差异" class="headerlink" title="18 看看不同提交的指定文件差异"></a>18 看看不同提交的指定文件差异</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 分支即为指针 (显示所有)</span>
+<span class="token function">git</span> <span class="token function">diff</span> temp master
+<span class="token comment" spellcheck="true"># 显示感兴趣的文件</span>
+<span class="token function">git</span> <span class="token function">diff</span> temp master -- <span class="token string">'文件名'</span>
+<span class="token comment" spellcheck="true"># 也可以用 master 对应的 commit 和 temp 对应的commit</span>
+<span class="token function">git</span> branch -av
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token string">'commmit'</span> <span class="token string">'commit'</span></code></pre>
+<h2 id="19-正确删除文件的方法"><a href="#19-正确删除文件的方法" class="headerlink" title="19 正确删除文件的方法"></a>19 正确删除文件的方法</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 普通方法</span>
+<span class="token comment" spellcheck="true"># 工作目录下删除</span>
+<span class="token function">rm</span> readme
+<span class="token comment" spellcheck="true"># 暂存区删除</span>
+<span class="token function">git</span> <span class="token function">rm</span> readme 
+
+<span class="token comment" spellcheck="true"># 简单方法 </span>
+<span class="token comment" spellcheck="true"># 直接把删除文件放到暂存区</span>
+<span class="token function">git</span> <span class="token function">rm</span> ‘file_name’</code></pre>
+<h2 id="20-开发中临时加塞了紧急任务怎么处理"><a href="#20-开发中临时加塞了紧急任务怎么处理" class="headerlink" title="20 开发中临时加塞了紧急任务怎么处理"></a>20 开发中临时加塞了紧急任务怎么处理</h2><blockquote>
+<p>场景：正在做新功能的开发但是开发未结束，其他分支产生了bug 需要去解决</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 使用 stash </span>
+<span class="token function">git</span> stash 
+<span class="token comment" spellcheck="true"># 查看 stash 信息</span>
+<span class="token comment" spellcheck="true"># stash 相当于 堆栈</span>
+<span class="token function">git</span> stash list
+<span class="token comment" spellcheck="true"># 去执行紧急任务</span>
+<span class="token comment" spellcheck="true"># 紧急任务修复完成</span>
+<span class="token comment" spellcheck="true"># 恢复 使用 apply 或者pop</span>
+<span class="token comment" spellcheck="true"># apply两个作用：</span>
+1 把之前的内容弹出来 放入工作区
+2 stash 的信息还在可以反复使用
+<span class="token function">git</span> stash apply
+<span class="token comment" spellcheck="true"># pop  把之前的内容弹出来 放入工作区</span>
+<span class="token comment" spellcheck="true"># 与栈的pop一样</span></code></pre>
+<h2 id="21-如何制定不需要git管理的文件"><a href="#21-如何制定不需要git管理的文件" class="headerlink" title="21 如何制定不需要git管理的文件"></a>21 如何制定不需要git管理的文件</h2><blockquote>
+<ul>
+<li><p>.gitignore 文件</p>
+<p><strong>a.忽略指定文件/目录</strong></p>
+</li>
+<li><p>忽略指定文件</p>
+<ul>
+<li>HelloWrold.class</li>
+</ul>
+</li>
+<li><p>忽略指定文件夹</p>
+<ul>
+<li>bin/</li>
+</ul>
+</li>
+<li><p>bin/gen/</p>
+<p><strong>b.通配符忽略规则</strong></p>
+</li>
+<li><p>忽略.class的所有文件 *.class</p>
+</li>
+<li><p>忽略名称中末尾为ignore的文件夹</p>
+</li>
+<li><p>*ignore/</p>
+</li>
+<li><p>忽略名称中间包含ignore的文件夹</p>
+<ul>
+<li><em>ignore</em>/</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="22-Git-的备份"><a href="#22-Git-的备份" class="headerlink" title="22 Git 的备份"></a>22 Git 的备份</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq94we8ij30ql0i1td0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200213122814992"></p>
+<blockquote>
+<p><strong>直观区别：</strong> 哑协议传输进度不可见；智能传输协议可见</p>
+<p><strong>传输速度:</strong> 智能协议比哑协议传输速度快</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 克隆不带工作区的 裸仓库</span>
+<span class="token function">git</span> clone --bare ‘协议地址’
+<span class="token comment" spellcheck="true"># 哑协议</span>
+<span class="token function">git</span> clone --bare /d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 智能协议 带进度显示 并且更快</span>
+<span class="token function">git</span> clone --bare file:///d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 与远端仓库同步</span>
+<span class="token comment" spellcheck="true"># -v 查看remote</span>
+<span class="token function">git</span> remote -v
+<span class="token comment" spellcheck="true"># 删除remote</span>
+<span class="token function">git</span> remote remove <span class="token string">'name'</span>
+<span class="token comment" spellcheck="true"># 创建 remote</span>
+<span class="token function">git</span> remote add zhineng  file:///d/00_aa_lijinze_java_web_stady/gitsu
+<span class="token comment" spellcheck="true"># 格式</span>
+<span class="token function">git</span> remote add <span class="token string">'name'</span> <span class="token string">'address'</span>
+<span class="token comment" spellcheck="true"># 更新到远端</span>
+<span class="token function">git</span> push <span class="token string">'remote_name'</span> <span class="token string">'branch_name'</span></code></pre>
+<h2 id="23-配置公钥"><a href="#23-配置公钥" class="headerlink" title="23 配置公钥"></a>23 配置公钥</h2><blockquote>
+<p>在github上面的help 搜索ssh即可</p>
+</blockquote>
+<h2 id="24-push到GitHub上面去"><a href="#24-push到GitHub上面去" class="headerlink" title="24 push到GitHub上面去"></a>24 push到GitHub上面去</h2><blockquote>
+<p>首先复制ssh链接</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 将本地所有的分支push 到 远程去</span>
+<span class="token function">git</span> push origin --all
+<span class="token comment" spellcheck="true"># git pull</span>
+1. fetch 把远端分支的内容拉下来
+2. 将本地的分支与远端的分支marge
+<span class="token comment" spellcheck="true"># 将本地的 master 与远端的master合并</span>
+<span class="token function">git</span> marge origin/master
+<span class="token comment" spellcheck="true"># 由于是不想干的两个 合并查询marge做出命令改动</span>
+<span class="token function">git</span> merge origin/master  --allow-unrelated-histories</code></pre>
+<h2 id="25-不同人修改了不同文件如何处理"><a href="#25-不同人修改了不同文件如何处理" class="headerlink" title="25 不同人修改了不同文件如何处理"></a>25 不同人修改了不同文件如何处理</h2><blockquote>
+<p><strong>场景：</strong>多人同时维护一个分支的时候 有一个人修改了 一个文件 另一个人修改了不同的文件 这种合并起来 是非常顺利的</p>
+<p><strong>本地与远端的master的关系如下：</strong></p>
+<p><strong>不是 Fast-Forward：</strong>两个<master>没有共同的祖先</master></p>
+<p>**不是 No-Fast-Forward: ** 不是基于远端的commit做变更的</p>
+<p><strong>Fast-Forward</strong></p>
+<p>当前分支合并到另一分支时，如果没有分歧解决，就会直接移动文件指针。这个过程叫做fastforward。</p>
+<p>举例来说，开发一直在master分支进行，但忽然有一个新的想法，于是新建了一个develop的分支，并在其上进行一系列提交，完成时，回到 master分支，此时，master分支在创建develop分支之后并未产生任何新的commit。此时的合并就叫fast forward。</p>
+<p>示例：</p>
+<ol>
+<li>新建一个work tree，在master中做几次commit</li>
+<li>新建develop的branch，然后再做多次commits</li>
+</ol>
+<p>此时的分支流图如下(gitx)：</p>
+<p><strong>正常合并</strong></p>
+<p>(master)$ git merge develop Updating 5999848..7355122 <strong><em>Fast-forward\</em></strong> c.txt | 1 + d.txt | 1 + 2 files changed, 2 insertions(+), 0 deletions(-) create mode 100644 c.txt create mode 100644 d.txt</p>
+<p>可以看出这是一次fast-forward式的合并，且合并完之后的视图为扁平状，看不出develop分支开发的任何信息。</p>
+<p><strong>使用–no-ff进行合并</strong></p>
+<p>—no-ff (no fast foward)，使得每一次的合并都创建一个新的commit记录。即使这个commit只是fast-foward，用来避免丢失信息。</p>
+<p>(master)$ git merge –no-ff develop <strong>Merge made by recursive.</strong> c.txt | 2 +- d.txt | 2 +- 2 files changed, 2 insertions(+), 2 deletions(-)</p>
+<p>可以看出，使用no-ff后，会多生成一个commit 记录，并强制保留develop分支的开发记录（而fast-forward的话则是直接合并，看不出之前Branch的任何记录）。这对于以后代码进行分析特别有用，故有以下最佳实践。</p>
+<p><strong>好的实践</strong></p>
+<p>–no-ff，其作用是：要求git merge即使在fast forward条件下也要产生一个新的merge commit。此处，要求采用–no-ff的方式进行分支合并，其目的在于，希望保持原有“develop branches”整个提交链的完整性。Git – Fast Forward 和 no fast foward</p>
+</blockquote>
+<blockquote>
+<p>ahead 1 behind 1 的意思</p>
+<p><strong>ahead</strong> ：本地分支比远端新一个commit</p>
+<p><strong>behind</strong> ：远端比本地多一个commit</p>
+<p>这种问题解决方案</p>
+<pre><code># 1. 获取远程分支debug的修改 
+git fetch origin debug 
+
+# 2.合并远程分支debug  
+git merge origin debug 
+
+# 更新本地分支  
+3. git pull origin debug </code></pre>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9h5s8xj30sg08bjw9.jpg?ynotemdtimestamp=1606703976531" alt="image-20200213190214751"></p>
+<h2 id="26-不同人修改了同文件的不同区域"><a href="#26-不同人修改了同文件的不同区域" class="headerlink" title="26 不同人修改了同文件的不同区域"></a>26 不同人修改了同文件的不同区域</h2><blockquote>
+<p>与远端同步</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> pull 
+<span class="token comment" spellcheck="true"># 与 25一样</span></code></pre>
+</blockquote>
+<h2 id="27-两个人修改了同文件的同一区域"><a href="#27-两个人修改了同文件的同一区域" class="headerlink" title="27 两个人修改了同文件的同一区域"></a>27 两个人修改了同文件的同一区域</h2><blockquote>
+<p>git pull 之后自己做处理</p>
+<p>然后commit 然后 push</p>
+</blockquote>
+<h2 id="28-同时变更了文件名和文件内容"><a href="#28-同时变更了文件名和文件内容" class="headerlink" title="28 同时变更了文件名和文件内容"></a>28 同时变更了文件名和文件内容</h2><blockquote>
+<p>git pull 可以做出智能处理</p>
+<p>然后commit 然后 push</p>
+</blockquote>
+<h2 id="29-多人修改同一文件名"><a href="#29-多人修改同一文件名" class="headerlink" title="29 多人修改同一文件名"></a>29 多人修改同一文件名</h2><blockquote>
+<p>git pull 之后自己做处理</p>
+<p>然后commit 然后 push</p>
+</blockquote>
+<h2 id="30-Git-继承使用禁忌"><a href="#30-Git-继承使用禁忌" class="headerlink" title="30 Git 继承使用禁忌"></a>30 Git 继承使用禁忌</h2><h3 id="1-禁止向集成分支执行push"><a href="#1-禁止向集成分支执行push" class="headerlink" title="1. 禁止向集成分支执行push"></a>1. 禁止向集成分支执行push</h3><blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 直接干掉 强制更新</span>
+<span class="token function">git</span> push -f</code></pre>
+</blockquote>
+<h3 id="2-禁止向继承分支执行变更历史的操作"><a href="#2-禁止向继承分支执行变更历史的操作" class="headerlink" title="2. 禁止向继承分支执行变更历史的操作"></a>2. 禁止向继承分支执行变更历史的操作</h3><blockquote>
+<p>等着别人砍你吧</p>
+</blockquote>
+<h2 id="31-如何在GitHub搜索自己感兴趣的项目"><a href="#31-如何在GitHub搜索自己感兴趣的项目" class="headerlink" title="31 如何在GitHub搜索自己感兴趣的项目"></a>31 如何在GitHub搜索自己感兴趣的项目</h2><blockquote>
+<p><code>in:readme</code> <strong>在readme里面搜索</strong></p>
+<p><code>stars:&gt;1000</code> <strong>stars大于1000的</strong></p>
+<p><strong>Code Option：</strong></p>
+<p>‘dsc’ filename：<filename></filename></p>
+<p><strong>例子：</strong>‘public’ + ‘static’ filename:config.java</p>
+</blockquote>
+<h2 id="32-开源项目如何保质保量"><a href="#32-开源项目如何保质保量" class="headerlink" title="32 开源项目如何保质保量"></a>32 开源项目如何保质保量</h2><blockquote>
+<p>pull request 然后 通过 review与checks</p>
+</blockquote>
+<h2 id="33怎样选择适合自己团队的工作流"><a href="#33怎样选择适合自己团队的工作流" class="headerlink" title="33怎样选择适合自己团队的工作流"></a>33怎样选择适合自己团队的工作流</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9vbmgqj30po0h8419.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100653733"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqam8nn1j30po0iawiw.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100726831"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqb0ftc6j30sg0i941i.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100736627"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbbma3tj30oz0grq4r.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100752269"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbvphqaj30rj0gmgo2.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214100810162"></p>
+<h2 id="34-如何挑选和是的分支集成策略"><a href="#34-如何挑选和是的分支集成策略" class="headerlink" title="34 如何挑选和是的分支集成策略"></a>34 如何挑选和是的分支集成策略</h2><blockquote>
+<p>查看一些信息</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqc8wuocj30xq0flaar.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214102353830"></p>
+<blockquote>
+<p>选择集成方式</p>
+<p>线性方式：选择–&gt;allow rebase merging</p>
+<p>公共集成分支不允许 push -f</p>
+<p>第一种 产生marge commit</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcjss4xj30t00ak3z0.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214102608582"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcu6l1vj30gz08rjs5.jpg?ynotemdtimestamp=1606703976531" alt="merge commits"></p>
+<blockquote>
+<p>第二种 将产生的 commit 组合为一个commit 放入 master</p>
+</blockquote>
+<blockquote>
+<p>第三种 将长生的commit 一个一个跳出来放入master</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqd6pgmdj30gj0a70te.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214121045925"></p>
+<h2 id="35-启用issue跟踪需求和任务"><a href="#35-启用issue跟踪需求和任务" class="headerlink" title="35 启用issue跟踪需求和任务"></a>35 启用issue跟踪需求和任务</h2><blockquote>
+<p>利用project看板来管理issue</p>
+</blockquote>
+<h2 id="36-项目内部怎么实施code-review"><a href="#36-项目内部怎么实施code-review" class="headerlink" title="36 项目内部怎么实施code review"></a>36 项目内部怎么实施code review</h2><p><img src="http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqdi7bjlj30sy0hgmyp.jpg?ynotemdtimestamp=1606703976531" alt="image-20200214123352048"></p>
+<h2 id="37团队协作时如何做多分支的集成"><a href="#37团队协作时如何做多分支的集成" class="headerlink" title="37团队协作时如何做多分支的集成"></a>37团队协作时如何做多分支的集成</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 让远端集成分支 强制回退</span>
+<span class="token comment" spellcheck="true"># 不建议这样做</span>
+<span class="token function">git</span> push -f origin <span class="token operator">&lt;</span> 要回退commit <span class="token operator">></span> :<span class="token operator">&lt;</span>分支名<span class="token operator">></span>
+<span class="token function">git</span> push -f origin 6b231c14 <span class="token keyword">:</span> master
+<span class="token comment" spellcheck="true"># 将分支回退</span>
+<span class="token function">git</span> reset --hard origin/s
+<span class="token comment" spellcheck="true"># 去了解</span>
+<span class="token function">git</span> rerere</code></pre>
+]]></content>
+      <categories>
+        <category>Git - 基础</category>
+      </categories>
+      <tags>
+        <tag>Git - 基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DispatcherServlet详解</title>
+    <url>/2020/11/19/DispatcherServlet%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<p>[toc]</p>
+<h1 id="DispatcherServlet-过程分析"><a href="#DispatcherServlet-过程分析" class="headerlink" title="DispatcherServlet 过程分析"></a>DispatcherServlet 过程分析</h1><h2 id="一-原始Servlet到SpringMvc"><a href="#一-原始Servlet到SpringMvc" class="headerlink" title="一 原始Servlet到SpringMvc"></a>一 原始Servlet到SpringMvc</h2><blockquote>
+<p>在过滤器执行完成之后，将会进入Servlet组件的执行中。首先出现的Servlet的类为HttpServlet，该类为抽象类</p>
+</blockquote>
+<ol>
+<li>首先进入HttpServlet的service方法</li>
+</ol>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+* 从Filter转向Servlet的入口方法，方法负责把原始的Servlet请求与相应转化为基于HTTP的Servlet请求与相应，* 再调用重载的Serivce方法
+*&#x2F;
+public void service(ServletRequest req, ServletResponse res)
+    throws ServletException, IOException &#123;
+
+    HttpServletRequest  request;
+    HttpServletResponse response;
+
+    try &#123;
+        &#x2F;&#x2F; 对两个参数进行转换,只有基于Servlet的Web容器,产生的HTTP请求与响应就是下面返回的对应类型,这里的转换是用来提供重载Service方法
+        request &#x3D; (HttpServletRequest) req;
+        response &#x3D; (HttpServletResponse) res;
+    &#125; catch (ClassCastException e) &#123;
+        throw new ServletException(lStrings.getString(&quot;http.non_http&quot;));
+    &#125;
+    &#x2F;&#x2F; 调用重载的方法
+    service(request, response);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>进入父类的service进行执行逻辑</li>
+</ol>
+<blockquote>
+<p>其中GET方法请求处理有些特殊，进行了HTTP缓存规范判断，如判断请求头中的If—Modified—Since已达到直接从浏览器缓存中获取请求结果的目的。但前提是需要支持LastModified功能。在DIspatcherServlet中，GET请求缓存通过另外的途径来实现，这里的getLastModified方法固定返回-1，故固定执行doGet方法</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">
+protected void service(HttpServletRequest req, HttpServletResponse resp)
+    throws ServletException, IOException &#123;
+
+    String method &#x3D; req.getMethod();
+&#x2F;&#x2F; 对请求的方法进行  判断,支持以下七种方法
+    if (method.equals(METHOD_GET)) &#123;
+        long lastModified &#x3D; getLastModified(req);
+        if (lastModified &#x3D;&#x3D; -1) &#123;
+            &#x2F;&#x2F; servlet doesn&#39;t support if-modified-since, no reason
+            &#x2F;&#x2F; to go through further expensive logic
+            &#x2F;&#x2F; 如果不支持缓存策略,执行doGet方法逻辑
+            doGet(req, resp);
+        &#125; else &#123;
+            long ifModifiedSince;
+            try &#123;
+                ifModifiedSince &#x3D; req.getDateHeader(HEADER_IFMODSINCE);
+            &#125; catch (IllegalArgumentException iae) &#123;
+                &#x2F;&#x2F; Invalid date header - proceed as if none was set
+                ifModifiedSince &#x3D; -1;
+            &#125;
+            if (ifModifiedSince &lt; (lastModified &#x2F; 1000 * 1000)) &#123;
+                &#x2F;&#x2F; If the servlet mod time is later, call doGet()
+                &#x2F;&#x2F; Round down to the nearest second for a proper compare
+                &#x2F;&#x2F; A ifModifiedSince of -1 will always be less
+                maybeSetLastModified(resp, lastModified);
+                doGet(req, resp);
+            &#125; else &#123;
+                resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+            &#125;
+        &#125;
+
+    &#125; else if (method.equals(METHOD_HEAD)) &#123;
+        long lastModified &#x3D; getLastModified(req);
+        maybeSetLastModified(resp, lastModified);
+        doHead(req, resp);
+
+    &#125; else if (method.equals(METHOD_POST)) &#123;
+        doPost(req, resp);
+
+    &#125; else if (method.equals(METHOD_PUT)) &#123;
+        doPut(req, resp);
+
+    &#125; else if (method.equals(METHOD_DELETE)) &#123;
+        doDelete(req, resp);
+
+    &#125; else if (method.equals(METHOD_OPTIONS)) &#123;
+        doOptions(req,resp);
+
+    &#125; else if (method.equals(METHOD_TRACE)) &#123;
+        doTrace(req,resp);
+
+    &#125; else &#123;
+        &#x2F;&#x2F;
+        &#x2F;&#x2F; Note that this means NO servlet supports whatever
+        &#x2F;&#x2F; method was requested, anywhere on this server.
+        &#x2F;&#x2F; 进入此逻辑表示请求方法不被支持,会直接返回错误响应
+        &#x2F;&#x2F; 因为PATCH方法与其他无法识别的请求方法在FrameworkServlet中重写的该方法提供了支持,故此处SpringMvc 下将不会进入
+
+        String errMsg &#x3D; lStrings.getString(&quot;http.method_not_implemented&quot;);
+        Object[] errArgs &#x3D; new Object[1];
+        errArgs[0] &#x3D; method;
+        errMsg &#x3D; MessageFormat.format(errMsg, errArgs);
+
+        resp.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, errMsg);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<ol start="3">
+<li><p>在HttpServlet的do<em>方法中，均返回固定的错误请求，错误状态码为405，请求方法不被支持。所以若要对对应的请求方法提供支持，子类必须重写父类对应的请求do\</em>系列方法。</p>
+<p>在SpringMvc中，真是的Servlet实例为DispatcherServlet，其中其父类FrameworkServlet重写了HttpServlet中所有的do*方法。</p>
+<p>因为在SpringMvc的设计中，可以根据@RequestMapping注解标记的方法条件，把请求根据请求方法分发到不同的处理器方法上，故最终所有的方法需要调用同一个分发逻辑，所以在FrameworkServlet中的do*方法，可以看到都调用了同一个方法processRequest</p>
+<p>其实在不同的do*系列方法中，根据HTTP请求方法的定义，会做一些默认的处理，如doHead方法会调用doGet方法，FrameworkServlet中并没有重写doHead，而是通过重写doGet实现doHead的内部功能。同时还有doOptions方法进行了Options类型请求方法的特有处理，doTrace方法包括了特有的Trace相关的跟踪操作。</p>
+<p>在上述过程执行完成之后，SpringMvc 提供的Servlet组件与Web容器整合，在后续的过程中，将调用与Servlet无关的processRequest方法，并以此为入口，进入到SpringMvc框架对请求的处理中。上述过程是从原始的Web容器调用到MVC框架组建的过程。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="二-DispatcherServlet请求入口"><a href="#二-DispatcherServlet请求入口" class="headerlink" title="二 DispatcherServlet请求入口"></a>二 DispatcherServlet请求入口</h2><blockquote>
+<p>在原始的Web容器入口开始，一步步对请求进行处理，在执行到Servlet层之后，开始进入SpringMvc的请求处理组件。所有的请求处理入口都在Spring的DispatchServlet组件中，都是以processDispatch开头的。</p>
+</blockquote>
+<h3 id="1-处理请求方法"><a href="#1-处理请求方法" class="headerlink" title="1 处理请求方法"></a>1 处理请求方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * Process this request, publishing an event regardless of the outcome.
+ * &lt;p&gt;The actual event handling is performed by the abstract
+ * &#123;@link #doService&#125; template method.
+ * 处理请求方法，用于执行所有请求的处理
+ *&#x2F;
+protected final void processRequest(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException &#123;
+	&#x2F;&#x2F; 记录当前时间，用于日志记录
+	long startTime &#x3D; System.currentTimeMillis();
+       &#x2F;&#x2F; 失败原因，如请求处理过程抛出异常，则用该变量进行记录
+	Throwable failureCause &#x3D; null;
+	&#x2F;&#x2F; 获取当前的本地上下文，存储为上一个本地化上下文变量，以便在此请求处理中使用新的本地化上下文，在使用完成后通过该变量恢复原始的本地化上下文
+	LocaleContext previousLocaleContext &#x3D; LocaleContextHolder.getLocaleContext();
+	&#x2F;&#x2F; 构建当前请求的本地化上下文
+       LocaleContext localeContext &#x3D; buildLocaleContext(request);
+	&#x2F;&#x2F; 同本地化上下文，这里先存储上一次请求的请求属性上下文，以便在此请求处理中使用新的请求属性上下文，在使用完成后根据该变量恢复原始的请求属性上下文
+	RequestAttributes previousAttributes &#x3D; RequestContextHolder.getRequestAttributes();
+	&#x2F;&#x2F; 构造当前请求属性上下文
+       ServletRequestAttributes requestAttributes &#x3D; buildRequestAttributes(request, response, previousAttributes);
+	&#x2F;&#x2F; 获取或创建当前请求的异步管理器，用于对异步相应结果提供支持
+	WebAsyncManager asyncManager &#x3D; WebAsyncUtils.getAsyncManager(request);
+       &#x2F;&#x2F; 拦截器RequestBindingInterceptor的作用同上面构造上下文逻辑和下面初始化上下文持有器initContextHolders与重置上下文持有器restContextHolders的作用相同
+       &#x2F;&#x2F; 因为请求的处理与当前线程是异步的关系，所以在其他线程执行初始化操作时就需要使用执行注册的这个拦截器
+	asyncManager.registerCallableInterceptor(FrameworkServlet.class.getName(), new RequestBindingInterceptor());
+	&#x2F;&#x2F; 初始化上下文持有器，包括请求上下文处理器LocaleContextHolder和本地化上下文持有器RequestContextHolder，修改这两个持有器所持有得上下文为新建上下文
+	initContextHolders(request, localeContext, requestAttributes);
+
+	try &#123;
+           &#x2F;&#x2F; 初始化完成之后执行真正处理请求方法
+		doService(request, response);
+	&#125;
+	catch (ServletException | IOException ex) &#123;
+           &#x2F;&#x2F; 拦截Servlet和Io异常记录后再度抛出
+		failureCause &#x3D; ex;
+		throw ex;
+	&#125;
+	catch (Throwable ex) &#123;
+           &#x2F;&#x2F; 记录其他异常
+		failureCause &#x3D; ex;
+           &#x2F;&#x2F; 记录后抛出新的前台异常
+		throw new NestedServletException(&quot;Request processing failed&quot;, ex);
+	&#125;
+
+	finally &#123;
+           &#x2F;&#x2F; 重置上下文持有器，重置为该方法前面的逻辑保存的原始上下文。在异步请求拦截器里面，重置上下文则把上下文设置为NULL，这里则设置之前的上下文
+		resetContextHolders(request, previousLocaleContext, previousAttributes);
+		if (requestAttributes !&#x3D; null) &#123;
+               &#x2F;&#x2F; 标记请求完成，并执行一些请求完成的回调方法
+			requestAttributes.requestCompleted();
+		&#125;
+           &#x2F;&#x2F; 日志
+		logResult(request, response, failureCause, asyncManager);
+           &#x2F;&#x2F; 向当前应用上下文中发布请求被处理的时间，事件类为ServletRequestHandlerEvent其中包含一些请求的相关属性，如请求路径、请求方法等
+		publishRequestHandledEvent(request, response, startTime, failureCause);
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-请求分发概述"><a href="#2-请求分发概述" class="headerlink" title="2  请求分发概述"></a>2  请求分发概述</h3><blockquote>
+<p>在整个方法中，每一段逻辑都有其自身的目的，且整体从前到后都是按照请求处理的流程在执行。同时，每一段逻辑的处理都涉及一些Spring Mvc 的组件</p>
+</blockquote>
+<ol>
+<li>预处理多块请求</li>
+<li>获取请求处理器</li>
+<li>查询处理适配器</li>
+<li>处理HTTP缓存</li>
+<li>执行前置拦截器链</li>
+<li>处理适配器执行</li>
+<li>返回值视图名处理</li>
+<li>执行后置拦截器链</li>
+<li>处理返回值与响应</li>
+<li>执行完成拦截器链</li>
+<li>清理资源</li>
+</ol>
+<pre class="line-numbers language-Java" data-language="Java"><code class="language-Java">
+&#x2F;**
+* 执行请求分发到处理器
+* 处理器通过当前应用中初始化的HandlerMapping处理器映射列表按顺序获取处理器
+* 通过当前应用中初始化的HandlerAdapter处理适配器列表，获取支持当前请求处理器的处理适配器
+* 该方法可以处理所有的请求方法。对于一些特殊的请求方法如Option是等，响应需要做额外的一些适配操作，该适配器操作交给请求处理器与处理适配器的逻辑去处理
+*&#x2F;
+protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception &#123;
+    &#x2F;&#x2F; 定义一个已处理器请求，指向参数中的request，已处理请求后序可能改变
+   HttpServletRequest processedRequest &#x3D; request;
+    &#x2F;&#x2F; 定义处理器执行链，内部封装拦截器列表与处理器
+   HandlerExecutionChain mappedHandler &#x3D; null;
+   &#x2F;&#x2F; 是否是多块请求，默认为否
+   boolean multipartRequestParsed &#x3D; false;
+	&#x2F;&#x2F; 获取与当前请求想关联的异步管理器，用于执行异步操作
+   WebAsyncManager asyncManager &#x3D; WebAsyncUtils.getAsyncManager(request);
+	&#x2F;&#x2F; 整体放在try中，用于捕获处理过程中的所有异常
+   try &#123;
+       &#x2F;&#x2F; 用于保存处理器适配器执行后的返回结果
+      ModelAndView mv &#x3D; null;
+       &#x2F;&#x2F; 用于保存处理过程中发生的异常
+      Exception dispatchException &#x3D; null;
+		&#x2F;&#x2F; 嵌套一个try，内部获取真实的处理异常，在异常处理中还有可能发生异常，上层的try作用为拦截这层try异常处理中发生的异常
+      try &#123;
+          &#x2F;&#x2F; 检查多块请求，如果是多块请求，则返回一个新的请求，processRequest保存这个心得请求引用；否则返回原始请求
+         processedRequest &#x3D; checkMultipart(request);
+         &#x2F;&#x2F; 判断两者是否是同一个引用，如果是说明是多块请求，且已经处理。此变量为true
+          multipartRequestParsed &#x3D; (processedRequest !&#x3D; request);
+
+         &#x2F;&#x2F; Determine handler for the current request.
+          &#x2F;&#x2F; 获取可处理当前请求的请求处理器，通过HandlerMapping查找，请求处理器中封装了拦截器链和对应的处理器，可以是具体的处理器方法
+         mappedHandler &#x3D; getHandler(processedRequest);
+         &#x2F;&#x2F; 如果没有则执行没有处理器逻辑
+          if (mappedHandler &#x3D;&#x3D; null) &#123;
+              &#x2F;&#x2F; 内部逻辑判断配置throwExceptionIfNoHandlerFound是否为true，如果为true则爆出异常，否则直接设置响应内容为404
+              &#x2F;&#x2F; 可以通过spring.mvc.throwExceptionIfNoHandlerFound设置其值，默认为false
+            noHandlerFound(processedRequest, response);
+            return;
+         &#125;
+
+         &#x2F;&#x2F; Determine handler adapter for the current request.
+          &#x2F;&#x2F; 根据当前请求的处理器获取支持该处理器的处理器适配器
+         HandlerAdapter ha &#x3D; getHandlerAdapter(mappedHandler.getHandler());
+
+         &#x2F;&#x2F; Process last-modified header, if supported by the handler.
+          &#x2F;&#x2F; 单独处理last-modified请求头，用于判断请求内容是否修改，如果未修改直接返回，浏览器使用本地缓存
+         String method &#x3D; request.getMethod();
+          &#x2F;&#x2F; 只有get请求和head请求执行此判断
+         boolean isGet &#x3D; &quot;GET&quot;.equals(method);
+         if (isGet || &quot;HEAD&quot;.equals(method)) &#123;
+             &#x2F;&#x2F; 具体实现还是通过处理器适配器来实现的
+             &#x2F;&#x2F; 通过处理器适配器的getLastModified方法，传入请求与处理器，获取该请求对应内容的最后修改时间
+             &#x2F;&#x2F; 一般针对静态资源，返回静态资源的上一次修改时间，动态资源固定返回-1，表示不存在时间
+            long lastModified &#x3D; ha.getLastModified(request, mappedHandler.getHandler());
+            &#x2F;&#x2F; 经过判断，如果最后修改时间在当前请求中浏览器缓存时间之前，则直接返回状态码304，表示未修改，浏览器可以直接使用本地缓存作为请求内容
+             &#x2F;&#x2F; 否则继续执行请求处理逻辑，lastMOdified为-1固定执行后序请求处理逻辑
+             if (new ServletWebRequest(request, response).checkNotModified(lastModified) &amp;&amp; isGet) &#123;
+               return;
+            &#125;
+         &#125;
+	&#x2F;&#x2F; 通过mappedHandler这个HandlerExecutionChain执行链的封装，链式执行其中所有拦截器的前置拦方法preHandler
+         if (!mappedHandler.applyPreHandle(processedRequest, response)) &#123;
+             &#x2F;&#x2F; 任意一个拦截器的前置方法返回了false，即提前结束请求的处理
+            return;
+         &#125;
+
+         &#x2F;&#x2F; Actually invoke the handler.
+          &#x2F;&#x2F; 最终执行处理器适配器的处理方法，传入请求，响应与其对应的处理器，对请求进行处理。在这个处理中，最终调用到了请求对应的处理器方法
+          &#x2F;&#x2F; 执行的返回值是ModelAndView类型，封装了模型数据与视图，后序对此结果进行处理并根据其中的视图与模型返回响应内容
+         mv &#x3D; ha.handle(processedRequest, response, mappedHandler.getHandler());
+		&#x2F;&#x2F; 如果异步处理开始，则直接返回，后序处理均通过异步执行
+         if (asyncManager.isConcurrentHandlingStarted()) &#123;
+            return;
+         &#125;
+		&#x2F;&#x2F; 应用默认视图名，如果返回值得ModelAndVIew中不包含视图名，则根据请求设置默认视图名
+         applyDefaultViewName(processedRequest, mv);
+          &#x2F;&#x2F; 请求处理正常完成，链式执行所有拦截器的postHandler方法。链式顺序与preHandler相反
+         mappedHandler.applyPostHandle(processedRequest, response, mv);
+      &#125;
+      catch (Exception ex) &#123;
+          &#x2F;&#x2F; 发现异常保存异常
+         dispatchException &#x3D; ex;
+      &#125;
+      catch (Throwable err) &#123;
+         &#x2F;&#x2F; As of 4.3, we&#39;re processing Errors thrown from handler methods as well,
+         &#x2F;&#x2F; making them available for @ExceptionHandler methods and other scenarios.
+          &#x2F;&#x2F; 在Spring Mvc4.3 版本以后，添加了支持error类型异常的处理。Throwable的子类除了Exception就是Error
+          &#x2F;&#x2F; 可以通过@ExceptionHandler处理这种类型的异常
+          &#x2F;&#x2F; 封装为嵌套异常，以供异常处理逻辑使用
+         dispatchException &#x3D; new NestedServletException(&quot;Handler dispatch failed&quot;, err);
+      &#125;
+       &#x2F;&#x2F; 对上面的逻辑的执行结果进行处理，包括处理适配器的执行结果以及发生的异常处理等逻辑
+      processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+   &#125;
+   catch (Exception ex) &#123;
+       &#x2F;&#x2F; 外层try的catch，用于拦截对执行结果的处理过程processDispatchResult中发生的异常
+       &#x2F;&#x2F; 拦截后链执行拦截器链afterCompletion方法。在该方法内部判断mappedHandler是否为空，如果不为空，则执行triggerAfterCompletion方法
+      triggerAfterCompletion(processedRequest, response, mappedHandler, ex);
+   &#125;
+   catch (Throwable err) &#123;
+       &#x2F;&#x2F; 拦截Error类型的异常拦截后链式执行拦截器链的afterCompletion方法
+      triggerAfterCompletion(processedRequest, response, mappedHandler,
+            new NestedServletException(&quot;Handler processing failed&quot;, err));
+   &#125;
+    &#x2F;&#x2F; 资源处理
+   finally &#123;
+
+      if (asyncManager.isConcurrentHandlingStarted()) &#123;
+		 &#x2F;&#x2F;如果在异步请求执行中，则链式执行拦截器链中的afterConcurrentHandlingStarted方法，即针对异步请求的特殊处理
+         &#x2F;&#x2F; Instead of postHandle and afterCompletion
+         if (mappedHandler !&#x3D; null) &#123;
+            mappedHandler.applyAfterConcurrentHandlingStarted(processedRequest, response);
+         &#125;
+      &#125;
+      else &#123;
+          
+         &#x2F;&#x2F; Clean up any resources used by a multipart request.
+         &#x2F;&#x2F; 如果是多块资源，则清理多块资源占用的系统资源，包括文件缓存等
+          if (multipartRequestParsed) &#123;
+            cleanupMultipart(processedRequest);
+         &#125;
+      &#125;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="1-预处理多块请求"><a href="#1-预处理多块请求" class="headerlink" title="1  预处理多块请求"></a>1  预处理多块请求</h4><blockquote>
+<p>在SpringMvc中，对于多块请求有特殊的处理，如@RequestPart绑定多块请求参数与多块请求文件等。要想实现这些特殊处理，就需要先对请求类型为多块请求执行预处理，在请求分发前就执行该操作，并替换后序使用的请求已预处理过的多块请求。</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 如果请求是多块请求，则转化为多块请求的多装数据类型，并标记多块请求解析器为可用
+ * Convert the request into a multipart request, and make multipart resolver available.
+ * &lt;p&gt;If no multipart resolver is set, simply use the existing request.
+ * 如果设置为多块请求解析器，则直接使用原始请求
+ * @param request current HTTP request
+ * @return the processed request (multipart wrapper if necessary) 如果是多块请求则返回请求的包装类型
+ * @see MultipartResolver#resolveMultipart
+ *&#x2F;
+protected HttpServletRequest checkMultipart(HttpServletRequest request) throws MultipartException &#123;
+    &#x2F;&#x2F; 如果多块请求解析器不为空，使用多块请求解析器判断是否是多块请求，如果是，则执行后面的逻辑
+   if (this.multipartResolver !&#x3D; null &amp;&amp; this.multipartResolver.isMultipart(request)) &#123;
+       &#x2F;&#x2F; 如果当前请求已经是多块请求的包装类型，则打印日志，并且返回
+      if (WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class) !&#x3D; null) &#123;
+         if (request.getDispatcherType().equals(DispatcherType.REQUEST)) &#123;
+            logger.trace(&quot;Request already resolved to MultipartHttpServletRequest, e.g. by MultipartFilter&quot;);
+         &#125;
+      &#125;
+       &#x2F;&#x2F; 如果当前请求中包含异常（通过请求属性java.servlet.error.exception 有无判断） 则返回传入的参数请求
+      else if (hasMultipartException(request)) &#123;
+         logger.debug(&quot;Multipart resolution previously failed for current request - &quot; +
+               &quot;skipping re-resolution for undisturbed error rendering&quot;);
+      &#125;
+       &#x2F;&#x2F; 否则执行多块请求解析
+      else &#123;
+         try &#123;
+             &#x2F;&#x2F; 尝试通过多块请求解析器解析多块请求，并返回多块请求解析器包装过的多块请求
+            return this.multipartResolver.resolveMultipart(request);
+         &#125;
+         catch (MultipartException ex) &#123;
+             &#x2F;&#x2F; 发生异常时，先判断是否存在异常，如果已经存在则打印日志，否则抛出改异常
+            if (request.getAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE) !&#x3D; null) &#123;
+               logger.debug(&quot;Multipart resolution failed for error dispatch&quot;, ex);
+               &#x2F;&#x2F; Keep processing error dispatch with regular request handle below
+            &#125;
+            else &#123;
+               throw ex;
+            &#125;
+         &#125;
+      &#125;
+   &#125;
+   &#x2F;&#x2F; If not returned before: return original request.
+    &#x2F;&#x2F; 如果多块请求解析器为空，或者不为多块请求，或者执行其他不解析多块请求的多级，则直接返回原请求
+   return request;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>默认情况下，多块请求解析器为StandardServletMultipartResolver 其判断请求是否为多块请求的依据是请求方法为POST，且请求的Content-Type以multipart开头</p>
+<p>多块请求解析器除了提供判断是否是多块请求的方法 isMultipart与解析多块请求的方法resolveMultipart外，还提供了清理多块请求占用资源的方法cleanMultpart，在逻辑清理的时候会使用到该功能</p>
+</blockquote>
+<h4 id="2-查找请求处理器"><a href="#2-查找请求处理器" class="headerlink" title="2 查找请求处理器"></a>2 查找请求处理器</h4><blockquote>
+<p>对于请求的处理，最终都是要通过处理器来执行，SpringMvc把请求处理器的查找与请求处理器的执行分离。在doDispatch方法中，执行请求处理器的查找，也是SpringMvc的核心操作</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+* 返回该请求对应的请求处理链
+ * Return the HandlerExecutionChain for this request.
+ * &lt;p&gt;Tries all handler mappings in order.
+ * 按顺序查找全部处理器映射
+ * @param request current HTTP request
+ * @return the HandlerExecutionChain, or &#123;@code null&#125; if no handler could be found
+ *&#x2F;
+@Nullable
+protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception &#123;
+ 	&#x2F;&#x2F; 如果请求映射列表不为空
+    if (this.handlerMappings !&#x3D; null) &#123;
+        &#x2F;&#x2F; 遍历全部处理器映射
+      for (HandlerMapping mapping : this.handlerMappings) &#123;
+          &#x2F;&#x2F; 尝试执行当前处理器映射的获取处理器方法，获取与本次请求适配的处理器执行链
+         HandlerExecutionChain handler &#x3D; mapping.getHandler(request);
+          &#x2F;&#x2F; 不为空直接返回，即便有多个处理器执行链匹配，也只返回第一个，处理器映射排在前面的优先返回
+         if (handler !&#x3D; null) &#123;
+            return handler;
+         &#125;
+      &#125;
+   &#125;
+   return null;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​            @RequestMapping注解注册的处理器方法，其相关的处理器映射类为RequestMappingHandlerMapping，该映射器内部根据当前请求与所有的注解信息进行匹配，找到最佳匹配并封装为处理器执行链进行返回</p>
+<p>​            这也正是SpringMvc高度封装的体现，把一个复杂的逻辑都封装为一个接口，不仅可以通过不同的接口实现来完成不同的映射查找功能，同时无论映射查找功能有多复杂，这里看到的代码结构仍然非常的清晰。在这里把抽象与封装的概念体现的淋漓尽致</p>
+<p>​            同时注意，查找到的是处理器执行链，其中封装了最终执行的处理器，以及在执行处理器前后要执行的拦截器链，即把与改签请求匹配的所有的拦截器链式封装带处理器执行链中，以供后序使用</p>
+</blockquote>
+<h4 id="3-获取处理器适配器"><a href="#3-获取处理器适配器" class="headerlink" title="3 获取处理器适配器"></a>3 获取处理器适配器</h4><blockquote>
+<p>根据请求的类型不同，又需要使用不同的适配器去执行处理器，要想使用对应的处理器适配器执行处理器，需要获取对应的适配器</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+* 返回支持传入的处理器对象的处理器适配器
+ *&#x2F;
+protected HandlerAdapter getHandlerAdapter(Object handler) throws ServletException &#123;
+   if (this.handlerAdapters !&#x3D; null) &#123;
+       &#x2F;&#x2F; 遍历处理适配器列表，调用supports方法，找到支持该处理器的适配器
+      for (HandlerAdapter adapter : this.handlerAdapters) &#123;
+		&#x2F;&#x2F; 按照顺序查找第一个支持的适配器被返回
+         if (adapter.supports(handler)) &#123;
+            return adapter;
+         &#125;
+      &#125;
+   &#125;
+   throw new ServletException(&quot;No adapter for handler [&quot; + handler +
+         &quot;]: The DispatcherServlet configuration needs to include a HandlerAdapter that supports this handler&quot;);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​        处理器适配器不但是执行处理器，而且还有更大的作用即适配，用于把请求参数适配为处理器需要的参数，并执行处理器，之后再把处理器的返回值适配成ModelAndVIew统一的模型视图类型，用于后序操作做统一的处理。</p>
+<p>​        对于@RequestMapping注解注册的处理器，类型为HandlerMethod，通过RequestMappingHandlerMapping返回。对弈该类型的处理器，其适配器为RequestMappingHandlerAdapter，内部处理逻辑极其复杂包括参数绑定和返回值处理。</p>
+</blockquote>
+<h4 id="4-处理HTTP缓存"><a href="#4-处理HTTP缓存" class="headerlink" title="4 处理HTTP缓存"></a>4 处理HTTP缓存</h4><blockquote>
+<p>​        在获取处理适配器之后，额外添加了用于支持HTTP缓存的功能，因为该功能是上层统一功能，故直接在通用处理逻辑中天健</p>
+<p>​        HTTP缓存是HTTP协议标准中的定义，用于提高HTTP请求的效率。允许浏览器对GET请求获取的资源进行缓存，如css，js等，图片资源，在下次浏览器发起相同的请求时，会携带本地缓存的资源时间或其他与资源相关的信息作为请求头来传递，如果通过If-Modified-Since请求头携带本地缓存的资源的最近一次修改时间。而在服务器的处理逻辑中，则根据该资源的最后修改时间与请求信息中的一些标志信息做对比判断，如果判断结果是请求方缓存仍然有效，则直接返回状态码304，表示服务端为此资源进行修改，可以直接使用缓存中的资源。通过这种缓存方式大大较少了请求内耗，对于客户端来说体验更加友好，对于服务端来说，压力会更小。</p>
+<p>​        这一段逻辑是为了实现缓存目的而出现。首先缓存只支持GET和HEAD请求，再通过处理适配器的getLastModified方法获取当前请求与请求处理器对应的资源的最后一次修改的时间，一般对于静态资源有最后一次修改时间。之后调用new ServletWebRequest(request,response).checkNotModified(lastModified)检查当前请求中携带的缓存信息是否过期，如果未过期，则直接返回304，不在执行后序处理，如果已过期，直接按照原逻辑执行后序处理</p>
+<p>​        对处理器方法来说，以这种方式获取的是动态资源，动态资源不进行缓存，所以lastModified的值为-1</p>
+</blockquote>
+<h4 id="5-执行前置拦截器链"><a href="#5-执行前置拦截器链" class="headerlink" title="5 执行前置拦截器链"></a>5 执行前置拦截器链</h4><blockquote>
+<p>​        在查找请求处理器时，返回了请求处理器执行链，在其中封装了拦截器链，用于在执行请求逻辑前进行拦截、执行请求逻辑之后添加后置处理，还可以拦截所有请求处理，在所有处理完成时或发生异常时添加完成后操作</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 执行已注册拦截器的处理前拦截方法
+ * @return &#123;@code true&#125; 返回是否需要继续执行后序的处理，如果为false则表示请求被拦截器拦截，不再执行后序处理，否则继续执行后序处理
+ *&#x2F;
+boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception &#123;
+   HandlerInterceptor[] interceptors &#x3D; getInterceptors();
+   if (!ObjectUtils.isEmpty(interceptors)) &#123;
+      for (int i &#x3D; 0; i &lt; interceptors.length; i++) &#123;
+         HandlerInterceptor interceptor &#x3D; interceptors[i];
+          &#x2F;&#x2F; 如果返回false则直接停止执行，视为处理完成，出发拦截器完成后方法
+         if (!interceptor.preHandle(request, response, this.handler)) &#123;
+            triggerAfterCompletion(request, response, null);
+            return false;
+         &#125;
+          &#x2F;&#x2F;如果为true 拦截器索引为当前遍历的索引，用于提供给triggerAfterCompletion 使用
+         this.interceptorIndex &#x3D; i;
+      &#125;
+   &#125;
+   return true;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​        在调用triggerAfterCompletion的时候，只会调用已经执行了preHandle方法的处理器（除了当前preHandle返回false的）。这就是索引interceptorIndex的作用</p>
+</blockquote>
+<h4 id="6-处理器适配器执行"><a href="#6-处理器适配器执行" class="headerlink" title="6 处理器适配器执行"></a>6 处理器适配器执行</h4><blockquote>
+<p>​        在完成上面的所有处理之后，会进入处理适配的执行逻辑，这里只是简单调用才处理器的handler方法，返回ModleAndView的值。</p>
+<p>​        这个方法是整个请求处理最核心的方法，也是在调用了这个方法之后，最终才调用了处理器方法。所有对请求处理逻辑的封装都是在这个方法内部</p>
+</blockquote>
+<h4 id="7-返回视图名处理"><a href="#7-返回视图名处理" class="headerlink" title="7 返回视图名处理"></a>7 返回视图名处理</h4><blockquote>
+<p>​        在处理适配器执行完成之后，返回了ModelAndView类型的返回值，在很多的情况下，返回值不包含视图，但对于响应结果来说，没有视图就无法产生响应，故此处会将执行默认的视图查找逻辑，以对此返回值应用默认视图。     </p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * Do we need view name translation?
+ * 应用视图默认名称	 
+ *&#x2F;
+private void applyDefaultViewName(HttpServletRequest request, @Nullable ModelAndView mv) throws Exception &#123;
+    &#x2F;&#x2F; 如果返回值不为空，并且不包含视图
+   if (mv !&#x3D; null &amp;&amp; !mv.hasView()) &#123;
+       &#x2F;&#x2F; 根据逻辑获取默认的视图名称
+      String defaultViewName &#x3D; getDefaultViewName(request);
+       &#x2F;&#x2F; 如果获取的默认视图名称不为null，则将设置为ModelAndView的视图名
+      if (defaultViewName !&#x3D; null) &#123;
+         mv.setViewName(defaultViewName);
+      &#125;
+   &#125;
+   
+&#125;
+&#x2F;&#x2F; 通过视图名翻译器来根据请求获取视图名称
+	@Nullable
+	protected String getDefaultViewName(HttpServletRequest request) throws Exception &#123;
+		return (this.viewNameTranslator !&#x3D; null ? this.viewNameTranslator.getViewName(request) : null);
+	&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​        在视图名的获取逻辑中又出现了新的组件ViewNameTranslator,其类型为RequestToViewNameTranslator该组件的作用是根据请求获取一个视图名称,此处该组件其默认实现为DefaultReqeustToViewNameTranlator</p>
+<p>​        在该实现中，获取视图名的逻辑为获取请求路径，并拼接此实现中的前缀和后缀，作为默认的视图名，包括路径。默认的前缀、后缀都为空字符串，所以可直接视为视图名就是请求路径。  </p>
+</blockquote>
+<h4 id="8-执行后置拦截器链"><a href="#8-执行后置拦截器链" class="headerlink" title="8 执行后置拦截器链"></a>8 执行后置拦截器链</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 执行拦截器链中的后置拦截
+ *&#x2F;
+void applyPostHandle(HttpServletRequest request, HttpServletResponse response, @Nullable ModelAndView mv)
+      throws Exception &#123;
+	&#x2F;&#x2F; 获取全部的拦截器
+   HandlerInterceptor[] interceptors &#x3D; getInterceptors();
+   if (!ObjectUtils.isEmpty(interceptors)) &#123;
+      for (int i &#x3D; interceptors.length - 1; i &gt;&#x3D; 0; i--) &#123;
+         HandlerInterceptor interceptor &#x3D; interceptors[i];
+         interceptor.postHandle(request, response, this.handler, mv);
+      &#125;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="9-处理返回值与响应"><a href="#9-处理返回值与响应" class="headerlink" title="9 处理返回值与响应"></a>9 处理返回值与响应</h4><blockquote>
+<p>​        通过方法processDispatchResult，处理前面过程中产生的分发结果，在无异常的时候主要的处理对象是处理适配器返回的ModelAndView。发生异常的时候，处理对象为产生的异常，异常处理结果为ModelAndView ，使用此ModelAndView继续执行后序处理</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 用于处理适配器调用处理器后适配过的ModelAndView结果，或者发生异常时把异常处理为ModelAndView结果
+ *&#x2F;
+private void processDispatchResult(HttpServletRequest request, HttpServletResponse response,
+      @Nullable HandlerExecutionChain mappedHandler, @Nullable ModelAndView mv,
+      @Nullable Exception exception) throws Exception &#123;
+	&#x2F;&#x2F; 标记是否为error视图
+   boolean errorView &#x3D; false;
+	&#x2F;&#x2F; 如果出现了异常
+   if (exception !&#x3D; null) &#123;
+       &#x2F;&#x2F; 如果异常类型为ModelAndViewDefiningException
+      if (exception instanceof ModelAndViewDefiningException) &#123;
+ 	 &#x2F;&#x2F; 直接使用异常中封装的ModleAndView作为最终的ModleAndView结果
+         mv &#x3D; ((ModelAndViewDefiningException) exception).getModelAndView();
+      &#125;else &#123;
+          &#x2F;&#x2F; 其他异常类型,先获取处理器
+         Object handler &#x3D; (mappedHandler !&#x3D; null ? mappedHandler.getHandler() : null);
+          &#x2F;&#x2F; 执行process处理器异常方法,获取了处理器异常结果后的得到的ModleAndView结果
+          mv &#x3D; processHandlerException(request, response, handler, exception);
+          &#x2F;&#x2F; 如果mv不为空,则说明返回了包含异常的视图,即返回的视图为异常视图
+         errorView &#x3D; (mv !&#x3D; null);
+      &#125;
+   &#125;
+
+   &#x2F;&#x2F; Did the handler return a view to render?
+   &#x2F;&#x2F;  如果视图与模型不为空,且视图与模型没有标记为被清理(被清理表示调用过ModelAndView的clear方法,清理后ModelAndView相当于Null)
+   if (mv !&#x3D; null &amp;&amp; !mv.wasCleared()) &#123;
+       &#x2F;&#x2F; 视图与模型不为空时,执行渲染视图的操作
+      render(mv, request, response);
+      if (errorView) &#123;
+          &#x2F;&#x2F; 如果是异常视图,渲染后需要清楚请求属性的异常信息
+         WebUtils.clearErrorRequestAttributes(request);
+      &#125;
+   &#125;
+   else &#123;
+      if (logger.isTraceEnabled()) &#123;
+         logger.trace(&quot;No view rendering, null ModelAndView returned.&quot;);
+      &#125;
+   &#125;
+	&#x2F;&#x2F; 如果异步请求处理已经开始,则直接返回结束执行
+   if (WebAsyncUtils.getAsyncManager(request).isConcurrentHandlingStarted()) &#123;
+      &#x2F;&#x2F; Concurrent handling started during a forward
+      return;
+   &#125;
+	&#x2F;&#x2F; 如果处理器执行链不为空时，出发拦截器的完成后方法，这里的完成方法是在请求处理正常完成时执行的。还有异常时执行的完成后方法
+   if (mappedHandler !&#x3D; null) &#123;
+      &#x2F;&#x2F; Exception (if any) is already handled..
+      mappedHandler.triggerAfterCompletion(request, response, null);
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>​        在上面的处理过程中，有两个比较重要的方法。第一个是发生异常时，把异常处理为ModelAndView返回值逻辑processHandlerException。第二个是对返回的ModelAndVIew结果进行渲染的逻辑render</p>
+</blockquote>
+<h5 id="1-处理器异常的处理方法"><a href="#1-处理器异常的处理方法" class="headerlink" title="1  处理器异常的处理方法"></a>1  处理器异常的处理方法</h5><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 通过处理器异常解析器来把产生的异常解析为一个错误视图与模型结果
+ * @param request current HTTP request 请求
+ * @param response current HTTP response 响应
+ * @param handler 执行的处理器，也与可能为空，如果发生异常时还没有获取处理器。如在多块请求解析的时候发生异常
+ * (for example, if multipart resolution failed)
+ * @param ex  在请求处理的过程中发生的异常
+ * @return a corresponding ModelAndView to forward to
+ * @throws Exception if no error ModelAndView found
+ *&#x2F;
+@Nullable
+protected ModelAndView processHandlerException(HttpServletRequest request, HttpServletResponse response,
+      @Nullable Object handler, Exception ex) throws Exception &#123;
+
+   &#x2F;&#x2F; 成功和错误响应可能使用不同的内容类型
+   request.removeAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
+
+   &#x2F;&#x2F; Check registered HandlerExceptionResolvers...
+   ModelAndView exMv &#x3D; null;
+    &#x2F;&#x2F; 如果处理器异常解析器列表不为空
+   if (this.handlerExceptionResolvers !&#x3D; null) &#123;
+      for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) &#123;
+          &#x2F;&#x2F; 执行异常处理器拿到结果
+         exMv &#x3D; resolver.resolveException(request, response, handler, ex);
+          &#x2F;&#x2F; 如果不为空，则将此结果作为对异常处理后的ModelAndView结果使用，中断后序遍历动作
+         if (exMv !&#x3D; null) &#123;
+            break;
+         &#125;
+      &#125;
+   &#125;
+    &#x2F;&#x2F; 如果返回的异常ModelAndView不为null
+   if (exMv !&#x3D; null) &#123;
+       &#x2F;&#x2F; 如果ModelAndView内部为空 即modle为空view为空
+      if (exMv.isEmpty()) &#123;
+          &#x2F;&#x2F; 设置异常属性到请求属性中
+         request.setAttribute(EXCEPTION_ATTRIBUTE, ex);
+         return null;
+      &#125;
+  	&#x2F;&#x2F; 如果异常的ModelAndView不包括视图
+      if (!exMv.hasView()) &#123;
+          &#x2F;&#x2F;采用doDispatch方法中相同的处理逻辑来根据请求获取默认的视图名称
+         String defaultViewName &#x3D; getDefaultViewName(request);
+         if (defaultViewName !&#x3D; null) &#123;
+            exMv.setViewName(defaultViewName);
+         &#125;
+      &#125;
+      if (logger.isTraceEnabled()) &#123;
+         logger.trace(&quot;Using resolved error view: &quot; + exMv, ex);
+      &#125;
+      else if (logger.isDebugEnabled()) &#123;
+         logger.debug(&quot;Using resolved error view: &quot; + exMv);
+      &#125;
+       &#x2F;&#x2F; 暴露一些异常信息到请求的属性当中
+      WebUtils.exposeErrorRequestAttributes(request, ex, getServletName());
+      return exMv;
+   &#125;
+	&#x2F;&#x2F;如果没有异常处理器解析器，则原封不动的抛出原始异常，交给Web框架做处理
+   throw ex;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>​        在把异常解析为ModelAndView结果时，其核心是处理器异常解析器组件。</p>
+<p>​        在processDispatchResult方法中，对结果进行统一的处理，进行渲染</p>
+</blockquote>
+<h5 id="2-渲染"><a href="#2-渲染" class="headerlink" title="2 渲染"></a>2 渲染</h5><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * 对指定的ModelAndView进行渲染
+ * 这一步是一个请求的处理过程中的最后一步，其中包含了通过视图名获取视图的逻辑
+ *
+ * @param mv the ModelAndView to render
+ * @param request current HTTP servlet request
+ * @param response current HTTP servlet response
+ * @throws ServletException  视图不存在或者不能解析抛出
+ * @throws Exception 渲染发生任何异常抛出
+ *&#x2F;
+protected void render(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception &#123;
+   &#x2F;&#x2F; 通过Locale解析器获取请求对应的Locale
+   Locale locale &#x3D;
+         (this.localeResolver !&#x3D; null ? this.localeResolver.resolveLocale(request) : request.getLocale());
+    &#x2F;&#x2F;设置获取的Locale为相应的Locale
+   response.setLocale(locale);
+	&#x2F;&#x2F; 最终获取的视图
+   View view;
+    &#x2F;&#x2F; 如果ModelAndView 中视图为视图名，则获取这个名字
+   String viewName &#x3D; mv.getViewName();
+   if (viewName !&#x3D; null) &#123;
+      &#x2F;&#x2F; 把名字解析为视图
+      view &#x3D; resolveViewName(viewName, mv.getModelInternal(), locale, request);
+       &#x2F;&#x2F; 视图为空的时候同样排除异常
+      if (view &#x3D;&#x3D; null) &#123;
+         throw new ServletException(&quot;Could not resolve view with name &#39;&quot; + mv.getViewName() +
+               &quot;&#39; in servlet with name &#39;&quot; + getServletName() + &quot;&#39;&quot;);
+      &#125;
+   &#125;
+   else &#123;
+     &#x2F;&#x2F; 如果不是视图名，而直接是一个视图类型，则获取视图
+      view &#x3D; mv.getView();
+       &#x2F;&#x2F;视图为空时同样抛出异常
+      if (view &#x3D;&#x3D; null) &#123;
+         throw new ServletException(&quot;ModelAndView [&quot; + mv + &quot;] neither contains a view name nor a &quot; +
+               &quot;View object in servlet with name &#39;&quot; + getServletName() + &quot;&#39;&quot;);
+      &#125;
+   &#125;
+	&#x2F;&#x2F;代理调用视图类的渲染方法
+   &#x2F;&#x2F; Delegate to the View object for rendering.
+   if (logger.isTraceEnabled()) &#123;
+      logger.trace(&quot;Rendering view [&quot; + view + &quot;] &quot;);
+   &#125;
+   try &#123;
+       &#x2F;&#x2F; 如果ModelAndView中的status部位为空，则设置为相应的状态码@ResponseStatus设置的状态码功能就是通过这里实现的
+      if (mv.getStatus() !&#x3D; null) &#123;
+         response.setStatus(mv.getStatus().value());
+      &#125;
+       &#x2F;&#x2F; 通过视图的渲染方法，每种模板引擎，都有其对应的视图实现，视图渲染对应于模板引擎的渲染模板
+      view.render(mv.getModelInternal(), request, response);
+   &#125;
+   catch (Exception ex) &#123;
+      if (logger.isDebugEnabled()) &#123;
+         logger.debug(&quot;Error rendering view [&quot; + view + &quot;]&quot;, ex);
+      &#125;
+      throw ex;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中第一个关键点是通过视图名解析视图的方法resloveViewName，该方法内容如下</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">@Nullable
+protected View resolveViewName(String viewName, @Nullable Map&lt;String, Object&gt; model,
+		Locale locale, HttpServletRequest request) throws Exception &#123;
+&#x2F;&#x2F; 如果视图解析器列表不为空
+	if (this.viewResolvers !&#x3D; null) &#123;
+		for (ViewResolver viewResolver : this.viewResolvers) &#123;
+               &#x2F;&#x2F;将视图名称解析为视图
+			View view &#x3D; viewResolver.resolveViewName(viewName, locale);
+			if (view !&#x3D; null) &#123;
+				return view;
+			&#125;
+		&#125;
+	&#125;
+	return null;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​            这里又通过新的最贱—视图解析器来对视图名称进行解析，得到最终想要的视图，不同的模板引擎有不同的视图解析器，例如Thymeleaf模板引擎，对应的视图解析器为ThymeleafViewResolver，解析逻辑则是通过配置spring.thymeleaf.prefix+视图名+spring.thymeleaf.suffix的形式，从classpath下查找视图资源，并解析为具体的ThymyleafView</p>
+<p>​            获取具体的视图之后后续的处理核心就是视图渲染的方法执行。在视图渲染的方法执行过程中，通过Model对模板进行渲染，并吧渲染后的结果写入相应的输出流，最终返回给请求方。不同模板引擎对应着不同的视图，不同的视图，又有自身的渲染方法 </p>
+</blockquote>
+<p>​    </p>
+<h4 id="10-执行完拦截器链"><a href="#10-执行完拦截器链" class="headerlink" title="10  执行完拦截器链"></a>10  执行完拦截器链</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java">void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, @Nullable Exception ex)
+      throws Exception &#123;
+	&#x2F;&#x2F; 获取全部拦截器
+   HandlerInterceptor[] interceptors &#x3D; getInterceptors();
+   if (!ObjectUtils.isEmpty(interceptors)) &#123;
+      for (int i &#x3D; this.interceptorIndex; i &gt;&#x3D; 0; i--) &#123;
+         HandlerInterceptor interceptor &#x3D; interceptors[i];
+          &#x2F;&#x2F; 执行拦截器的afterCompletion 方法，放在try块中，以保证执行中不再向外抛出异常，因为执行此方法时可能已经发生异常了，而该方法的执行不会再对内部发生的异常进行捕获，避免覆盖上层的异常
+         try &#123;
+            interceptor.afterCompletion(request, response, this.handler, ex);
+         &#125;
+         catch (Throwable ex2) &#123;
+            logger.error(&quot;HandlerInterceptor.afterCompletion threw exception&quot;, ex2);
+         &#125;
+      &#125;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="11-清理资源"><a href="#11-清理资源" class="headerlink" title="11 清理资源"></a>11 清理资源</h4><blockquote>
+<p>​        在finally中，首先对异步请求处理执行了处理器执行链中的afterConcurrentHandlingStarted方法，为异步请求开始执行时添加一些逻辑。</p>
+<p>​        除此之外，核心的清理方法是对多块请求的清理。如果是多块请求，且多块请求是被处理过的，则执行多块请求占用资源的清理方法</p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+ * Clean up any resources used by the given multipart request (if any).
+ * @param request current HTTP request
+ * @see MultipartResolver#cleanupMultipart
+ *&#x2F;
+protected void cleanupMultipart(HttpServletRequest request) &#123;
+   if (this.multipartResolver !&#x3D; null) &#123;
+      MultipartHttpServletRequest multipartRequest &#x3D;
+            WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+      if (multipartRequest !&#x3D; null) &#123;
+          &#x2F;&#x2F; 执行多块请求数据的清理
+         this.multipartResolver.cleanupMultipart(multipartRequest);
+      &#125;
+   &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结 :</strong></p>
+<blockquote>
+<p>​        对于默认实现的多块请求解析器StandardServletMultipartResolver,其清理的逻辑是遍历多块数据part，如果多块数据part为文件数据，则执行它们的删除操作，以清理多块数据占用的临时文件</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>源代码 - SpringMvc源码</category>
+      </categories>
+      <tags>
+        <tag>源码 - SpringMvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mysql DML条件语句与多表操作</title>
+    <url>/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="1-条件与多表语句"><a href="#1-条件与多表语句" class="headerlink" title="1 条件与多表语句"></a>1 条件与多表语句</h1><h2 id="1-条件插入"><a href="#1-条件插入" class="headerlink" title="1 条件插入"></a>1 条件插入</h2><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 第一种情况插入指定字段
+insert into table_name(column1,column2)values(value1,value2);
+# 第二种情况插入所有字段:前提条件是字段顺序必须与表中字段顺序一致
+insert into table_name values(value1,value2);
+# 第三种情况批量插入数据
+insert into table_name values (value1,value2),(value1,value2);
+# 也可以指定插入批量数据
+insert into table_name(column1,column2) values(value1,value2),(value1,value2);
+# 第四种情况就是当满足了指定条件时才插入数据
+insert into (column1,column2) select value1,value2 from table_name where ...
+# 也就是后面select子句中查询出来的列作为前面的值插入到表中，但是这个列的个数要和前面的字段个数一致。select子句就可以随便写了。
+# 例如
+insert into role_menu(id,menuId) select &#39;1&#39;,menuId from Menu where menuId&#x3D;1 and isLead&#x3D;&#39;1&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-多表删除"><a href="#2-多表删除" class="headerlink" title="2  多表删除"></a>2  多表删除</h2><h3 id="1-基本删除"><a href="#1-基本删除" class="headerlink" title="1 基本删除"></a>1 基本删除</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 基本删除，从数据表1中删除匹配的的记录
+delete t1 
+from t1 
+inner join t2 
+on t1.id&#x3D;t2.id 
+where t1.name is null
+# 或者
+delete t1 
+from t1 
+inner join t2 
+using(id)
+where t1.name is null
+# 或者 这里的using 表示要删除的表
+DELETE FROM t1 USING t1，t2 WHERE t1.id&#x3D;t2.id
+# order 与 limit 删除
+DELETE FROM somelog WHERE user &#x3D; &#39;jcole&#39;
+ORDER BY timestamp_column LIMIT 1;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>小贴士：</strong></p>
+<blockquote>
+<p> 用using关键字进行简化。<br>       <strong>1.**查询必须是等值连接。<br>       **2</strong>.等值连接中的列必须具有相同的名称和数据类型。</p>
+</blockquote>
+<h3 id="2-多表删除-1"><a href="#2-多表删除-1" class="headerlink" title="2 多表删除"></a>2 多表删除</h3><h5 id="1-外键约束"><a href="#1-外键约束" class="headerlink" title="1 外键约束"></a>1 外键约束</h5><p>给表新增约束外键并使用级联(cascade)方式对表与表之间关系进行约束。具体的SQL如下:</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">alter table goods_price
+add constraint FK_goods_id foreign key(goods_id)
+ references goods(id) on delete cascade on update cascade;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>修改完后我们后期删除主表数据，关联表数据也会被删除。</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">delete from goods where id&#x3D;5;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h5 id="2-联合删除"><a href="#2-联合删除" class="headerlink" title="2 联合删除"></a>2 联合删除</h5><p>不能使用<code>ORDER BY</code>或<code>LIMIT</code></p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">DELETE t1,t2 from t1 LEFT JOIN t2 ON t1.id&#x3D;t2.id WHERE t1.id&#x3D;25<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>小贴士：</strong></p>
+<blockquote>
+<p>​        对于多表删除的<code>left join</code> 、<code>inner join</code>、<code>right join</code> 和<code>select</code> 的一样，删除各个表交集的部分。</p>
+<p>​        个人理解的执行方式就是从t1表取出一条数据，关联t2表，关联的结果通过where进行筛选，最后左右两张表关联的行会被删除。。</p>
+</blockquote>
+<p><img src="/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/image-20201202171603690.png" alt="image-20201202171603690"></p>
+<h2 id="3-多表更新"><a href="#3-多表更新" class="headerlink" title="3 多表更新"></a>3 多表更新</h2><blockquote>
+<p>​        MySQL可以在一个SQL语句中更新多张表的记录，也可以通过多个表之间的关联关系更新某个表的数据。</p>
+<p>​        假定目前有两张表<code>goods</code>和<code>goods_price</code>表，前者是保存商品的具体信息，后者是保存商品的价格，具体的表结构如下：</p>
+</blockquote>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">create table goods (
+&#96;id&#96; int unsigned primary key auto_increment,
+&#96;goods_name&#96; varchar(30) not null default &#39;&#39;,
+&#96;deleted_at&#96; int unsigned default null
+)engine innodb charset utf8;
+create table goods_price (
+&#96;goods_id&#96; int unsigned not null,
+&#96;price&#96; decimal(8,2) not null default &#39;0.00&#39;
+)engine innodb charset utf8;
+insert into goods (id,goods_name) values (1,&#39;商品1&#39;),(2,&#39;商品2&#39;),(3,&#39;商品3&#39;),(4,&#39;商品4&#39;),(5,&#39;商品5&#39;);
+insert into goods_price values (1,&#39;5.44&#39;),(2,&#39;3.22&#39;),(3,&#39;5.55&#39;),(4,&#39;0.00&#39;),(5,&#39;4.54&#39;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-在update时使用逗号分割更新"><a href="#1-在update时使用逗号分割更新" class="headerlink" title="1 在update时使用逗号分割更新"></a>1 在update时使用逗号分割更新</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods as g , goods_price as p 
+SET p.price &#x3D; p.price*0.5 
+WHERE p.goods_id &#x3D; g.id AND g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-使用inner-join更新数据"><a href="#2-使用inner-join更新数据" class="headerlink" title="2 使用inner join更新数据"></a>2 使用inner join更新数据</h3><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods g 
+INNER JOIN goods_price p 
+ON g.id&#x3D;p.goods_id 
+SET p.price&#x3D;p.price*0.5 
+where g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-更新多个表"><a href="#3-更新多个表" class="headerlink" title="3 更新多个表"></a>3 更新多个表</h3><p>上面的更新语句使用另一个表的条件，更新一张表，也可以更新多个表。具体SQL语句如下：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">UPDATE goods g 
+INNER JOIN goods_price p on g.id&#x3D;p.goods_id 
+set p.price&#x3D;p.price*0.5,g.deleted_at&#x3D;unix_timestamp(now())
+where g.deleted_at is null;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Mysql - 多表操作</category>
+      </categories>
+      <tags>
+        <tag>Mysql - DML条件语句</tag>
+      </tags>
+  </entry>
+</search>
