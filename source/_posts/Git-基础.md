@@ -20,6 +20,17 @@ summary:
 
 # git命令补充学习
 
+## git更新.gitignore
+
+```bash
+git rm -r --cached .//清空缓存
+git add .//重新提交
+git commit -m "update .gitignore"
+git push
+```
+
+
+
 ## git设置别名
 
 ### 全局
