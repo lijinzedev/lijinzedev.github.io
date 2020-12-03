@@ -15,7 +15,7 @@ summary:
 
 [toc]
 
-# 相关组件及其初始化
+# 1 相关组件及其初始化
 
 ## 1 相关组件列表
 
@@ -209,4 +209,167 @@ private void initMultipartResolver(ApplicationContext context) {
 
 ```
 
-> 以上便是初始化此Servlet对应的Web应用上下文的过程，在这个过程中执行了DispatcherServlet中使用到的组件初始化，因为一些初始化逻辑需要使用Web应用上下文获取组件，故需先执行此处逻辑
+> 以上便是初始化此Servlet对应的Web应用上下文的过程，在这个过程中执行了DispatcherServlet中使用到的组件初始化，因为一些初始化逻辑需要使用Web应用上下文获取组件，故需先执行此处逻辑  
+
+
+
+# 2 组件初始化过程      
+
+### 1 MultipartResolver
+
+> ​		对于MultipartResolver，已知是通过初始化Web应用上下文获取、
+>
+> ​		MultipartResolver类型为StandardServletMultipartResolver，查找此类的所有使用，发现是在MultipartAutoConfiguration类中创建了此类的实例
+
+```java
+@Configuration
+// 只要是基于Servlet的Web应用，就存在这三个类
+@ConditionalOnClass({Servlet.class, StandardServletMultipartResolver.class, MultipartConfigElement.class})
+// 在属性spring.servlet.multipart.enabled不为flase或不存在时候此配置生效
+@ConditionalOnProperty(
+    prefix = "spring.servlet.multipart",
+    name = {"enabled"},
+    matchIfMissing = true
+)
+@当Web类型为Servlet的时候生效
+@ConditionalOnWebApplication(
+    type = Type.SERVLET
+)
+@EnableConfigurationProperties({MultipartProperties.class})
+public class MultipartAutoConfiguration {
+    private final MultipartProperties multipartProperties;
+
+    public MultipartAutoConfiguration(MultipartProperties multipartProperties) {
+        this.multipartProperties = multipartProperties;
+    }
+
+    @Bean
+  @ConditionalOnMissingBean({MultipartConfigElement.class, CommonsMultipartResolver.class})
+    public MultipartConfigElement multipartConfigElement() {
+        return this.multipartProperties.createMultipartConfig();
+    }
+
+    @Bean(
+        name = {"multipartResolver"}
+    )
+    @ConditionalOnMissingBean({MultipartResolver.class})
+    public StandardServletMultipartResolver multipartResolver() {
+        // 创建实例
+        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+        // 根据属性源spring.servlet.multipart.resolvelazily的值，设置multipartProperties中的Resolverlazily属性值，表示对多块请求是否执行懒解析，如果为懒解析则在用多块钱请求数据的时候才对请求进行解析
+        multipartResolver.setResolveLazily(this.multipartProperties.isResolveLazily());
+        return multipartResolver;
+    }
+}
+```
+
+**总结：**
+
+> ​		MultipartAutoConfiguration本身是自动配置类，在该类中用@Bean的方式标记方法，返回值都会注册到当前应用上下文中，这就应用上下文该组件的来源了
+
+### 2 LocaleResovler
+
+```java
+    private void initLocaleResolver(ApplicationContext context) {
+        try {
+            // 从上下文中获取
+            this.localeResolver = (LocaleResolver)context.getBean("localeResolver", LocaleResolver.class);
+            if (this.logger.isTraceEnabled()) {
+                this.logger.trace("Detected " + this.localeResolver);
+            } else if (this.logger.isDebugEnabled()) {
+                this.logger.debug("Detected " + this.localeResolver.getClass().getSimpleName());
+            }
+        } catch (NoSuchBeanDefinitionException var3) {
+            // 上下文中没有使用默认策略
+            this.localeResolver = (LocaleResolver)this.getDefaultStrategy(context, LocaleResolver.class);
+            if (this.logger.isTraceEnabled()) {
+                this.logger.trace("No LocaleResolver 'localeResolver': using default [" + this.localeResolver.getClass().getSimpleName() + "]");
+            }
+        }
+
+    }
+```
+
+​		获取默认组件的策略是通过加载jar包中的DispatcherServlet.properties属性文件，获取其中的key:value。key为组件的类型接口全限定名，value为默认的组件类型名，初始化策略为获取组件接口属性名对应的组件类型属性值，并通过反射，作为默认组件使用。其中DispatchServlet.properties文件内容如下
+
+```properties
+# Default implementation classes for DispatcherServlet's strategy interfaces.
+# Used as fallback when no matching beans are found in the DispatcherServlet context.
+# Not meant to be customized by application developers.
+
+org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
+
+org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver
+
+org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\
+	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+
+org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\
+	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\
+	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+
+org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\
+	org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\
+	org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver
+
+org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator
+
+org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver
+
+org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager
+```
+
+**注意：**
+
+> ​		上面有些key配置了用逗号隔开的多个class类名，因为有些最贱是list类型，list类型通过方法getDefaultStrategies获取
+
+​		除此之外，在配置`spring.mvc.locale-resolver=FIXED`与`spring.mvc.locale-zh_CN`后，初始化LocaleResolver就不会通过默认策略进行初始化，而是直接通过应用上下文获取LocaleResolver类型的Bean，为FixedLocaleResolver。通过查找FixedLocaleResolver的构造器引用位置，找到了该Bean的定义位子在WebMvcAutoConfiguration自动配置类的WebMvcAutoConfigurationAdapter
+
+```java
+        @Bean
+        @ConditionalOnMissingBean
+// 只有配置了spring.mvc.locale属性的时候，该Bean才会被定义
+        @ConditionalOnProperty(
+            prefix = "spring.mvc",
+            name = {"locale"}
+        )
+        public LocaleResolver localeResolver() {
+            // 通过MvcProperties封装spirng.mvc下的所有的配置
+           
+            if (this.mvcProperties.getLocaleResolver() == org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.LocaleResolver.FIXED) {
+                // 使用spring.mvc.locale配置的locale作为构成参数传入，即固定取此Locale
+                return new FixedLocaleResolver(this.mvcProperties.getLocale());
+            } else {
+                // 否则使用请求头Locale解析器
+                AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+                // 并设置配置值为；localeResolver未解析到Locale时的默认值
+                localeResolver.setDefaultLocale(this.mvcProperties.getLocale());
+                return localeResolver;
+            }
+        }
+```
+
+### 3 ThemeResolver
+
+> ​		主题解析器ThemeResolver的初始化逻辑通过方法initThemeResolver执行，该组件在默认情况下同LocaleResolver组件，在应用上下文中无此类型的Bean，最终通过执行降级的初始化方法获取该类型的默认实例
+
+```java
+
+    private void initThemeResolver(ApplicationContext context) {
+        try {
+            this.themeResolver = (ThemeResolver)context.getBean("themeResolver", ThemeResolver.class);
+            if (this.logger.isTraceEnabled()) {
+                this.logger.trace("Detected " + this.themeResolver);
+            } else if (this.logger.isDebugEnabled()) {
+                this.logger.debug("Detected " + this.themeResolver.getClass().getSimpleName());
+            }
+        } catch (NoSuchBeanDefinitionException var3) {
+            this.themeResolver = (ThemeResolver)this.getDefaultStrategy(context, ThemeResolver.class);
+            if (this.logger.isTraceEnabled()) {
+                this.logger.trace("No ThemeResolver 'themeResolver': using default [" + this.themeResolver.getClass().getSimpleName() + "]");
+            }
+        }
+
+    }
+```
+
