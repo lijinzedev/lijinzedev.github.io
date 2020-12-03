@@ -675,9 +675,10 @@ yum remove docker \
                             <div class="summary block-with-text">
                                 
                                     CentOS配置网络# 命令
-vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens33
+vi /etc/sysconfig/network-scripts/ifcfg-ens33
 
-TYPE&#x3D;Ethernet                # 网卡
+TYPE=Ethernet                # 网卡类型：为以太网
+PROXY_METHOD=none
                                 
                             </div>
                             <div class="publish-info">

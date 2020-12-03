@@ -485,7 +485,7 @@
 <p><a href="https://blog.csdn.net/qq_33619378/article/details/89706222" target="_blank" rel="noopener">参阅链接</a></p>
 <p><a href="https://www.cnblogs.com/zuxing/articles/9329152.html" target="_blank" rel="noopener">参阅链接</a></p>
 <p><a href="https://segmentfault.com/a/1190000021229534" target="_blank" rel="noopener">参阅链接</a></p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#1.卸载旧版本
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#1.卸载旧版本</span>
 yum remove docker \
                   docker-client \
                   docker-client-latest \
@@ -495,170 +495,166 @@ yum remove docker \
                   docker-logrotate \
                   docker-engine
 
-#2.需要的安装包
-yum install -y yum-utils
+<span class="token comment" spellcheck="true">#2.需要的安装包</span>
+yum <span class="token function">install</span> -y yum-utils
 
-#3.设置镜像的仓库
+<span class="token comment" spellcheck="true">#3.设置镜像的仓库</span>
 yum-config-manager \
     --add-repo \
-    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
-#默认是从国外的，不推荐
-#推荐使用国内的
+    https://download.docker.com/linux/centos/docker-ce.repo
+<span class="token comment" spellcheck="true">#默认是从国外的，不推荐</span>
+<span class="token comment" spellcheck="true">#推荐使用国内的</span>
 yum-config-manager \
     --add-repo \
-    https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo
+    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
-#更新yum软件包索引
+<span class="token comment" spellcheck="true">#更新yum软件包索引</span>
 yum makecache fast
 
-#4.安装docker相关的(docker-ce 社区版 而ee是企业版)
-yum install docker-ce docker-ce-cli containerd.io
+<span class="token comment" spellcheck="true">#4.安装docker相关的(docker-ce 社区版 而ee是企业版)</span>
+yum <span class="token function">install</span> docker-ce docker-ce-cli containerd.io
 
-#5.启动Docker
+<span class="token comment" spellcheck="true">#5.启动Docker</span>
 systemctl start docker
 
-#6.使用docker version查看是否按照成功
+<span class="token comment" spellcheck="true">#6.使用docker version查看是否按照成功</span>
 docker version
 
-#7.开机自启
-systemctl enable docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="配置阿里云镜像加速"><a href="#配置阿里云镜像加速" class="headerlink" title="配置阿里云镜像加速"></a>配置阿里云镜像加速</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mkdir -p &#x2F;etc&#x2F;docker
-sudo tee &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;-&#39;EOF&#39;
-&#123;
-  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;4bj04jx5.mirror.aliyuncs.com&quot;]
-&#125;
+<span class="token comment" spellcheck="true">#7.开机自启</span>
+systemctl <span class="token function">enable</span> docker</code></pre>
+<h2 id="配置阿里云镜像加速"><a href="#配置阿里云镜像加速" class="headerlink" title="配置阿里云镜像加速"></a>配置阿里云镜像加速</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> -p /etc/docker
+<span class="token function">sudo</span> <span class="token function">tee</span> /etc/docker/daemon.json <span class="token operator">&lt;&lt;</span>-<span class="token string">'EOF'</span>
+<span class="token punctuation">{</span>
+  <span class="token string">"registry-mirrors"</span><span class="token keyword">:</span> <span class="token punctuation">[</span><span class="token string">"https://4bj04jx5.mirror.aliyuncs.com"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
 EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="准备挂载目录bash"><a href="#准备挂载目录bash" class="headerlink" title="准备挂载目录bash"></a>准备挂载目录bash</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">通常会将 GitLab 的配置 (etc) 、 日志 (log) 、数据 (data) 放到容器之外， 便于日后升级， 因此请先准备这三个目录。
+<span class="token function">sudo</span> systemctl daemon-reload
+<span class="token function">sudo</span> systemctl restart docker</code></pre>
+<h2 id="准备挂载目录bash"><a href="#准备挂载目录bash" class="headerlink" title="准备挂载目录bash"></a>准备挂载目录bash</h2><pre class=" language-bash"><code class="language-bash">通常会将 GitLab 的配置 <span class="token punctuation">(</span>etc<span class="token punctuation">)</span> 、 日志 <span class="token punctuation">(</span>log<span class="token punctuation">)</span> 、数据 <span class="token punctuation">(</span>data<span class="token punctuation">)</span> 放到容器之外， 便于日后升级， 因此请先准备这三个目录。
 
 
-mkdir -p &#x2F;home&#x2F;gitlab&#x2F;etc
-mkdir -p &#x2F;home&#x2F;gitlab&#x2F;log
-mkdir -p &#x2F;home&#x2F;gitlab&#x2F;data<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token function">mkdir</span> -p /home/gitlab/etc
+<span class="token function">mkdir</span> -p /home/gitlab/log
+<span class="token function">mkdir</span> -p /home/gitlab/data</code></pre>
 <h2 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h2><p>方式一、在线下载gitlab</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">拉取镜像
-docker pull gitlab&#x2F;gitlab-ce:latest
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class=" language-bash"><code class="language-bash">拉取镜像
+docker pull gitlab/gitlab-ce:latest
+</code></pre>
 <p>方式二、离线安装</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">在事先安装好的服务器上，打包镜像
-docker save -o E:\gitlab-ce-latest.tar gitlab&#x2F;gitlab-ce:latest
+<pre class=" language-bash"><code class="language-bash">在事先安装好的服务器上，打包镜像
+docker save -o E:\gitlab-ce-latest.tar gitlab/gitlab-ce:latest
 
-然后拷贝到目标服务器上，docker加载镜像：tar-&gt;image
+然后拷贝到目标服务器上，docker加载镜像：tar-<span class="token operator">></span>image
 
 1.从tar包载入镜像：
 
-docker load -i &#123;image_name&#125;.tar
+docker load -i <span class="token punctuation">{</span>image_name<span class="token punctuation">}</span>.tar
 
 2.查看载入是否成功：
 
-docker images | grep &#123;image_name&#125;
+docker images <span class="token operator">|</span> <span class="token function">grep</span> <span class="token punctuation">{</span>image_name<span class="token punctuation">}</span>
 
 3.如果看到加载的镜像没有tag和镜像名，则手动打tag:
 
-docker tag &#123;image_id&#125; &#123;image_name&#125;:&#123;image_tag&#125;
+docker tag <span class="token punctuation">{</span>image_id<span class="token punctuation">}</span> <span class="token punctuation">{</span>image_name<span class="token punctuation">}</span>:<span class="token punctuation">{</span>image_tag<span class="token punctuation">}</span>
 
-4.确认镜像是否成功打上tag<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="启动容器，指定端口及挂载"><a href="#启动容器，指定端口及挂载" class="headerlink" title="启动容器，指定端口及挂载"></a>启动容器，指定端口及挂载</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker run -d \
+4.确认镜像是否成功打上tag</code></pre>
+<h2 id="启动容器，指定端口及挂载"><a href="#启动容器，指定端口及挂载" class="headerlink" title="启动容器，指定端口及挂载"></a>启动容器，指定端口及挂载</h2><pre class=" language-bash"><code class="language-bash">docker run -d \
 -p 8002:443 \
 -p 8001:80 \
 -p 8000:22 \
 --name gitlab \
 --restart always \
 --hostname 192.168.0.100 \
--v &#x2F;home&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab  \
--v &#x2F;home&#x2F;gitlab&#x2F;logs:&#x2F;var&#x2F;log&#x2F;gitlab  \
--v &#x2F;home&#x2F;gitlab&#x2F;data:&#x2F;var&#x2F;opt&#x2F;gitlab  \
-gitlab&#x2F;gitlab-ce
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="修改gitlab配置"><a href="#修改gitlab配置" class="headerlink" title="修改gitlab配置"></a>修改gitlab配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">1、修改&#x2F;home&#x2F;gitlab&#x2F;etc&#x2F;gitlab.rb
+-v /home/gitlab/etc:/etc/gitlab  \
+-v /home/gitlab/logs:/var/log/gitlab  \
+-v /home/gitlab/data:/var/opt/gitlab  \
+gitlab/gitlab-ce
+</code></pre>
+<h2 id="修改gitlab配置"><a href="#修改gitlab配置" class="headerlink" title="修改gitlab配置"></a>修改gitlab配置</h2><pre class=" language-bash"><code class="language-bash">1、修改/home/gitlab/etc/gitlab.rb
 
 把external_url改成部署机器的域名或者IP地址
 
-vi &#x2F;home&#x2F;gitlab&#x2F;etc&#x2F;gitlab.rb
+<span class="token function">vi</span> /home/gitlab/etc/gitlab.rb
 
-# 配置http协议所使用的访问地址
-external_url &#39;http:&#x2F;&#x2F;172.16.7.110:8001&#39;
-# 配置ssh协议所使用的访和端口
-gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] &#x3D; 8002
+<span class="token comment" spellcheck="true"># 配置http协议所使用的访问地址</span>
+external_url <span class="token string">'http://172.16.7.110:8001'</span>
+<span class="token comment" spellcheck="true"># 配置ssh协议所使用的访和端口</span>
+gitlab_rails<span class="token punctuation">[</span><span class="token string">'gitlab_shell_ssh_port'</span><span class="token punctuation">]</span> <span class="token operator">=</span> 8002
 
-# nginx 的监听端口号需要改成 80。
-# 默认情况下 nginx 的监听端口号会从 external_url 中取，也就是 9080。
-# 但在启动容器时，我们把宿主机 9080 端口导向了容器的 80 端口，所以容器内 nginx 服务端口应该为 80。
-nginx[&#39;listen_port&#39;] &#x3D; 80
+<span class="token comment" spellcheck="true"># nginx 的监听端口号需要改成 80。</span>
+<span class="token comment" spellcheck="true"># 默认情况下 nginx 的监听端口号会从 external_url 中取，也就是 9080。</span>
+<span class="token comment" spellcheck="true"># 但在启动容器时，我们把宿主机 9080 端口导向了容器的 80 端口，所以容器内 nginx 服务端口应该为 80。</span>
+nginx<span class="token punctuation">[</span><span class="token string">'listen_port'</span><span class="token punctuation">]</span> <span class="token operator">=</span> 80
 
-gitlab_rails[&#39;time_zone&#39;] &#x3D; &#39;Asia&#x2F;Shanghai&#39;
-2、修改&#x2F;home&#x2F;gitlab&#x2F;data&#x2F;gitlab-rails&#x2F;etc&#x2F;gitlab.yml
-vi &#x2F;home&#x2F;gitlab&#x2F;data&#x2F;gitlab-rails&#x2F;etc&#x2F;gitlab.yml
+gitlab_rails<span class="token punctuation">[</span><span class="token string">'time_zone'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Asia/Shanghai'</span>
+2、修改/home/gitlab/data/gitlab-rails/etc/gitlab.yml
+<span class="token function">vi</span> /home/gitlab/data/gitlab-rails/etc/gitlab.yml
 
-找到关键字 * ## Web server settings * 
+找到关键字 * <span class="token comment" spellcheck="true">## Web server settings * </span>
 
 将host的值改成映射的外部主机ip地址和端口，这里会显示在gitlab克隆地址
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">改完后，重启docker容器。先停止该容器，删掉该容器信息，重启完docke之后，重新运行GitLab容器
+</code></pre>
+<h2 id="重启容器"><a href="#重启容器" class="headerlink" title="重启容器"></a>重启容器</h2><pre class=" language-bash"><code class="language-bash">改完后，重启docker容器。先停止该容器，删掉该容器信息，重启完docke之后，重新运行GitLab容器
 
 查询容器列表
-docker ps
+docker <span class="token function">ps</span>
 
 停止容器
 docker stop 容器id
 
 删除容器
-doccker rm 容器id
+doccker <span class="token function">rm</span> 容器id
 
 查询容器列表
-docker ps
+docker <span class="token function">ps</span>
 
 重启
 systemctl restart docker
 
 启动gitlab
-docker run -d     --hostname 172.16.7.14     --publish 7001:443 --publish 7002:80 --publish 7003:22     --name gitlab --restart always     --volume &#x2F;home&#x2F;gitlab&#x2F;etc:&#x2F;etc&#x2F;gitlab     --volume &#x2F;home&#x2F;gitlab&#x2F;logs:&#x2F;var&#x2F;log&#x2F;gitlab     --volume &#x2F;home&#x2F;gitlab&#x2F;data:&#x2F;var&#x2F;opt&#x2F;gitlab 镜像id
+docker run -d     --hostname 172.16.7.14     --publish 7001:443 --publish 7002:80 --publish 7003:22     --name gitlab --restart always     --volume /home/gitlab/etc:/etc/gitlab     --volume /home/gitlab/logs:/var/log/gitlab     --volume /home/gitlab/data:/var/opt/gitlab 镜像id
 
 
 关闭防火墙（选做）
 systemctl stop firewalld.service
 
 如果不关闭防火墙，还可以通过暴露指定端口
-firewall-cmd --permanent --add-port&#x3D;7002&#x2F;tcp
-firewall-cmd --reload<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+firewall-cmd --permanent --add-port<span class="token operator">=</span>7002/tcp
+firewall-cmd --reload</code></pre>
 <h2 id="开始访问"><a href="#开始访问" class="headerlink" title="开始访问"></a>开始访问</h2><p>Gitlab容器启动后，直接访问 <a href="http://ip/" target="_blank" rel="noopener">http://ip</a>  就可以进入gitlab访问页面，第一步要做的就是给root用户设置密码，设置完后，通过root + 设置的密码登录。</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><blockquote>
 <p>常用的几个Gitlab命令</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 重新应用gitlab的配置
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 重新应用gitlab的配置</span>
 gitlab-ctl reconfigure
- 
-# 重启gitlab服务
-gitlab-ctl restart
- 
-# 查看gitlab运行状态
-gitlab-ctl status
- 
-#停止gitlab服务
-gitlab-ctl stop
- 
-# 查看gitlab运行日志
-gitlab-ctl tail
- 
-# 停止相关数据连接服务
-gitlab-ctl stop unicorn
-gitlab-ctl stop sideki<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<span class="token comment" spellcheck="true"># 重启gitlab服务</span>
+gitlab-ctl restart
+
+<span class="token comment" spellcheck="true"># 查看gitlab运行状态</span>
+gitlab-ctl status
+
+<span class="token comment" spellcheck="true">#停止gitlab服务</span>
+gitlab-ctl stop
+
+<span class="token comment" spellcheck="true"># 查看gitlab运行日志</span>
+gitlab-ctl <span class="token function">tail</span>
+
+<span class="token comment" spellcheck="true"># 停止相关数据连接服务</span>
+gitlab-ctl stop unicorn
+gitlab-ctl stop sideki</code></pre>
 <blockquote>
 <p>修改了GitLab的ip地址一样，临时修改了GitLab的配置之后，得执行如下的命令，应用重新配好的配置并重启GitLab，然后查看GitLab的状态。</p>
 </blockquote>
 <p>因为是容器，所以要进入到gitlab容器中执行命令</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">进入容器
-docker exec -ti gitlab &#x2F;bin&#x2F;bash
+<pre class=" language-bash"><code class="language-bash">进入容器
+docker <span class="token function">exec</span> -ti gitlab /bin/bash
 
 容器内部执行命令
-gitlab-ctl reconfigure  #花时间比较多
-gitlab-ctl restart    #改IP重启就可以了
-gitlab-ctl status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+gitlab-ctl reconfigure  <span class="token comment" spellcheck="true">#花时间比较多</span>
+gitlab-ctl restart    <span class="token comment" spellcheck="true">#改IP重启就可以了</span>
+gitlab-ctl status</code></pre>
 
                 
             </div>

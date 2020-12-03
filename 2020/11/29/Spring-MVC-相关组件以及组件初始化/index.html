@@ -547,135 +547,132 @@
 <blockquote>
 <p>除了WebAsyncManager、ThemeSource、MessageSource不是在Dispatchcher中定义的之外，其他九大组件均在DispatchServlet中定义的，这就是常说的DispatchServlet的九大组件。其属性定义的源码如下</p>
 </blockquote>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;** MultipartResolver used by this servlet. *&#x2F;
-@Nullable
-private MultipartResolver multipartResolver;
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** MultipartResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> MultipartResolver multipartResolver<span class="token punctuation">;</span>
 
-&#x2F;** LocaleResolver used by this servlet. *&#x2F;
-@Nullable
-private LocaleResolver localeResolver;
+<span class="token comment" spellcheck="true">/** LocaleResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> LocaleResolver localeResolver<span class="token punctuation">;</span>
 
-&#x2F;** ThemeResolver used by this servlet. *&#x2F;
-@Nullable
-private ThemeResolver themeResolver;
+<span class="token comment" spellcheck="true">/** ThemeResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> ThemeResolver themeResolver<span class="token punctuation">;</span>
 
-&#x2F;** List of HandlerMappings used by this servlet. *&#x2F;
-@Nullable
-private List&lt;HandlerMapping&gt; handlerMappings;
+<span class="token comment" spellcheck="true">/** List of HandlerMappings used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerMapping<span class="token operator">></span> handlerMappings<span class="token punctuation">;</span>
 
-&#x2F;** List of HandlerAdapters used by this servlet. *&#x2F;
-@Nullable
-private List&lt;HandlerAdapter&gt; handlerAdapters;
+<span class="token comment" spellcheck="true">/** List of HandlerAdapters used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerAdapter<span class="token operator">></span> handlerAdapters<span class="token punctuation">;</span>
 
-&#x2F;** List of HandlerExceptionResolvers used by this servlet. *&#x2F;
-@Nullable
-private List&lt;HandlerExceptionResolver&gt; handlerExceptionResolvers;
+<span class="token comment" spellcheck="true">/** List of HandlerExceptionResolvers used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerExceptionResolver<span class="token operator">></span> handlerExceptionResolvers<span class="token punctuation">;</span>
 
-&#x2F;** RequestToViewNameTranslator used by this servlet. *&#x2F;
-@Nullable
-private RequestToViewNameTranslator viewNameTranslator;
+<span class="token comment" spellcheck="true">/** RequestToViewNameTranslator used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> RequestToViewNameTranslator viewNameTranslator<span class="token punctuation">;</span>
 
-&#x2F;** FlashMapManager used by this servlet. *&#x2F;
-@Nullable
-private FlashMapManager flashMapManager;
+<span class="token comment" spellcheck="true">/** FlashMapManager used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> FlashMapManager flashMapManager<span class="token punctuation">;</span>
 
-&#x2F;** List of ViewResolvers used by this servlet. *&#x2F;
-@Nullable
-private List&lt;ViewResolver&gt; viewResolvers;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="2-组件初始化"><a href="#2-组件初始化" class="headerlink" title="2 组件初始化"></a>2 组件初始化</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+<span class="token comment" spellcheck="true">/** List of ViewResolvers used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>ViewResolver<span class="token operator">></span> viewResolvers<span class="token punctuation">;</span>
+</code></pre>
+<h2 id="2-组件初始化"><a href="#2-组件初始化" class="headerlink" title="2 组件初始化"></a>2 组件初始化</h2><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
  * 初始化本类使用的多块请求解析器
  * 如果在ApplicationContext 中没有一个MultipartResovler类型且名称为multipartResolver的Bean被定义，则默认为空，不对多块请求进行特殊处理
- *&#x2F;
-private void initMultipartResolver(ApplicationContext context) &#123;
-   try &#123;
-       &#x2F;&#x2F; 从application中获取name为multipartResolver，类型为MultipartResolver的Bean
-      this.multipartResolver &#x3D; context.getBean(MULTIPART_RESOLVER_BEAN_NAME, MultipartResolver.class);
-      if (logger.isTraceEnabled()) &#123;
-         logger.trace(&quot;Detected &quot; + this.multipartResolver);
-      &#125;
-      else if (logger.isDebugEnabled()) &#123;
-         logger.debug(&quot;Detected &quot; + this.multipartResolver.getClass().getSimpleName());
-      &#125;
-   &#125;
-   catch (NoSuchBeanDefinitionException ex) &#123;
-      &#x2F;&#x2F; Default is no multipart resolver.
-       &#x2F;&#x2F;没有这种bean的时候，设置null
-      this.multipartResolver &#x3D; null;
-      if (logger.isTraceEnabled()) &#123;
-         logger.trace(&quot;No MultipartResolver &#39;&quot; + MULTIPART_RESOLVER_BEAN_NAME + &quot;&#39; declared&quot;);
-      &#125;
-   &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+ */</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initMultipartResolver</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true">// 从application中获取name为multipartResolver，类型为MultipartResolver的Bean</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>MULTIPART_RESOLVER_BEAN_NAME<span class="token punctuation">,</span> MultipartResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+   <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Default is no multipart resolver.</span>
+       <span class="token comment" spellcheck="true">//没有这种bean的时候，设置null</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No MultipartResolver '"</span> <span class="token operator">+</span> MULTIPART_RESOLVER_BEAN_NAME <span class="token operator">+</span> <span class="token string">"' declared"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <blockquote>
 <p>​            组件初始化是延迟加载，也就是第一个请求耗时比较长的原因，可以通过指定配置项<code>spring.mvc.servlet.load-on-startup</code>为任意非负数强制指定启动时执行初始化，默认为-1.</p>
 </blockquote>
 <p>​            在HttpServeletBean的init方法中，先为当前DispatcherServlet实例绑定ServletContext，中初始化的一些属性（在Spring Boot中为空，此段逻辑不执行），接着执行initServletBean方法，该方法由DispatchServlet的父类FrameworkServlet实现。</p>
 <p>​            在FrameworkServlet的initServletBean方法，执行了本类initwebApplicationContext方法，此方法就是核心的初始化方法入口，在该方法中调用onRefresh方法，即上面DisorderServlet初始化入口方法，</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
- * 初始化此Servlet的Web应用上下文
- * @return the WebApplicationContext instance
- * @see #FrameworkServlet(WebApplicationContext)
- * @see #setContextClass
- * @see #setContextConfigLocation
- *&#x2F;
-protected WebApplicationContext initWebApplicationContext() &#123;
-       &#x2F;&#x2F;  先尝试Servlet上下文获取已初始化的Web应用上下文作为根上文
-       &#x2F;&#x2F;  此处已经可以获取rootContext，设置该值的代码在第七章中提到的selfInitialize方法的prepareWebApplicationContext方法中
-	WebApplicationContext rootContext &#x3D;
-			WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-       &#x2F;&#x2F; 定义最终要返回的Web应用上下文
-	WebApplicationContext wac &#x3D; null;
-	&#x2F;&#x2F; 如果当前Web应用上下文不为空 
-	if (this.webApplicationContext !&#x3D; null) &#123;
-		&#x2F;&#x2F; 在默认情况下，在DispatcherServlet作为Bean初始化的时候，就通过setApplicationContext设置其值
-		wac &#x3D; this.webApplicationContext;
-           &#x2F;&#x2F; 如果当前Web应用上下文是可配置的Web应用上下文
-		if (wac instanceof ConfigurableWebApplicationContext) &#123;
-			ConfigurableWebApplicationContext cwac &#x3D; (ConfigurableWebApplicationContext) wac;
-      		&#x2F;&#x2F; 且Web应用上下文还刷新，则执行此逻辑。默认情况下，该上下文未刷新，不执行此逻辑
-			if (!cwac.isActive()) &#123;
-                   &#x2F;&#x2F; 当其父上下文为空时
-				if (cwac.getParent() &#x3D;&#x3D; null) &#123;
-					&#x2F;&#x2F; 则设置其父上下文未上面获取的根本上下文
-					cwac.setParent(rootContext);
-				&#125;
-				configureAndRefreshWebApplicationContext(cwac);
-			&#125;
-		&#125;
-	&#125;
-	if (wac &#x3D;&#x3D; null) &#123;
-		&#x2F;&#x2F; 如果在上一逻辑未获取到Web上下文，此时执行查找逻辑获取
-           &#x2F;&#x2F; 该方法内部通过查找Servlet上下文中本类指定的contextAttribute属性名对应的属性值找到Web上下文
-		wac &#x3D; findWebApplicationContext();
-	&#125;
-	if (wac &#x3D;&#x3D; null) &#123;
-		 &#x2F;&#x2F; 在上一逻辑未获取到Web上下文，则创建一个
-            &#x2F;&#x2F; 在Springboot中第一逻辑获取到了Web应用上下文，故不执行此逻辑
-		wac &#x3D; createWebApplicationContext(rootContext);
-	&#125;
-	&#x2F;&#x2F; 如果此时已接受过用上下文刷新事件，则不执行下面的if块逻辑
-       &#x2F;&#x2F; 在上下文刷新时间中，也会执行onRefresh的方法
-       &#x2F;&#x2F; 如果已经执行了onRefresh方法，则不再执行
-	if (!this.refreshEventReceived) &#123;
-		&#x2F;&#x2F; 执行onRefresh方法，其中执行整个Servlet中组件的初始化操作
-		synchronized (this.onRefreshMonitor) &#123;
-			onRefresh(wac);
-		&#125;
-	&#125;
-	&#x2F;&#x2F; 如果配置发布Web应用上下文到Servlet上下文
-	if (this.publishContext) &#123;
-		&#x2F;&#x2F; 同时把Web应用上下文添加到Servlet上下文属性中，以供整个Web应用使用
-		String attrName &#x3D; getServletContextAttributeName();
-		getServletContext().setAttribute(attrName, wac);
-	&#125;
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/**
+     * 初始化此Servlet的Web应用上下文
+     * @return the WebApplicationContext instance
+     * @see #FrameworkServlet(WebApplicationContext)
+     * @see #setContextClass
+     * @see #setContextConfigLocation
+     */</span>
+    <span class="token keyword">protected</span> WebApplicationContext <span class="token function">initWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//  先尝试Servlet上下文获取已初始化的Web应用上下文作为根上文</span>
+        <span class="token comment" spellcheck="true">//  此处已经可以获取rootContext，设置该值的代码在第七章中提到的selfInitialize方法的prepareWebApplicationContext方法中</span>
+        WebApplicationContext rootContext <span class="token operator">=</span>
+                WebApplicationContextUtils<span class="token punctuation">.</span><span class="token function">getWebApplicationContext</span><span class="token punctuation">(</span><span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 定义最终要返回的Web应用上下文</span>
+        WebApplicationContext wac <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果当前Web应用上下文不为空 </span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>webApplicationContext <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 在默认情况下，在DispatcherServlet作为Bean初始化的时候，就通过setApplicationContext设置其值</span>
+            wac <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>webApplicationContext<span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果当前Web应用上下文是可配置的Web应用上下文</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token keyword">instanceof</span> <span class="token class-name">ConfigurableWebApplicationContext</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ConfigurableWebApplicationContext cwac <span class="token operator">=</span> <span class="token punctuation">(</span>ConfigurableWebApplicationContext<span class="token punctuation">)</span> wac<span class="token punctuation">;</span>
+               <span class="token comment" spellcheck="true">// 且Web应用上下文还刷新，则执行此逻辑。默认情况下，该上下文未刷新，不执行此逻辑</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cwac<span class="token punctuation">.</span><span class="token function">isActive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 当其父上下文为空时</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>cwac<span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 则设置其父上下文未上面获取的根本上下文</span>
+                        cwac<span class="token punctuation">.</span><span class="token function">setParent</span><span class="token punctuation">(</span>rootContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token function">configureAndRefreshWebApplicationContext</span><span class="token punctuation">(</span>cwac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果在上一逻辑未获取到Web上下文，此时执行查找逻辑获取</span>
+            <span class="token comment" spellcheck="true">// 该方法内部通过查找Servlet上下文中本类指定的contextAttribute属性名对应的属性值找到Web上下文</span>
+            wac <span class="token operator">=</span> <span class="token function">findWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             <span class="token comment" spellcheck="true">// 在上一逻辑未获取到Web上下文，则创建一个</span>
+             <span class="token comment" spellcheck="true">// 在Springboot中第一逻辑获取到了Web应用上下文，故不执行此逻辑</span>
+            wac <span class="token operator">=</span> <span class="token function">createWebApplicationContext</span><span class="token punctuation">(</span>rootContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果此时已接受过用上下文刷新事件，则不执行下面的if块逻辑</span>
+        <span class="token comment" spellcheck="true">// 在上下文刷新时间中，也会执行onRefresh的方法</span>
+        <span class="token comment" spellcheck="true">// 如果已经执行了onRefresh方法，则不再执行</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>refreshEventReceived<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 执行onRefresh方法，其中执行整个Servlet中组件的初始化操作</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>onRefreshMonitor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">onRefresh</span><span class="token punctuation">(</span>wac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果配置发布Web应用上下文到Servlet上下文</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>publishContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 同时把Web应用上下文添加到Servlet上下文属性中，以供整个Web应用使用</span>
+            String attrName <span class="token operator">=</span> <span class="token function">getServletContextAttributeName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>attrName<span class="token punctuation">,</span> wac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-	return wac;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+        <span class="token keyword">return</span> wac<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
 <blockquote>
 <p>以上便是初始化此Servlet对应的Web应用上下文的过程，在这个过程中执行了DispatcherServlet中使用到的组件初始化，因为一些初始化逻辑需要使用Web应用上下文获取组件，故需先执行此处逻辑</p>
 </blockquote>

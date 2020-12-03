@@ -514,84 +514,77 @@
 <h2 id="1-全局异常处理"><a href="#1-全局异常处理" class="headerlink" title="1. 全局异常处理"></a>1. 全局异常处理</h2><blockquote>
 <p>全局异常处理，指的是处理整个应用程序的异常，包括<code>过滤器</code>与<code>Controller</code></p>
 </blockquote>
-<h3 id="GlobalExpectionHandler"><a href="#GlobalExpectionHandler" class="headerlink" title="GlobalExpectionHandler"></a>GlobalExpectionHandler</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@RestController
-public class GlobalExpectionHandler extends ResponseEntityExceptionHandler &#123;
+<h3 id="GlobalExpectionHandler"><a href="#GlobalExpectionHandler" class="headerlink" title="GlobalExpectionHandler"></a>GlobalExpectionHandler</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalExpectionHandler</span> <span class="token keyword">extends</span> <span class="token class-name">ResponseEntityExceptionHandler</span> <span class="token punctuation">{</span>
 
-    &#x2F;**
+    <span class="token comment" spellcheck="true">/**
      * 未知错误处理
      * @return
-     *&#x2F;
-    @ExceptionHandler(value &#x3D; Exception.class)
-    public String handler() &#123;
-        return &quot; unknow error&quot;;
-    &#125;
+     */</span>
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span>value <span class="token operator">=</span> Exception<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">handler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">" unknow error"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
 
-    &#x2F;**
+    <span class="token comment" spellcheck="true">/**
      * 兜底处理器，避免返回视图
      * @param ex
      * @param headers
      * @param status
      * @param request
      * @return
-     *&#x2F;
-    @Override
-    protected ResponseEntity&lt;Object&gt; handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) &#123;
-        &#x2F;&#x2F;...定义自己的处理逻辑
-        return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
-    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>HttpRequestMethodNotSupportedException ex<span class="token punctuation">,</span> HttpHeaders headers<span class="token punctuation">,</span> HttpStatus status<span class="token punctuation">,</span> WebRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...定义自己的处理逻辑</span>
+        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>ex<span class="token punctuation">,</span> headers<span class="token punctuation">,</span> status<span class="token punctuation">,</span> request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="GlobalErrorController"><a href="#GlobalErrorController" class="headerlink" title="GlobalErrorController"></a>GlobalErrorController</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalErrorController</span> <span class="token keyword">extends</span> <span class="token class-name">BasicErrorController</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> ErrorAttributes errorAttributes<span class="token punctuation">;</span>
 
-<h3 id="GlobalErrorController"><a href="#GlobalErrorController" class="headerlink" title="GlobalErrorController"></a>GlobalErrorController</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">@RestController
-public class GlobalErrorController extends BasicErrorController &#123;
-    private final ErrorAttributes errorAttributes;
+    <span class="token keyword">public</span> <span class="token function">GlobalErrorController</span><span class="token punctuation">(</span>ErrorAttributes errorAttributes<span class="token punctuation">,</span> ServerProperties serverProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>errorAttributes<span class="token punctuation">,</span> serverProperties<span class="token punctuation">.</span><span class="token function">getError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>errorAttributes <span class="token operator">=</span> errorAttributes<span class="token punctuation">;</span>
 
-    public GlobalErrorController(ErrorAttributes errorAttributes, ServerProperties serverProperties) &#123;
-        super(errorAttributes, serverProperties.getError());
-        this.errorAttributes &#x3D; errorAttributes;
+    <span class="token punctuation">}</span>
 
-    &#125;
+    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>consumes <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">,</span> produces <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">errorJson</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        HttpStatus status <span class="token operator">=</span> <span class="token function">getStatus</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>status <span class="token operator">==</span> HttpStatus<span class="token punctuation">.</span>NO_CONTENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"error "</span><span class="token punctuation">,</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    @RequestMapping(consumes &#x3D; MediaType.APPLICATION_JSON_VALUE, produces &#x3D; MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity&lt;Object&gt; errorJson(HttpServletRequest request) &#123;
-        HttpStatus status &#x3D; getStatus(request);
-        if (status &#x3D;&#x3D; HttpStatus.NO_CONTENT) &#123;
-            return new ResponseEntity&lt;&gt;(status);
-        &#125;
-        return new ResponseEntity&lt;&gt;(&quot;error &quot;, status);
-    &#125;
+<span class="token punctuation">}</span></code></pre>
+<h1 id="二、自定义异常解析器"><a href="#二、自定义异常解析器" class="headerlink" title="二、自定义异常解析器"></a>二、自定义异常解析器</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomHandlerExpectionResovle</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractHandlerExceptionResolver</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">CustomHandlerExpectionResovle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 仅对TestController类型的处理器做处理</span>
+        <span class="token function">setMappedHandlerClasses</span><span class="token punctuation">(</span>TestController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 这里可以拿到对应的mappedHandlers 进行设置</span>
+<span class="token comment" spellcheck="true">//        setMappedHandlers();</span>
+        <span class="token function">setOrder</span><span class="token punctuation">(</span>Ordered<span class="token punctuation">.</span>HIGHEST_PRECEDENCE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> ModelAndView <span class="token function">doResolveException</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> HttpServletResponse response<span class="token punctuation">,</span> Object handler<span class="token punctuation">,</span> Exception ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ModelAndView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-<h1 id="二、自定义异常解析器"><a href="#二、自定义异常解析器" class="headerlink" title="二、自定义异常解析器"></a>二、自定义异常解析器</h1><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Component
-public class CustomHandlerExpectionResovle extends AbstractHandlerExceptionResolver &#123;
-    public CustomHandlerExpectionResovle() &#123;
-        super();
-        &#x2F;&#x2F; 仅对TestController类型的处理器做处理
-        setMappedHandlerClasses(TestController.class);
-        &#x2F;&#x2F; 这里可以拿到对应的mappedHandlers 进行设置
-&#x2F;&#x2F;        setMappedHandlers();
-        setOrder(Ordered.HIGHEST_PRECEDENCE);
-    &#125;
-
-    @Override
-    protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) &#123;
-        System.out.println();
-        return new ModelAndView();
-    &#125;
-
-    @Override
-    protected boolean shouldApplyTo(HttpServletRequest request, Object handler) &#123;
-        if (handler instanceof HandlerMethod) &#123;
-            return super.shouldApplyTo(request, ((HandlerMethod) handler).getBean());
-        &#125;
-        return false;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-
-
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> Object handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>handler <span class="token keyword">instanceof</span> <span class="token class-name">HandlerMethod</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>HandlerMethod<span class="token punctuation">)</span> handler<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h1 id="三、源码初探"><a href="#三、源码初探" class="headerlink" title="三、源码初探"></a>三、源码初探</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p><img src="/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/image-20201115011418803.png" alt="image-20201115011418803"></p>
 
                 

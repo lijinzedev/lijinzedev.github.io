@@ -480,36 +480,34 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 命令
-vi &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-ens33
+                <h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 命令</span>
+<span class="token function">vi</span> /etc/sysconfig/network-scripts/ifcfg-ens33
 
-TYPE&#x3D;Ethernet                # 网卡类型：为以太网
-PROXY_METHOD&#x3D;none            # 代理方式：关闭状态
-BROWSER_ONLY&#x3D;no                # 只是浏览器：否
-# BOOTPROTO&#x3D;dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]
-BOOTPROTO&#x3D;static
-IPADDR&#x3D;192.168.0.110 # 静态ip
-GATEWAY&#x3D;192.168.0.1 # 网关
-NETMASK&#x3D;255.255.255.0 # 子网掩码
-DNS1&#x3D;192.168.1.1 # dns
-DEFROUTE&#x3D;yes                # 默认路由：是, 不明白的可以百度关键词 &#96;默认路由&#96; 
-IPV4_FAILURE_FATAL&#x3D;no        # 是不开启IPV4致命错误检测：否
-IPV6INIT&#x3D;yes                # IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]
-IPV6_AUTOCONF&#x3D;yes            # IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]
-IPV6_DEFROUTE&#x3D;yes            # IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]
-IPV6_FAILURE_FATAL&#x3D;no        # 是不开启IPV6致命错误检测：否
-IPV6_ADDR_GEN_MODE&#x3D;stable-privacy            # IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]
-NAME&#x3D;ens33                    # 网卡物理设备名称
-UUID&#x3D;f47bde51-fa78-4f79-b68f-d5dd90cfc698    # 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用
-DEVICE&#x3D;ens33                    # 网卡设备名称, 必须和 &#96;NAME&#96; 值一样
-ONBOOT&#x3D;yes  # 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   
+TYPE<span class="token operator">=</span>Ethernet                <span class="token comment" spellcheck="true"># 网卡类型：为以太网</span>
+PROXY_METHOD<span class="token operator">=</span>none            <span class="token comment" spellcheck="true"># 代理方式：关闭状态</span>
+BROWSER_ONLY<span class="token operator">=</span>no                <span class="token comment" spellcheck="true"># 只是浏览器：否</span>
+<span class="token comment" spellcheck="true"># BOOTPROTO=dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]</span>
+BOOTPROTO<span class="token operator">=</span>static
+IPADDR<span class="token operator">=</span>192.168.0.110 <span class="token comment" spellcheck="true"># 静态ip</span>
+GATEWAY<span class="token operator">=</span>192.168.0.1 <span class="token comment" spellcheck="true"># 网关</span>
+NETMASK<span class="token operator">=</span>255.255.255.0 <span class="token comment" spellcheck="true"># 子网掩码</span>
+DNS1<span class="token operator">=</span>192.168.1.1 <span class="token comment" spellcheck="true"># dns</span>
+DEFROUTE<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># 默认路由：是, 不明白的可以百度关键词 `默认路由` </span>
+IPV4_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV4致命错误检测：否</span>
+IPV6INIT<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_AUTOCONF<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_DEFROUTE<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV6致命错误检测：否</span>
+IPV6_ADDR_GEN_MODE<span class="token operator">=</span>stable-privacy            <span class="token comment" spellcheck="true"># IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]</span>
+NAME<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡物理设备名称</span>
+UUID<span class="token operator">=</span>f47bde51-fa78-4f79-b68f-d5dd90cfc698    <span class="token comment" spellcheck="true"># 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用</span>
+DEVICE<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡设备名称, 必须和 `NAME` 值一样</span>
+ONBOOT<span class="token operator">=</span>yes  <span class="token comment" spellcheck="true"># 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   </span>
 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 重启网络
-service network restart
-systemctl restart network<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
+</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 重启网络</span>
+<span class="token function">service</span> network restart
+systemctl restart network</code></pre>
 
                 
             </div>

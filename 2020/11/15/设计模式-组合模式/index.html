@@ -521,69 +521,68 @@
 <blockquote>
 <p>​    关于这里数据库表的设计，不做讨论，因为不同的设计，处理方式不同，之阐述对于组合模式的一个实例</p>
 </blockquote>
-<h3 id="4-构建组合树关系"><a href="#4-构建组合树关系" class="headerlink" title="4 构建组合树关系"></a>4 构建组合树关系</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;**
+<h3 id="4-构建组合树关系"><a href="#4-构建组合树关系" class="headerlink" title="4 构建组合树关系"></a>4 构建组合树关系</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
  * @author: Curiosity
- * @Date: 2020&#x2F;11&#x2F;15 17:59
+ * @Date: 2020/11/15 17:59
  * @Description: 抽象菜单，祖先类
- *&#x2F;
-@Data
-public abstract class AbstractMenu &#123;
-    protected String id;
-    protected String name;
-    protected String path;
-&#125;
+ */</span>
+<span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> String id<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> String name<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> String path<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-&#x2F;**
+<span class="token comment" spellcheck="true">/**
  * @author: Curiosity
- * @Date: 2020&#x2F;11&#x2F;15 18:01
+ * @Date: 2020/11/15 18:01
  * @Description: 菜单类对应树杈
- *&#x2F;
-public class Menu extends AbstractMenu &#123;
-    List&lt;AbstractMenu&gt; menus &#x3D; new ArrayList&lt;&gt;();
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Menu</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    List<span class="token operator">&lt;</span>AbstractMenu<span class="token operator">></span> menus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    public void addMenu(AbstractMenu abstractMenu) &#123;
-        menus.add(abstractMenu);
-    &#125;
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addMenu</span><span class="token punctuation">(</span>AbstractMenu abstractMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        menus<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>abstractMenu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-&#125;
+<span class="token punctuation">}</span>
 
 
-&#x2F;**
+<span class="token comment" spellcheck="true">/**
  * @author: Curiosity
- * @Date: 2020&#x2F;11&#x2F;15 18:05
+ * @Date: 2020/11/15 18:05
  * @Description: 功能点类对应树叶
- *&#x2F;
-public class Function extends AbstractMenu &#123;
-    private String funcation;
-&#125;
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Function</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String funcation<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-&#x2F;**
+<span class="token comment" spellcheck="true">/**
  * @author: Curiosity
- * @Date: 2020&#x2F;11&#x2F;15 18:11
+ * @Date: 2020/11/15 18:11
  * @Description:
- *&#x2F;
-public class Build &#123;
-    @Autowired
-    MenuDao menuDao;
-    @Autowired
-    FunctionDao functionDao;
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Build</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    MenuDao menuDao<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    FunctionDao functionDao<span class="token punctuation">;</span>
 
-    private void buildTree(Menu rootMenu) &#123;
-        List&lt;Menu&gt; menus &#x3D; menuDao.findMenusByMenusId(rootMenu.getId());
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">buildTree</span><span class="token punctuation">(</span>Menu rootMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>Menu<span class="token operator">></span> menus <span class="token operator">=</span> menuDao<span class="token punctuation">.</span><span class="token function">findMenusByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        for (Menu menu : menus) &#123;
-            rootMenu.addMenu(menu);
-            buildTree(menu);
-        &#125;
-        List&lt;Function&gt; functions &#x3D; functionDao.findFunctionByMenusId(rootMenu.getId());
-        for (Function function : functions) &#123;
-            rootMenu.addMenu(function);
-        &#125;
-    &#125;
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Menu menu <span class="token operator">:</span> menus<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">buildTree</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        List<span class="token operator">&lt;</span>Function<span class="token operator">></span> functions <span class="token operator">=</span> functionDao<span class="token punctuation">.</span><span class="token function">findFunctionByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Function function <span class="token operator">:</span> functions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>function<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<span class="token punctuation">}</span>
+</code></pre>
 
                 
             </div>
