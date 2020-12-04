@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CentOS配置网络</title>
+    <url>/2020/11/29/CentOS%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 命令</span>
+<span class="token function">vi</span> /etc/sysconfig/network-scripts/ifcfg-ens33
+
+TYPE<span class="token operator">=</span>Ethernet                <span class="token comment" spellcheck="true"># 网卡类型：为以太网</span>
+PROXY_METHOD<span class="token operator">=</span>none            <span class="token comment" spellcheck="true"># 代理方式：关闭状态</span>
+BROWSER_ONLY<span class="token operator">=</span>no                <span class="token comment" spellcheck="true"># 只是浏览器：否</span>
+<span class="token comment" spellcheck="true"># BOOTPROTO=dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]</span>
+BOOTPROTO<span class="token operator">=</span>static
+IPADDR<span class="token operator">=</span>192.168.0.110 <span class="token comment" spellcheck="true"># 静态ip</span>
+GATEWAY<span class="token operator">=</span>192.168.0.1 <span class="token comment" spellcheck="true"># 网关</span>
+NETMASK<span class="token operator">=</span>255.255.255.0 <span class="token comment" spellcheck="true"># 子网掩码</span>
+DNS1<span class="token operator">=</span>192.168.1.1 <span class="token comment" spellcheck="true"># dns</span>
+DEFROUTE<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># 默认路由：是, 不明白的可以百度关键词 `默认路由` </span>
+IPV4_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV4致命错误检测：否</span>
+IPV6INIT<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_AUTOCONF<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_DEFROUTE<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]</span>
+IPV6_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV6致命错误检测：否</span>
+IPV6_ADDR_GEN_MODE<span class="token operator">=</span>stable-privacy            <span class="token comment" spellcheck="true"># IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]</span>
+NAME<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡物理设备名称</span>
+UUID<span class="token operator">=</span>f47bde51-fa78-4f79-b68f-d5dd90cfc698    <span class="token comment" spellcheck="true"># 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用</span>
+DEVICE<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡设备名称, 必须和 `NAME` 值一样</span>
+ONBOOT<span class="token operator">=</span>yes  <span class="token comment" spellcheck="true"># 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   </span>
+
+</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 重启网络</span>
+<span class="token function">service</span> network restart
+systemctl restart network</code></pre>
+]]></content>
+      <categories>
+        <category>linux - CentOS</category>
+      </categories>
+      <tags>
+        <tag>linux - CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CentOS常用Linux命令</title>
     <url>/2020/11/29/CentOS%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h1 id="1-命令行相关"><a href="#1-命令行相关" class="headerlink" title="1 命令行相关"></a>1 命令行相关</h1><ul>
@@ -1176,169 +1215,6 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
       </tags>
   </entry>
   <entry>
-    <title>CentOS配置网络</title>
-    <url>/2020/11/29/CentOS%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 命令</span>
-<span class="token function">vi</span> /etc/sysconfig/network-scripts/ifcfg-ens33
-
-TYPE<span class="token operator">=</span>Ethernet                <span class="token comment" spellcheck="true"># 网卡类型：为以太网</span>
-PROXY_METHOD<span class="token operator">=</span>none            <span class="token comment" spellcheck="true"># 代理方式：关闭状态</span>
-BROWSER_ONLY<span class="token operator">=</span>no                <span class="token comment" spellcheck="true"># 只是浏览器：否</span>
-<span class="token comment" spellcheck="true"># BOOTPROTO=dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]</span>
-BOOTPROTO<span class="token operator">=</span>static
-IPADDR<span class="token operator">=</span>192.168.0.110 <span class="token comment" spellcheck="true"># 静态ip</span>
-GATEWAY<span class="token operator">=</span>192.168.0.1 <span class="token comment" spellcheck="true"># 网关</span>
-NETMASK<span class="token operator">=</span>255.255.255.0 <span class="token comment" spellcheck="true"># 子网掩码</span>
-DNS1<span class="token operator">=</span>192.168.1.1 <span class="token comment" spellcheck="true"># dns</span>
-DEFROUTE<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># 默认路由：是, 不明白的可以百度关键词 `默认路由` </span>
-IPV4_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV4致命错误检测：否</span>
-IPV6INIT<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_AUTOCONF<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_DEFROUTE<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV6致命错误检测：否</span>
-IPV6_ADDR_GEN_MODE<span class="token operator">=</span>stable-privacy            <span class="token comment" spellcheck="true"># IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]</span>
-NAME<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡物理设备名称</span>
-UUID<span class="token operator">=</span>f47bde51-fa78-4f79-b68f-d5dd90cfc698    <span class="token comment" spellcheck="true"># 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用</span>
-DEVICE<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡设备名称, 必须和 `NAME` 值一样</span>
-ONBOOT<span class="token operator">=</span>yes  <span class="token comment" spellcheck="true"># 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   </span>
-
-</code></pre>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 重启网络</span>
-<span class="token function">service</span> network restart
-systemctl restart network</code></pre>
-]]></content>
-      <categories>
-        <category>linux - CentOS</category>
-      </categories>
-      <tags>
-        <tag>linux - CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spring异常解析</title>
-    <url>/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1 id="一、异常解析器使用"><a href="#一、异常解析器使用" class="headerlink" title="一、异常解析器使用"></a>一、异常解析器使用</h1><ul>
-<li><strong><code>@ExceptionHandler</code></strong></li>
-</ul>
-<blockquote>
-<p>仅能处理**<code>HandlerMethod</code>**方式的异常，基本上满足99.9%的日常开发需求</p>
-</blockquote>
-<ul>
-<li> <strong><code>AbstractHandlerExceptionResolver</code></strong></li>
-</ul>
-<blockquote>
-<p>HandlerResolver实现类，可以实现<code>排序</code>（实现了Ordered接口）与<code>条件过滤</code>，这里的条件过滤主要支持两种类型的条件过滤。首先是为特定的Handler实例支持setMappedHandlers，第二个是支持与Class＃setMappedHandlerClasses相关的特定子类的实例</p>
-</blockquote>
-<ul>
-<li><code>DefaultHandlerExceptionResolver</code></li>
-</ul>
-<blockquote>
-<p>解析标准Spring MVC异常并将其转换为相应的HTTP状态代码，也就是说，如果HandlerMapping参数无法解析，或者其他未解析的参数都由于此参数而转换为相应的response.sendError（HttpServletResponse.SC_NOT_FOUND),用于处理试图</p>
-</blockquote>
-<ul>
-<li><strong><code>ResponseEntityExceptionHandler</code></strong></li>
-</ul>
-<blockquote>
-<p>为了解决返回视图的问题，spring提供了一个返回ResponseEntity ResponseEntityExceptionHandler的解决方案。通过@ExpectionHandler和@ControlerAdvice一起处理ResponseEntityExceptionHandler。这是上述DefaultHandlerExceptionResolver的副本，需要继承此类，然后在该类上使用@ControllerAdvice，并且必须全局注册ExceptionHandlerExceptionResolver</p>
-</blockquote>
-<ul>
-<li> <strong><code>ResponseStatusExceptionResolver</code></strong></li>
-</ul>
-<blockquote>
-<p><strong><code>@ResponseStatus</code>标注在异常类上此处理器才会处理</strong>，而不是标注在处理方法上，或者所在类上，<strong>所以一般用于自定义异常时使用</strong>。</p>
-</blockquote>
-<ul>
-<li> <strong><code>SimpleMappingExceptionResolver</code></strong></li>
-</ul>
-<blockquote>
-<p>顾名思义它就是通过<strong>简单映射</strong>关系来决定由<strong>哪个错误视图</strong>来处理当前的异常信息。它提供了多种映射关系可以使用：</p>
-</blockquote>
-<ul>
-<li><code>ExceptionHandlerExceptionResolver</code></li>
-</ul>
-<blockquote>
-<p>它是一个会在<strong>Class及Class的父类</strong>中找出带有<code>@ExceptionHandler</code>注解的类，该类带有key为<code>Throwable</code>，value为<code>Method</code>的<strong>缓存属性</strong>，提供匹配效率。</p>
-</blockquote>
-<p><strong>示例：</strong></p>
-<h2 id="1-全局异常处理"><a href="#1-全局异常处理" class="headerlink" title="1. 全局异常处理"></a>1. 全局异常处理</h2><blockquote>
-<p>全局异常处理，指的是处理整个应用程序的异常，包括<code>过滤器</code>与<code>Controller</code></p>
-</blockquote>
-<h3 id="GlobalExpectionHandler"><a href="#GlobalExpectionHandler" class="headerlink" title="GlobalExpectionHandler"></a>GlobalExpectionHandler</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalExpectionHandler</span> <span class="token keyword">extends</span> <span class="token class-name">ResponseEntityExceptionHandler</span> <span class="token punctuation">{</span>
-
-    <span class="token comment" spellcheck="true">/**
-     * 未知错误处理
-     * @return
-     */</span>
-    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span>value <span class="token operator">=</span> Exception<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
-    <span class="token keyword">public</span> String <span class="token function">handler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token string">" unknow error"</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-
-    <span class="token comment" spellcheck="true">/**
-     * 兜底处理器，避免返回视图
-     * @param ex
-     * @param headers
-     * @param status
-     * @param request
-     * @return
-     */</span>
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">protected</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>HttpRequestMethodNotSupportedException ex<span class="token punctuation">,</span> HttpHeaders headers<span class="token punctuation">,</span> HttpStatus status<span class="token punctuation">,</span> WebRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//...定义自己的处理逻辑</span>
-        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>ex<span class="token punctuation">,</span> headers<span class="token punctuation">,</span> status<span class="token punctuation">,</span> request<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="GlobalErrorController"><a href="#GlobalErrorController" class="headerlink" title="GlobalErrorController"></a>GlobalErrorController</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalErrorController</span> <span class="token keyword">extends</span> <span class="token class-name">BasicErrorController</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">final</span> ErrorAttributes errorAttributes<span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token function">GlobalErrorController</span><span class="token punctuation">(</span>ErrorAttributes errorAttributes<span class="token punctuation">,</span> ServerProperties serverProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">super</span><span class="token punctuation">(</span>errorAttributes<span class="token punctuation">,</span> serverProperties<span class="token punctuation">.</span><span class="token function">getError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>errorAttributes <span class="token operator">=</span> errorAttributes<span class="token punctuation">;</span>
-
-    <span class="token punctuation">}</span>
-
-    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>consumes <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">,</span> produces <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">)</span>
-    <span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">errorJson</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        HttpStatus status <span class="token operator">=</span> <span class="token function">getStatus</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>status <span class="token operator">==</span> HttpStatus<span class="token punctuation">.</span>NO_CONTENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"error "</span><span class="token punctuation">,</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span></code></pre>
-<h1 id="二、自定义异常解析器"><a href="#二、自定义异常解析器" class="headerlink" title="二、自定义异常解析器"></a>二、自定义异常解析器</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomHandlerExpectionResovle</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractHandlerExceptionResolver</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token function">CustomHandlerExpectionResovle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">// 仅对TestController类型的处理器做处理</span>
-        <span class="token function">setMappedHandlerClasses</span><span class="token punctuation">(</span>TestController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">// 这里可以拿到对应的mappedHandlers 进行设置</span>
-<span class="token comment" spellcheck="true">//        setMappedHandlers();</span>
-        <span class="token function">setOrder</span><span class="token punctuation">(</span>Ordered<span class="token punctuation">.</span>HIGHEST_PRECEDENCE<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">protected</span> ModelAndView <span class="token function">doResolveException</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> HttpServletResponse response<span class="token punctuation">,</span> Object handler<span class="token punctuation">,</span> Exception ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ModelAndView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> Object handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>handler <span class="token keyword">instanceof</span> <span class="token class-name">HandlerMethod</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>HandlerMethod<span class="token punctuation">)</span> handler<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h1 id="三、源码初探"><a href="#三、源码初探" class="headerlink" title="三、源码初探"></a>三、源码初探</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p><img src="/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/image-20201115011418803.png" alt="image-20201115011418803"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Mysql DML条件语句与多表操作</title>
     <url>/2020/12/02/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E4%B8%8E%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h1 id="1-条件与多表语句"><a href="#1-条件与多表语句" class="headerlink" title="1 条件与多表语句"></a>1 条件与多表语句</h1><h2 id="1-条件插入"><a href="#1-条件插入" class="headerlink" title="1 条件插入"></a>1 条件插入</h2><pre class=" language-mysql"><code class="language-mysql"># 第一种情况插入指定字段
@@ -1426,117 +1302,15 @@ where g.deleted_at is null;</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>设计模式——组合模式</title>
-    <url>/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h1><h2 id="一-概念"><a href="#一-概念" class="headerlink" title="一 概念"></a>一 概念</h2><blockquote>
-<p>组合（Composite Pattern）模式的定义：有时又叫作整体-部分（Part-Whole）模式，它是一种将对象组合成树状的层次结构的模式，用来表示“整体-部分”的关系，使用户对单个对象和组合对象具有一致的访问性，属于结构型<a href="http://c.biancheng.net/design_pattern/" target="_blank" rel="noopener">设计模式</a>。</p>
-</blockquote>
-<h3 id="1-结构图"><a href="#1-结构图" class="headerlink" title="1 结构图"></a>1 结构图</h3><blockquote>
-<p>由下图可以看出，其实根节点和树枝节点本质上属于同一种数据类型，可以作为容器使用；而叶子节点与树枝节点在语义上不属于用一种类型。但是在组合模式中，会把树枝节点和叶子节点看作属于同一种数据类型（用统一接口定义），让它们具备一致行为。</p>
-</blockquote>
-<p><strong>这样，在组合模式中，整个树形结构中的对象都属于同一种类型，带来的好处就是用户不需要辨别是树枝节点还是叶子节点，可以直接进行操作，给用户的使用带来极大的便利。</strong></p>
-<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115164732400.png" alt="组合模式结构图"></p>
-<h3 id="2-主要优点"><a href="#2-主要优点" class="headerlink" title="2 主要优点"></a>2 主要优点</h3><ol>
-<li>组合模式使得客户端代码可以一致地处理单个对象和组合对象，无须关心自己处理的是单个对象，还是组合对象，这简化了客户端代码；</li>
-</ol>
-<p><strong>例如：</strong><code>SpringMvc当中的参数解析器</code></p>
-<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115160159399.png" alt="Mvc参数解析器"></p>
-<ol start="2">
-<li>更容易在组合体内加入新的对象，客户端不会因为加入了新的对象而更改源代码，满足“开闭原则”；</li>
-</ol>
-<h3 id="3-主要缺点"><a href="#3-主要缺点" class="headerlink" title="3 主要缺点"></a>3 主要缺点</h3><ol>
-<li>设计较复杂，客户端需要花更多时间理清类之间的层次关系；</li>
-<li>不容易限制容器中的构件；</li>
-<li>不容易用继承的方法来增加构件的新功能；</li>
-</ol>
-<h3 id="4-分类"><a href="#4-分类" class="headerlink" title="4 分类"></a>4 分类</h3><ul>
-<li>安全性</li>
-</ul>
-<blockquote>
-<p>​        在该方式中，将管理子构件的方法移到树枝构件中，抽象构件和树叶构件没有对子对象的管理方法，这样就避免了上一种方式的安全性问题，但由于叶子和分支有不同的接口，客户端在调用时要知道树叶对象和树枝对象的存在，所以失去了透明性。</p>
-</blockquote>
-<ul>
-<li>非安全</li>
-</ul>
-<blockquote>
-<p>​        在该方式中，由于抽象构件声明了所有子类中的全部方法，所以客户端无须区别树叶对象和树枝对象，对客户端来说是透明的。但其缺点是：树叶构件本来没有 Add()、Remove() 及 GetChild() 方法，却要实现它们（空实现或抛异常），这样会带来一些安全性问题。</p>
-</blockquote>
-<h2 id="二-应用"><a href="#二-应用" class="headerlink" title="二 应用"></a>二 应用</h2><h3 id="1-权限管理——菜单与功能点"><a href="#1-权限管理——菜单与功能点" class="headerlink" title="1 权限管理——菜单与功能点"></a>1 权限管理——菜单与功能点</h3><blockquote>
-<p>权限管理,菜单分为一级菜单、二级菜单、三级菜单、四级菜单、功能点</p>
-</blockquote>
-<h3 id="2-结构图"><a href="#2-结构图" class="headerlink" title="2 结构图"></a>2 结构图</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115155505436.png" alt="结构图"></p>
-<h3 id="3-数据库表"><a href="#3-数据库表" class="headerlink" title="3 数据库表"></a>3 数据库表</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115175513119.png" alt="菜单功能点数据库"></p>
-<blockquote>
-<p>​    关于这里数据库表的设计，不做讨论，因为不同的设计，处理方式不同，之阐述对于组合模式的一个实例</p>
-</blockquote>
-<h3 id="4-构建组合树关系"><a href="#4-构建组合树关系" class="headerlink" title="4 构建组合树关系"></a>4 构建组合树关系</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
- * @author: Curiosity
- * @Date: 2020/11/15 17:59
- * @Description: 抽象菜单，祖先类
- */</span>
-<span class="token annotation punctuation">@Data</span>
-<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
-    <span class="token keyword">protected</span> String id<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> String name<span class="token punctuation">;</span>
-    <span class="token keyword">protected</span> String path<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">/**
- * @author: Curiosity
- * @Date: 2020/11/15 18:01
- * @Description: 菜单类对应树杈
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Menu</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
-    List<span class="token operator">&lt;</span>AbstractMenu<span class="token operator">></span> menus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addMenu</span><span class="token punctuation">(</span>AbstractMenu abstractMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        menus<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>abstractMenu<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span>
-
-
-<span class="token comment" spellcheck="true">/**
- * @author: Curiosity
- * @Date: 2020/11/15 18:05
- * @Description: 功能点类对应树叶
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Function</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> String funcation<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">/**
- * @author: Curiosity
- * @Date: 2020/11/15 18:11
- * @Description:
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Build</span> <span class="token punctuation">{</span>
-    <span class="token annotation punctuation">@Autowired</span>
-    MenuDao menuDao<span class="token punctuation">;</span>
-    <span class="token annotation punctuation">@Autowired</span>
-    FunctionDao functionDao<span class="token punctuation">;</span>
-
-    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">buildTree</span><span class="token punctuation">(</span>Menu rootMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        List<span class="token operator">&lt;</span>Menu<span class="token operator">></span> menus <span class="token operator">=</span> menuDao<span class="token punctuation">.</span><span class="token function">findMenusByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>Menu menu <span class="token operator">:</span> menus<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token function">buildTree</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        List<span class="token operator">&lt;</span>Function<span class="token operator">></span> functions <span class="token operator">=</span> functionDao<span class="token punctuation">.</span><span class="token function">findFunctionByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>Function function <span class="token operator">:</span> functions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>function<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span>
-</code></pre>
+    <title>Spring Cacheable + redis</title>
+    <url>/2020/12/04/Spring-Cacheable-redis/</url>
+    <content><![CDATA[<p><img src="/2020/12/04/Spring-Cacheable-redis/image-20201204114145556.png" alt="image-20201204114145556"></p>
 ]]></content>
       <categories>
-        <category>设计模式 - 结构型设计模式</category>
+        <category>Spring - Cacheable</category>
       </categories>
       <tags>
-        <tag>设计模式 - 结构型设计模式</tag>
+        <tag>Spring - Cacheable</tag>
       </tags>
   </entry>
   <entry>
@@ -1747,6 +1521,130 @@ where g.deleted_at is null;</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Spring异常解析</title>
+    <url>/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1 id="一、异常解析器使用"><a href="#一、异常解析器使用" class="headerlink" title="一、异常解析器使用"></a>一、异常解析器使用</h1><ul>
+<li><strong><code>@ExceptionHandler</code></strong></li>
+</ul>
+<blockquote>
+<p>仅能处理**<code>HandlerMethod</code>**方式的异常，基本上满足99.9%的日常开发需求</p>
+</blockquote>
+<ul>
+<li> <strong><code>AbstractHandlerExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p>HandlerResolver实现类，可以实现<code>排序</code>（实现了Ordered接口）与<code>条件过滤</code>，这里的条件过滤主要支持两种类型的条件过滤。首先是为特定的Handler实例支持setMappedHandlers，第二个是支持与Class＃setMappedHandlerClasses相关的特定子类的实例</p>
+</blockquote>
+<ul>
+<li><code>DefaultHandlerExceptionResolver</code></li>
+</ul>
+<blockquote>
+<p>解析标准Spring MVC异常并将其转换为相应的HTTP状态代码，也就是说，如果HandlerMapping参数无法解析，或者其他未解析的参数都由于此参数而转换为相应的response.sendError（HttpServletResponse.SC_NOT_FOUND),用于处理试图</p>
+</blockquote>
+<ul>
+<li><strong><code>ResponseEntityExceptionHandler</code></strong></li>
+</ul>
+<blockquote>
+<p>为了解决返回视图的问题，spring提供了一个返回ResponseEntity ResponseEntityExceptionHandler的解决方案。通过@ExpectionHandler和@ControlerAdvice一起处理ResponseEntityExceptionHandler。这是上述DefaultHandlerExceptionResolver的副本，需要继承此类，然后在该类上使用@ControllerAdvice，并且必须全局注册ExceptionHandlerExceptionResolver</p>
+</blockquote>
+<ul>
+<li> <strong><code>ResponseStatusExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p><strong><code>@ResponseStatus</code>标注在异常类上此处理器才会处理</strong>，而不是标注在处理方法上，或者所在类上，<strong>所以一般用于自定义异常时使用</strong>。</p>
+</blockquote>
+<ul>
+<li> <strong><code>SimpleMappingExceptionResolver</code></strong></li>
+</ul>
+<blockquote>
+<p>顾名思义它就是通过<strong>简单映射</strong>关系来决定由<strong>哪个错误视图</strong>来处理当前的异常信息。它提供了多种映射关系可以使用：</p>
+</blockquote>
+<ul>
+<li><code>ExceptionHandlerExceptionResolver</code></li>
+</ul>
+<blockquote>
+<p>它是一个会在<strong>Class及Class的父类</strong>中找出带有<code>@ExceptionHandler</code>注解的类，该类带有key为<code>Throwable</code>，value为<code>Method</code>的<strong>缓存属性</strong>，提供匹配效率。</p>
+</blockquote>
+<p><strong>示例：</strong></p>
+<h2 id="1-全局异常处理"><a href="#1-全局异常处理" class="headerlink" title="1. 全局异常处理"></a>1. 全局异常处理</h2><blockquote>
+<p>全局异常处理，指的是处理整个应用程序的异常，包括<code>过滤器</code>与<code>Controller</code></p>
+</blockquote>
+<h3 id="GlobalExpectionHandler"><a href="#GlobalExpectionHandler" class="headerlink" title="GlobalExpectionHandler"></a>GlobalExpectionHandler</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalExpectionHandler</span> <span class="token keyword">extends</span> <span class="token class-name">ResponseEntityExceptionHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 未知错误处理
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span>value <span class="token operator">=</span> Exception<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">handler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">" unknow error"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment" spellcheck="true">/**
+     * 兜底处理器，避免返回视图
+     * @param ex
+     * @param headers
+     * @param status
+     * @param request
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>HttpRequestMethodNotSupportedException ex<span class="token punctuation">,</span> HttpHeaders headers<span class="token punctuation">,</span> HttpStatus status<span class="token punctuation">,</span> WebRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...定义自己的处理逻辑</span>
+        <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">handleHttpRequestMethodNotSupported</span><span class="token punctuation">(</span>ex<span class="token punctuation">,</span> headers<span class="token punctuation">,</span> status<span class="token punctuation">,</span> request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="GlobalErrorController"><a href="#GlobalErrorController" class="headerlink" title="GlobalErrorController"></a>GlobalErrorController</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalErrorController</span> <span class="token keyword">extends</span> <span class="token class-name">BasicErrorController</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> ErrorAttributes errorAttributes<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">GlobalErrorController</span><span class="token punctuation">(</span>ErrorAttributes errorAttributes<span class="token punctuation">,</span> ServerProperties serverProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>errorAttributes<span class="token punctuation">,</span> serverProperties<span class="token punctuation">.</span><span class="token function">getError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>errorAttributes <span class="token operator">=</span> errorAttributes<span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>consumes <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">,</span> produces <span class="token operator">=</span> MediaType<span class="token punctuation">.</span>APPLICATION_JSON_VALUE<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>Object<span class="token operator">></span> <span class="token function">errorJson</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        HttpStatus status <span class="token operator">=</span> <span class="token function">getStatus</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>status <span class="token operator">==</span> HttpStatus<span class="token punctuation">.</span>NO_CONTENT<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"error "</span><span class="token punctuation">,</span> status<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h1 id="二、自定义异常解析器"><a href="#二、自定义异常解析器" class="headerlink" title="二、自定义异常解析器"></a>二、自定义异常解析器</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomHandlerExpectionResovle</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractHandlerExceptionResolver</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token function">CustomHandlerExpectionResovle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 仅对TestController类型的处理器做处理</span>
+        <span class="token function">setMappedHandlerClasses</span><span class="token punctuation">(</span>TestController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 这里可以拿到对应的mappedHandlers 进行设置</span>
+<span class="token comment" spellcheck="true">//        setMappedHandlers();</span>
+        <span class="token function">setOrder</span><span class="token punctuation">(</span>Ordered<span class="token punctuation">.</span>HIGHEST_PRECEDENCE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> ModelAndView <span class="token function">doResolveException</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> HttpServletResponse response<span class="token punctuation">,</span> Object handler<span class="token punctuation">,</span> Exception ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ModelAndView</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">boolean</span> <span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>HttpServletRequest request<span class="token punctuation">,</span> Object handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>handler <span class="token keyword">instanceof</span> <span class="token class-name">HandlerMethod</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">shouldApplyTo</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>HandlerMethod<span class="token punctuation">)</span> handler<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h1 id="三、源码初探"><a href="#三、源码初探" class="headerlink" title="三、源码初探"></a>三、源码初探</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p><img src="/2020/11/15/Spring%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90/image-20201115011418803.png" alt="image-20201115011418803"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>docker安装gitlab</title>
     <url>/2020/11/29/docker%E5%AE%89%E8%A3%85gitlab/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -1954,15 +1852,117 @@ use_proxy <span class="token operator">=</span> on
       </tags>
   </entry>
   <entry>
-    <title>Spring Cacheable + redis</title>
-    <url>/2020/12/04/Spring-Cacheable-redis/</url>
-    <content><![CDATA[<p><img src="/2020/12/04/Spring-Cacheable-redis/image-20201204114145556.png" alt="image-20201204114145556"></p>
+    <title>设计模式——组合模式</title>
+    <url>/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h1><h2 id="一-概念"><a href="#一-概念" class="headerlink" title="一 概念"></a>一 概念</h2><blockquote>
+<p>组合（Composite Pattern）模式的定义：有时又叫作整体-部分（Part-Whole）模式，它是一种将对象组合成树状的层次结构的模式，用来表示“整体-部分”的关系，使用户对单个对象和组合对象具有一致的访问性，属于结构型<a href="http://c.biancheng.net/design_pattern/" target="_blank" rel="noopener">设计模式</a>。</p>
+</blockquote>
+<h3 id="1-结构图"><a href="#1-结构图" class="headerlink" title="1 结构图"></a>1 结构图</h3><blockquote>
+<p>由下图可以看出，其实根节点和树枝节点本质上属于同一种数据类型，可以作为容器使用；而叶子节点与树枝节点在语义上不属于用一种类型。但是在组合模式中，会把树枝节点和叶子节点看作属于同一种数据类型（用统一接口定义），让它们具备一致行为。</p>
+</blockquote>
+<p><strong>这样，在组合模式中，整个树形结构中的对象都属于同一种类型，带来的好处就是用户不需要辨别是树枝节点还是叶子节点，可以直接进行操作，给用户的使用带来极大的便利。</strong></p>
+<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115164732400.png" alt="组合模式结构图"></p>
+<h3 id="2-主要优点"><a href="#2-主要优点" class="headerlink" title="2 主要优点"></a>2 主要优点</h3><ol>
+<li>组合模式使得客户端代码可以一致地处理单个对象和组合对象，无须关心自己处理的是单个对象，还是组合对象，这简化了客户端代码；</li>
+</ol>
+<p><strong>例如：</strong><code>SpringMvc当中的参数解析器</code></p>
+<p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115160159399.png" alt="Mvc参数解析器"></p>
+<ol start="2">
+<li>更容易在组合体内加入新的对象，客户端不会因为加入了新的对象而更改源代码，满足“开闭原则”；</li>
+</ol>
+<h3 id="3-主要缺点"><a href="#3-主要缺点" class="headerlink" title="3 主要缺点"></a>3 主要缺点</h3><ol>
+<li>设计较复杂，客户端需要花更多时间理清类之间的层次关系；</li>
+<li>不容易限制容器中的构件；</li>
+<li>不容易用继承的方法来增加构件的新功能；</li>
+</ol>
+<h3 id="4-分类"><a href="#4-分类" class="headerlink" title="4 分类"></a>4 分类</h3><ul>
+<li>安全性</li>
+</ul>
+<blockquote>
+<p>​        在该方式中，将管理子构件的方法移到树枝构件中，抽象构件和树叶构件没有对子对象的管理方法，这样就避免了上一种方式的安全性问题，但由于叶子和分支有不同的接口，客户端在调用时要知道树叶对象和树枝对象的存在，所以失去了透明性。</p>
+</blockquote>
+<ul>
+<li>非安全</li>
+</ul>
+<blockquote>
+<p>​        在该方式中，由于抽象构件声明了所有子类中的全部方法，所以客户端无须区别树叶对象和树枝对象，对客户端来说是透明的。但其缺点是：树叶构件本来没有 Add()、Remove() 及 GetChild() 方法，却要实现它们（空实现或抛异常），这样会带来一些安全性问题。</p>
+</blockquote>
+<h2 id="二-应用"><a href="#二-应用" class="headerlink" title="二 应用"></a>二 应用</h2><h3 id="1-权限管理——菜单与功能点"><a href="#1-权限管理——菜单与功能点" class="headerlink" title="1 权限管理——菜单与功能点"></a>1 权限管理——菜单与功能点</h3><blockquote>
+<p>权限管理,菜单分为一级菜单、二级菜单、三级菜单、四级菜单、功能点</p>
+</blockquote>
+<h3 id="2-结构图"><a href="#2-结构图" class="headerlink" title="2 结构图"></a>2 结构图</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115155505436.png" alt="结构图"></p>
+<h3 id="3-数据库表"><a href="#3-数据库表" class="headerlink" title="3 数据库表"></a>3 数据库表</h3><p><img src="/2020/11/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/image-20201115175513119.png" alt="菜单功能点数据库"></p>
+<blockquote>
+<p>​    关于这里数据库表的设计，不做讨论，因为不同的设计，处理方式不同，之阐述对于组合模式的一个实例</p>
+</blockquote>
+<h3 id="4-构建组合树关系"><a href="#4-构建组合树关系" class="headerlink" title="4 构建组合树关系"></a>4 构建组合树关系</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * @author: Curiosity
+ * @Date: 2020/11/15 17:59
+ * @Description: 抽象菜单，祖先类
+ */</span>
+<span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> String id<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> String name<span class="token punctuation">;</span>
+    <span class="token keyword">protected</span> String path<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @author: Curiosity
+ * @Date: 2020/11/15 18:01
+ * @Description: 菜单类对应树杈
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Menu</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    List<span class="token operator">&lt;</span>AbstractMenu<span class="token operator">></span> menus <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addMenu</span><span class="token punctuation">(</span>AbstractMenu abstractMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        menus<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>abstractMenu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+
+<span class="token comment" spellcheck="true">/**
+ * @author: Curiosity
+ * @Date: 2020/11/15 18:05
+ * @Description: 功能点类对应树叶
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Function</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMenu</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> String funcation<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * @author: Curiosity
+ * @Date: 2020/11/15 18:11
+ * @Description:
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Build</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    MenuDao menuDao<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    FunctionDao functionDao<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">buildTree</span><span class="token punctuation">(</span>Menu rootMenu<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>Menu<span class="token operator">></span> menus <span class="token operator">=</span> menuDao<span class="token punctuation">.</span><span class="token function">findMenusByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Menu menu <span class="token operator">:</span> menus<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">buildTree</span><span class="token punctuation">(</span>menu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        List<span class="token operator">&lt;</span>Function<span class="token operator">></span> functions <span class="token operator">=</span> functionDao<span class="token punctuation">.</span><span class="token function">findFunctionByMenusId</span><span class="token punctuation">(</span>rootMenu<span class="token punctuation">.</span><span class="token function">getId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Function function <span class="token operator">:</span> functions<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            rootMenu<span class="token punctuation">.</span><span class="token function">addMenu</span><span class="token punctuation">(</span>function<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
 ]]></content>
       <categories>
-        <category>分类</category>
+        <category>设计模式 - 结构型设计模式</category>
       </categories>
       <tags>
-        <tag>标签</tag>
+        <tag>设计模式 - 结构型设计模式</tag>
       </tags>
   </entry>
 </search>
