@@ -1930,4 +1930,25 @@ gitlab-ctl status</code></pre>
         <tag>linux - CentOS - gitlab</tag>
       </tags>
   </entry>
+  <entry>
+    <title>wget 设置代理</title>
+    <url>/2020/12/03/wget-%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+    <content><![CDATA[<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 永久配置</span>
+<span class="token function">cd</span> ~/
+vim .wgetrc
+<span class="token comment" spellcheck="true"># 配置</span>
+http_proxy <span class="token operator">=</span> http://your_proxy:port
+https_proxy <span class="token operator">=</span> http://your_proxy:port
+proxy_user <span class="token operator">=</span> user
+proxy_password <span class="token operator">=</span> password
+use_proxy <span class="token operator">=</span> on
+<span class="token function">wait</span> <span class="token operator">=</span> 15</code></pre>
+]]></content>
+      <categories>
+        <category>centos - wget</category>
+      </categories>
+      <tags>
+        <tag>centos - wget</tag>
+      </tags>
+  </entry>
 </search>
