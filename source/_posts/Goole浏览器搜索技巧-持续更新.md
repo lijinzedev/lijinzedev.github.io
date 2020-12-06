@@ -5,11 +5,16 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - 分类
+  - 小技巧
 tags:
-  - 标签
+  - 小技巧
 date: 2020-12-06 21:03:39
 password:
 summary:
 ---
+
+* 排除指定网站 `-site:blog.csdn.net`
+* 指定网站 `site:blog.csdn.net`
+
+
 
