@@ -8,9 +8,9 @@ date: 2020-11-15 01:13:11
 password:
 summary:
 categories:
-  - Spring - 异常
+  - SpringMVC - 功能
 tags:
-  - Spring - 异常解析器
+  - SpringMVC - 异常解析器
 ---
 [TOC]
 
