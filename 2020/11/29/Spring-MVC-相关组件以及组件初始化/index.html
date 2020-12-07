@@ -1,0 +1,2197 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spring MVC 相关组件以及组件初始化, Curiosity的博客">
+    <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spring MVC 相关组件以及组件初始化 | Curiosity的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Curiosity的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Curiosity的博客</div>
+        <div class="logo-desc">
+            
+            SpringBoot | Mybatis | Java | Mysql
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spring MVC 相关组件以及组件初始化</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/">
+                                <span class="chip bg-color">源码 - SpringMvc</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/" class="post-category">
+                                源代码 - SpringMvc源码
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-11-29
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>[toc]</p>
+<h1 id="1-相关组件及其初始化"><a href="#1-相关组件及其初始化" class="headerlink" title="1 相关组件及其初始化"></a>1 相关组件及其初始化</h1><h2 id="1-相关组件列表"><a href="#1-相关组件列表" class="headerlink" title="1 相关组件列表"></a>1 相关组件列表</h2><ul>
+<li><p>WebAsyncManager（异步请求管理器）</p>
+<blockquote>
+<p>用于异步请求和响应提供支持</p>
+</blockquote>
+</li>
+<li><p>LocaleResolver（本地化解析器）</p>
+<blockquote>
+<p>用于解析请求对应的Locale。可以是其子接口LocaleContextResolver本地化上下文解析器，额外添加获取时区的功能</p>
+</blockquote>
+</li>
+<li><p>ThemeResovler（主题解析器）</p>
+<blockquote>
+<p>用于封装不同主题对应的资源包，通过主题源的getTheme方法，可以根据主题名获取对应的主题资源包</p>
+</blockquote>
+</li>
+<li><p>ThemeSource（主题源）</p>
+<blockquote>
+<p>用于封装不同主题对应的资源包。通过主题源的getTheme方法，可以根据主题名获取对应的主题资源包</p>
+</blockquote>
+</li>
+<li><p>MessageSource（消息源）</p>
+<blockquote>
+<p>用于对国际化提供支持，消息源封装了不同Code在不同Locale中对应的消息字符串</p>
+</blockquote>
+</li>
+<li><p>FlashMapMannger（闪存管理器）</p>
+<blockquote>
+<p>用于提供重定向跨请求传递Model参数，其中存储内容在下次请求发生后即清空。同时该管理器还用于获取上次请求输出的FlashMap作为本地请求输入的FlashMap，把当前请求的输出FlashMap保存起来作为下一次请求的输入FlashMap</p>
+</blockquote>
+</li>
+<li><p>MultipartResolver（多块请求解析器）</p>
+<blockquote>
+<p>用于判断请求是否为多块请求，对于多块请求进行一些预先解析</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerMapping&gt; （处理器映射列表）</p>
+<blockquote>
+<p>用于根据请求查找对应的处理器执行链</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerAdapter&gt; (处理器适配器列表)</p>
+<blockquote>
+<p>用于对处理器执行链进行适配执行</p>
+</blockquote>
+</li>
+<li><p>ViewNameTranslator（视图名翻译器）</p>
+<blockquote>
+<p>类型为RequestToViewNameTranslator，用于通过请求获取请求对应的默认视图名</p>
+</blockquote>
+</li>
+<li><p>List&lt;HandlerExceptionResolver&gt; (处理器异常解析器列表)</p>
+<blockquote>
+<p>用于解析整个处理过程发生的异常，把异常解析为ModelAndView的模型视图结果，并执行统一的渲染逻辑</p>
+</blockquote>
+</li>
+<li><p>List&lt;ViewResolver&gt; （视图解析器列表）</p>
+<blockquote>
+<p>用于根据视图名解析获取对应的视图</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>除了WebAsyncManager、ThemeSource、MessageSource不是在Dispatchcher中定义的之外，其他九大组件均在DispatchServlet中定义的，这就是常说的DispatchServlet的九大组件。其属性定义的源码如下</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** MultipartResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> MultipartResolver multipartResolver<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** LocaleResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> LocaleResolver localeResolver<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** ThemeResolver used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> ThemeResolver themeResolver<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** List of HandlerMappings used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerMapping<span class="token operator">></span> handlerMappings<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** List of HandlerAdapters used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerAdapter<span class="token operator">></span> handlerAdapters<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** List of HandlerExceptionResolvers used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>HandlerExceptionResolver<span class="token operator">></span> handlerExceptionResolvers<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** RequestToViewNameTranslator used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> RequestToViewNameTranslator viewNameTranslator<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** FlashMapManager used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> FlashMapManager flashMapManager<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">/** List of ViewResolvers used by this servlet. */</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>ViewResolver<span class="token operator">></span> viewResolvers<span class="token punctuation">;</span>
+</code></pre>
+<h2 id="2-组件初始化"><a href="#2-组件初始化" class="headerlink" title="2 组件初始化"></a>2 组件初始化</h2><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * 初始化本类使用的多块请求解析器
+ * 如果在ApplicationContext 中没有一个MultipartResovler类型且名称为multipartResolver的Bean被定义，则默认为空，不对多块请求进行特殊处理
+ */</span>
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initMultipartResolver</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">try</span> <span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true">// 从application中获取name为multipartResolver，类型为MultipartResolver的Bean</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>MULTIPART_RESOLVER_BEAN_NAME<span class="token punctuation">,</span> MultipartResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+   <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Default is no multipart resolver.</span>
+       <span class="token comment" spellcheck="true">//没有这种bean的时候，设置null</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>multipartResolver <span class="token operator">=</span> null<span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No MultipartResolver '"</span> <span class="token operator">+</span> MULTIPART_RESOLVER_BEAN_NAME <span class="token operator">+</span> <span class="token string">"' declared"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​            组件初始化是延迟加载，也就是第一个请求耗时比较长的原因，可以通过指定配置项<code>spring.mvc.servlet.load-on-startup</code>为任意非负数强制指定启动时执行初始化，默认为-1.</p>
+</blockquote>
+<p>​            在HttpServeletBean的init方法中，先为当前DispatcherServlet实例绑定ServletContext，中初始化的一些属性（在Spring Boot中为空，此段逻辑不执行），接着执行initServletBean方法，该方法由DispatchServlet的父类FrameworkServlet实现。</p>
+<p>​            在FrameworkServlet的initServletBean方法，执行了本类initwebApplicationContext方法，此方法就是核心的初始化方法入口，在该方法中调用onRefresh方法，即上面DisorderServlet初始化入口方法，</p>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/**
+     * 初始化此Servlet的Web应用上下文
+     * @return the WebApplicationContext instance
+     * @see #FrameworkServlet(WebApplicationContext)
+     * @see #setContextClass
+     * @see #setContextConfigLocation
+     */</span>
+    <span class="token keyword">protected</span> WebApplicationContext <span class="token function">initWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//  先尝试Servlet上下文获取已初始化的Web应用上下文作为根上文</span>
+        <span class="token comment" spellcheck="true">//  此处已经可以获取rootContext，设置该值的代码在第七章中提到的selfInitialize方法的prepareWebApplicationContext方法中</span>
+        WebApplicationContext rootContext <span class="token operator">=</span>
+                WebApplicationContextUtils<span class="token punctuation">.</span><span class="token function">getWebApplicationContext</span><span class="token punctuation">(</span><span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 定义最终要返回的Web应用上下文</span>
+        WebApplicationContext wac <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 如果当前Web应用上下文不为空 </span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>webApplicationContext <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 在默认情况下，在DispatcherServlet作为Bean初始化的时候，就通过setApplicationContext设置其值</span>
+            wac <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>webApplicationContext<span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果当前Web应用上下文是可配置的Web应用上下文</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token keyword">instanceof</span> <span class="token class-name">ConfigurableWebApplicationContext</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ConfigurableWebApplicationContext cwac <span class="token operator">=</span> <span class="token punctuation">(</span>ConfigurableWebApplicationContext<span class="token punctuation">)</span> wac<span class="token punctuation">;</span>
+               <span class="token comment" spellcheck="true">// 且Web应用上下文还刷新，则执行此逻辑。默认情况下，该上下文未刷新，不执行此逻辑</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>cwac<span class="token punctuation">.</span><span class="token function">isActive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">// 当其父上下文为空时</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>cwac<span class="token punctuation">.</span><span class="token function">getParent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token comment" spellcheck="true">// 则设置其父上下文未上面获取的根本上下文</span>
+                        cwac<span class="token punctuation">.</span><span class="token function">setParent</span><span class="token punctuation">(</span>rootContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token function">configureAndRefreshWebApplicationContext</span><span class="token punctuation">(</span>cwac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果在上一逻辑未获取到Web上下文，此时执行查找逻辑获取</span>
+            <span class="token comment" spellcheck="true">// 该方法内部通过查找Servlet上下文中本类指定的contextAttribute属性名对应的属性值找到Web上下文</span>
+            wac <span class="token operator">=</span> <span class="token function">findWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>wac <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             <span class="token comment" spellcheck="true">// 在上一逻辑未获取到Web上下文，则创建一个</span>
+             <span class="token comment" spellcheck="true">// 在Springboot中第一逻辑获取到了Web应用上下文，故不执行此逻辑</span>
+            wac <span class="token operator">=</span> <span class="token function">createWebApplicationContext</span><span class="token punctuation">(</span>rootContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果此时已接受过用上下文刷新事件，则不执行下面的if块逻辑</span>
+        <span class="token comment" spellcheck="true">// 在上下文刷新时间中，也会执行onRefresh的方法</span>
+        <span class="token comment" spellcheck="true">// 如果已经执行了onRefresh方法，则不再执行</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>refreshEventReceived<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 执行onRefresh方法，其中执行整个Servlet中组件的初始化操作</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>onRefreshMonitor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">onRefresh</span><span class="token punctuation">(</span>wac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果配置发布Web应用上下文到Servlet上下文</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>publishContext<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 同时把Web应用上下文添加到Servlet上下文属性中，以供整个Web应用使用</span>
+            String attrName <span class="token operator">=</span> <span class="token function">getServletContextAttributeName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>attrName<span class="token punctuation">,</span> wac<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">return</span> wac<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>以上便是初始化此Servlet对应的Web应用上下文的过程，在这个过程中执行了DispatcherServlet中使用到的组件初始化，因为一些初始化逻辑需要使用Web应用上下文获取组件，故需先执行此处逻辑  </p>
+</blockquote>
+<h1 id="2-组件初始化过程"><a href="#2-组件初始化过程" class="headerlink" title="2 组件初始化过程"></a>2 组件初始化过程</h1><h3 id="1-MultipartResolver"><a href="#1-MultipartResolver" class="headerlink" title="1 MultipartResolver"></a>1 MultipartResolver</h3><blockquote>
+<p>​        对于MultipartResolver，已知是通过初始化Web应用上下文获取、</p>
+<p>​        MultipartResolver类型为StandardServletMultipartResolver，查找此类的所有使用，发现是在MultipartAutoConfiguration类中创建了此类的实例</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token comment" spellcheck="true">// 只要是基于Servlet的Web应用，就存在这三个类</span>
+<span class="token annotation punctuation">@ConditionalOnClass</span><span class="token punctuation">(</span><span class="token punctuation">{</span>Servlet<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> StandardServletMultipartResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> MultipartConfigElement<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在属性spring.servlet.multipart.enabled不为flase或不存在时候此配置生效</span>
+<span class="token annotation punctuation">@ConditionalOnProperty</span><span class="token punctuation">(</span>
+    prefix <span class="token operator">=</span> <span class="token string">"spring.servlet.multipart"</span><span class="token punctuation">,</span>
+    name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"enabled"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    matchIfMissing <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">)</span>
+@当Web类型为Servlet的时候生效
+<span class="token annotation punctuation">@ConditionalOnWebApplication</span><span class="token punctuation">(</span>
+    type <span class="token operator">=</span> Type<span class="token punctuation">.</span>SERVLET
+<span class="token punctuation">)</span>
+<span class="token annotation punctuation">@EnableConfigurationProperties</span><span class="token punctuation">(</span><span class="token punctuation">{</span>MultipartProperties<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MultipartAutoConfiguration</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> MultipartProperties multipartProperties<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">MultipartAutoConfiguration</span><span class="token punctuation">(</span>MultipartProperties multipartProperties<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>multipartProperties <span class="token operator">=</span> multipartProperties<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+  <span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span><span class="token punctuation">{</span>MultipartConfigElement<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> CommonsMultipartResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> MultipartConfigElement <span class="token function">multipartConfigElement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>multipartProperties<span class="token punctuation">.</span><span class="token function">createMultipartConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>
+        name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"multipartResolver"</span><span class="token punctuation">}</span>
+    <span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span><span class="token punctuation">{</span>MultipartResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> StandardServletMultipartResolver <span class="token function">multipartResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 创建实例</span>
+        StandardServletMultipartResolver multipartResolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StandardServletMultipartResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 根据属性源spring.servlet.multipart.resolvelazily的值，设置multipartProperties中的Resolverlazily属性值，表示对多块请求是否执行懒解析，如果为懒解析则在用多块钱请求数据的时候才对请求进行解析</span>
+        multipartResolver<span class="token punctuation">.</span><span class="token function">setResolveLazily</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>multipartProperties<span class="token punctuation">.</span><span class="token function">isResolveLazily</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> multipartResolver<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>​        MultipartAutoConfiguration本身是自动配置类，在该类中用@Bean的方式标记方法，返回值都会注册到当前应用上下文中，这就应用上下文该组件的来源了</p>
+</blockquote>
+<h3 id="2-LocaleResovler"><a href="#2-LocaleResovler" class="headerlink" title="2 LocaleResovler"></a>2 LocaleResovler</h3><pre class=" language-java"><code class="language-java">    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initLocaleResolver</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 从上下文中获取</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>localeResolver <span class="token operator">=</span> <span class="token punctuation">(</span>LocaleResolver<span class="token punctuation">)</span>context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"localeResolver"</span><span class="token punctuation">,</span> LocaleResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>localeResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>localeResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> var3<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 上下文中没有使用默认策略</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>localeResolver <span class="token operator">=</span> <span class="token punctuation">(</span>LocaleResolver<span class="token punctuation">)</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getDefaultStrategy</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> LocaleResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No LocaleResolver 'localeResolver': using default ["</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>localeResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span></code></pre>
+<p>​        获取默认组件的策略是通过加载jar包中的DispatcherServlet.properties属性文件，获取其中的key:value。key为组件的类型接口全限定名，value为默认的组件类型名，初始化策略为获取组件接口属性名对应的组件类型属性值，并通过反射，作为默认组件使用。其中DispatchServlet.properties文件内容如下</p>
+<pre class=" language-properties"><code class="language-properties"><span class="token comment" spellcheck="true"># Default implementation classes for DispatcherServlet's strategy interfaces.</span>
+<span class="token comment" spellcheck="true"># Used as fallback when no matching beans are found in the DispatcherServlet context.</span>
+<span class="token comment" spellcheck="true"># Not meant to be customized by application developers.</span>
+
+<span class="token attr-name">org.springframework.web.servlet.LocaleResolver</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</span>
+
+<span class="token attr-name">org.springframework.web.servlet.ThemeResolver</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.theme.FixedThemeResolver</span>
+
+<span class="token attr-name">org.springframework.web.servlet.HandlerMapping</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</span>
+
+<span class="token attr-name">org.springframework.web.servlet.HandlerAdapter</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\
+    org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</span>
+
+<span class="token attr-name">org.springframework.web.servlet.HandlerExceptionResolver</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\
+    org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\
+    org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</span>
+
+<span class="token attr-name">org.springframework.web.servlet.RequestToViewNameTranslator</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</span>
+
+<span class="token attr-name">org.springframework.web.servlet.ViewResolver</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.view.InternalResourceViewResolver</span>
+
+<span class="token attr-name">org.springframework.web.servlet.FlashMapManager</span><span class="token punctuation">=</span><span class="token attr-value">org.springframework.web.servlet.support.SessionFlashMapManager</span></code></pre>
+<p><strong>注意：</strong></p>
+<blockquote>
+<p>​        上面有些key配置了用逗号隔开的多个class类名，因为有些最贱是list类型，list类型通过方法getDefaultStrategies获取</p>
+</blockquote>
+<p>​        除此之外，在配置<code>spring.mvc.locale-resolver=FIXED</code>与<code>spring.mvc.locale-zh_CN</code>后，初始化LocaleResolver就不会通过默认策略进行初始化，而是直接通过应用上下文获取LocaleResolver类型的Bean，为FixedLocaleResolver。通过查找FixedLocaleResolver的构造器引用位置，找到了该Bean的定义位子在WebMvcAutoConfiguration自动配置类的WebMvcAutoConfigurationAdapter</p>
+<pre class=" language-java"><code class="language-java">        <span class="token annotation punctuation">@Bean</span>
+        <span class="token annotation punctuation">@ConditionalOnMissingBean</span>
+<span class="token comment" spellcheck="true">// 只有配置了spring.mvc.locale属性的时候，该Bean才会被定义</span>
+        <span class="token annotation punctuation">@ConditionalOnProperty</span><span class="token punctuation">(</span>
+            prefix <span class="token operator">=</span> <span class="token string">"spring.mvc"</span><span class="token punctuation">,</span>
+            name <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">"locale"</span><span class="token punctuation">}</span>
+        <span class="token punctuation">)</span>
+        <span class="token keyword">public</span> LocaleResolver <span class="token function">localeResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 通过MvcProperties封装spirng.mvc下的所有的配置</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mvcProperties<span class="token punctuation">.</span><span class="token function">getLocaleResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>autoconfigure<span class="token punctuation">.</span>web<span class="token punctuation">.</span>servlet<span class="token punctuation">.</span>WebMvcProperties<span class="token punctuation">.</span>LocaleResolver<span class="token punctuation">.</span>FIXED<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 使用spring.mvc.locale配置的locale作为构成参数传入，即固定取此Locale</span>
+                <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">FixedLocaleResolver</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mvcProperties<span class="token punctuation">.</span><span class="token function">getLocale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 否则使用请求头Locale解析器</span>
+                AcceptHeaderLocaleResolver localeResolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AcceptHeaderLocaleResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// 并设置配置值为；localeResolver未解析到Locale时的默认值</span>
+                localeResolver<span class="token punctuation">.</span><span class="token function">setDefaultLocale</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mvcProperties<span class="token punctuation">.</span><span class="token function">getLocale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> localeResolver<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span></code></pre>
+<h3 id="3-ThemeResolver"><a href="#3-ThemeResolver" class="headerlink" title="3 ThemeResolver"></a>3 ThemeResolver</h3><blockquote>
+<p>​        主题解析器ThemeResolver的初始化逻辑通过方法initThemeResolver执行，该组件在默认情况下同LocaleResolver组件，在应用上下文中无此类型的Bean，最终通过执行降级的初始化方法获取该类型的默认实例</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initThemeResolver</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>themeResolver <span class="token operator">=</span> <span class="token punctuation">(</span>ThemeResolver<span class="token punctuation">)</span>context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span><span class="token string">"themeResolver"</span><span class="token punctuation">,</span> ThemeResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>themeResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>themeResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> var3<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>themeResolver <span class="token operator">=</span> <span class="token punctuation">(</span>ThemeResolver<span class="token punctuation">)</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getDefaultStrategy</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> ThemeResolver<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No ThemeResolver 'themeResolver': using default ["</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>themeResolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="4-HandlerMapping"><a href="#4-HandlerMapping" class="headerlink" title="4 HandlerMapping"></a>4 HandlerMapping</h3><pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/**
+     * 如果没定义HandlerMapping组件类型的Bean的时候。默认使用组件RequestMappingHandlerMapping BeanNameUrlHandlerMapping.
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initHandlerMappings</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings <span class="token operator">=</span> null<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 是否查找当前BeanFactory与其所有父BeanFactory中HandlerMapping组件，默认为true</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>detectAllHandlerMappings<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// Find all HandlerMappings in the ApplicationContext, including ancestor contexts.</span>
+            <span class="token comment" spellcheck="true">// 查找当前以及所有祖先BeanFactory中的HandlerMapping类型的Bean，返回Map类型，key为BeanName，value为Bean实例</span>
+            Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> HandlerMapping<span class="token operator">></span> matchingBeans <span class="token operator">=</span>
+                    BeanFactoryUtils<span class="token punctuation">.</span><span class="token function">beansOfTypeIncludingAncestors</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> HandlerMapping<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>matchingBeans<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>matchingBeans<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// We keep HandlerMappings in sorted order.</span>
+                <span class="token comment" spellcheck="true">// 排序</span>
+                AnnotationAwareOrderComparator<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 否则，只查找BeanName为handlerMapping的Bean作为唯一HandlerMapping组件使用</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                HandlerMapping hm <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>HANDLER_MAPPING_BEAN_NAME<span class="token punctuation">,</span> HandlerMapping<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings <span class="token operator">=</span> Collections<span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span>hm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// Ignore, we'll add a default HandlerMapping later.</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// Ensure we have at least one HandlerMapping, by registering</span>
+        <span class="token comment" spellcheck="true">// a default HandlerMapping if no other mappings are found.</span>
+        <span class="token comment" spellcheck="true">// 当Bean策略查找不到的时候使用默认策略</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>handlerMappings <span class="token operator">=</span> <span class="token function">getDefaultStrategies</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> HandlerMapping<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No HandlerMappings declared for servlet '"</span> <span class="token operator">+</span> <span class="token function">getServletName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span>
+                        <span class="token string">"': using default strategies from DispatcherServlet.properties"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p>​        在默认情况下，会通过当前BeanFactory与其祖先BeanFactory中获取所有的HandlerMapping类型的Bean作为HandlerMapping组件列表使用。默认包括以下组件</p>
+<table>
+<thead>
+<tr>
+<th align="center">Bean的名称</th>
+<th align="center">Bean的类型</th>
+<th align="center">作用</th>
+<th align="center">初始化位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">faviconHandlerMapping</td>
+<td align="center">org.springframework.<br>web.servlet.handler.<br>SimpleUrlHandlerMapping</td>
+<td align="center">简单URl映射，处理**/favicon.ico路径请求，返回网站小图标</td>
+<td align="center">WebMvcAutoConfiguration.<br>WebMvcAutoConfigurationAdapter.<br>FaviconConfiguration.faviconHandlerMapping</td>
+</tr>
+<tr>
+<td align="center">requestMappingHandlerMapping</td>
+<td align="center">org.springframework<br>.web.servlet.mvc.<br>method.annotation.<br>RequestMappingHandlerMapping</td>
+<td align="center">处理@RequestMapping注解注册的请求处理器</td>
+<td align="center">WebMvcAutoConfiguration.<br>EnableWebMvcConfiguration.<br>requestMappingHandlerMapping</td>
+</tr>
+<tr>
+<td align="center">beanNameHandlerMapping</td>
+<td align="center">org.springframework.<br>web.servlet.handler.<br>BeanNameHandlerMapping</td>
+<td align="center">用于通过URL映射到Bean的处理器</td>
+<td align="center">EnableWebMvcConfiguration的祖先类<br>WebMVcConfigurationSupport.<br>beanNameHandlerMappinging()</td>
+</tr>
+<tr>
+<td align="center">resourceHandlerMapping</td>
+<td align="center">org.springframework.<br>web.servlet.handler.<br>SimpleUrlHandlerMapping</td>
+<td align="center">用于处理静态资源映射</td>
+<td align="center">EnableWebMvcConfiguration的祖先类<br>WebMVcConfigurationSupport.<br>resourceHandlerMapping()</td>
+</tr>
+<tr>
+<td align="center">WelcomePageHandlerMapping</td>
+<td align="center">org.springframework.<br>boot.autoconfigure.web.servlet<br>WelcomePageHandlerMapping</td>
+<td align="center">用于处理默认首页请求跳转到index.html</td>
+<td align="center">EnableWebMvcConfiguration的祖先类<br>WebMVcConfigurationSupport.<br>weclomePageHandlerMapping()</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>​        大部分组件Bean的初始化都在WebMvcAutoConfiguration类、EnableWebMvcConfiguration类及其父类WebMvcConfigurationSupport中</p>
+<p>​        在WebMvcAutoConfiguration自动配置类中，又包含WebMVCAutoConfigurationAdapter配置类，在这个配置中，通过@Import注解引入EnableWebMvcConfiguration类作为配置类，使得EnableWebMvcConfiguration配置类称为Spring Mvc 所有相关组件定义的核心配置类，在该配置类中，包括全部Mvc需要使用到组件的初始化逻辑</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * Configuration equivalent to {@code @EnableWebMvc}.
+ */</span>
+<span class="token annotation punctuation">@Configuration</span><span class="token punctuation">(</span>proxyBeanMethods <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">EnableWebMvcConfiguration</span> <span class="token keyword">extends</span> <span class="token class-name">DelegatingWebMvcConfiguration</span> <span class="token keyword">implements</span> <span class="token class-name">ResourceLoaderAware</span> <span class="token punctuation">{</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">final</span> ResourceProperties resourceProperties<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 配置属性映射类</span>
+   <span class="token keyword">private</span> <span class="token keyword">final</span> WebMvcProperties mvcProperties<span class="token punctuation">;</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">final</span> ListableBeanFactory beanFactory<span class="token punctuation">;</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">final</span> WebMvcRegistrations mvcRegistrations<span class="token punctuation">;</span>
+
+   <span class="token keyword">private</span> ResourceLoader resourceLoader<span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//....省略其他方法</span>
+   <span class="token comment" spellcheck="true">// 声明为Primary，当过Bean类型获取Bean时，如果有多个Bean存在，则使用标记了@primary的Bean作为结果</span>
+   <span class="token annotation punctuation">@Bean</span>
+   <span class="token annotation punctuation">@Primary</span>
+   <span class="token annotation punctuation">@Override</span>
+   <span class="token keyword">public</span> RequestMappingHandlerMapping <span class="token function">requestMappingHandlerMapping</span><span class="token punctuation">(</span>
+         <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcContentNegotiationManager"</span><span class="token punctuation">)</span> ContentNegotiationManager contentNegotiationManager<span class="token punctuation">,</span>
+         <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcConversionService"</span><span class="token punctuation">)</span> FormattingConversionService conversionService<span class="token punctuation">,</span>
+         <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcResourceUrlProvider"</span><span class="token punctuation">)</span> ResourceUrlProvider resourceUrlProvider<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// Must be @Primary for MvcUriComponentsBuilder to work</span>
+      <span class="token comment" spellcheck="true">// 标记Primary后MvcUriComponetsBuilder才能正常工作，此部分内容读者可自行了解</span>
+       <span class="token comment" spellcheck="true">// 调用父类方法初始化RequestMappingHandlerMapping组件</span>
+      <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">requestMappingHandlerMapping</span><span class="token punctuation">(</span>contentNegotiationManager<span class="token punctuation">,</span> conversionService<span class="token punctuation">,</span>
+            resourceUrlProvider<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+<span class="token operator">/</span>
+   <span class="token annotation punctuation">@Bean</span>
+   <span class="token keyword">public</span> WelcomePageHandlerMapping <span class="token function">welcomePageHandlerMapping</span><span class="token punctuation">(</span>ApplicationContext applicationContext<span class="token punctuation">,</span>
+         FormattingConversionService mvcConversionService<span class="token punctuation">,</span> ResourceUrlProvider mvcResourceUrlProvider<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      WelcomePageHandlerMapping welcomePageHandlerMapping <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WelcomePageHandlerMapping</span><span class="token punctuation">(</span>
+            <span class="token keyword">new</span> <span class="token class-name">TemplateAvailabilityProviders</span><span class="token punctuation">(</span>applicationContext<span class="token punctuation">)</span><span class="token punctuation">,</span> applicationContext<span class="token punctuation">,</span> <span class="token function">getWelcomePage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>mvcProperties<span class="token punctuation">.</span><span class="token function">getStaticPathPattern</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      welcomePageHandlerMapping<span class="token punctuation">.</span><span class="token function">setInterceptors</span><span class="token punctuation">(</span><span class="token function">getInterceptors</span><span class="token punctuation">(</span>mvcConversionService<span class="token punctuation">,</span> mvcResourceUrlProvider<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      welcomePageHandlerMapping<span class="token punctuation">.</span><span class="token function">setCorsConfigurations</span><span class="token punctuation">(</span><span class="token function">getCorsConfigurations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> welcomePageHandlerMapping<span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token keyword">private</span> Optional<span class="token operator">&lt;</span>Resource<span class="token operator">></span> <span class="token function">getWelcomePage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      String<span class="token punctuation">[</span><span class="token punctuation">]</span> locations <span class="token operator">=</span> <span class="token function">getResourceLocations</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>resourceProperties<span class="token punctuation">.</span><span class="token function">getStaticLocations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> Arrays<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span>locations<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">:</span><span class="token operator">:</span>getIndexHtml<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token operator">:</span><span class="token operator">:</span>isReadable<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token keyword">private</span> Resource <span class="token function">getIndexHtml</span><span class="token punctuation">(</span>String location<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>resourceLoader<span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span>location <span class="token operator">+</span> <span class="token string">"index.html"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">isReadable</span><span class="token punctuation">(</span>Resource resource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+         <span class="token keyword">return</span> resource<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>resource<span class="token punctuation">.</span><span class="token function">getURL</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+
+
+   <span class="token annotation punctuation">@Override</span>
+   <span class="token keyword">protected</span> RequestMappingHandlerMapping <span class="token function">createRequestMappingHandlerMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mvcRegistrations <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mvcRegistrations<span class="token punctuation">.</span><span class="token function">getRequestMappingHandlerMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mvcRegistrations<span class="token punctuation">.</span><span class="token function">getRequestMappingHandlerMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">createRequestMappingHandlerMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+
+
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        以上代码可以看到并不是在本类中创建的RequestMappingHandlerMapping实例，而是在父类中创建的。其父类为DelegatingWebMvcConfiguration，该类中也没有此方法，所以requestmappingHandlerMapping最终调用的是，WebMvcConfigurationSupport中的方法。</p>
+<p>​        DelegatingWebMvcConfiguration类的作用是为实现通过WebMvcConfigurer类型的Bean作为配置器List，并在父类WebMvcConfigurationSupport执行组件配置方式时，遍历这个list，逐一进行组件配置。</p>
+<pre><code>      WebMvcConfigurationSupport类的作用则是为Mvc组件定义与配置提供支持，所有组件Bean的定义都在这个类中，同时该类在定义组件前后会执行一些配置方法。Spring boot引入的配置类EnableWebMvcConfiguration作用仅仅是为了通过spring.nvc相关配置来定制其中一些组件的特性，就如上面代码中看到的RequestMappngHandlerAdapter的定义一样，这也是通过配置来定制组件特性的实现原理。</code></pre>
+<p>​        DelegatingWebMvcConfiguration实现了这些配置方法，通过其中保存的WebMvcConfigur配置器列表执行所有配置器的对应方法。</p>
+</blockquote>
+<h3 id="5-HandlerAdapter"><a href="#5-HandlerAdapter" class="headerlink" title="5 HandlerAdapter"></a>5 HandlerAdapter</h3><blockquote>
+<p>​        HandlerAdapter组件是处理请求的核心组件，该组件为列表。其初始化逻辑与HandlerMapping初始化逻辑相同，当BeanFactory中无HandlerAdapter组件时，使用默认组件列表：HttpRequestHandlerAdapter、SimpleControllerHandlerAdapter、RequestMappingHandlerAdapter。在SpringBoot中，默认情况是通过BeanFactory获取组件列表</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Bean名称</th>
+<th>Bean类型</th>
+<th>作用</th>
+<th>初始化配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>requestMappingHandlerAdapter</td>
+<td>RequestMappingHandlerAdapter</td>
+<td>处理@RequestMapping标记注解生成的处理器</td>
+<td>WebMVcConfigurationSupport.<br>reqeustMappingHandlerAdapter()</td>
+</tr>
+<tr>
+<td>httpRequestHandlerAdapter</td>
+<td>HttpRequestHandlerAdapter</td>
+<td>处理HttpRequestHandler类型的处理器</td>
+<td>WebMVcConfigurationSupport.<br>httpRequestHandlerAdapter()</td>
+</tr>
+<tr>
+<td>simpleControlerHandlerAdapter</td>
+<td>impleControlerHandlerAdapter</td>
+<td>处理Controller类型的处理器</td>
+<td>WebMVcConfigurationSupport.<br>simpleControlerHandlerAdapter()</td>
+</tr>
+</tbody></table>
+<pre class=" language-java"><code class="language-java">
+<span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> HttpRequestHandlerAdapter <span class="token function">httpRequestHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">HttpRequestHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> SimpleControllerHandlerAdapter <span class="token function">simpleControllerHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SimpleControllerHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>WebConfigurationSupport仅仅是WebMvc配置支持类，本身并不是配置类，所以其内部定义@Bean标记的方法并不会产生Bean所以在实际环境中还需要创建一个配置类，继承该配置支持类，来实现该类作为配置类的目的。</p>
+<p>在SpringMvc中，由配置类DelegatingWebMvcConfiguration中还添加了通过WebMvcConfigurer配置器组件配置WebMVc组件功能。在SpringBoot中，又通过EnableWebMvcConfiguration继承了DelegatingWebMvcConfiguration，从而实现更强大的通过配置文件定义的属性来配置组件功能。</p>
+<h3 id="6-HandlerExceptionResolver"><a href="#6-HandlerExceptionResolver" class="headerlink" title="6 HandlerExceptionResolver"></a>6 HandlerExceptionResolver</h3><blockquote>
+<p>​        HandlerExceptionResolver组件为一个列表，其初始化逻辑与HandlerMapping初始化逻辑相同，默认组件列表为HandlerExceptionResolver、ResponseStatusExceptionResolver、DefaultHandlerExceptionResovler，在SpringBoot默认通过BeanFactory获取组件列表如下</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Bean的名称</th>
+<th>Bean的类型</th>
+<th>作用</th>
+<th>初始化位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>errorAttributes</td>
+<td>DefaultErrorAttributes</td>
+<td>用于发生异常时保存异常信息到请求属性中</td>
+<td>ErrorMvcConfoguration.<br>errorAttributes()</td>
+</tr>
+<tr>
+<td>handlerExceptionResolver</td>
+<td>HandlerExceptionResolver-Composite</td>
+<td>用于组合已有的处理器异常解析器组件</td>
+<td>WebMvcconfigurationSupport.-handlerExceptionResolver</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>​        在handlerExceptionResolver这个HandlerExceptionResolverComposite组合组件中，还包含了三个处理器，改组件用于包装这三个处理器异常解析器，顺序执行其中三个HandlerExceptionResolver、ResponseStatusExceptionResovler、DefaultHandlerExceptionResolver，这三个组件都是在WebMvcConfigurationSupport.handlerExceptionResolver方法中初始化</p>
+<p>​        在该方法中，调用了本类的configurationHandlerExceptionResolvers方法，配置处理器异常解析器。在实际运行时，该方法执行的实例在其子类WebMvcAutoConfiguration.EnableWebMvcConfiguration中定义，子类重写了该方法。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">extendHandlerExceptionResolvers</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>HandlerExceptionResolver<span class="token operator">></span> exceptionResolvers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">extendHandlerExceptionResolvers</span><span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 为异常添加记录</span>
+    <span class="token comment" spellcheck="true">//如果spring.mvc.log-resolved-exception为true,则为异常添加日志u记录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mvcProperties<span class="token punctuation">.</span><span class="token function">isLogResolvedException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>HandlerExceptionResolver resolver <span class="token operator">:</span> exceptionResolvers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>resolver <span class="token keyword">instanceof</span> <span class="token class-name">AbstractHandlerExceptionResolver</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token punctuation">(</span><span class="token punctuation">(</span>AbstractHandlerExceptionResolver<span class="token punctuation">)</span> resolver<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setWarnLogCategory</span><span class="token punctuation">(</span>resolver<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> HandlerExceptionResolver <span class="token function">handlerExceptionResolver</span><span class="token punctuation">(</span>
+    <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcContentNegotiationManager"</span><span class="token punctuation">)</span> ContentNegotiationManager contentNegotiationManager<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    List<span class="token operator">&lt;</span>HandlerExceptionResolver<span class="token operator">></span> exceptionResolvers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 执行父类方法 ，其中的逻辑为执行所有WebMvcConfigur类型的Bean的configureHandlerExceptionResolvers方法，配置异常处理器，默认无此类型的Bean故不作处理器</span>
+    <span class="token function">configureHandlerExceptionResolvers</span><span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 默认情况主席那个默认异常处理逻辑</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">addDefaultHandlerExceptionResolvers</span><span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">,</span> contentNegotiationManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">extendHandlerExceptionResolvers</span><span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    HandlerExceptionResolverComposite composite <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HandlerExceptionResolverComposite</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    composite<span class="token punctuation">.</span><span class="token function">setOrder</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    composite<span class="token punctuation">.</span><span class="token function">setExceptionResolvers</span><span class="token punctuation">(</span>exceptionResolvers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> composite<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">protected</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">addDefaultHandlerExceptionResolvers</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>HandlerExceptionResolver<span class="token operator">></span> exceptionResolvers<span class="token punctuation">,</span>ContentNegotiationManager mvcContentNegotiationManager<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">// 创建ExceptionHandlerExceptionResolver添加到异常处理器列表</span>
+    ExceptionHandlerExceptionResolver exceptionHandlerResolver <span class="token operator">=</span> <span class="token function">createExceptionHandlerExceptionResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 配置异常处理器的内容协商器</span>
+    exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setContentNegotiationManager</span><span class="token punctuation">(</span>mvcContentNegotiationManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 设置异常处理器用到的消息转换器</span>
+    exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setMessageConverters</span><span class="token punctuation">(</span><span class="token function">getMessageConverters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 设置异常处理器使用的参数有解析器</span>
+    exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setCustomArgumentResolvers</span><span class="token punctuation">(</span><span class="token function">getArgumentResolvers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 设置异常解析器的返回值处理器</span>
+    exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setCustomReturnValueHandlers</span><span class="token punctuation">(</span><span class="token function">getReturnValueHandlers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 如果在jackson2的库,则添加一个响应体增强其</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>jackson2Present<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setResponseBodyAdvice</span><span class="token punctuation">(</span>
+            Collections<span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">JsonViewResponseBodyAdvice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 设置异常处理器的应用上下文</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>applicationContext <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">setApplicationContext</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>applicationContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 执行异常处理器的初始化方法</span>
+    exceptionHandlerResolver<span class="token punctuation">.</span><span class="token function">afterPropertiesSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 添加异常处理器列表</span>
+    exceptionResolvers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>exceptionHandlerResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    ResponseStatusExceptionResolver responseStatusResolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ResponseStatusExceptionResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//设置该异常解析器的信息源</span>
+    responseStatusResolver<span class="token punctuation">.</span><span class="token function">setMessageSource</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>applicationContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 添加异常解析器列表</span>
+    exceptionResolvers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>responseStatusResolver<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    exceptionResolvers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">DefaultHandlerExceptionResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h3 id="7RequestToViewNameTranslator"><a href="#7RequestToViewNameTranslator" class="headerlink" title="7RequestToViewNameTranslator"></a>7RequestToViewNameTranslator</h3><blockquote>
+<p>​        RequestToViewNameTranslator组件又叫做ViewNameTranslator组件,该组件在DispatcherServlet中存在一个.其初始化策略与Locale组件相同,默认情况下BeanFactory中未提供该组件,使用默认策略指定的DefalutRequestToViewNameTranslator组件</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">/**
+     * Initialize the RequestToViewNameTranslator used by this servlet instance.
+     * &lt;p>If no implementation is configured then we default to DefaultRequestToViewNameTranslator.
+     * Beanfactory中没有定义时,使用默认的
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initRequestToViewNameTranslator</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 默认无组件,触发NoSuchBeanDefinitionEception异常</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>viewNameTranslator <span class="token operator">=</span>
+                    context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>REQUEST_TO_VIEW_NAME_TRANSLATOR_BEAN_NAME<span class="token punctuation">,</span> RequestToViewNameTranslator<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewNameTranslator<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewNameTranslator<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// We need to use the default.</span>
+            <span class="token comment" spellcheck="true">// 使用默认策略</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>viewNameTranslator <span class="token operator">=</span> <span class="token function">getDefaultStrategy</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> RequestToViewNameTranslator<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No RequestToViewNameTranslator '"</span> <span class="token operator">+</span> REQUEST_TO_VIEW_NAME_TRANSLATOR_BEAN_NAME <span class="token operator">+</span>
+                        <span class="token string">"': using default ["</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewNameTranslator<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        该类型组件同样可以通过在ApplicationContext中定义来实现替换该类型的默认组件</p>
+</blockquote>
+<h3 id="8-ViewResolver"><a href="#8-ViewResolver" class="headerlink" title="8 ViewResolver"></a>8 ViewResolver</h3><blockquote>
+<p>​        ViewResolver组件为组件列表,其初始化策略与HandlerMapping组件列表相同,在只加入Thymeleaf模板引擎的依赖时.默认BeanFactory中包含五个该组件.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Bean的名称</th>
+<th>Bean的类型</th>
+<th>作用</th>
+<th>初始化的位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beanNameViewResovler</td>
+<td>BeanNameViewResovler</td>
+<td>用于支持默认的Bean名称是哦图解析器</td>
+<td>ErrorMvcAutoConfiguration.-whitelabelErrorViewConfiguration.-beanNameViewResolver</td>
+</tr>
+<tr>
+<td>mvcViewResolver</td>
+<td>ViewResovlerComposite</td>
+<td>提供configure-ViewResolver方法添加VIewResolver的功能<br>也支持通过BeanFactory获取所有ViewResolver类型的Bean</td>
+<td>EnableWebMvcConfiguration-的祖先类WebMvcConfigurationSupport.<br>mvcViewResolver</td>
+</tr>
+<tr>
+<td>defaultViewResolver</td>
+<td>InternalResource-ViewResolver</td>
+<td>默认的视图解析器，用于解析html、jsp等内置的静态页面资源</td>
+<td>WebMvcAutoConfiguration.-WebMvcAuto-ConfigurationAdapter.defaultViewResolver</td>
+</tr>
+<tr>
+<td>viewResolver</td>
+<td>ContentNegotiating-ViewResolver</td>
+<td>内容协商视图解析器，用于支持根据请求接受内容类型与视图内容类型自动匹配视图功能</td>
+<td>WebMvcAutoConfiguration.-WebMvcAuto-ConfigurationAdapter.ViewResolver(BeanFactory beanfactory)</td>
+</tr>
+<tr>
+<td>thymeleafViewResolver</td>
+<td>ThymeleafViewResolver</td>
+<td>用于支持Thymeleaf类型的模板视图</td>
+<td>ThymeleaAutoConfiguration.-ThymeleaWebMvcConfiguration.-ThymeleafViewResolverConfiguration.-thymeleafViewResolver</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>​        其中beanNameViewResolver在WebMvcAutoConfigurationAdapter.beanNameViewResolver（）也进行了初始化，但因ErrorMvcAutoConfiguration的执行顺序在前（通过@AutoConfigureBefore（WebMvcAutoConfiguration.class）指定顺序），故ErrorMvcAutoConfiguration中的beanNameViewResolver有限</p>
+<p>​    另外，Thymeleaf模板视图是在引用Thymeleaf依赖后自动添加的，同此原理，其他类型模板的依赖引入后，也会自动添加对应类型的视图解析器。如freeMarkerViewResolve。关于ThymeLeaf的自动配置，依赖于ThymeleftAutoConfiguration自动配置类，在该自动配置类中判断ThymeLeaf依赖是否存在。存在是则创建ThymeLeaf对应的视图解析器。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 指定配置类</span>
+<span class="token annotation punctuation">@Configuration</span><span class="token punctuation">(</span>proxyBeanMethods <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// 在servlet容器中使用</span>
+<span class="token annotation punctuation">@ConditionalOnWebApplication</span><span class="token punctuation">(</span>type <span class="token operator">=</span> Type<span class="token punctuation">.</span>SERVLET<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//当为true或者不存在的时候启用</span>
+<span class="token annotation punctuation">@ConditionalOnProperty</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"spring.thymeleaf.enabled"</span><span class="token punctuation">,</span> matchIfMissing <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+<span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ThymeleafWebMvcConfiguration</span> <span class="token punctuation">{</span>
+
+   <span class="token annotation punctuation">@Bean</span>
+   <span class="token annotation punctuation">@ConditionalOnEnabledResourceChain</span>
+   <span class="token annotation punctuation">@ConditionalOnMissingFilterBean</span><span class="token punctuation">(</span>ResourceUrlEncodingFilter<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+   FilterRegistrationBean<span class="token operator">&lt;</span>ResourceUrlEncodingFilter<span class="token operator">></span> <span class="token function">resourceUrlEncodingFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      FilterRegistrationBean<span class="token operator">&lt;</span>ResourceUrlEncodingFilter<span class="token operator">></span> registration <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FilterRegistrationBean</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>
+            <span class="token keyword">new</span> <span class="token class-name">ResourceUrlEncodingFilter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      registration<span class="token punctuation">.</span><span class="token function">setDispatcherTypes</span><span class="token punctuation">(</span>DispatcherType<span class="token punctuation">.</span>REQUEST<span class="token punctuation">,</span> DispatcherType<span class="token punctuation">.</span>ERROR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> registration<span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 声明ThymeLeaf的ViewResolver组件</span>
+   <span class="token annotation punctuation">@Configuration</span><span class="token punctuation">(</span>proxyBeanMethods <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+   <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ThymeleafViewResolverConfiguration</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 声明ThymeLeaf的ViewResolver组件</span>
+      <span class="token annotation punctuation">@Bean</span>
+       <span class="token comment" spellcheck="true">// 不存在thymeLeafViewResolver时创建</span>
+      <span class="token annotation punctuation">@ConditionalOnMissingBean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"thymeleafViewResolver"</span><span class="token punctuation">)</span>
+      ThymeleafViewResolver <span class="token function">thymeleafViewResolver</span><span class="token punctuation">(</span>ThymeleafProperties properties<span class="token punctuation">,</span>
+            SpringTemplateEngine templateEngine<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// 构造</span>
+         ThymeleafViewResolver resolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThymeleafViewResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 设置模板引擎</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setTemplateEngine</span><span class="token punctuation">(</span>templateEngine<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 设置编码</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setCharacterEncoding</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getEncoding</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 设置contenttype</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span>
+               <span class="token function">appendCharset</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getServlet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getContentType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> resolver<span class="token punctuation">.</span><span class="token function">getCharacterEncoding</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// </span>
+         resolver<span class="token punctuation">.</span><span class="token function">setProducePartialOutputWhileProcessing</span><span class="token punctuation">(</span>
+               properties<span class="token punctuation">.</span><span class="token function">getServlet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isProducePartialOutputWhileProcessing</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 设根据配置文件置需要排除的视图名</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setExcludedViewNames</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getExcludedViewNames</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">//根据配置文件设置需要解析的视图名</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setViewNames</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getViewNames</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token comment" spellcheck="true">// This resolver acts as a fallback resolver (e.g. like a</span>
+         <span class="token comment" spellcheck="true">// InternalResourceViewResolver) so it needs to have low precedence</span>
+          <span class="token comment" spellcheck="true">// 指定顺序比最低的优先级高一个优先级，由InternalResourceViewResolver兜底</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setOrder</span><span class="token punctuation">(</span>Ordered<span class="token punctuation">.</span>LOWEST_PRECEDENCE <span class="token operator">-</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token comment" spellcheck="true">// 根据配置文件设置是否启用缓存</span>
+         resolver<span class="token punctuation">.</span><span class="token function">setCache</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">isCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token keyword">return</span> resolver<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+      <span class="token keyword">private</span> String <span class="token function">appendCharset</span><span class="token punctuation">(</span>MimeType type<span class="token punctuation">,</span> String charset<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">if</span> <span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">getCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> type<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">}</span>
+         LinkedHashMap<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">></span> parameters <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         parameters<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"charset"</span><span class="token punctuation">,</span> charset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         parameters<span class="token punctuation">.</span><span class="token function">putAll</span><span class="token punctuation">(</span>type<span class="token punctuation">.</span><span class="token function">getParameters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MimeType</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> parameters<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+   <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<h3 id="9-FlashMapMannger组件"><a href="#9-FlashMapMannger组件" class="headerlink" title="9 FlashMapMannger组件"></a>9 FlashMapMannger组件</h3><blockquote>
+<p>​        在DispatcherServlet中只存在一个FalshMapManager组件.其初始化策略与LocaleResolver组件相同,默认情况下BeanFacotry中没有提供该组件,使用默认策略指定的SessionFlashMapManager组件</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">initFlashMapManager</span><span class="token punctuation">(</span>ApplicationContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>flashMapManager <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getBean</span><span class="token punctuation">(</span>FLASH_MAP_MANAGER_BEAN_NAME<span class="token punctuation">,</span> FlashMapManager<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>flashMapManager<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isDebugEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Detected "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>flashMapManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+   <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">NoSuchBeanDefinitionException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// We need to use the default.</span>
+       <span class="token comment" spellcheck="true">// 默认使用SessionFlashMapManage</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>flashMapManager <span class="token operator">=</span> <span class="token function">getDefaultStrategy</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> FlashMapManager<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>logger<span class="token punctuation">.</span><span class="token function">isTraceEnabled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         logger<span class="token punctuation">.</span><span class="token function">trace</span><span class="token punctuation">(</span><span class="token string">"No FlashMapManager '"</span> <span class="token operator">+</span> FLASH_MAP_MANAGER_BEAN_NAME <span class="token operator">+</span>
+               <span class="token string">"': using default ["</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>flashMapManager<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getSimpleName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        通过初始化代码可知,该类型组件可以在Application中重新定义,但该组件类型较为复杂</p>
+</blockquote>
+<h3 id="10-WebAsyncManager组件"><a href="#10-WebAsyncManager组件" class="headerlink" title="10 WebAsyncManager组件"></a>10 WebAsyncManager组件</h3><blockquote>
+<p>​        WebAsyncManager组件并不属于DispatcherServlet中的组件,但其也是处理过程中非常重要的组件,该组件的获取是通过方法WebAsyncUtils.getAsyncManage实现</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 根据请求获取该请求对应的异步管理器</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> WebAsyncManager <span class="token function">getAsyncManager</span><span class="token punctuation">(</span>ServletRequest servletRequest<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    WebAsyncManager asyncManager <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 在当前请求属性中尝试获取</span>
+    Object asyncManagerAttr <span class="token operator">=</span> servletRequest<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span>WEB_ASYNC_MANAGER_ATTRIBUTE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>asyncManagerAttr <span class="token keyword">instanceof</span> <span class="token class-name">WebAsyncManager</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        asyncManager <span class="token operator">=</span> <span class="token punctuation">(</span>WebAsyncManager<span class="token punctuation">)</span> asyncManagerAttr<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//不存在创建，并添加到属性当中</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>asyncManager <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        asyncManager <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebAsyncManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        servletRequest<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span>WEB_ASYNC_MANAGER_ATTRIBUTE<span class="token punctuation">,</span> asyncManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> asyncManager<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        在配置文件中，可以通过spring.mvc.async.request.request-timeout指定异步请求超时，同时也可以通过WebMvcConfigurer接口实现类Bean的configureAsyncSupport方法配置更多的属性。</p>
+<p>​        已知MvcProperties为spring.mvc下所有配置属性的表现类，那其中也必然有spring.mvc.async.request-timeout的绑定属性，为MvcProperties.async.requestTimeout，通过查找该属性的使用位置，找到了使用该值进行配置的逻辑，即在WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter的configureAsyncSupport方法中。<br>​        可以看到WebMvcAutoConfigurationAdapter正是WebMvcConfigurer配置器接口实现类，即改配置其实是通过配置接口的实现类Bean实现的，</p>
+<p>​        那么配置器是如何生效的呢，在RequestMapping组件初始化中，已经讲述过EnableWebMVCConfiguration与其父类DelegatingWebMvcConfiguration及再上一级的父类WebMvcConfigurationSupport的大致作用，可以就以Async的配置为例，简述其代码的实现原理。一样通过反查法的方式推断。</p>
+<p>​        通过查找WebMvcConfigurer.configureAsyncSupport方法的调用，可以找到两处。第一处是DelegatingWebMvcConfiguration的configureAsyncSupport方法，第二处是WebMvcConfigurerComposite的configureAsyncSupport方法，第一次调用的就是第二次的方法。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DelegatingWebMvcConfiguration</span> <span class="token keyword">extends</span> <span class="token class-name">WebMvcConfigurationSupport</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">// 创建WebMvc配置类组合类，用于组合全部配置器实例</span>
+   <span class="token keyword">private</span> <span class="token keyword">final</span> WebMvcConfigurerComposite configurers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebMvcConfigurerComposite</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// 自定注入当前应用上下文所有MVC配置类</span>
+    <span class="token annotation punctuation">@Autowired</span><span class="token punctuation">(</span>required <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setConfigurers</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>WebMvcConfigurer<span class="token operator">></span> configurers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>CollectionUtils<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span>configurers<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>configurers<span class="token punctuation">.</span><span class="token function">addWebMvcConfigurers</span><span class="token punctuation">(</span>configurers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    、
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>AsyncSupportConfigurer configurer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 配置时，调用配置类组合器的配置方法</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>configurers<span class="token punctuation">.</span><span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>configurer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//配置器组合器，同样实现配置器接口</span>
+<span class="token keyword">class</span> <span class="token class-name">WebMvcConfigurerComposite</span> <span class="token keyword">implements</span> <span class="token class-name">WebMvcConfigurer</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 全部配置类Bean实例列表，名字叫做delegates代理，即代理Bean的调用</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> List<span class="token operator">&lt;</span>WebMvcConfigurer<span class="token operator">></span> delegates <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//添加需要代理执行的配置类</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addWebMvcConfigurers</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>WebMvcConfigurer<span class="token operator">></span> configurers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>CollectionUtils<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span>configurers<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>delegates<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span>configurers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 代理执行配置方法</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>AsyncSupportConfigurer configurer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>WebMvcConfigurer delegate <span class="token operator">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>delegates<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            delegate<span class="token punctuation">.</span><span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>configurer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        可以看到配置器组合类的目的是代理多个配置器的配置方法调用，所以该方法的真实调用其实是DelegatingWebMvcConfigureration的ConfigureAsyncSupport</p>
+<p>方法，该方法重写了父类WebMvcConfigureationSupport方法</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> RequestMappingHandlerAdapter <span class="token function">requestMappingHandlerAdapter</span><span class="token punctuation">(</span>
+      <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcContentNegotiationManager"</span><span class="token punctuation">)</span> ContentNegotiationManager contentNegotiationManager<span class="token punctuation">,</span>
+      <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcConversionService"</span><span class="token punctuation">)</span> FormattingConversionService conversionService<span class="token punctuation">,</span>
+      <span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"mvcValidator"</span><span class="token punctuation">)</span> Validator validator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//...省略</span>
+    <span class="token comment" spellcheck="true">// 创建Async配置支持</span>
+   AsyncSupportConfigurer configurer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AsyncSupportConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//调用 Async配置方法，子类重写该方法实现通过WevMvcConfigurer配置Async的目的</span>
+   <span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>configurer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 配置完成之后获取Async相关配置与组件并设置到RequestMappingHandlerAdapter组件中</span>
+   <span class="token keyword">if</span> <span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getTaskExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      adapter<span class="token punctuation">.</span><span class="token function">setTaskExecutor</span><span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getTaskExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+    <span class="token operator">/</span>
+   <span class="token keyword">if</span> <span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      adapter<span class="token punctuation">.</span><span class="token function">setAsyncRequestTimeout</span><span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getTimeout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+   adapter<span class="token punctuation">.</span><span class="token function">setCallableInterceptors</span><span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getCallableInterceptors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   adapter<span class="token punctuation">.</span><span class="token function">setDeferredResultInterceptors</span><span class="token punctuation">(</span>configurer<span class="token punctuation">.</span><span class="token function">getDeferredResultInterceptors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token keyword">return</span> adapter<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="11-ThemeSource-主题源"><a href="#11-ThemeSource-主题源" class="headerlink" title="11  ThemeSource 主题源"></a>11  ThemeSource 主题源</h3><blockquote>
+<p>​        主题源也不是DispatchServlet原始组件的一部分，其在DispatcherServlet的doService方法中设置到请求属性中，通过DispatcherServlet的getThemeSource方法获取了主题源。在默认情况，获取到的主题源是Web应用上下文自身，因为默认Web应用上下文实现类ThemeSource接口。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//获取主题源</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">public</span> <span class="token keyword">final</span> ThemeSource <span class="token function">getThemeSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token function">getWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">instanceof</span> <span class="token class-name">ThemeSource</span> <span class="token operator">?</span> <span class="token punctuation">(</span>ThemeSource<span class="token punctuation">)</span> <span class="token function">getWebApplicationContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>​        而在Web应用上下文中，其实现的ThemeSource接口的getTheme方法其实是个代理方法，真正执行的是当前Web应用上下文实例中保存的ThemeSource主题源实例。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 代理方法</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token annotation punctuation">@Nullable</span>
+<span class="token keyword">public</span> Theme <span class="token function">getTheme</span><span class="token punctuation">(</span>String themeName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   Assert<span class="token punctuation">.</span><span class="token function">state</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>themeSource <span class="token operator">!=</span> null<span class="token punctuation">,</span> <span class="token string">"No ThemeSource available"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 实际执行本类主题源实例的该方法</span>
+   <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>themeSource<span class="token punctuation">.</span><span class="token function">getTheme</span><span class="token punctuation">(</span>themeName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>​        那么上面代码中主题源实例何时初始化的呢？通过查找其引用，找到了设置值的位置为GenericWebApplicationContext上下文类的onRefresh方法，通过UiApplicationContextUtils的initThemeSource方法进行初始化</p>
+<p>​        在initThemeSource方法中，则尝试先从BeanFactory中或其父BeanFactory中获取名称为themesource，类型为ThemeSource的bean作为主题源。</p>
+</blockquote>
+<h3 id="12-MessageSource信息源"><a href="#12-MessageSource信息源" class="headerlink" title="12 MessageSource信息源"></a>12 MessageSource信息源</h3><h3 id="13-SpringBoot-配置类简单解析"><a href="#13-SpringBoot-配置类简单解析" class="headerlink" title="13 SpringBoot 配置类简单解析"></a>13 SpringBoot 配置类简单解析</h3><p><img src="/2020/11/29/Spring-MVC-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%BB%84%E4%BB%B6%E5%88%9D%E5%A7%8B%E5%8C%96/image-20201206164605785.png" alt="image-20201206164605785"></p>
+<ul>
+<li><code>WebMvcConfigurer</code></li>
+</ul>
+<blockquote>
+<p>暂时理解为WebMvc的配置扩展类</p>
+</blockquote>
+<ul>
+<li><code>WebMvcConfigurerComposite</code></li>
+</ul>
+<blockquote>
+<p>WebMvcConfigurer的组合器</p>
+</blockquote>
+<ul>
+<li><code>WebMvcConfigurerSupport</code></li>
+</ul>
+<blockquote>
+<p>为Mvc组件的定义与组件配置提供支持，所有的Bean的定义都在这个组类中，同时该类在定义前后会执行一些配置方法。SpringBoot引入配置类<code>EnableWebMvcConfiguration</code>的作用仅仅是为了通过spring.mvc相关配置来定制其中的一些组件的特性</p>
+</blockquote>
+<ul>
+<li><code>DelegatingWebMvcConfiguration</code></li>
+</ul>
+<blockquote>
+<p>为实现通过WebMvcConfigurer接口实现类Bean进行Mvc配置的目的。其中注入当前上下文中全部WebMvcConfigurer类型的Bean作为配置器List，并在父类WebMvcConfigurationSupport执行组件配置方式时，遍历这个配置器list，实现逐一配置。实现类内部@Bean定义组件的目的，同时DelegatingWebMvcconfiguration中还添加了通过WebMvcConfigurer配置器组件配置WebMvc组件功能</p>
+</blockquote>
+<ul>
+<li><code>WebMvcAutoConfigurer</code></li>
+</ul>
+<blockquote>
+<p>在此类中包含<code>WebMvcAutoConfigurationAdapter</code>类</p>
+</blockquote>
+<ul>
+<li><code>EnableWebMvcConfiguration</code></li>
+</ul>
+<blockquote>
+<p>为了通过spring.mvc相关配置来定制其中的一些组件的特性，并且包含全部的MVC需要使用到组件初始化逻辑</p>
+</blockquote>
+<ul>
+<li><code>WebMvcAutoConfigurationAdapter</code></li>
+</ul>
+<blockquote>
+<p>引入了EnableWebMvcConfigureation类作为配置类，在该配置类中包含全部的MVC需要使用到组件初始化逻辑，并且配置一部分MvcProperties属性</p>
+</blockquote>
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>Spring Mvc 组件配置核心就是在SpringBoot中为WebMvcAutoconfiguration自动配置类，其中根据提供的配置属性定制、创建一些MVC中的组件。同时还提供了WebMvcAutoConfigurationAdapter，该类为WEbMvcConfigurer配置器的实现类，其中的配置方法里又根据配置文件中提供的配置属性定制了MVC组件特性，又提供了EnableWebMvcConfiguration这个核心的MVC配置类，内部提供了MVC全部组件的注册与配置逻辑，用于实现无法通过WebMvcConfigurer达到配置的功能。</p>
+</blockquote>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Curiosity</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lijinzedev.github.io/2020/11/29/Spring-MVC-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%BB%84%E4%BB%B6%E5%88%9D%E5%A7%8B%E5%8C%96/">https://lijinzedev.github.io/2020/11/29/Spring-MVC-%E7%9B%B8%E5%85%B3%E7%BB%84%E4%BB%B6%E4%BB%A5%E5%8F%8A%E7%BB%84%E4%BB%B6%E5%88%9D%E5%A7%8B%E5%8C%96/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Curiosity</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/">
+                                    <span class="chip bg-color">源码 - SpringMvc</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/11/29/CentOS%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="CentOS常用Linux命令">
+                        
+                        <span class="card-title">CentOS常用Linux命令</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/linux-CentOS/" class="post-category">
+                                    linux - CentOS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-CentOS/">
+                        <span class="chip bg-color">linux - CentOS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/11/19/DispatcherServlet%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="DispatcherServlet详解">
+                        
+                        <span class="card-title">DispatcherServlet详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源代码 - SpringMvc源码
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/">
+                        <span class="chip bg-color">源码 - SpringMvc</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2020</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Curiosity</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
