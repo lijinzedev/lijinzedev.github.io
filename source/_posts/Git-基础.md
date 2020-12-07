@@ -27,6 +27,8 @@ git rm -r --cached .//清空缓存
 git add .//重新提交
 git commit -m "update .gitignore"
 git push
+
+
 ```
 
 
