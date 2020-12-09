@@ -7,7 +7,7 @@ mathjax: true
 categories:
   - linux - CentOS
 tags:
-  - linux - CentOS - gitlab
+  - linux - CentOS - gitlab - docker
 date: 2020-11-29 16:10:36
 password:
 summary:
