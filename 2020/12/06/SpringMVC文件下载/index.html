@@ -443,8 +443,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/SpringMVC-%E5%8A%9F%E8%83%BD/" class="post-category">
-                                SpringMVC - 功能
+                            <a href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/" class="post-category">
+                                SpringMVC - 基础
                             </a>
                         
                     </div>
@@ -480,7 +480,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/test/download/{fileName}"</span><span class="token punctuation">)</span>
+                <h1 id="SpringMVC-文件下载"><a href="#SpringMVC-文件下载" class="headerlink" title="SpringMVC 文件下载"></a>SpringMVC 文件下载</h1><h1 id="1-Resource同步文件下载方式"><a href="#1-Resource同步文件下载方式" class="headerlink" title="1 Resource同步文件下载方式"></a>1 Resource同步文件下载方式</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/test/download/{fileName}"</span><span class="token punctuation">)</span>
 <span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>Resource<span class="token operator">></span> <span class="token function">downLoad</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"fileName"</span><span class="token punctuation">)</span> String fileName<span class="token punctuation">)</span> <span class="token keyword">throws</span> UnsupportedEncodingException<span class="token punctuation">,</span> InterruptedException <span class="token punctuation">{</span>
     String filePath <span class="token operator">=</span> <span class="token string">"D:\\00_aa_lijinze_java_web_stady\\"</span> <span class="token operator">+</span> fileName<span class="token punctuation">;</span>
     FileSystemResource resource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileSystemResource</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -496,28 +496,72 @@
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>resource<span class="token punctuation">,</span> headers<span class="token punctuation">,</span> HttpStatus<span class="token punctuation">.</span>CREATED<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
+</code></pre>
+<h1 id="2-StreamingResponseBody-异步下载方式"><a href="#2-StreamingResponseBody-异步下载方式" class="headerlink" title="2 StreamingResponseBody 异步下载方式"></a>2 StreamingResponseBody 异步下载方式</h1><h3 id="1-配置Task"><a href="#1-配置Task" class="headerlink" title="1 配置Task"></a>1 配置Task</h3><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableAsync</span>
+<span class="token annotation punctuation">@EnableScheduling</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AsyncConfiguration</span> <span class="token keyword">implements</span> <span class="token class-name">AsyncConfigurer</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"taskExecutor"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> AsyncTaskExecutor <span class="token function">getAsyncExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"Creating Async Task Executor"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ThreadPoolTaskExecutor executor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadPoolTaskExecutor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        executor<span class="token punctuation">.</span><span class="token function">setCorePoolSize</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        executor<span class="token punctuation">.</span><span class="token function">setMaxPoolSize</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        executor<span class="token punctuation">.</span><span class="token function">setQueueCapacity</span><span class="token punctuation">(</span><span class="token number">25</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> executor<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> AsyncUncaughtExceptionHandler <span class="token function">getAsyncUncaughtExceptionHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SimpleAsyncUncaughtExceptionHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/** Configure async support for Spring MVC. */</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> WebMvcConfigurer <span class="token function">webMvcConfigurer</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"taskExecutor"</span><span class="token punctuation">)</span> AsyncTaskExecutor taskExecutor<span class="token punctuation">,</span> CallableProcessingInterceptor callableProcessingInterceptor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">WebMvcConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>AsyncSupportConfigurer configurer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                configurer<span class="token punctuation">.</span><span class="token function">setDefaultTimeout</span><span class="token punctuation">(</span><span class="token number">360000</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setTaskExecutor</span><span class="token punctuation">(</span>taskExecutor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                configurer<span class="token punctuation">.</span><span class="token function">registerCallableInterceptors</span><span class="token punctuation">(</span>callableProcessingInterceptor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                WebMvcConfigurer<span class="token punctuation">.</span><span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">configureAsyncSupport</span><span class="token punctuation">(</span>configurer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> CallableProcessingInterceptor <span class="token function">callableProcessingInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TimeoutCallableProcessingInterceptor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token operator">&lt;</span>T<span class="token operator">></span> Object <span class="token function">handleTimeout</span><span class="token punctuation">(</span>NativeWebRequest request<span class="token punctuation">,</span> Callable<span class="token operator">&lt;</span>T<span class="token operator">></span> task<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+                log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"timeout!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">handleTimeout</span><span class="token punctuation">(</span>request<span class="token punctuation">,</span> task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="2-异步下载"><a href="#2-异步下载" class="headerlink" title="2 异步下载"></a>2 异步下载</h3><pre class=" language-java"><code class="language-java">
 <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"/test/download"</span><span class="token punctuation">)</span>
-<span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>StreamingResponseBody<span class="token operator">></span> <span class="token function">downLoad2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> UnsupportedEncodingException <span class="token punctuation">{</span>
+<span class="token keyword">public</span> ResponseEntity<span class="token operator">&lt;</span>StreamingResponseBody<span class="token operator">></span> <span class="token function">downLoad2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> IOExceptionn <span class="token punctuation">{</span>
     String filePath <span class="token operator">=</span> <span class="token string">"D:\\00_aa_lijinze_java_web_stady\\《Spring源码深度解析（第2版）》_郝佳- AiBooKs.Cc.pdf"</span><span class="token punctuation">;</span>
     FileSystemResource resource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileSystemResource</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
     MediaType mediaType <span class="token operator">=</span> MediaTypeFactory
             <span class="token punctuation">.</span><span class="token function">getMediaType</span><span class="token punctuation">(</span>resource<span class="token punctuation">)</span>
             <span class="token punctuation">.</span><span class="token function">orElse</span><span class="token punctuation">(</span>MediaType<span class="token punctuation">.</span>APPLICATION_OCTET_STREAM<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    HttpHeaders headers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    HttpHeaders headers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpHeaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>s
     headers<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span>mediaType<span class="token punctuation">)</span><span class="token punctuation">;</span>
     ContentDisposition disposition <span class="token operator">=</span> ContentDisposition<span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token string">"attachment"</span><span class="token punctuation">)</span>
             <span class="token punctuation">.</span><span class="token function">filename</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>resource<span class="token punctuation">.</span><span class="token function">getFilename</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"ISO-8859-1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
             <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     headers<span class="token punctuation">.</span><span class="token function">setContentDisposition</span><span class="token punctuation">(</span>disposition<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ResponseEntity</span><span class="token operator">&lt;</span>StreamingResponseBody<span class="token operator">></span><span class="token punctuation">(</span>outputStream <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> bytesRead<span class="token punctuation">;</span>
-        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span>BUFFER_SIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        InputStream inputStream <span class="token operator">=</span> resource<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>bytesRead <span class="token operator">=</span> inputStream<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            outputStream<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>buffer<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> bytesRead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> headers<span class="token punctuation">,</span> HttpStatus<span class="token punctuation">.</span>CREATED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span>BufferedOutputStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedOutputStream</span><span class="token punctuation">(</span>outputStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+             BufferedInputStream inputStream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedInputStream</span><span class="token punctuation">(</span>resource<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            StreamUtils<span class="token punctuation">.</span><span class="token function">copy</span><span class="token punctuation">(</span>inputStream<span class="token punctuation">,</span> stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> headers<span class="token punctuation">,</span> HttpStatus<span class="token punctuation">.</span>CREATE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
 <span class="token punctuation">}</span></code></pre>
 
                 
