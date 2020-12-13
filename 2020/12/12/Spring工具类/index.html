@@ -1,0 +1,1747 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spring工具类, Curiosity的博客">
+    <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spring工具类 | Curiosity的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Curiosity的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Curiosity的博客</div>
+        <div class="logo-desc">
+            
+            SpringBoot | Mybatis | Java | Mysql
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spring工具类</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                                <span class="chip bg-color">Spring - Spring基础 - Spring工具类</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="post-category">
+                                Spring - Spring基础 - Spring工具类
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-12-12
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="1-Spring工具"><a href="#1-Spring工具" class="headerlink" title="1 Spring工具"></a>1 Spring工具</h1><h2 id="1-IdGenerator唯一键生成器-UUID"><a href="#1-IdGenerator唯一键生成器-UUID" class="headerlink" title="1 IdGenerator唯一键生成器 UUID"></a>1 IdGenerator唯一键生成器 UUID</h2><p><img src="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/image-20201212215449169.png" alt="image-20201212215449169"></p>
+<h3 id="1-JdkIdGenerator"><a href="#1-JdkIdGenerator" class="headerlink" title="1 JdkIdGenerator"></a>1 <strong>JdkIdGenerator</strong></h3><blockquote>
+<p>JDK内置UUID生成器</p>
+</blockquote>
+<h3 id="2-AlternativeJdkIdGenerator"><a href="#2-AlternativeJdkIdGenerator" class="headerlink" title="2 AlternativeJdkIdGenerator"></a>2 <strong>AlternativeJdkIdGenerator</strong></h3><blockquote>
+<p>Spring提供的UUID生成器，替换调用<code>UUID#randomUUID()</code>。它提供了一个更好、更高性能的表现</p>
+</blockquote>
+<h3 id="3-SimpleIdGenerator"><a href="#3-SimpleIdGenerator" class="headerlink" title="3 SimpleIdGenerator"></a>3 <strong>SimpleIdGenerator</strong></h3><blockquote>
+<p>类似于自增的Id生成器。每调用一次，自增1</p>
+</blockquote>
+<h2 id="2-Assert-断言工具类"><a href="#2-Assert-断言工具类" class="headerlink" title="2 Assert 断言工具类"></a>2 Assert 断言工具类</h2><blockquote>
+<p>Assert断言工具类，通常用于数据合法性检查。Assert断言工具类，通常用于数据合法性检查.</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">Assert<span class="token punctuation">.</span><span class="token function">notNull</span><span class="token punctuation">(</span>Object object<span class="token punctuation">,</span> <span class="token string">"object is required"</span><span class="token punctuation">)</span>  </code></pre>
+<h2 id="3-PathMatcher-路径匹配器"><a href="#3-PathMatcher-路径匹配器" class="headerlink" title="3 PathMatcher 路径匹配器"></a>3 PathMatcher 路径匹配器</h2><blockquote>
+<p>Spring提供的实现：<code>AntPathMatcher</code>：Ant路径匹配规则</p>
+</blockquote>
+<p>1 AntPathMatcher可以匹配@RequestMapping，也可以用来匹配各种字符串，包括文件路径</p>
+<h3 id="1-匹配方式"><a href="#1-匹配方式" class="headerlink" title="1 匹配方式"></a><strong>1 匹配方式</strong></h3><ul>
+<li><code>?</code>匹配单字符</li>
+<li><code>*</code>匹配0或者任意数量的字符</li>
+<li><code>**</code> 匹配0或者更多目录</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>URL路径</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/test/*.x</td>
+<td>匹配以.x结尾的</td>
+</tr>
+<tr>
+<td>/test/a??le</td>
+<td>类似于数据库的<code>_</code></td>
+</tr>
+<tr>
+<td>/test/**/</td>
+<td></td>
+</tr>
+</tbody></table>
+<pre class=" language-java"><code class="language-java"><span class="token function">assertFalse</span><span class="token punctuation">(</span>pathMatcher<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token string">"test*"</span><span class="token punctuation">,</span> <span class="token string">"test/"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//注意这里是false 因为路径不能用*匹配</span>
+<span class="token function">assertFalse</span><span class="token punctuation">(</span>pathMatcher<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token string">"test*"</span><span class="token punctuation">,</span> <span class="token string">"test/t"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//这同理</span>
+<span class="token comment" spellcheck="true">//这个需要特别注意：{}里面的相当于Spring MVC里接受一个参数一样，所以任何东西都会匹配的</span>
+<span class="token function">assertTrue</span><span class="token punctuation">(</span>pathMatcher<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token string">"/{bla}.*"</span><span class="token punctuation">,</span> <span class="token string">"/testing.html"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">assertFalse</span><span class="token punctuation">(</span>pathMatcher<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token string">"/{bla}.htm"</span><span class="token punctuation">,</span> <span class="token string">"/testing.html"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//这样就是false了</span></code></pre>
+<p><strong>最长匹配规则（has more characters）</strong>    </p>
+<blockquote>
+<p>​        即越精确的模式越会被优先匹配到。例如，URL请求/app/dir/file.jsp，现在存在两个路径匹配模式/*<em>/</em>.jsp和/app/dir/<em>.jsp，那么会根据模式/app/dir/</em>.jsp来匹配。</p>
+</blockquote>
+<h3 id="2-匹配文件路径"><a href="#2-匹配文件路径" class="headerlink" title="2  匹配文件路径"></a>2  匹配文件路径</h3><blockquote>
+<p>​        AntPathMatcher不仅可以匹配URL路径，也可以匹配文件路径。但是需要注意AntPathMacher有构造参数，传递分割参数<code>pathSeparator</code>若不传值默认为<code>/ </code>，对于操作系统来说，需要根据不同的操作系统来传递文件分割符，以此来防止匹配路径错误。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">AntPathMatcher matcher<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">AntPathMatcher</span><span class="token punctuation">(</span>File<span class="token punctuation">.</span>separator<span class="token punctuation">)</span><span class="token punctuation">;</span>
+AntPathMatcher matcher <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AntPathMatcher</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"file.separator"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="4-ConcurrentReferenceHashMap"><a href="#4-ConcurrentReferenceHashMap" class="headerlink" title="4 ConcurrentReferenceHashMap"></a>4 ConcurrentReferenceHashMap</h2><blockquote>
+<p>JDK也为我们提供了<code>WeakHashMap</code>来使用。但是，但是它并不是线程安全的，因此刚好Spring给我们功提供这个工具类：<code>ConcurrentReferenceHashMap</code>满足了我们对线程安全的弱、软引用的需求。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Test</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+    String key <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    String value <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">"val"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentReferenceHashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span> ConcurrentReferenceHashMap<span class="token punctuation">.</span>ReferenceType<span class="token punctuation">.</span>WEAK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>map<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//{key=val}</span>
+    key <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span><span class="token function">gc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//等待一会 确保GC能够过来</span>
+    TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>map<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//{}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>我们发现当我们把key设置为null后，垃圾回收器会回收掉这部分内存。这就是弱、虚引用的作用，主要用来防止OOM。</p>
+</blockquote>
+<h2 id="5-DefaultPropertiesPersister"><a href="#5-DefaultPropertiesPersister" class="headerlink" title="5 DefaultPropertiesPersister"></a>5 DefaultPropertiesPersister</h2><blockquote>
+<p>这个类本身没有什么特别的，就是代理了JDK的Properties类而已。但写到此处是觉得Spring优秀就优秀在它强大的<code>对扩展开放的原则</code>体现。</p>
+<p>比如如果我们需要对配置文件进行解密（比如数据库连接密码不能明文），这些操作通过复写这些扩展类的某些方法来做，将特别的优雅。</p>
+</blockquote>
+<p><a href="https://www.xuebuyuan.com/1924773.html" target="_blank" rel="noopener">spring启动时，解密配置文件的密文</a></p>
+<h2 id="6-DigestUtils"><a href="#6-DigestUtils" class="headerlink" title="6 DigestUtils"></a>6 DigestUtils</h2><blockquote>
+<p>可以对字节数组、InputStream流生成摘要。10禁止或者16进制都行</p>
+</blockquote>
+<h2 id="7-FastByteArrayOutputStream"><a href="#7-FastByteArrayOutputStream" class="headerlink" title="7 FastByteArrayOutputStream"></a>7 FastByteArrayOutputStream</h2><blockquote>
+<p>​        增强版的<code>ByteArrayOutputStream</code>实底层原理是Spring采用了一个LinkedList来作为缓冲区,而<code>ByteArrayOutputStream</code>直接使用的字节数组。这样每一次扩容中分配一个数组的空间，并当该数据放入到List中。相当于批量的操作，而ByteArrayOutputStream内部实现为一个数组每一次扩容需要重新分配空间并将数据复制到新数组中。效率高下立判了~因此推荐使用</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">    <span class="token comment" spellcheck="true">// The buffers used to store the content bytes</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> LinkedList<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">></span> buffers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="8-FileCopyUtils、FileSystemUtils、StreamUtils"><a href="#8-FileCopyUtils、FileSystemUtils、StreamUtils" class="headerlink" title="8 FileCopyUtils、FileSystemUtils、StreamUtils"></a>8 FileCopyUtils、FileSystemUtils、StreamUtils</h2><blockquote>
+<p>​        都是操作文件、操作流的一些工具类。这里就不做过多的介绍了，因为还是比较简单的。</p>
+</blockquote>
+<h2 id="9-LinkedCaseInsensitiveMap-，LinkedMultiValueMap"><a href="#9-LinkedCaseInsensitiveMap-，LinkedMultiValueMap" class="headerlink" title="9 LinkedCaseInsensitiveMap ，LinkedMultiValueMap"></a>9 LinkedCaseInsensitiveMap ，LinkedMultiValueMap</h2><h3 id="1-LinkedCaseInsensitiveMap"><a href="#1-LinkedCaseInsensitiveMap" class="headerlink" title="1 LinkedCaseInsensitiveMap"></a>1 LinkedCaseInsensitiveMap</h3><blockquote>
+<p>​        不区分大小写的有序map;底层代理了LinkedHashMap，因此它能保证有序。此Map的意义在于：在编写比如MaBatis这种类似的自动封装框架的时候，特备有用。</p>
+<p>​        <strong>数据库本身对大小写不敏感（例如mysql），但是创建表格的时候，数据库里面字段都会默认小写，所以MyBatis映射的时候，key也会映射成小写，可以用LinkedCaseInsensitiveMap（key值不区分大小写的LinkedMap）来处理。</strong></p>
+</blockquote>
+<p><strong>注意：</strong></p>
+<blockquote>
+<p>LinkedCaseInsensitiveMap的key一定是String</p>
+</blockquote>
+<h3 id="2-LinkedMultiValueMap"><a href="#2-LinkedMultiValueMap" class="headerlink" title="2 LinkedMultiValueMap"></a>2 LinkedMultiValueMap</h3><blockquote>
+<p>见名之意，一个key对应多个value。废话不多说，直接感受一把就知道了。没有Apache Common提供的好用。但是一般来说也足够用了~</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java">   <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">fun1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//用Map接的时候  请注意第二个泛型 是个List哦</span>
+        <span class="token comment" spellcheck="true">//Map&lt;String, List&lt;Integer>> map = new LinkedMultiValueMap&lt;>();</span>
+        LinkedMultiValueMap<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Integer<span class="token operator">></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedMultiValueMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//此处务必注意，如果你还是用put方法  那是没有效果的 同一个key还是会覆盖</span>
+        <span class="token comment" spellcheck="true">//map.put("a", Arrays.asList(1));</span>
+        <span class="token comment" spellcheck="true">//map.put("a", Arrays.asList(1));</span>
+        <span class="token comment" spellcheck="true">//map.put("a", Arrays.asList(1));</span>
+        <span class="token comment" spellcheck="true">//System.out.println(map); //{a=[1]}</span>
+
+        <span class="token comment" spellcheck="true">//请用add方法</span>
+        map<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        map<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>map<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//{a=[1, 1, 1]}</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2 id="10-PropertyPlaceholderHelper"><a href="#10-PropertyPlaceholderHelper" class="headerlink" title="10 PropertyPlaceholderHelper"></a>10 PropertyPlaceholderHelper</h2><blockquote>
+<p>​    作用：将字符串里的占位符内容，用我们配置的properties里的替换。这个是一个单纯的类，没有继承没有实现，没有依赖Spring框架其他的任何类。</p>
+<p>我们自定义支持的表达式的时候，我们也可以高大上的说，我的格式支持spel表达式<code>SpelExpressionParser</code>。更加的灵活了。</p>
+<p>@Value注解或者其余spel表达式的东西，都得依赖于这个来做。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+    String a <span class="token operator">=</span> <span class="token string">"{name}{age}{sex}"</span><span class="token punctuation">;</span>
+    String b <span class="token operator">=</span> <span class="token string">"{name{age}{sex}}"</span><span class="token punctuation">;</span>
+    PropertyPlaceholderHelper propertyPlaceholderHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PropertyPlaceholderHelper</span><span class="token punctuation">(</span><span class="token string">"{"</span><span class="token punctuation">,</span> <span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    InputStream in <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedInputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"D:\\work\\remotegitcheckoutproject\\myprojects\\java\\boot2-demo1\\src\\main\\resources\\application.properties"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    properties<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//==============开始解析此字符串==============</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"替换前:"</span> <span class="token operator">+</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//替换前:{name}{age}{sex}</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"替换后:"</span> <span class="token operator">+</span> propertyPlaceholderHelper<span class="token punctuation">.</span><span class="token function">replacePlaceholders</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> properties<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//替换后:wangzha18man</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"===================================================="</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"替换前:"</span> <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//替换前:{name{age}{sex}}</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"替换后:"</span> <span class="token operator">+</span> properties<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//替换后:love  最后输出love，证明它是从内往外一层一层解析的</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="11-SpringVersion、SpringBootVersion"><a href="#11-SpringVersion、SpringBootVersion" class="headerlink" title="11 SpringVersion、SpringBootVersion"></a>11 SpringVersion、SpringBootVersion</h2><blockquote>
+<p>获取当前Spring版本号</p>
+</blockquote>
+<h2 id="12-ReflectionUtils-反射工具类"><a href="#12-ReflectionUtils-反射工具类" class="headerlink" title="12 ReflectionUtils 反射工具类"></a>12 ReflectionUtils 反射工具类</h2><blockquote>
+<p>反射在容器中使用是非常频繁的了，这些方法一般在Spring框架内部使用。</p>
+</blockquote>
+<h3 id="1-变量"><a href="#1-变量" class="headerlink" title="1 变量"></a>1 变量</h3><blockquote>
+<p>该方法是从类里面找到字段对象(private以及父类的都会找哟，但是static的就不会）</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> Field <span class="token function">findField</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">,</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> Field <span class="token function">findField</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> String name<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">setField</span><span class="token punctuation">(</span>Field field<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Object target<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Object value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 测试代码</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Person person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"fsx"</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Field field <span class="token operator">=</span> ReflectionUtils<span class="token punctuation">.</span><span class="token function">findField</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    field<span class="token punctuation">.</span><span class="token function">setAccessible</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//注意，如果是private的属性，请加上这一句，否则抛出异常：can not access a member of class com.fsx.boot2demo1.bean.Person with modifiers "private"</span>
+
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ReflectionUtils<span class="token punctuation">.</span><span class="token function">getField</span><span class="token punctuation">(</span>field<span class="token punctuation">,</span> person<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//fsx</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2 方法"></a>2 方法</h3><blockquote>
+<p>也是一样非常的强大。private、父类方法都能获取到。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> Method <span class="token function">findMethod</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">,</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> Method <span class="token function">findMethod</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">,</span> String name<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> paramTypes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">invokeMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Object target<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//这个不需要自己处理异常哦</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">invokeMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Object target<span class="token punctuation">,</span> <span class="token annotation punctuation">@Nullable</span> Object<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Person person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"fsx"</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ReflectionUtils<span class="token punctuation">.</span><span class="token function">findMethod</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"clone"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//protected native java.lang.Object java.lang.Object.clone() throws java.lang.CloneNotSupportedException</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ReflectionUtils<span class="token punctuation">.</span><span class="token function">findMethod</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"getName"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//public java.lang.String com.fsx.boot2demo1.bean.Person.getName()</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ReflectionUtils<span class="token punctuation">.</span><span class="token function">findMethod</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"setName"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//public void com.fsx.boot2demo1.bean.Person.setName(java.lang.String)</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ReflectionUtils<span class="token punctuation">.</span><span class="token function">findMethod</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"privateMethod"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//private void com.fsx.boot2demo1.bean.Person.privateMethod()</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="3-异常"><a href="#3-异常" class="headerlink" title="3 异常"></a>3 异常</h3><pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">handleReflectionException</span><span class="token punctuation">(</span>Exception ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">rethrowRuntimeException</span><span class="token punctuation">(</span>Throwable ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">boolean</span> <span class="token function">declaresException</span><span class="token punctuation">(</span>Method method<span class="token punctuation">,</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> exceptionType<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//判断一个方法上是否声明了指定类型的异常</span>
+<span class="token keyword">boolean</span> <span class="token function">isPublicStaticFinal</span><span class="token punctuation">(</span>Field field<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//判断字段是否是public static final的</span>
+<span class="token keyword">boolean</span> <span class="token function">isEqualsMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//判断该方法是否是equals方法</span>
+<span class="token keyword">boolean</span> <span class="token function">isHashCodeMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">boolean</span> <span class="token function">isToStringMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">boolean</span> <span class="token function">isObjectMethod</span><span class="token punctuation">(</span>Method method<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//判断该方法是否是Object类上的方法</span>
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">makeAccessible</span><span class="token punctuation">(</span>Field field<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//将一个字段设置为可读写，主要针对private字段</span>
+<span class="token keyword">void</span> <span class="token function">makeAccessible</span><span class="token punctuation">(</span>Method method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">makeAccessible</span><span class="token punctuation">(</span>Constructor<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> ctor<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p>在AopUtils中也有这几个isXXX方法，是的，其实AopUtils中的isXXX方法就是调用的ReflectionUtils的这几个方法的；所以可见此工具类的强大</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Person person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">"fsx"</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Method<span class="token punctuation">[</span><span class="token punctuation">]</span> allDeclaredMethods <span class="token operator">=</span> ReflectionUtils<span class="token punctuation">.</span><span class="token function">getAllDeclaredMethods</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//我们发现  这个方法可以把所有的申明的方法都打印出来。包含private和父类的   备注：重复方法都会拿出来。比如此处的toString方法 子类父类的都有</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>Method method <span class="token operator">:</span> allDeclaredMethods<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"------------------------------------"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//针对于上面的结果过滤。只会保留一个同名的方法（保留子类的）</span>
+    Method<span class="token punctuation">[</span><span class="token punctuation">]</span> uniqueDeclaredMethods <span class="token operator">=</span> ReflectionUtils<span class="token punctuation">.</span><span class="token function">getUniqueDeclaredMethods</span><span class="token punctuation">(</span>Person<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>Method method <span class="token operator">:</span> uniqueDeclaredMethods<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>4 方法</p>
+<p><img src="https://img-blog.csdnimg.cn/2019020220230677.png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>针对指定类型上的所有方法，依次调用MethodCallback回调；看个源码就知道这个方法的作用：</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">doWithLocalMethods</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> clazz<span class="token punctuation">,</span> MethodCallback mc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Method<span class="token punctuation">[</span><span class="token punctuation">]</span> methods <span class="token operator">=</span> <span class="token function">getDeclaredMethods</span><span class="token punctuation">(</span>clazz<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>Method method <span class="token operator">:</span> methods<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            mc<span class="token punctuation">.</span><span class="token function">doWith</span><span class="token punctuation">(</span>method<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IllegalAccessException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>其实实现很简单，就是得到类上的所有方法，然后执行回调接口；这个方法在Spring针对bean的方法上的标签处理时大量使用，比如<code>@Init，@Resource，@Autowire</code>等标签的预处理；</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190202202739940.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Y2NDEzODU3MTI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190202202655814.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190202202655814.png" alt="在这里插入图片描述"></p>
+<h2 id="13-ResourceUtils"><a href="#13-ResourceUtils" class="headerlink" title="13 ResourceUtils"></a>13 ResourceUtils</h2><blockquote>
+<p>Spring 提供了一个 ResourceUtils 工具类，它支持“<strong>classpath:**”和“</strong>file:**”的地址前缀，它能够从指定的地址加载文件资源。（其实还支持“jar:和war:前缀”）</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">ResourceUtils</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String CLASSPATH_URL_PREFIX <span class="token operator">=</span> <span class="token string">"classpath:"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String FILE_URL_PREFIX <span class="token operator">=</span> <span class="token string">"file:"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String JAR_URL_PREFIX <span class="token operator">=</span> <span class="token string">"jar:"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> String WAR_URL_PREFIX <span class="token operator">=</span> <span class="token string">"war:"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment" spellcheck="true">// 是否是一个URL</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isUrl</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Nullable</span> String resourceLocation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>resourceLocation <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 对classpath:进行了特殊的照顾</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>resourceLocation<span class="token punctuation">.</span><span class="token function">startsWith</span><span class="token punctuation">(</span>CLASSPATH_URL_PREFIX<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span>resourceLocation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">MalformedURLException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> URL <span class="token function">getURL</span><span class="token punctuation">(</span>String resourceLocation<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> File <span class="token function">getFile</span><span class="token punctuation">(</span>String resourceLocation<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> File <span class="token function">getFile</span><span class="token punctuation">(</span>URL resourceUrl<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> File <span class="token function">getFile</span><span class="token punctuation">(</span>URI resourceUri<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> File <span class="token function">getFile</span><span class="token punctuation">(</span>URI resourceUri<span class="token punctuation">,</span> String description<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 判断</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isFileURL</span><span class="token punctuation">(</span>URL url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 均是和protocol 这个协议有关的~~~</span>
+        String protocol <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">getProtocol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>URL_PROTOCOL_FILE<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>protocol<span class="token punctuation">)</span> <span class="token operator">||</span> URL_PROTOCOL_VFSFILE<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>protocol<span class="token punctuation">)</span> <span class="token operator">||</span>
+                URL_PROTOCOL_VFS<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>protocol<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isJarURL</span><span class="token punctuation">(</span>URL url<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// @since 4.1</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isJarFileURL</span><span class="token punctuation">(</span>URL url<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// URL和URI的转换</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> URI <span class="token function">toURI</span><span class="token punctuation">(</span>URL url<span class="token punctuation">)</span> <span class="token keyword">throws</span> URISyntaxException <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">toURI</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> URI <span class="token function">toURI</span><span class="token punctuation">(</span>String location<span class="token punctuation">)</span> <span class="token keyword">throws</span> URISyntaxException <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">URI</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>location<span class="token punctuation">,</span> <span class="token string">" "</span><span class="token punctuation">,</span> <span class="token string">"%20"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>例如：</strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> FileNotFoundException <span class="token punctuation">{</span>
+    File file <span class="token operator">=</span> ResourceUtils<span class="token punctuation">.</span><span class="token function">getFile</span><span class="token punctuation">(</span><span class="token string">"classpath:application.properties"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//D:\work\remotegitcheckoutproject\myprojects\java\boot2-demo1\target\classes\application.properties</span>
+
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ResourceUtils<span class="token punctuation">.</span><span class="token function">isUrl</span><span class="token punctuation">(</span><span class="token string">"classpath:application.properties"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//true</span>
+
+    <span class="token comment" spellcheck="true">//注意此处输出的路径为正斜杠 ‘/’的  上面直接输出File是反斜杠的（和操作系统相关）</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ResourceUtils<span class="token punctuation">.</span><span class="token function">getURL</span><span class="token punctuation">(</span><span class="token string">"classpath:application.properties"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//file:/D:/work/remotegitcheckoutproject/myprojects/java/boot2-demo1/target/classes/application.properties</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>备注：若你在使用过程中，发现ResourceUtils.getFile()死活都找不到文件的话，那我提供一个建议：是否是在jar包内使用了此工具类，一般不建议在jar包内使用。另外，提供一个代替方案：可解决大多数问题：</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ClassPathResource resource <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ClassPathResource</span><span class="token punctuation">(</span><span class="token string">"application.properties"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>resource<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//class path resource [application.properties]</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="14-SerializationUtils"><a href="#14-SerializationUtils" class="headerlink" title="14 SerializationUtils"></a>14 SerializationUtils</h2><blockquote>
+<p>这个工具就不做过多解释了。提供了两个方法：对象&lt;–&gt;二进制的相互转化。（基于源生JDK的序列化方式）</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">serialize</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Nullable</span> Object object<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> Object <span class="token function">deserialize</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Nullable</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> bytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="15-SocketUtils"><a href="#15-SocketUtils" class="headerlink" title="15 SocketUtils"></a>15 SocketUtils</h2><blockquote>
+<p>提供给我们去系统找可用的Tcp、Udp端口来使用。有的时候确实还蛮好用的，必进端口有时候不用写死了，提高灵活性</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SocketUtils<span class="token punctuation">.</span>PORT_RANGE_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//65535 最大端口号</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SocketUtils<span class="token punctuation">.</span><span class="token function">findAvailableTcpPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//45569 随便找一个可用的Tcp端口 每次执行值都不一样哦</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SocketUtils<span class="token punctuation">.</span><span class="token function">findAvailableTcpPort</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//1325 从指定范围内随便找一个端口</span>
+
+    <span class="token comment" spellcheck="true">//找一堆端口出来  并且是排好序的</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SocketUtils<span class="token punctuation">.</span><span class="token function">findAvailableTcpPorts</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//[1007, 1034, 1287, 1483, 1494, 1553, 1577, 1740, 1963, 1981]</span>
+
+    <span class="token comment" spellcheck="true">//UDP端口的找寻 同上</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SocketUtils<span class="token punctuation">.</span><span class="token function">findAvailableUdpPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//12007</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>其长度都是16个bit，所以端口号范围是0到(2^16-1)，即 0到 65535。其中0到1023是IANA规定的系统端口，即系统保留窗口。<strong>例如HTTP为80端口，DNS服务为53端口</strong>。下面列出常用tcp和udp重要协议端口号，供以参考</p>
+</blockquote>
+<h2 id="16-StringUtils"><a href="#16-StringUtils" class="headerlink" title="16 StringUtils"></a>16 StringUtils</h2><h3 id="1-字符串判定"><a href="#1-字符串判定" class="headerlink" title="1 字符串判定"></a>1 字符串判定</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//判断类：</span>
+<span class="token comment" spellcheck="true">// boolean isEmpty(Object str):字符串是否为空或者空字符串：""</span>
+<span class="token comment" spellcheck="true">// boolean hasLength(CharSequence str):字符串是否为空，或者长度为0</span>
+<span class="token comment" spellcheck="true">// boolean hasText(String str):字符串是否有内容（不为空，且不全为空格）</span>
+<span class="token function">assertFalse</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">hasText</span><span class="token punctuation">(</span><span class="token string">"   "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// boolean containsWhitespace(String str):字符串是否包含空格</span>
+<span class="token function">assertTrue</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">containsWhitespace</span><span class="token punctuation">(</span><span class="token string">"a b"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="2-字符串头尾操作"><a href="#2-字符串头尾操作" class="headerlink" title="2 字符串头尾操作"></a>2 字符串头尾操作</h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//字符串头尾操作</span>
+<span class="token comment" spellcheck="true">// String trimWhitespace(String str):去掉字符串前后的空格</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"abc"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">trimWhitespace</span><span class="token punctuation">(</span><span class="token string">" abc "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// String trimAllWhitespace(String str):去掉字符串中所有的空格</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"abc"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">trimAllWhitespace</span><span class="token punctuation">(</span><span class="token string">" a b c "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// String trimLeadingWhitespace(String str):去掉字符串开头的空格</span>
+<span class="token comment" spellcheck="true">// String trimTrailingWhitespace(String str):去掉字符串结束的空格</span>
+
+<span class="token comment" spellcheck="true">// String trimLeadingCharacter(String str, char leadingCharacter):去掉字符串开头的指定字符；</span>
+<span class="token comment" spellcheck="true">// String trimTrailingCharacter(String str, char trailingCharacter):去掉字符串结尾的指定字符；</span>
+
+<span class="token comment" spellcheck="true">// boolean startsWithIgnoreCase(String str, String prefix):</span>
+<span class="token comment" spellcheck="true">// 判断字符串是否以指定字符串开头，忽略大小写</span>
+<span class="token function">assertTrue</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">startsWithIgnoreCase</span><span class="token punctuation">(</span><span class="token string">"abcd"</span><span class="token punctuation">,</span> <span class="token string">"AB"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// boolean endsWithIgnoreCase(String str, String suffix):</span>
+<span class="token comment" spellcheck="true">// 判断字符串是否以指定字符串结尾，忽略大小写</span></code></pre>
+<h3 id="3-文件操作"><a href="#3-文件操作" class="headerlink" title="3 文件操作"></a>3 <code>文件操作</code></h3><blockquote>
+<p>文件路径名称相关操作，是针对文件名，文件路径，文件后缀等常见文件操作中需要用到的方法进行封装；</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// String unqualify(String qualifiedName):</span>
+<span class="token comment" spellcheck="true">// 得到以.分割的最后一个值，可以非常方便的获取类似类名或者文件后缀</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">unqualify</span><span class="token punctuation">(</span><span class="token string">"cn.wolfcode.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">unqualify</span><span class="token punctuation">(</span><span class="token string">"cn/wolfcode/Hello.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String unqualify(String qualifiedName, char separator):</span>
+<span class="token comment" spellcheck="true">// 得到以给定字符分割的最后一个值，可以非常方便的获取类似文件名</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"Hello.java"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">unqualify</span><span class="token punctuation">(</span><span class="token string">"cn/wolfcode/Hello.java"</span><span class="token punctuation">,</span> File<span class="token punctuation">.</span>separatorChar<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String capitalize(String str):首字母大写</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"Wolfcode"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">capitalize</span><span class="token punctuation">(</span><span class="token string">"wolfcode"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// String uncapitalize(String str):取消首字母大写（首字母小写）</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"java"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">uncapitalize</span><span class="token punctuation">(</span><span class="token string">"Java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String getFilename(String path):获取文件名,就不需要再使用FilenameUtils</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"myfile.txt"</span><span class="token punctuation">,</span>StringUtils<span class="token punctuation">.</span><span class="token function">getFilename</span><span class="token punctuation">(</span><span class="token string">"mypath/myfile.txt"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// String getFilenameExtension(String path):获取文件后缀名</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"txt"</span><span class="token punctuation">,</span>StringUtils<span class="token punctuation">.</span><span class="token function">getFilenameExtension</span><span class="token punctuation">(</span><span class="token string">"mypath/myfile.txt"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// String stripFilenameExtension(String path):截取掉文件路径后缀</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"mypath/myfile"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">stripFilenameExtension</span><span class="token punctuation">(</span><span class="token string">"mypath/myfile.txt"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String applyRelativePath(String path, String relativePath):</span>
+<span class="token comment" spellcheck="true">// 找到给定的文件，和另一个相对路径的文件，返回第二个文件的全路径</span>
+<span class="token comment" spellcheck="true">// 打印：d:/java/wolfcode/other/Some.java</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">applyRelativePath</span><span class="token punctuation">(</span><span class="token string">"d:/java/wolfcode/Test.java"</span><span class="token punctuation">,</span> <span class="token string">"other/Some.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 但是不支持重新定位绝对路径和上级目录等复杂一些的相对路径写法：</span>
+<span class="token comment" spellcheck="true">// 仍然打印：d:/java/wolfcode/../other/Some.java</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">applyRelativePath</span><span class="token punctuation">(</span><span class="token string">"d:/java/wolfcode/Test.java"</span><span class="token punctuation">,</span> <span class="token string">"../other/Some.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String cleanPath(String path): =====这个方法非常的重要</span>
+<span class="token comment" spellcheck="true">// 清理文件路径,这个方法配合applyRelativePath就可以计算一些简单的相对路径了</span>
+<span class="token comment" spellcheck="true">// 打印:d:/java/other/Some.java</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">cleanPath</span><span class="token punctuation">(</span><span class="token string">"d:/java/wolfcode/../other/Some.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 需求：获取d:/java/wolfcode/Test.java相对路径为../../other/Some.java的文件全路径：</span>
+<span class="token comment" spellcheck="true">// 打印：d:/other/Some.java</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">cleanPath</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">applyRelativePath</span><span class="token punctuation">(</span> <span class="token string">"d:/java/wolfcode/Test.java"</span><span class="token punctuation">,</span> <span class="token string">"../../other/Some.java"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// boolean pathEquals(String path1, String path2):</span>
+<span class="token comment" spellcheck="true">// 判断两个文件路径是否相同，会先执行cleanPath之后再比较</span>
+<span class="token function">assertTrue</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">pathEquals</span><span class="token punctuation">(</span><span class="token string">"d:/wolfcode.txt"</span><span class="token punctuation">,</span><span class="token string">"d:/somefile/../wolfcode.txt"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="4-字符串和子串的操作"><a href="#4-字符串和子串的操作" class="headerlink" title="4 字符串和子串的操作"></a><strong>4 字符串和子串的操作</strong></h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// boolean substringMatch(CharSequence str, int index, CharSequence</span>
+<span class="token comment" spellcheck="true">// substring):判断从指定索引开始，是否匹配子字符串</span>
+<span class="token function">assertTrue</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">substringMatch</span><span class="token punctuation">(</span><span class="token string">"aabbccdd"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"abb"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// int countOccurrencesOf(String str, String sub):判断子字符串在字符串中出现的次数</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">countOccurrencesOf</span><span class="token punctuation">(</span><span class="token string">"ababaabab"</span><span class="token punctuation">,</span> <span class="token string">"ab"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String replace(String inString, String oldPattern, String</span>
+<span class="token comment" spellcheck="true">// newPattern):在字符串中使用子字符串替换</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"cdcdacdcd"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"ababaabab"</span><span class="token punctuation">,</span> <span class="token string">"ab"</span><span class="token punctuation">,</span> <span class="token string">"cd"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String delete(String inString, String pattern):删除所有匹配的子字符串；</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">"ababaabab"</span><span class="token punctuation">,</span> <span class="token string">"ab"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String deleteAny(String inString, String charsToDelete):删除子字符串中任意出现的字符</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">deleteAny</span><span class="token punctuation">(</span><span class="token string">"ababaabab"</span><span class="token punctuation">,</span> <span class="token string">"bar"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String quote(String str) :在字符串前后增加单引号,比较适合在日志时候使用；</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"'hello'"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">quote</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="5-和Locale相关的一些字符串操作"><a href="#5-和Locale相关的一些字符串操作" class="headerlink" title="5 和Locale相关的一些字符串操作"></a>5 <strong>和Locale相关的一些字符串操作</strong></h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// Locale parseLocaleString(String localeString):</span>
+<span class="token comment" spellcheck="true">// 从本地化字符串中解析出本地化信息，相当于Locale.toString()的逆向方法</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span>Locale<span class="token punctuation">.</span>CHINA<span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">parseLocaleString</span><span class="token punctuation">(</span><span class="token string">"zh_CN"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// @deprecated as of 5.0.4, in favor of {@link Locale#toLanguageTag()}</span>
+<span class="token comment" spellcheck="true">// String toLanguageTag(Locale locale):把Locale转化成HTTP中Accept-Language能接受的本地化标准；</span>
+<span class="token comment" spellcheck="true">// 比如标准的本地化字符串为：zh_CN，更改为zh-CN</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">toLanguageTag</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">parseLocaleString</span><span class="token punctuation">(</span><span class="token string">"zh_CN"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="6-字符串和Properties"><a href="#6-字符串和Properties" class="headerlink" title="6 字符串和Properties"></a>6 <strong>字符串和Properties</strong></h3><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//Properties splitArrayElementsIntoProperties(String[] array, String delimiter):</span>
+<span class="token comment" spellcheck="true">// 把字符串数组中的每一个字符串按照给定的分隔符装配到一个Properties中</span>
+String<span class="token punctuation">[</span><span class="token punctuation">]</span> strs<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token string">"key:value"</span><span class="token punctuation">,</span><span class="token string">"key2:中文"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Properties ps<span class="token operator">=</span>StringUtils<span class="token punctuation">.</span><span class="token function">splitArrayElementsIntoProperties</span><span class="token punctuation">(</span>strs<span class="token punctuation">,</span> <span class="token string">":"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//打印输出：{key=value, key2=中文}</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ps<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//Properties splitArrayElementsIntoProperties(String[] array, String delimiter, String charsToDelete)</span>
+<span class="token comment" spellcheck="true">//把字符串数组中的每一个字符串按照给定的分隔符装配到一个Properties中,并删除指定字符串，比如括号之类的；</span>
+</code></pre>
+<p>7 <strong><code>字符串和数组之间的基本操作（重要）</code></strong></p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// String[] addStringToArray(String[] array, String str):把一个字符串添加到一个字符串数组中</span>
+<span class="token comment" spellcheck="true">// 打印：[a, b, c, d]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils
+        <span class="token punctuation">.</span><span class="token function">addStringToArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token string">"c"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"d"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// String[] concatenateStringArrays(String[] array1, String[]array2):连接两个字符串数组</span>
+<span class="token comment" spellcheck="true">//打印：[a, b, c, a, b, c, d]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">concatenateStringArrays</span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token string">"c"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token string">"c"</span><span class="token punctuation">,</span><span class="token string">"d"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//String[] mergeStringArrays(String[] array1, String[] array2)：连接两个字符串数组，去掉重复元素</span>
+<span class="token comment" spellcheck="true">//打印：[a, b, c, d]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">mergeStringArrays</span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token string">"c"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token string">"c"</span><span class="token punctuation">,</span><span class="token string">"d"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//String[] sortStringArray(String[] array):字符串数组排序</span>
+<span class="token comment" spellcheck="true">//打印：[a, b, c, d]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">sortStringArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token string">"d"</span><span class="token punctuation">,</span><span class="token string">"c"</span><span class="token punctuation">,</span><span class="token string">"b"</span><span class="token punctuation">,</span><span class="token string">"a"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//String[] toStringArray(Collection&lt;String> collection):把字符串集合变成字符串数组</span>
+<span class="token comment" spellcheck="true">//String[] toStringArray(Enumeration&lt;String> enumeration):把字符串枚举类型变成字符串数组</span>
+<span class="token comment" spellcheck="true">//String[] trimArrayElements(String[] array):把字符串数组中所有字符串执行trim功能；</span>
+<span class="token comment" spellcheck="true">//String[] removeDuplicateStrings(String[] array):去掉给定字符串数组中重复的元素，能保持原顺序；</span>
+<span class="token comment" spellcheck="true">//String[] split(String toSplit, String delimiter):按照指定字符串分割字符串；</span>
+<span class="token function">assertArrayEquals</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token string">"wolfcode"</span><span class="token punctuation">,</span><span class="token string">"cn"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"wolfcode.cn"</span><span class="token punctuation">,</span> <span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//只分割第一次，打印：[www, wolfcode.cn]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"www.wolfcode.cn"</span><span class="token punctuation">,</span> <span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token comment" spellcheck="true">//String[] tokenizeToStringArray(String str, String delimiters)</span>
+<span class="token comment" spellcheck="true">//会对每一个元素执行trim操作，并去掉空字符串</span>
+<span class="token comment" spellcheck="true">//使用的是StringTokenizer完成，</span>
+<span class="token comment" spellcheck="true">//打印[b, c, d]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">tokenizeToStringArray</span><span class="token punctuation">(</span><span class="token string">"aa,ba,ca,da"</span><span class="token punctuation">,</span> <span class="token string">"a,"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//String[] tokenizeToStringArray(String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens)</span>
+<span class="token comment" spellcheck="true">//后面两个参数在限定是否对每一个元素执行trim操作，是否去掉空字符串</span>
+
+<span class="token comment" spellcheck="true">//String[] delimitedListToStringArray(String str, String delimiter):分割字符串，会把delimiter作为整体分隔符</span>
+<span class="token comment" spellcheck="true">//打印：[a, b, c, da]</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>StringUtils<span class="token punctuation">.</span><span class="token function">delimitedListToStringArray</span><span class="token punctuation">(</span><span class="token string">"aa,ba,ca,da"</span><span class="token punctuation">,</span> <span class="token string">"a,"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//String[] delimitedListToStringArray(String str, String delimiter, String charsToDelete)</span>
+<span class="token comment" spellcheck="true">//分割字符串，会把delimiter作为整体分隔符，增加一个要从分割字符串中删除的字符；</span>
+
+<span class="token comment" spellcheck="true">//String[] commaDelimitedListToStringArray(String str):使用逗号分割字符串</span>
+<span class="token comment" spellcheck="true">//是delimitedListToStringArray(str, ",")的简单方法</span>
+
+<span class="token comment" spellcheck="true">//Set&lt;String> commaDelimitedListToSet(String str)：使用逗号分割字符串，并放到set中去重</span>
+<span class="token comment" spellcheck="true">//使用LinkedHashSet;</span>
+
+<span class="token comment" spellcheck="true">//String collectionToDelimitedString(Collection&lt;?> coll, String delim, String prefix, String suffix)</span>
+<span class="token comment" spellcheck="true">//将一个集合中的元素，使用前缀，后缀，分隔符拼装一个字符串，前缀后后缀是针对每一个字符串的</span>
+String<span class="token punctuation">[</span><span class="token punctuation">]</span> arrs<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token string">"aa"</span><span class="token punctuation">,</span><span class="token string">"bb"</span><span class="token punctuation">,</span><span class="token string">"cc"</span><span class="token punctuation">,</span><span class="token string">"dd"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"{aa},{bb},{cc},{dd}"</span><span class="token punctuation">,</span> StringUtils<span class="token punctuation">.</span><span class="token function">collectionToDelimitedString</span><span class="token punctuation">(</span>Arrays<span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span>arrs<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">","</span><span class="token punctuation">,</span><span class="token string">"{"</span><span class="token punctuation">,</span><span class="token string">"}"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//String collectionToDelimitedString(Collection&lt;?> coll, String delim)：集合变成指定字符串连接的字符串；</span>
+<span class="token comment" spellcheck="true">//是collectionToDelimitedString(coll, delim, "", "")的简写；</span>
+<span class="token comment" spellcheck="true">//String collectionToCommaDelimitedString(Collection&lt;?> coll)：集合变成逗号连接的字符串；</span>
+<span class="token comment" spellcheck="true">//是collectionToDelimitedString(coll, ",");的简写；</span>
+
+<span class="token comment" spellcheck="true">//String arrayToDelimitedString(Object[] arr, String delim)：数组使用指定字符串连接；</span>
+<span class="token comment" spellcheck="true">//String arrayToCommaDelimitedString(Object[] arr)：使用逗号连接数组，拼成字符串；</span>
+</code></pre>
+<blockquote>
+<p><strong>StringUtils类中的方法其实真的还是很多，可能平时我们用的比较多的还是一些普通的方法，其实类似文件路径，文件名等相关操作，以前还会专门引入common-io的FilenameUtils等额外的工具类，原来在StringUtils中都有，而且根据其设计的这些方法，我们也能大概的猜出一些方法在Spring中哪些地方可能有用；</strong></p>
+</blockquote>
+<h2 id="17-SystemPropertyUtils-占位符解析工具类"><a href="#17-SystemPropertyUtils-占位符解析工具类" class="headerlink" title="17 SystemPropertyUtils 占位符解析工具类"></a>17 SystemPropertyUtils 占位符解析工具类</h2><blockquote>
+<p>该类依赖于上面已经说到的<code>PropertyPlaceholderHelper</code>来处理。本类只处理系统默认属性值</p>
+<p>该工具类很简单，但是非常的使用。可以很好的利用起来，Spring内部也有非常之多的使用。</p>
+<p>在平时的程序开发中，我们也经常会遇到一些痛点，比如规则引擎（公式）：<code>A=${B}+${C}+1</code>，这样我们只需要得到B和C的值，然后再放入公式计算即可</p>
+<p>占位符在Spring、Tomcat、Maven里都有大量的使用。下面用简单的例子体验一把：</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> String <span class="token function">resolvePlaceholders</span><span class="token punctuation">(</span>String text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//如果标志位为true，则没有默认值的无法解析的占位符将保留原样不被解析 默认为false</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> String <span class="token function">resolvePlaceholders</span><span class="token punctuation">(</span>String text<span class="token punctuation">,</span> <span class="token keyword">boolean</span> ignoreUnresolvablePlaceholders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SystemPropertyUtils<span class="token punctuation">.</span><span class="token function">resolvePlaceholders</span><span class="token punctuation">(</span><span class="token string">"${os.name}/logs/app.log"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//Windows 10/logs/app.log</span>
+
+    <span class="token comment" spellcheck="true">//备注：这里如果不传true，如果找不到app.root这个key就会报错哦。传true后找不到也原样输出</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>SystemPropertyUtils<span class="token punctuation">.</span><span class="token function">resolvePlaceholders</span><span class="token punctuation">(</span><span class="token string">"${app.root}/logs/app.log"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//${app.root}/logs/app.log</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>另外，<code>org.springframework.core.io.support.PropertiesLoaderUtils</code>也是Spring提供的加载<code>.properties</code>配置文件的重要工具类之一~</p>
+<p><a href="https://blog.csdn.net/f641385712/article/details/89380067?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160777993819724818085193%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=160777993819724818085193&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-1-89380067.pc_v2_rank_blog_default&utm_term=%E5%B7%A5%E5%85%B7%E7%B1%BB&spm=1018.2118.3001.4450" target="_blank" rel="noopener">A哥Spring工具类第二篇</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Curiosity</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://lijinzedev.github.io/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">https://lijinzedev.github.io/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Curiosity</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                                    <span class="chip bg-color">Spring - Spring基础 - Spring工具类</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Spring工具类">
+                        
+                        <span class="card-title">Spring工具类</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="post-category">
+                                    Spring - Spring基础 - Spring工具类
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                        <span class="chip bg-color">Spring - Spring基础 - Spring工具类</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Docker基础入门">
+                        
+                        <span class="card-title">Docker基础入门</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/docker/" class="post-category">
+                                    docker
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/docker/">
+                        <span class="chip bg-color">docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2020</span>
+            
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Curiosity</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

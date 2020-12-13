@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CentOS配置网络, Curiosity的博客">
+    <meta name="keywords" content="Docker基础入门, Curiosity的博客">
     <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CentOS配置网络 | Curiosity的博客</title>
+    <title>Docker基础入门 | Curiosity的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CentOS配置网络</h1>
+                    <h1 class="description center-align post-title">Docker基础入门</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +431,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux-CentOS/">
-                                <span class="chip bg-color">linux - CentOS</span>
+                            <a href="/tags/docker/">
+                                <span class="chip bg-color">docker</span>
                             </a>
                         
                     </div>
@@ -443,8 +443,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/linux-CentOS/" class="post-category">
-                                linux - CentOS
+                            <a href="/categories/docker/" class="post-category">
+                                docker
                             </a>
                         
                     </div>
@@ -456,7 +456,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-29
+                    2020-12-08
                 </div>
                 
 
@@ -480,34 +480,69 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="CentOS配置网络"><a href="#CentOS配置网络" class="headerlink" title="CentOS配置网络"></a>CentOS配置网络</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 命令</span>
-<span class="token function">vi</span> /etc/sysconfig/network-scripts/ifcfg-ens33
+                <h1 id="1-Docker基础入门"><a href="#1-Docker基础入门" class="headerlink" title="1 Docker基础入门"></a>1 Docker基础入门</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1 安装"></a>1 安装</h2><h3 id="1-安装docker"><a href="#1-安装docker" class="headerlink" title="1 安装docker"></a>1 安装docker</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#1.卸载旧版本</span>
+yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
 
-TYPE<span class="token operator">=</span>Ethernet                <span class="token comment" spellcheck="true"># 网卡类型：为以太网</span>
-PROXY_METHOD<span class="token operator">=</span>none            <span class="token comment" spellcheck="true"># 代理方式：关闭状态</span>
-BROWSER_ONLY<span class="token operator">=</span>no                <span class="token comment" spellcheck="true"># 只是浏览器：否</span>
-<span class="token comment" spellcheck="true"># BOOTPROTO=dhcp  # 网卡的引导协议：DHCP[中文名称: 动态主机配置协议]</span>
-BOOTPROTO<span class="token operator">=</span>static
-IPADDR<span class="token operator">=</span>192.168.0.110 <span class="token comment" spellcheck="true"># 静态ip</span>
-GATEWAY<span class="token operator">=</span>192.168.0.1 <span class="token comment" spellcheck="true"># 网关</span>
-NETMASK<span class="token operator">=</span>255.255.255.0 <span class="token comment" spellcheck="true"># 子网掩码</span>
-DNS1<span class="token operator">=</span>192.168.1.1 <span class="token comment" spellcheck="true"># dns</span>
-DEFROUTE<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># 默认路由：是, 不明白的可以百度关键词 `默认路由` </span>
-IPV4_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV4致命错误检测：否</span>
-IPV6INIT<span class="token operator">=</span>yes                <span class="token comment" spellcheck="true"># IPV6是否自动初始化: 是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_AUTOCONF<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否自动配置：是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_DEFROUTE<span class="token operator">=</span>yes            <span class="token comment" spellcheck="true"># IPV6是否可以为默认路由：是[不会有任何影响, 现在还没用到IPV6]</span>
-IPV6_FAILURE_FATAL<span class="token operator">=</span>no        <span class="token comment" spellcheck="true"># 是不开启IPV6致命错误检测：否</span>
-IPV6_ADDR_GEN_MODE<span class="token operator">=</span>stable-privacy            <span class="token comment" spellcheck="true"># IPV6地址生成模型：stable-privacy [这只一种生成IPV6的策略]</span>
-NAME<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡物理设备名称</span>
-UUID<span class="token operator">=</span>f47bde51-fa78-4f79-b68f-d5dd90cfc698    <span class="token comment" spellcheck="true"># 通用唯一识别码, 每一个网卡都会有, 不能重复, 否两台linux只有一台网卡可用</span>
-DEVICE<span class="token operator">=</span>ens33                    <span class="token comment" spellcheck="true"># 网卡设备名称, 必须和 `NAME` 值一样</span>
-ONBOOT<span class="token operator">=</span>yes  <span class="token comment" spellcheck="true"># 设置网卡启动方式为 开机启动 并且可以通过系统服务管理器 systemctl 控制网卡   </span>
+<span class="token comment" spellcheck="true">#2.需要的安装包</span>
+yum <span class="token function">install</span> -y yum-utils
 
-</code></pre>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 重启网络</span>
-<span class="token function">service</span> network restart
-systemctl restart network</code></pre>
+<span class="token comment" spellcheck="true">#3.设置镜像的仓库</span>
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+<span class="token comment" spellcheck="true">#默认是从国外的，不推荐</span>
+<span class="token comment" spellcheck="true">#推荐使用国内的</span>
+yum-config-manager \
+    --add-repo \
+    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+<span class="token comment" spellcheck="true">#更新yum软件包索引</span>
+yum makecache fast
+
+<span class="token comment" spellcheck="true">#4.安装docker相关的(docker-ce 社区版 而ee是企业版)</span>
+yum <span class="token function">install</span> docker-ce docker-ce-cli containerd.io
+
+<span class="token comment" spellcheck="true">#5.启动Docker</span>
+systemctl start docker
+
+<span class="token comment" spellcheck="true">#6.使用docker version查看是否按照成功</span>
+docker version
+
+<span class="token comment" spellcheck="true">#7.开机自启</span>
+systemctl <span class="token function">enable</span> docker</code></pre>
+<h3 id="2-配置阿里云镜像加速"><a href="#2-配置阿里云镜像加速" class="headerlink" title="2 配置阿里云镜像加速"></a>2 配置阿里云镜像加速</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> -p /etc/docker
+<span class="token function">sudo</span> <span class="token function">tee</span> /etc/docker/daemon.json <span class="token operator">&lt;&lt;</span>-<span class="token string">'EOF'</span>
+<span class="token punctuation">{</span>
+  <span class="token string">"registry-mirrors"</span><span class="token keyword">:</span> <span class="token punctuation">[</span><span class="token string">"https://4bj04jx5.mirror.aliyuncs.com"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+EOF
+<span class="token function">sudo</span> systemctl daemon-reload
+<span class="token function">sudo</span> systemctl restart docker</code></pre>
+<h2 id="2-命令"><a href="#2-命令" class="headerlink" title="2 命令"></a>2 命令</h2><h3 id="1-帮助命令"><a href="#1-帮助命令" class="headerlink" title="1 帮助命令"></a>1 帮助命令</h3><ul>
+<li><code>docker version</code></li>
+<li><code>docker info</code></li>
+<li><code>docker --help</code></li>
+</ul>
+<h3 id="2-镜像命令"><a href="#2-镜像命令" class="headerlink" title="2  镜像命令"></a>2  镜像命令</h3><ul>
+<li><code>docker images</code> 列出本地的镜像<ul>
+<li><code>-a </code> 列出本地所有的镜像（含中间映像层）</li>
+<li><code>-q</code> 只显示镜像ID</li>
+<li><code>--digests</code> 显示镜像的摘要信息</li>
+<li><code>--no-trunc</code> 显示完整的镜像信息</li>
+</ul>
+</li>
+<li><code>docker search &lt;某个镜像的名字&gt;</code>  <ul>
+<li></li>
+</ul>
+</li>
+</ul>
 
                 
             </div>
@@ -534,7 +569,7 @@ systemctl restart network</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lijinzedev.github.io/2020/11/29/CentOS%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/">https://lijinzedev.github.io/2020/11/29/CentOS%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/</a>
+                    <a href="https://lijinzedev.github.io/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">https://lijinzedev.github.io/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -572,8 +607,8 @@ systemctl restart network</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux-CentOS/">
-                                    <span class="chip bg-color">linux - CentOS</span>
+                                <a href="/tags/docker/">
+                                    <span class="chip bg-color">docker</span>
                                 </a>
                             
                         </div>
@@ -747,13 +782,13 @@ systemctl restart network</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/29/docker%E5%AE%89%E8%A3%85gitlab/">
+                <a href="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="docker安装gitlab">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Spring工具类">
                         
-                        <span class="card-title">docker安装gitlab</span>
+                        <span class="card-title">Spring工具类</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -764,14 +799,14 @@ systemctl restart network</code></pre>
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-12
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/linux-CentOS/" class="post-category">
-                                    linux - CentOS
+                            <a href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="post-category">
+                                    Spring - Spring基础 - Spring工具类
                                 </a>
                             
                             
@@ -781,8 +816,8 @@ systemctl restart network</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-CentOS-gitlab-docker/">
-                        <span class="chip bg-color">linux - CentOS - gitlab - docker</span>
+                    <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                        <span class="chip bg-color">Spring - Spring基础 - Spring工具类</span>
                     </a>
                     
                 </div>
@@ -796,13 +831,13 @@ systemctl restart network</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/29/CentOS%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/">
+                <a href="/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="CentOS常用Linux命令">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="搜索技巧[持续更新]">
                         
-                        <span class="card-title">CentOS常用Linux命令</span>
+                        <span class="card-title">搜索技巧[持续更新]</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -813,14 +848,14 @@ systemctl restart network</code></pre>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/linux-CentOS/" class="post-category">
-                                    linux - CentOS
+                            <a href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="post-category">
+                                    小技巧
                                 </a>
                             
                             
@@ -830,8 +865,8 @@ systemctl restart network</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-CentOS/">
-                        <span class="chip bg-color">linux - CentOS</span>
+                    <a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/">
+                        <span class="chip bg-color">小技巧</span>
                     </a>
                     
                 </div>
