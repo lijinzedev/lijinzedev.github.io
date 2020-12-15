@@ -8,7 +8,7 @@ date: 2020-11-15 01:13:11
 password:
 summary:
 categories:
-  - SpringMVC - 功能
+  - SpringMVC - 基础
 tags:
   - SpringMVC - 异常解析器
 ---
