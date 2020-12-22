@@ -172,6 +172,8 @@ sudo systemctl restart docker
 
 * `docker cp 容器ID:路径 路径` 从容器拷贝到主机上
 
+
+
 ## 3 Docker 镜像
 
 ## 4 Docker数据卷
@@ -318,3 +320,71 @@ docker run -d -p 9080:8080 --name myt9 -v /zzyyuse/mydockerfile/tomcat9/test:/us
 
 ```
 
+## 7 Docker网络
+
+![image-20201222233356901](image-20201222233356901.png)
+
+* 容器的网卡是一对一对的
+* evth-pair，就是一对虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连
+* evth-pair充当一个桥梁，连接各种虚拟网络
+
+> 所有的容器不指定网络的情况下,都是docker0,docker会给容器分配一个默认的IP
+
+## 8 容器互联--link（不推荐）
+
+
+
+```bash
+# --link 连接网络,centos 可以ping通tomcat 反之不行，在host的配置中添加了tomcat的映射
+docker run -d -P --name centos --link tomcat
+```
+
+## 9 自定义网络
+
+* brideg 桥接（默认）自定义方式
+* none 不配置网络
+* host 和宿主机共享网络
+* container 容器网络连通（局限性大）
+
+```bash
+[root@localhost ~]# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+b1641c6fe2b8        bridge              bridge              local
+6e94609c9ec5        host                host                local
+13cba1d43999        none                null                local
+[root@localhost ~]# 
+
+```
+
+```bash
+# 直接启动的命令默认有一个 --net bridge  这个就是docker0
+docker run -d -P --name centos --net bridge centos
+# docker0 特点，默认，域名不能访问，--link可以打通连接
+
+docker network create --driver bridge --subnet 192.168.0.1/16 --gateway 192.168.0.1 customnet
+
+# 查看网络
+docker network inspect customnet
+
+```
+
+> 自定义网络docker可以帮助维护对应关系，推荐平时使用
+>
+> 不同的集群可以使用不同的网络，保证集群是安全和健康的
+
+### 自定义网络连通docker0或者其他网络
+
+```bash
+docker network connect customnet centos
+#连通之后就是把 centos 与customnet 打通，将centos放到了customnet网络下，也就是一个容器两个ip
+```
+
+跨网络操作其他容器就需要使用docker network connect
+
+## 10 Redis集群
+
+```java
+docker network create --driver bridge --subnet 192.168.0.1/16 --gateway 192.168.0.1 redis
+```
+
+S
