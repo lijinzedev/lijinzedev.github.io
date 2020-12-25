@@ -387,4 +387,3 @@ docker network connect customnet centos
 docker network create --driver bridge --subnet 192.168.0.1/16 --gateway 192.168.0.1 redis
 ```
 
-S
