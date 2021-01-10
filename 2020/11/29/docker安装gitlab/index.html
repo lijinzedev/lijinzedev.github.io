@@ -565,7 +565,7 @@ docker tag <span class="token punctuation">{</span>image_id<span class="token pu
 -p 8000:22 \
 --name gitlab \
 --restart always \
---hostname 192.168.0.100 \
+--hostname 172.16.7.110 \
 -v /home/gitlab/etc:/etc/gitlab  \
 -v /home/gitlab/logs:/var/log/gitlab  \
 -v /home/gitlab/data:/var/opt/gitlab  \
@@ -580,7 +580,7 @@ gitlab/gitlab-ce
 <span class="token comment" spellcheck="true"># 配置http协议所使用的访问地址</span>
 external_url <span class="token string">'http://172.16.7.110:8001'</span>
 <span class="token comment" spellcheck="true"># 配置ssh协议所使用的访和端口</span>
-gitlab_rails<span class="token punctuation">[</span><span class="token string">'gitlab_shell_ssh_port'</span><span class="token punctuation">]</span> <span class="token operator">=</span> 8002
+gitlab_rails<span class="token punctuation">[</span><span class="token string">'gitlab_shell_ssh_port'</span><span class="token punctuation">]</span> <span class="token operator">=</span> 8000
 
 <span class="token comment" spellcheck="true"># nginx 的监听端口号需要改成 80。</span>
 <span class="token comment" spellcheck="true"># 默认情况下 nginx 的监听端口号会从 external_url 中取，也就是 9080。</span>
@@ -613,14 +613,14 @@ docker <span class="token function">ps</span>
 systemctl restart docker
 
 启动gitlab
-docker run -d     --hostname 172.16.7.14     --publish 7001:443 --publish 7002:80 --publish 7003:22     --name gitlab --restart always     --volume /home/gitlab/etc:/etc/gitlab     --volume /home/gitlab/logs:/var/log/gitlab     --volume /home/gitlab/data:/var/opt/gitlab 镜像id
+docker run -d     --hostname 172.16.7.14     --publish 8001:443 --publish 8002:80 --publish 8000:22     --name gitlab --restart always     --volume /home/gitlab/etc:/etc/gitlab     --volume /home/gitlab/logs:/var/log/gitlab     --volume /home/gitlab/data:/var/opt/gitlab 镜像id
 
 
 关闭防火墙（选做）
 systemctl stop firewalld.service
 
 如果不关闭防火墙，还可以通过暴露指定端口
-firewall-cmd --permanent --add-port<span class="token operator">=</span>7002/tcp
+firewall-cmd --permanent --add-port<span class="token operator">=</span>8002/tcp
 firewall-cmd --reload</code></pre>
 <h2 id="开始访问"><a href="#开始访问" class="headerlink" title="开始访问"></a>开始访问</h2><p>Gitlab容器启动后，直接访问 <a href="http://ip/" target="_blank" rel="noopener">http://ip</a>  就可以进入gitlab访问页面，第一步要做的就是给root用户设置密码，设置完后，通过root + 设置的密码登录。</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><blockquote>
@@ -1172,7 +1172,7 @@ gitlab-ctl status</code></pre>
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2020</span>
+                <span id="year">2019-2021</span>
             
             <span id="year">2019</span>
             <a href="/about" target="_blank">Curiosity</a>

@@ -531,18 +531,299 @@ EOF
 <li><code>docker --help</code></li>
 </ul>
 <h3 id="2-镜像命令"><a href="#2-镜像命令" class="headerlink" title="2  镜像命令"></a>2  镜像命令</h3><ul>
-<li><code>docker images</code> 列出本地的镜像<ul>
+<li><p><code>docker images</code> 列出本地的镜像</p>
+<ul>
 <li><code>-a </code> 列出本地所有的镜像（含中间映像层）</li>
 <li><code>-q</code> 只显示镜像ID</li>
 <li><code>--digests</code> 显示镜像的摘要信息</li>
 <li><code>--no-trunc</code> 显示完整的镜像信息</li>
 </ul>
 </li>
-<li><code>docker search &lt;某个镜像的名字&gt;</code>  <ul>
-<li></li>
+<li><p><code>docker search &lt;某个镜像的名字&gt;</code>  </p>
+<ul>
+<li><code>--no--trunc</code> 显示完整的镜像描述</li>
+<li><code>-s</code> 列出收藏数不小于指定值的镜像</li>
+<li><code>automated</code> 只列出automated build类型的镜像</li>
+</ul>
+</li>
+<li><p><code>docker pull &lt;某个XXX镜像的名字&gt;</code></p>
+</li>
+<li><p><code>docker rmi &lt;某个XXX镜像名字ID&gt;</code> </p>
+</li>
+<li><p>删除镜像</p>
+<ul>
+<li>删除单个 <code>docker rmi -f &lt;镜像ID&gt;</code></li>
+<li>删除多个 <code>docker rmi -f 镜像名1:TAG 镜像名2:TAG</code></li>
+<li>删除全部 <code>docker rmi -f ${docker images -qa}</code></li>
+<li>docker ps -a -q | xargs docker rm</li>
 </ul>
 </li>
 </ul>
+<h3 id="3-容器命令"><a href="#3-容器命令" class="headerlink" title="3 容器命令"></a>3 容器命令</h3><ul>
+<li><code>docker run &lt;IMAGE&gt;</code><ul>
+<li><code>--name=&lt;容器的新名字&gt;</code></li>
+<li><code>-d</code> 后台运行容器,并返回容器ID,启动守护式容器</li>
+<li><code>-i </code>交互式</li>
+<li><code>-t </code>为容器重新分配一个伪输入终端</li>
+<li><code>-P</code> 随机端口映射</li>
+<li><code>-p </code>指定端口映射<ul>
+<li>ip:hostPort:containerPort</li>
+<li>ip::containerPort</li>
+<li>hostPort:containerPort</li>
+<li>containerPort</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>docker run -it centos /bin/bash </code></li>
+</ul>
+<blockquote>
+<p>  #使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。 </p>
+</blockquote>
+<ul>
+<li><p><code>docker ps</code> 列出所有<strong>正在运行</strong>的容器</p>
+<ul>
+<li><code>-a</code> :列出当前所有正在运行的容器+历史上运行过的</li>
+<li><code>-l</code> :显示最近创建的容器。</li>
+<li><code>-n</code>：显示最近n个创建的容器。</li>
+<li><code>-q</code> :静默模式，只显示容器编号。</li>
+<li><code>--no-trunc</code> :不截断输出。</li>
+</ul>
+</li>
+<li><p><code>exit</code> 容器停止推出</p>
+</li>
+<li><p><code>ctrk + P +Q</code> 容器不停止退出</p>
+</li>
+<li><p><code>docker start</code> 启动容器</p>
+</li>
+<li><p><code>docker stop </code>容器ID或者容器名</p>
+</li>
+<li><p><code>docker kill</code> 容器ID或者容器名</p>
+</li>
+<li><p><code>docker run -d centos /bin/sh -c &quot;while true;do echo hello zzyy;sleep 2;done&quot;</code></p>
+</li>
+</ul>
+<blockquote>
+<p>#使用镜像centos:latest以后台模式启动一个容器</p>
+<p>docker run -d centos</p>
+<p>问题：然后docker ps -a 进行查看, 会发现容器已经退出</p>
+<p>很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.</p>
+<p>容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。</p>
+<p>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,我们配置启动服务只需要启动响应的service即可。例如</p>
+<p>service nginx start</p>
+<p>但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,</p>
+<p>这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.</p>
+<p>所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行</p>
+</blockquote>
+<ul>
+<li><code>docker logs -f -t --tail &lt;容器Id&gt; </code>查看日志</li>
+<li><code>docker top &lt;容器Id&gt;</code> 查看容器内进程</li>
+<li><code>docker inspect &lt;容器ID&gt;</code> 查看容器内部细节</li>
+<li><code>docker exec -it &lt;容器ID&gt; bashShell</code></li>
+<li><code>docker attach &lt;容器ID&gt; </code></li>
+</ul>
+<blockquote>
+<p>attach 直接进入容器启动命令终端,不会启新的进程</p>
+<p>exec 是在容器打开新的终端,并且可以启动新的进程</p>
+</blockquote>
+<ul>
+<li><code>docker cp 容器ID:路径 路径</code> 从容器拷贝到主机上</li>
+</ul>
+<h2 id="3-Docker-镜像"><a href="#3-Docker-镜像" class="headerlink" title="3 Docker 镜像"></a>3 Docker 镜像</h2><h2 id="4-Docker数据卷"><a href="#4-Docker数据卷" class="headerlink" title="4 Docker数据卷"></a>4 Docker数据卷</h2><h2 id="5-DockerFile"><a href="#5-DockerFile" class="headerlink" title="5 DockerFile"></a>5 DockerFile</h2><h3 id="1-是什么？"><a href="#1-是什么？" class="headerlink" title="1 是什么？"></a>1 是什么？</h3><blockquote>
+<p>DockerFIle是用来构建Docker镜像的构建工具,是由一系列命令和参数构成的脚本</p>
+</blockquote>
+<p><strong>构建三步:</strong></p>
+<ol>
+<li>编写DockerFile</li>
+<li>docker build</li>
+<li>docker run</li>
+</ol>
+<h3 id="2-DockerFIle构建解析"><a href="#2-DockerFIle构建解析" class="headerlink" title="2 DockerFIle构建解析"></a>2 DockerFIle构建解析</h3><h4 id="1-DockerFIle的内容基础"><a href="#1-DockerFIle的内容基础" class="headerlink" title="1 DockerFIle的内容基础"></a>1 DockerFIle的内容基础</h4><ol>
+<li>每条保留字指令都必须为大写字母且后面要跟随至少一个参数</li>
+<li>指令按照从上到下,顺序执行</li>
+<li># 表示注释</li>
+<li><strong>每条指令都会创建一个新的镜像曾,并对镜像进行提交</strong></li>
+</ol>
+<h4 id="2-Docker执行Dockerfile的大致流程"><a href="#2-Docker执行Dockerfile的大致流程" class="headerlink" title="2 Docker执行Dockerfile的大致流程"></a>2 Docker执行Dockerfile的大致流程</h4><ol>
+<li>docker从基础镜像运行一个容器</li>
+<li>执行一条指定并对容器做出修改</li>
+<li>执行类似docker commit 的操作提交一个新的镜像层</li>
+<li>docker再基于刚提交的镜像运行一个新容器</li>
+<li>执行dockerfile的下一条指令知道所有指令都执行完成</li>
+</ol>
+<h3 id="3-Docker体系结构-保留字指令"><a href="#3-Docker体系结构-保留字指令" class="headerlink" title="3 Docker体系结构(保留字指令)"></a>3 Docker体系结构(保留字指令)</h3><ul>
+<li><p><code>FORM</code> 基础镜像,当前镜像是基于那个镜像的</p>
+</li>
+<li><p><code>MAINTAINER</code> 镜像的作者与作者的邮箱</p>
+</li>
+<li><p><code>RUN</code> 容器构建需要执行的命令</p>
+</li>
+<li><p><code>EXPOSE</code>容器对外暴露的端口</p>
+</li>
+<li><p><code>WORKDIR</code>指定再创建容器后,终端默认登录进来的工作目录,一个落脚点</p>
+</li>
+<li><p><code>ENV</code>用于在构建镜像过程中设置环境变量</p>
+</li>
+<li><p><code>ADD</code> 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包</p>
+</li>
+<li><p><code>COPY</code>类似于ADD 拷贝文件和目录到镜像中,将从构建上下文目录中&lt;源路径&gt;的文件/目录复制到新的一层的镜像内&lt;目标路径&gt;的位置</p>
+</li>
+<li><p><code>VOLUME</code>容器数据卷,用于数据保存和持久化工作</p>
+</li>
+<li><p><code>CMD</code> 指定一个容器启动时要运行的命令,DockerFIle中可以又多个CMD指令,但只有最后一个生效,CMD会被docker run的参数替换</p>
+</li>
+<li><p><code>ENTRYPOINT</code> 指定一个容器启动的时候要运行的命令,ENTRYPOINT的目的和CMD一样,都是在指定容器启动程序及参数</p>
+</li>
+<li><p><code>ONBUILD</code>当构建一个被继承的DockerFile时运行命令,父镜像在被子继承后,父镜像的onbuild被触发</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>BUILD</th>
+<th>Both</th>
+<th>RUN</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FROM</td>
+<td>WORKDIR</td>
+<td>CMD</td>
+</tr>
+<tr>
+<td>MAINTAINER</td>
+<td>USER</td>
+<td>ENV</td>
+</tr>
+<tr>
+<td>COPY</td>
+<td></td>
+<td>EXPOSE</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td></td>
+<td>VOLUME</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td></td>
+<td>ENTRYPOINT</td>
+</tr>
+<tr>
+<td>ONBUILD</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>.dockerignore</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="6-案例"><a href="#6-案例" class="headerlink" title="6 案例"></a>6 案例</h2><h3 id="1-BASE镜像-scratch"><a href="#1-BASE镜像-scratch" class="headerlink" title="1 BASE镜像(scratch)"></a>1 BASE镜像(scratch)</h3><blockquote>
+<p>DockerHub中 99%的镜像都是通过在base镜像中安装和配置需要的软件构建出来的</p>
+</blockquote>
+<h3 id="2-自定义镜像mycentos"><a href="#2-自定义镜像mycentos" class="headerlink" title="2 自定义镜像mycentos"></a>2 自定义镜像mycentos</h3><p><strong>需求:</strong></p>
+<ol>
+<li><p>登录后的默认路径</p>
+</li>
+<li><p>vim编辑器</p>
+</li>
+<li><p>查看网络配置ifconfig支持</p>
+</li>
+</ol>
+<pre class=" language-dockerfile"><code class="language-dockerfile">FROM centos
+ENV mypath /tmp
+WORKDIR $mypath
+RUN yum -y install vim
+RUN yum -y install net-tools
+EXPOSE 80
+CMD /bin/bash</code></pre>
+<p><strong>构建:</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># . 表示上下文环境</span>
+docker build -t 新镜像名字:TAG <span class="token keyword">.</span>
+<span class="token comment" spellcheck="true"># 运行</span>
+dokcer run -it 新镜像名字:TAG
+<span class="token comment" spellcheck="true"># 列出镜像的变更历史</span>
+docker <span class="token function">history</span> 镜像名</code></pre>
+<h3 id="3-ENTRYPOINT命令"><a href="#3-ENTRYPOINT命令" class="headerlink" title="3 ENTRYPOINT命令"></a>3 ENTRYPOINT命令</h3><p><strong>CMD</strong></p>
+<blockquote>
+<p>Dockerfile中可以有多个CMD指令,但只有最后一个生效,CMD会被Docker run 之后的参数替换</p>
+</blockquote>
+<p><strong>ENTRYPOINT</strong></p>
+<blockquote>
+<p>docker run 之后的参数会被当作参数传递给ENTRYPOINT.之后形成新的命令组合</p>
+</blockquote>
+<pre class=" language-dockerfile"><code class="language-dockerfile">ENTRYPOINT ["java","-java","test.jar"]</code></pre>
+<h3 id="4-自定义镜像Tomcat"><a href="#4-自定义镜像Tomcat" class="headerlink" title="4 自定义镜像Tomcat"></a>4 自定义镜像Tomcat</h3><pre class=" language-dockerfile"><code class="language-dockerfile">FROM         centos
+MAINTAINER    zzyy<zzyybs@126.com>
+#把宿主机当前上下文的c.txt拷贝到容器/usr/local/路径下
+COPY c.txt /usr/local/cincontainer.txt
+#把java与tomcat添加到容器中
+ADD jdk-8u171-linux-x64.tar.gz /usr/local/
+ADD apache-tomcat-9.0.8.tar.gz /usr/local/
+#安装vim编辑器
+RUN yum -y install vim
+#设置工作访问时候的WORKDIR路径，登录落脚点
+ENV MYPATH /usr/local
+WORKDIR $MYPATH
+#配置java与tomcat环境变量
+ENV JAVA_HOME /usr/local/jdk1.8.0_171
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.8
+ENV CATALINA_BASE /usr/local/apache-tomcat-9.0.8
+ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+#容器运行时监听的端口
+EXPOSE  8080
+#启动时运行tomcat
+# ENTRYPOINT ["/usr/local/apache-tomcat-9.0.8/bin/startup.sh" ]
+# CMD ["/usr/local/apache-tomcat-9.0.8/bin/catalina.sh","run"]
+CMD /usr/local/apache-tomcat-9.0.8/bin/startup.sh && tail -F /usr/local/apache-tomcat-9.0.8/</code></pre>
+<p><strong>运行</strong></p>
+<pre class=" language-bash"><code class="language-bash">docker run -d -p 9080:8080 --name myt9 -v /zzyyuse/mydockerfile/tomcat9/test:/usr/local/apache-tomcat-9.0.8/webapps/test -v /zzyyuse/mydockerfile/tomcat9/tomcat9logs/:/usr/local/apache-tomcat-9.0.8/logs --privileged<span class="token operator">=</span>true zzyytomcat9
+</code></pre>
+<h2 id="7-Docker网络"><a href="#7-Docker网络" class="headerlink" title="7 Docker网络"></a>7 Docker网络</h2><p><img src="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/image-20201222233356901.png" alt="image-20201222233356901"></p>
+<ul>
+<li>容器的网卡是一对一对的</li>
+<li>evth-pair，就是一对虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连</li>
+<li>evth-pair充当一个桥梁，连接各种虚拟网络</li>
+</ul>
+<blockquote>
+<p>所有的容器不指定网络的情况下,都是docker0,docker会给容器分配一个默认的IP</p>
+</blockquote>
+<h2 id="8-容器互联–link（不推荐）"><a href="#8-容器互联–link（不推荐）" class="headerlink" title="8 容器互联–link（不推荐）"></a>8 容器互联–link（不推荐）</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># --link 连接网络,centos 可以ping通tomcat 反之不行，在host的配置中添加了tomcat的映射</span>
+docker run -d -P --name centos --link tomcat</code></pre>
+<h2 id="9-自定义网络"><a href="#9-自定义网络" class="headerlink" title="9 自定义网络"></a>9 自定义网络</h2><ul>
+<li>brideg 桥接（默认）自定义方式</li>
+<li>none 不配置网络</li>
+<li>host 和宿主机共享网络</li>
+<li>container 容器网络连通（局限性大）</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker network ls</span>
+NETWORK ID          NAME                DRIVER              SCOPE
+b1641c6fe2b8        bridge              bridge              local
+6e94609c9ec5        host                host                local
+13cba1d43999        none                null                local
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># </span>
+</code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 直接启动的命令默认有一个 --net bridge  这个就是docker0</span>
+docker run -d -P --name centos --net bridge centos
+<span class="token comment" spellcheck="true"># docker0 特点，默认，域名不能访问，--link可以打通连接</span>
+
+docker network create --driver bridge --subnet 192.168.0.1/16 --gateway 192.168.0.1 customnet
+
+<span class="token comment" spellcheck="true"># 查看网络</span>
+docker network inspect customnet
+</code></pre>
+<blockquote>
+<p>自定义网络docker可以帮助维护对应关系，推荐平时使用</p>
+<p>不同的集群可以使用不同的网络，保证集群是安全和健康的</p>
+</blockquote>
+<h3 id="自定义网络连通docker0或者其他网络"><a href="#自定义网络连通docker0或者其他网络" class="headerlink" title="自定义网络连通docker0或者其他网络"></a>自定义网络连通docker0或者其他网络</h3><pre class=" language-bash"><code class="language-bash">docker network connect customnet centos
+<span class="token comment" spellcheck="true">#连通之后就是把 centos 与customnet 打通，将centos放到了customnet网络下，也就是一个容器两个ip</span></code></pre>
+<p>跨网络操作其他容器就需要使用docker network connect</p>
+<h2 id="10-Redis集群"><a href="#10-Redis集群" class="headerlink" title="10 Redis集群"></a>10 Redis集群</h2><pre class=" language-java"><code class="language-java">docker network create <span class="token operator">--</span>driver bridge <span class="token operator">--</span>subnet <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token operator">/</span><span class="token number">16</span> <span class="token operator">--</span>gateway <span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">0.1</span> redis</code></pre>
 
                 
             </div>
@@ -782,13 +1063,13 @@ EOF
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
+                <a href="/2020/12/09/Mybatis%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Spring工具类">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Mybatis源码学习">
                         
-                        <span class="card-title">Spring工具类</span>
+                        <span class="card-title">Mybatis源码学习</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -799,14 +1080,14 @@ EOF
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-09
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="post-category">
-                                    Spring - Spring基础 - Spring工具类
+                            <a href="/categories/Mybatis%E6%BA%90%E7%A0%81/" class="post-category">
+                                    Mybatis源码
                                 </a>
                             
                             
@@ -816,8 +1097,8 @@ EOF
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">
-                        <span class="chip bg-color">Spring - Spring基础 - Spring工具类</span>
+                    <a href="/tags/Mybatis%E6%BA%90%E7%A0%81/">
+                        <span class="chip bg-color">Mybatis源码</span>
                     </a>
                     
                 </div>
@@ -1060,7 +1341,7 @@ EOF
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2020</span>
+                <span id="year">2019-2021</span>
             
             <span id="year">2019</span>
             <a href="/about" target="_blank">Curiosity</a>
