@@ -1,5 +1,5 @@
 ---
- title: Redis基础入门
+title: Redis基础入门
 top: false
 cover: false
 toc: true
