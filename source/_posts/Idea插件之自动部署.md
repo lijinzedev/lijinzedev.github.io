@@ -37,7 +37,7 @@ summary:
 
 ```bash
 # 根据进程名找到进程Id停掉历史进程
-ps -aux | grep -v greo | grep ${serverName} | awk '{print $2}' | xargs kill -9
+ps -aux | grep -v grep | grep ${serverName} | awk '{print $2}' | xargs kill -9
 # 启动新上传的java jar 应用服务
 nohup java -jar /root/${serverName}.jar &
 ```
