@@ -1071,6 +1071,67 @@ microsoft/dotnet:latest <span class="token comment" spellcheck="true">#注意这
   <span class="token key atrule">tags</span><span class="token punctuation">:</span>
     <span class="token punctuation">-</span> runner
 </code></pre>
+<h2 id="2、部署Maven项目到docker容器中"><a href="#2、部署Maven项目到docker容器中" class="headerlink" title="2、部署Maven项目到docker容器中"></a>2、部署Maven项目到docker容器中</h2><p><strong>注意</strong></p>
+<blockquote>
+<p>添加自己的settings 文件避免下载过慢的问题</p>
+</blockquote>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># 因为我们Runner执行器设置为docker, 所以这里需要指定docker的版本</span>
+<span class="token key atrule">image</span><span class="token punctuation">:</span> docker<span class="token punctuation">:</span>stable
+<span class="token comment" spellcheck="true"># 设置变量</span>
+<span class="token key atrule">variables</span><span class="token punctuation">:</span>
+  <span class="token key atrule">IMAGE_TAG</span><span class="token punctuation">:</span> hello<span class="token punctuation">-</span>cd<span class="token punctuation">:</span>latest
+  <span class="token key atrule">CONTAINER_NAME</span><span class="token punctuation">:</span> hello<span class="token punctuation">-</span>cd
+<span class="token comment" spellcheck="true"># 定义三个阶段，分别为遍历代码，构建镜像，运行镜像</span>
+<span class="token key atrule">stages</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> compile
+  <span class="token punctuation">-</span> build
+  <span class="token punctuation">-</span> run
+<span class="token comment" spellcheck="true"># 第一阶段</span>
+<span class="token key atrule">compile</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true"># 打包用到了maven, 所有需要拉取maven镜像, 这是我自己构建的阿里云maven私服的maven镜像</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> maven<span class="token punctuation">:</span>3.6<span class="token punctuation">-</span>jdk<span class="token punctuation">-</span>8<span class="token punctuation">-</span>alpine
+  <span class="token comment" spellcheck="true"># 指定阶段</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> compile
+  <span class="token comment" spellcheck="true"># 运行脚本, 使用变量时要用到 $ 符号</span>
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> cp settings.xml /usr/share/maven/ref/
+    <span class="token punctuation">-</span> mvn clean package <span class="token punctuation">-</span>Dmaven.test.skip=true
+  <span class="token comment" spellcheck="true"># 只作用在master分支</span>
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> master
+  <span class="token comment" spellcheck="true"># 创建runner时指定的tag</span>
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> maven 
+  <span class="token comment" spellcheck="true"># 编译后有产物,所以要指定下过期时间和路径, 以供于其他阶段使用</span>
+  <span class="token key atrule">artifacts</span><span class="token punctuation">:</span>
+    <span class="token key atrule">expire_in</span><span class="token punctuation">:</span> 1 days
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> target/*.jar
+<span class="token comment" spellcheck="true"># 第二阶段, 这里不再一一介绍, 和第一阶段差不多</span>
+<span class="token key atrule">build</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> build
+<span class="token comment" spellcheck="true"># s</span>
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> if <span class="token punctuation">[</span> <span class="token string">"$(docker ps -a | grep $CONTAINER_NAME)"</span> <span class="token punctuation">]</span>; then
+    <span class="token punctuation">-</span> docker stop $CONTAINER_NAME &amp;&amp; docker rm $CONTAINER_NAME
+    <span class="token punctuation">-</span> fi
+    <span class="token punctuation">-</span> if <span class="token punctuation">[</span> <span class="token string">"$(docker images | grep $IMAGE_TAG)"</span> <span class="token punctuation">]</span>; then
+    <span class="token punctuation">-</span> docker rmi $IMAGE_TAG
+    <span class="token punctuation">-</span> fi   
+    <span class="token punctuation">-</span> docker build <span class="token punctuation">-</span>t $IMAGE_TAG .
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> master
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> maven
+<span class="token key atrule">run</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> run
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> docker run <span class="token punctuation">-</span>d <span class="token punctuation">-</span><span class="token punctuation">-</span>name $CONTAINER_NAME <span class="token punctuation">-</span>p 9999<span class="token punctuation">:</span>9999 $IMAGE_TAG
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> master
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> maven
+</code></pre>
 <h1 id="七、其他相关内容"><a href="#七、其他相关内容" class="headerlink" title="七、其他相关内容"></a>七、其他相关内容</h1><h3 id="1-API触发器-Triggers"><a href="#1-API触发器-Triggers" class="headerlink" title="1 API触发器 Triggers"></a>1 API触发器 Triggers</h3><p>Triggers 可用于强制使用API调用重建特定分支，<code>tag</code>或<code>commits</code>。API的使用示例可以在<code>Settings</code> -&gt; <code>CI/CD</code> -&gt; <code>Pipeline triggers</code>中找到。</p>
 <p>在<code>triggers</code>文档中<a href="https://docs.gitlab.com/ce/ci/triggers/README.html" target="_blank" rel="noopener">查看更多</a>。</p>
 <h3 id="2-配置定时任务"><a href="#2-配置定时任务" class="headerlink" title="2 配置定时任务"></a>2 配置定时任务</h3><p>GitLab CI 中可以在 GitLab <code>Settings</code> -&gt; <code>CI/CD</code> -&gt; <code>Schedules</code>中配置定时任务，点击<code>New Schedule</code>按钮，可以配置你流水线的定时执行任务，包括：描述信息、定时的Cron表达式、目标分支、变量等信息。</p>
@@ -1342,18 +1403,17 @@ microsoft/dotnet:latest <span class="token comment" spellcheck="true">#注意这
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/01/10/gitlab-runner-%E5%88%9D%E4%BD%93%E9%AA%8C/">
+                <a href="/2021/01/14/Maven%E5%9F%BA%E7%A1%80/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="GitLab CI/CD 介绍和使用">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Maven基础">
                         
-                        <span class="card-title">GitLab CI/CD 介绍和使用</span>
+                        <span class="card-title">Maven基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1363,27 +1423,26 @@ microsoft/dotnet:latest <span class="token comment" spellcheck="true">#注意这
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/CI-CD/" class="post-category">
-                                    CI/CD
+                            <a href="/categories/Maven/" class="post-category">
+                                    Maven
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CI-CD/">
-                        <span class="chip bg-color">CI/CD</span>
+                    <a href="/tags/Maven/">
+                        <span class="chip bg-color">Maven</span>
                     </a>
                     
                 </div>

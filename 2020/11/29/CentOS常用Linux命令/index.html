@@ -490,6 +490,33 @@
 <ul>
 <li><kbd>Ctrl + u</kbd> 与<kbd>Ctrl + k</kbd> 分别代表光标处往前和光标处往后删除</li>
 </ul>
+<h1 id="2-命令相关"><a href="#2-命令相关" class="headerlink" title="2 命令相关"></a>2 命令相关</h1><h2 id="1-进程相关"><a href="#1-进程相关" class="headerlink" title="1 进程相关"></a>1 进程相关</h2><p><a href="https://blog.csdn.net/sinat_27403673/article/details/84670428" target="_blank" rel="noopener">linux之 grep “xxx” * | wc -l 命令</a></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 根据进程名找到进程Id停掉历史进程</span>
+<span class="token function">ps</span> -aux <span class="token operator">|</span> <span class="token function">grep</span> -v greo <span class="token operator">|</span> <span class="token function">grep</span> <span class="token variable">${serverName}</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{print <span class="token variable">$2</span>}'</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">kill</span> -9
+<span class="token comment" spellcheck="true"># 查看集群数量</span>
+<span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> nacos <span class="token operator">|</span> <span class="token function">grep</span> -v <span class="token function">grep</span> <span class="token operator">|</span> <span class="token function">wc</span> -l
+<span class="token comment" spellcheck="true"># 去除包含grep的进程行 ，避免影响最终数据的正确性 </span>
+<span class="token function">grep</span> -v <span class="token function">grep</span> 
+<span class="token comment" spellcheck="true"># 统计行数</span>
+<span class="token function">wc</span> -l</code></pre>
+<h2 id="2-操作系统信息相关"><a href="#2-操作系统信息相关" class="headerlink" title="2 操作系统信息相关"></a>2 操作系统信息相关</h2><h3 id="1-操作系统"><a href="#1-操作系统" class="headerlink" title="1 操作系统"></a>1 操作系统</h3><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 查看操作系统版本</span>
+<span class="token function">cat</span> /etc/centos-release
+<span class="token comment" spellcheck="true"># 查看操作系统内核版本</span>
+<span class="token function">uname</span> -r
+<span class="token comment" spellcheck="true"># 查看操作系统详情</span>
+<span class="token function">uname</span> -a
+<span class="token comment" spellcheck="true"># 查看更多详情</span>
+<span class="token function">more</span> /etc.*release
+<span class="token comment" spellcheck="true"># 查看CPU详情</span>
+<span class="token function">cat</span> /proc/cpuinfo</code></pre>
+<h3 id="2-磁盘"><a href="#2-磁盘" class="headerlink" title="2 磁盘"></a>2 磁盘</h3><pre class=" language-bash"><code class="language-bash"><span class="token function">df</span> -h 
+<span class="token comment" spellcheck="true"># df -a 显示全部的文件系统</span>
+<span class="token comment" spellcheck="true"># df -i 显示innode信息</span>
+<span class="token comment" spellcheck="true"># df -T 显示文件系统类型</span>
+<span class="token comment" spellcheck="true"># du -s 指定目录大小汇总</span>
+<span class="token comment" spellcheck="true"># du -h 带计量单位</span>
+<span class="token comment" spellcheck="true"># du -a 韩文建</span>
+</code></pre>
 
                 
             </div>
