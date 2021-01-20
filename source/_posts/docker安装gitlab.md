@@ -121,7 +121,7 @@ docker run -d \
 -p 8000:22 \
 --name gitlab \
 --restart always \
---hostname 192.168.0.100 \
+--hostname 172.16.7.110 \
 -v /home/gitlab/etc:/etc/gitlab  \
 -v /home/gitlab/logs:/var/log/gitlab  \
 -v /home/gitlab/data:/var/opt/gitlab  \
@@ -140,7 +140,7 @@ vi /home/gitlab/etc/gitlab.rb
 # 配置http协议所使用的访问地址
 external_url 'http://172.16.7.110:8001'
 # 配置ssh协议所使用的访和端口
-gitlab_rails['gitlab_shell_ssh_port'] = 8002
+gitlab_rails['gitlab_shell_ssh_port'] = 8000
 
 # nginx 的监听端口号需要改成 80。
 # 默认情况下 nginx 的监听端口号会从 external_url 中取，也就是 9080。
@@ -176,14 +176,14 @@ docker ps
 systemctl restart docker
 
 启动gitlab
-docker run -d     --hostname 172.16.7.14     --publish 7001:443 --publish 7002:80 --publish 7003:22     --name gitlab --restart always     --volume /home/gitlab/etc:/etc/gitlab     --volume /home/gitlab/logs:/var/log/gitlab     --volume /home/gitlab/data:/var/opt/gitlab 镜像id
+docker run -d     --hostname 172.16.7.14     --publish 8001:443 --publish 8002:80 --publish 8000:22     --name gitlab --restart always     --volume /home/gitlab/etc:/etc/gitlab     --volume /home/gitlab/logs:/var/log/gitlab     --volume /home/gitlab/data:/var/opt/gitlab 镜像id
 
 
 关闭防火墙（选做）
 systemctl stop firewalld.service
 
 如果不关闭防火墙，还可以通过暴露指定端口
-firewall-cmd --permanent --add-port=7002/tcp
+firewall-cmd --permanent --add-port=8002/tcp
 firewall-cmd --reload
 ```
 ## 开始访问
