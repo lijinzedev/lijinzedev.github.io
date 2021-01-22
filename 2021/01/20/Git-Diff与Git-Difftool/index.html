@@ -480,16 +480,48 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="配置Difftool"><a href="#配置Difftool" class="headerlink" title="配置Difftool"></a>配置Difftool</h1><pre class=" language-bash"><code class="language-bash">
+                <h1 id="配置Difftool"><a href="#配置Difftool" class="headerlink" title="配置Difftool"></a>配置Difftool</h1><h2 id="1-配置"><a href="#1-配置" class="headerlink" title="1 配置"></a>1 配置</h2><h3 id="1-meld"><a href="#1-meld" class="headerlink" title="1 meld"></a>1 meld</h3><p><a href="http://meldmerge.org/" target="_blank" rel="noopener">官网</a></p>
+<p><strong>命令配置</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config --global diff.tool meld
+<span class="token function">git</span> config --global difftool.prompt <span class="token boolean">false</span>
+<span class="token function">git</span> config --global difftool.meld.cmd <span class="token string">'"C:\Program Files (x86)\Meld\Meld.exe" "<span class="token variable">$LOCAL</span>" "<span class="token variable">$REMOTE</span>"'</span>
+<span class="token function">git</span> config --global merge.tool meld
+<span class="token function">git</span> config --global mergetool.meld.cmd <span class="token string">'"C:\Program Files (x86)\Meld\Meld.exe" "<span class="token variable">$BASE</span>" "<span class="token variable">$LOCAL</span>" "<span class="token variable">$REMOTE</span>" "<span class="token variable">$MERGED</span>"'</span>
+<span class="token function">git</span> config --global mergetool.bc3.trustExitCode <span class="token boolean">true</span></code></pre>
+<p><strong>配置</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>difftool <span class="token string">"meld"</span><span class="token punctuation">]</span>
+    cmd <span class="token operator">=</span> \<span class="token string">"C:\\Program Files (x86)\\Meld\\Meld.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\"
+[mergetool "</span>meld"<span class="token punctuation">]</span>
+    cmd <span class="token operator">=</span> \"C:\\Program Files <span class="token punctuation">(</span>x86<span class="token punctuation">)</span>\\Meld\\Meld.exe\" \"<span class="token variable">$BASE</span>\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\" \"<span class="token variable">$MERGED</span>\"</code></pre>
+<p><img src="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/image-20210122110200827.png" alt="效果"></p>
+<h3 id="2-bc3"><a href="#2-bc3" class="headerlink" title="2 bc3"></a>2 bc3</h3><pre class=" language-bash"><code class="language-bash">
 <span class="token comment" spellcheck="true"># 设置difftool</span>
 <span class="token function">git</span> config --global diff.tool bc3 
 <span class="token function">git</span> config --global difftool.prompt <span class="token boolean">false</span>
-<span class="token comment" spellcheck="true"># 在.gitconfig添加</span>
-<span class="token punctuation">[</span>diff<span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># 设置mergetool</span>
+<span class="token comment" spellcheck="true"># cmd见下面设置</span>
+<span class="token function">git</span> config --global merge.tool bc3 
+<span class="token function">git</span> config --global mergetool.bc3.trustExitCode <span class="token boolean">true</span>
+<span class="token comment" spellcheck="true"># 在.gitconfig中添加</span>
+<span class="token punctuation">[</span>merge<span class="token punctuation">]</span>
     tool <span class="token operator">=</span> bc3
-<span class="token punctuation">[</span>difftool <span class="token string">"bc3"</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span>mergetool <span class="token string">"bc3"</span><span class="token punctuation">]</span>
+    cmd <span class="token operator">=</span> \<span class="token string">"D:/workTools/Beyond Compare 4/bcomp.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\" \"<span class="token variable">$BASE</span>\" \"<span class="token variable">$MERGED</span>\
+# 在.gitconfig添加
+[diff]
+    tool = bc3
+[difftool "</span>bc3"<span class="token punctuation">]</span>
     cmd <span class="token operator">=</span> \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\"</code></pre>
-<h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1 使用"></a>1 使用</h2><blockquote>
+<p><img src="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/image-20210122111632128.png" alt="界面"></p>
+<h3 id="3-p4merge"><a href="#3-p4merge" class="headerlink" title="3 p4merge"></a>3 p4merge</h3><p><a href="https://www.perforce.com/downloads/visual-merge-tool" target="_blank" rel="noopener">官网</a></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config --global diff.tool p4merge
+<span class="token function">git</span> config --global difftool.p4merge.path <span class="token string">"C:\Program Files\Perforce\p4merge.exe"</span>
+<span class="token comment" spellcheck="true"># 因为每次使用diff tool的时候, git会弹出确认框, 我们最好把这个确认框从全局范围内默认不启用:</span>
+<span class="token function">git</span> config --global difftool.prompt <span class="token boolean">false</span>
+<span class="token function">git</span> config --global merge.tool p4merge
+<span class="token function">git</span> config --global mergetool.p4merge.path <span class="token string">"C:\Program Files\Perforce\p4merge.exe"</span>
+<span class="token function">git</span> config --global mergetool.prompt <span class="token boolean">false</span></code></pre>
+<h2 id="2-使用"><a href="#2-使用" class="headerlink" title="2 使用"></a>2 使用</h2><blockquote>
 <p>与 diff 参数相同</p>
 </blockquote>
 <h3 id="工作区与暂存区"><a href="#工作区与暂存区" class="headerlink" title="工作区与暂存区"></a>工作区与暂存区</h3><blockquote>
@@ -524,15 +556,6 @@
 <h3 id="版本库与版本库"><a href="#版本库与版本库" class="headerlink" title="版本库与版本库"></a>版本库与版本库</h3><ul>
 <li><code>git diff commit commit</code></li>
 </ul>
-<h1 id="配置MergeTool"><a href="#配置MergeTool" class="headerlink" title="配置MergeTool"></a>配置MergeTool</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 设置mergetool</span>
-<span class="token comment" spellcheck="true"># cmd见下面设置</span>
-<span class="token function">git</span> config --global merge.tool bc3 
-<span class="token function">git</span> config --global mergetool.bc3.trustExitCode <span class="token boolean">true</span>
-<span class="token comment" spellcheck="true"># 在.gitconfig中添加</span>
-<span class="token punctuation">[</span>merge<span class="token punctuation">]</span>
-    tool <span class="token operator">=</span> bc3
-<span class="token punctuation">[</span>mergetool <span class="token string">"bc3"</span><span class="token punctuation">]</span>
-    cmd <span class="token operator">=</span> \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\" \"<span class="token variable">$BASE</span>\" \"<span class="token variable">$MERGED</span>\"</code></pre>
 <h1 id="git-diff-命令详解"><a href="#git-diff-命令详解" class="headerlink" title="git diff 命令详解"></a>git diff 命令详解</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 工作目录 vs 暂存区</span>
 <span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
 <span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>branch<span class="token operator">></span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
