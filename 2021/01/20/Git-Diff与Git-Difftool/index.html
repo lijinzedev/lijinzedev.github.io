@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Devtools, Curiosity的博客">
+    <meta name="keywords" content="Git Diff与Git Difftool, Curiosity的博客">
     <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Devtools | Curiosity的博客</title>
+    <title>Git Diff与Git Difftool | Curiosity的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -315,7 +315,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Devtools</h1>
+                    <h1 class="description center-align post-title">Git Diff与Git Difftool</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +431,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Idea/">
-                                <span class="chip bg-color">Idea</span>
+                            <a href="/tags/Git/">
+                                <span class="chip bg-color">Git</span>
                             </a>
                         
                     </div>
@@ -443,8 +443,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Idea/" class="post-category">
-                                Idea
+                            <a href="/categories/Git/" class="post-category">
+                                Git
                             </a>
                         
                     </div>
@@ -456,7 +456,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-01-16
+                    2021-01-20
                 </div>
                 
 
@@ -480,26 +480,69 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="1-添加依赖"><a href="#1-添加依赖" class="headerlink" title="1 添加依赖"></a>1 添加依赖</h1><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-devtools<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>optional</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>optional</span><span class="token punctuation">></span></span></code></pre>
-<h1 id="2-root工程添加"><a href="#2-root工程添加" class="headerlink" title="2 root工程添加"></a>2 root工程添加</h1><pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugins</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugin</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-maven-plugin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fork</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fork</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>addResources</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>addResources</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugins</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build</span><span class="token punctuation">></span></span></code></pre>
-<h1 id="3-开启自动构建"><a href="#3-开启自动构建" class="headerlink" title="3 开启自动构建"></a>3 开启自动构建</h1><p><img src="/2021/01/16/Devtools/image-20210116231753206.png" alt="开启自动构建"></p>
-<h1 id="4-Update-the-value-of"><a href="#4-Update-the-value-of" class="headerlink" title="4 Update the value of"></a>4 Update the value of</h1><p>快捷键<code>ctrl+shift+alt+/</code></p>
-<p><img src="/2021/01/16/Devtools/image-20210116232054413.png" alt="开启"></p>
-<p><img src="/2021/01/16/Devtools/image-20210116232159614.png" alt="开启"></p>
+                <h1 id="配置Difftool"><a href="#配置Difftool" class="headerlink" title="配置Difftool"></a>配置Difftool</h1><pre class=" language-bash"><code class="language-bash">
+<span class="token comment" spellcheck="true"># 设置difftool</span>
+<span class="token function">git</span> config --global diff.tool bc3 
+<span class="token function">git</span> config --global difftool.prompt <span class="token boolean">false</span>
+<span class="token comment" spellcheck="true"># 在.gitconfig添加</span>
+<span class="token punctuation">[</span>diff<span class="token punctuation">]</span>
+    tool <span class="token operator">=</span> bc3
+<span class="token punctuation">[</span>difftool <span class="token string">"bc3"</span><span class="token punctuation">]</span>
+    cmd <span class="token operator">=</span> \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\"</code></pre>
+<h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1 使用"></a>1 使用</h2><blockquote>
+<p>与 diff 参数相同</p>
+</blockquote>
+<h3 id="工作区与暂存区"><a href="#工作区与暂存区" class="headerlink" title="工作区与暂存区"></a>工作区与暂存区</h3><blockquote>
+<p>当提示Launch ‘bc’[Y/n] 的时候</p>
+<p>临时解决方法：git difftool -y</p>
+<p>永久解决方法：<code>git config --global difftool.prompt false</code></p>
+</blockquote>
+<ul>
+<li><code>git difftool --name-only</code> </li>
+</ul>
+<blockquote>
+<p>比较工作区与暂存区的文件，并列出变更列表</p>
+</blockquote>
+<ul>
+<li><code>git difftool --no-symlinks</code></li>
+</ul>
+<blockquote>
+<p>依次在图像界面显示变更的文件</p>
+</blockquote>
+<ul>
+<li><code>git difftool -d</code></li>
+</ul>
+<blockquote>
+<p>依次在图像界面显示变更的文件夹</p>
+</blockquote>
+<h3 id="暂存区与版本库"><a href="#暂存区与版本库" class="headerlink" title="暂存区与版本库"></a>暂存区与版本库</h3><ul>
+<li><code>git difftool HEAD</code></li>
+</ul>
+<blockquote>
+<p>比较暂存区与HEAD</p>
+</blockquote>
+<h3 id="版本库与版本库"><a href="#版本库与版本库" class="headerlink" title="版本库与版本库"></a>版本库与版本库</h3><ul>
+<li><code>git diff commit commit</code></li>
+</ul>
+<h1 id="配置MergeTool"><a href="#配置MergeTool" class="headerlink" title="配置MergeTool"></a>配置MergeTool</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 设置mergetool</span>
+<span class="token comment" spellcheck="true"># cmd见下面设置</span>
+<span class="token function">git</span> config --global merge.tool bc3 
+<span class="token function">git</span> config --global mergetool.bc3.trustExitCode <span class="token boolean">true</span>
+<span class="token comment" spellcheck="true"># 在.gitconfig中添加</span>
+<span class="token punctuation">[</span>merge<span class="token punctuation">]</span>
+    tool <span class="token operator">=</span> bc3
+<span class="token punctuation">[</span>mergetool <span class="token string">"bc3"</span><span class="token punctuation">]</span>
+    cmd <span class="token operator">=</span> \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"<span class="token variable">$LOCAL</span>\" \"<span class="token variable">$REMOTE</span>\" \"<span class="token variable">$BASE</span>\" \"<span class="token variable">$MERGED</span>\"</code></pre>
+<h1 id="git-diff-命令详解"><a href="#git-diff-命令详解" class="headerlink" title="git diff 命令详解"></a>git diff 命令详解</h1><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 工作目录 vs 暂存区</span>
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>branch<span class="token operator">></span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
+<span class="token comment" spellcheck="true"># 暂存区 vs Git仓库</span>
+<span class="token function">git</span> <span class="token function">diff</span> --cached <span class="token operator">&lt;</span>filename<span class="token operator">></span>
+<span class="token function">git</span> <span class="token function">diff</span> --cached <span class="token operator">&lt;</span>commit<span class="token operator">></span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
+<span class="token comment" spellcheck="true"># 工作目录 vs Git仓库</span>
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>commit<span class="token operator">></span> <span class="token operator">&lt;</span>filename<span class="token operator">></span>
+<span class="token comment" spellcheck="true"># Git仓库 vs Git仓库</span>
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token operator">&lt;</span>commit<span class="token operator">></span> <span class="token operator">&lt;</span>commit<span class="token operator">></span></code></pre>
 
                 
             </div>
@@ -526,7 +569,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lijinzedev.github.io/2021/01/16/Devtools/">https://lijinzedev.github.io/2021/01/16/Devtools/</a>
+                    <a href="https://lijinzedev.github.io/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/">https://lijinzedev.github.io/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -564,8 +607,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Idea/">
-                                    <span class="chip bg-color">Idea</span>
+                                <a href="/tags/Git/">
+                                    <span class="chip bg-color">Git</span>
                                 </a>
                             
                         </div>
@@ -735,9 +778,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/">
                     <div class="card-image">
@@ -755,9 +799,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -770,6 +814,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -788,13 +833,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/01/16/Idea%E6%8F%92%E4%BB%B6%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">
+                <a href="/2021/01/16/Devtools/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Idea插件之自动部署">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Devtools">
                         
-                        <span class="card-title">Idea插件之自动部署</span>
+                        <span class="card-title">Devtools</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
