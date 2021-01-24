@@ -379,7 +379,7 @@ public class ExceptionHandler implements WebExceptionHandler {
 >
 > 2. 设计最重要的是解耦，而实现解耦最关键的是设计自己的数据机构 + 抽象接口
 
-![image-20201219222924014.png)
+![图](image-20201219222924014.png)
 
 ## 2 demo
 

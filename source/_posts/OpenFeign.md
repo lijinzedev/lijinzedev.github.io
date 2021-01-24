@@ -62,6 +62,15 @@ summary:
 
 ## 1 基本使用
 
+**依赖**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
 * 启动类添加注解`@EnableFeignClients`
 * 接口添加注解`@FeignClient`
 * 编写对应的Controller
