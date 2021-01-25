@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>GateWay | Curiosity的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、概念 官网  GateWay是在Spring生态系统之上构建的API网关服务，基于Spring5，SpringBoot2，和Project Reactor等技术，Gateway只在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤器功能，；例如，熔断、限流、重试等   SpringCloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Zuul，在S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GateWay">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/01/24/GateWay/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一、概念 官网  GateWay是在Spring生态系统之上构建的API网关服务，基于Spring5，SpringBoot2，和Project Reactor等技术，Gateway只在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤器功能，；例如，熔断、限流、重试等   SpringCloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Zuul，在S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lijinzedev.github.io/2021/01/24/GateWay/image-20210124170828606.png">
+<meta property="og:image" content="https://lijinzedev.github.io/2021/01/24/GateWay/image-20210124184814535.png">
+<meta property="og:image" content="https://lijinzedev.github.io/2021/01/24/GateWay/image-20210124184847772.png">
+<meta property="og:image" content="https://lijinzedev.github.io/2021/01/24/GateWay/image-20210124205119110.png">
+<meta property="article:published_time" content="2021-01-24T08:50:13.000Z">
+<meta property="article:modified_time" content="2021-01-25T06:19:22.965Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="SpringCloud - GateWay">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lijinzedev.github.io/2021/01/24/GateWay/image-20210124170828606.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Curiosity的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Curiosity的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/%20%7C%7C%20fa%20fa-home">主页</a>
+        
+          <a class="main-nav-link" href="/tags/%20%7C%7C%20fas%20fa-tags">标签</a>
+        
+          <a class="main-nav-link" href="/categories/%20%7C%7C%20fas%20fa-folder-open">分类</a>
+        
+          <a class="main-nav-link" href="/archives/%20%7C%7C%20fas%20fa-archive">时间轴</a>
+        
+          <a class="main-nav-link" href="/about/%20%7C%7C%20fa%20fa-heart">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lijinzedev.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-GateWay" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/24/GateWay/" class="article-date">
+  <time datetime="2021-01-24T08:50:13.000Z" itemprop="datePublished">2021-01-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SpringCloud/">SpringCloud</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      GateWay
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-概念"><a class="markdownIt-Anchor" href="#一-概念"></a> 一、概念</h1>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/">官网</a></p>
+<blockquote>
+<p>GateWay是在Spring生态系统之上构建的API网关服务，基于Spring5，SpringBoot2，和Project Reactor等技术，Gateway只在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤器功能，；例如，熔断、限流、重试等</p>
+</blockquote>
+<blockquote>
+<p>SpringCloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Zuul，在SpringCloud 2.0以上版本中，没有对新版本的Zuul2.0以上最新高性能版本进行集成，仍然使用Zuul1.x非Reactor模式的老版本，为了提升网关的性能，SpringCloud Gateway是基于WebFlux框架实现的，而WebFlux框架底层则使用了高性能的Reactor模式通信框架Netty</p>
+</blockquote>
+<blockquote>
+<p>SpringCloud GateWay的目标提供统一的路由方式且基于Filter链的方式提供了网关的基本功能，例如：安全，监控、指标、和限流</p>
+</blockquote>
+<p><img src="/2021/01/24/GateWay/image-20210124170828606.png" alt="image-20210124170828606"></p>
+<h2 id="1-路由"><a class="markdownIt-Anchor" href="#1-路由"></a> 1 路由</h2>
+<blockquote>
+<p>路由是构建网关的基本模块，它由ID，目标URI，一系列的断言和过滤器组成，如果断言为true则匹配该路由</p>
+</blockquote>
+<h2 id="2-predicate断言"><a class="markdownIt-Anchor" href="#2-predicate断言"></a> 2 Predicate（断言）</h2>
+<blockquote>
+<p>参考的是java8的java.util.function.Predicate开发人员可以匹配HTTP请求中的所有内容（例如请求头或请求参数），如果请求与断言相匹配则进行路由</p>
+</blockquote>
+<h2 id="3-filter过滤"><a class="markdownIt-Anchor" href="#3-filter过滤"></a> 3 Filter(过滤)</h2>
+<blockquote>
+<p>指的是Spring框架中GatewayFilter的实例，使用过滤器，可以在请求被路由前或者之后对请求进行修改。</p>
+</blockquote>
+<h2 id="4-核心逻辑"><a class="markdownIt-Anchor" href="#4-核心逻辑"></a> 4 核心逻辑</h2>
+<blockquote>
+<p>路由转发+执行过滤器链</p>
+</blockquote>
+<h2 id="5-总结"><a class="markdownIt-Anchor" href="#5-总结"></a> 5 总结</h2>
+<p><img src="/2021/01/24/GateWay/image-20210124184814535.png" alt="image-20210124184814535"></p>
+<blockquote>
+<p>客户端向SpringCloud Gatway发出请求。然后在GateWay Handler Mapping中找到与请求相匹配的路由，将其发送到GateWay Web Handler上</p>
+<p>Handler再通过指定的过滤器链来将请求发送到我们实际的服务执行业务逻辑，然后返回，过滤器之间用虚线分开是因为过滤器可能会在发送代理请求之前或之后执行业务    逻辑</p>
+<p>Filter在pre类型的过滤器可以做参数校验、权限校验、流量监控、日志输出、协议转换等，在post类型的过滤器可以做响应内容、响应头修改、日志输出、流量监控等</p>
+</blockquote>
+<p><img src="/2021/01/24/GateWay/image-20210124184847772.png" alt="image-20210124184847772"></p>
+<h1 id="二-使用"><a class="markdownIt-Anchor" href="#二-使用"></a> 二、使用</h1>
+<h2 id="1-配置"><a class="markdownIt-Anchor" href="#1-配置"></a> 1 配置</h2>
+<p><strong>POM依赖</strong></p>
+<blockquote>
+<p>注意：因为GateWay是WebFlux要剔除SpringWeb</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--新增gateway--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>YAML文件</strong></p>
+<blockquote>
+<p>默认情况下Gateway会根据注册中心的服务列表，以注册中心上微服务名为路径创建动态路由进行转发，从而实现动态路由的功能</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9527</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-gateway</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:8848</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">payment_routh</span> <span class="comment">#路由的ID，没有固定规则但要求唯一，建议配合服务名</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://nacos-order-consumer</span>   <span class="comment">#匹配后提供服务的路由地址</span></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/order/feign/**</span>   <span class="comment">#断言,路径相匹配的进行路由</span></span><br><span class="line">          <span class="comment">#StripPrefix=1就代表截取路径的个数，这样配置后当请求/config/feign/get后端匹配到的请求路径，</span></span><br><span class="line">          <span class="comment">#就会变成http://localhost:8762/feign/get后端匹配到的请求路径</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">StripPrefix=1</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">payment_routh2</span></span><br><span class="line">          <span class="attr">uri:</span> <span class="string">lb://nacos-config-client</span></span><br><span class="line"></span><br><span class="line">          <span class="attr">predicates:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">Path=/config/feign/**</span>   <span class="comment">#断言,路径相匹配的进行路由</span></span><br><span class="line">        <span class="comment">#StripPrefix=1就代表截取路径的个数，这样配置后当请求/config/feign/get后端匹配到的请求路径，</span></span><br><span class="line">        <span class="comment">#就会变成http://localhost:8762/feign/get后端匹配到的请求路径</span></span><br><span class="line">          <span class="attr">filters:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">StripPrefix=1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>需要注意的是uri的协议为lb，表示启用Gateway的负载均衡功能。</li>
+<li>lb://serviceName是spring cloud gateway在微服务中自动为我们创建的负载均衡uri</li>
+</ul>
+<p><img src="/2021/01/24/GateWay/image-20210124205119110.png" alt="Route Predicate Factories"></p>
+<h2 id="2-代码实现配置"><a class="markdownIt-Anchor" href="#2-代码实现配置"></a> 2 代码实现配置</h2>
+<ul>
+<li>代码实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RouteLocator <span class="title">customRouteLocator</span><span class="params">(RouteLocatorBuilder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> builder.routes()</span><br><span class="line">                .route(r -&gt; r.path(<span class="string">&quot;/activity/**&quot;</span>)</span><br><span class="line">                        .filters(f -&gt; f.stripPrefix(<span class="number">1</span>).filter(<span class="keyword">new</span> TestGetWayFilter()).addResponseHeader(<span class="string">&quot;X-Response-Default-Foo&quot;</span>, <span class="string">&quot;Default-Bar&quot;</span>))</span><br><span class="line">                        .uri(<span class="string">&quot;lb://activity&quot;</span>)</span><br><span class="line">                        .order(<span class="number">0</span>)</span><br><span class="line">                        .id(<span class="string">&quot;activity-route&quot;</span>)</span><br><span class="line">                )</span><br><span class="line">                .build();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-常用的route-predicate"><a class="markdownIt-Anchor" href="#3-常用的route-predicate"></a> 3 常用的Route Predicate</h2>
+<ul>
+<li><code>After</code> Route Predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">after_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">After=2017-01-20T17:42:47.789-07:00[America/Denver]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Before</code> route predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">before_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Before=2017-01-20T17:42:47.789-07:00[America/Denver]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Between</code> route predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">between_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Between=2017-01-20T17:42:47.789-07:00[America/Denver],</span> <span class="number">2017-01-21T17:42:47.789-07:00</span>[<span class="string">America/Denver</span>]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Cookie</code> route predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">cookie_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Cookie=chocolate,</span> <span class="string">ch.p</span></span><br></pre></td></tr></table></figure>
+<p>This route matches requests that have a cookie named <code>chocolate</code> whose value matches the <code>ch.p</code> regular expression.</p>
+<ul>
+<li><code>Header</code> route predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">header_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Header=X-Request-Id,</span> <span class="string">\d+</span></span><br></pre></td></tr></table></figure>
+<p>This route matches if the request has a header named <code>X-Request-Id</code> whose value matches the <code>\d+</code> regular expression (that is, it has a value of one or more digits).</p>
+<ul>
+<li><code>Host</code> route predicate</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">host_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">predicates:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">Host=**.somehost.org,**.anotherhost.org</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories">详见官网</a></p>
+<h1 id="三-过滤器"><a class="markdownIt-Anchor" href="#三-过滤器"></a> 三 、过滤器</h1>
+<blockquote>
+<p>Route filters allow the modification of the incoming HTTP request or outgoing HTTP response in some manner. Route filters are scoped to a particular route. Spring Cloud Gateway includes many built-in GatewayFilter Factories.</p>
+<p>路由过滤器可用于修改进入HTTP请求和返回的HTTP响应，路由过滤器智能指定路由进行使用，SPringCloudGateWay内置了多种路由过滤器，他们由GateWayFilter的工厂类来产生</p>
+</blockquote>
+<h2 id="1-常用的gatewayfilter"><a class="markdownIt-Anchor" href="#1-常用的gatewayfilter"></a> 1 常用的GatewayFilter</h2>
+<ul>
+<li><code>AddRequestParameter</code></li>
+</ul>
+<blockquote>
+<p>This listing adds <code>X-Request-red:blue</code> header to the downstream request’s headers for all matching requests.</p>
+<p><code>AddRequestHeader</code> is aware of the URI variables used to match a path or host. URI variables may be used in the value and are expanded at runtime. The following example configures an <code>AddRequestHeader</code> <code>GatewayFilter</code> that uses a variable:</p>
+<p>会在匹配的请求头上加一对请求头</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">gateway:</span></span><br><span class="line">      <span class="attr">routes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">add_request_header_route</span></span><br><span class="line">        <span class="attr">uri:</span> <span class="string">https://example.org</span></span><br><span class="line">        <span class="attr">filters:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">AddRequestHeader=X-Request-red,</span> <span class="string">blue</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories">其余见官网</a></li>
+</ul>
+<h2 id="2-自定义过滤器"><a class="markdownIt-Anchor" href="#2-自定义过滤器"></a> 2 自定义过滤器</h2>
+<h3 id="1-实现接口"><a class="markdownIt-Anchor" href="#1-实现接口"></a> 1 实现接口</h3>
+<ul>
+<li>GlobalFilter</li>
+<li>Ordered</li>
+</ul>
+<h3 id="2-作用"><a class="markdownIt-Anchor" href="#2-作用"></a> 2 作用</h3>
+<ul>
+<li>
+<p>全局日志记录</p>
+</li>
+<li>
+<p>统一网关鉴权等</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lijinzedev.github.io/2021/01/24/GateWay/" data-id="ckkc718os000esgsmfqj4addc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud-GateWay/" rel="tag">SpringCloud - GateWay</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Maven常用命令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git-%E5%9F%BA%E7%A1%80/">Git - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Idea/">Idea</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis%E6%BA%90%E7%A0%81/">Mybatis源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">Mysql - 多表操作</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/NoSQL-redis/">NoSQL - redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cacheable/">Spring - Cacheable</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">Spring - Spring基础 - Spring工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-%E4%BA%8B%E7%89%A9/">Spring - 事物</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringCloud/">SpringCloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/">SpringMVC - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/centos-wget/">centos - wget</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-CentOS/">linux - CentOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E7%B1%BB/">分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8B%E8%AF%95-JMeter/">测试 - JMeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/">源代码 - SpringMvc源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式 - 结构型设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git-%E5%9F%BA%E7%A1%80/" rel="tag">Git - 基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/" rel="tag">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JMeter/" rel="tag">JMeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/" rel="tag">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis%E6%BA%90%E7%A0%81/" rel="tag">Mybatis源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" rel="tag">Mysql - DML条件语句</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cacheable/" rel="tag">Spring - Cacheable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">Spring - Spring基础 - Spring工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" rel="tag">Spring - 事物传播机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-GateWay/" rel="tag">SpringCloud - GateWay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-Nacos/" rel="tag">SpringCloud - Nacos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-OpenFeign/" rel="tag">SpringCloud - OpenFeign</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">SpringCloud - 项目搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-WebFlux/" rel="tag">SpringMVC - WebFlux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">SpringMVC - 异常解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" rel="tag">SpringMVC - 异步模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" rel="tag">SpringMVC - 文件下载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-wget/" rel="tag">centos - wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS/" rel="tag">linux - CentOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS-gitlab-docker/" rel="tag">linux - CentOS - gitlab - docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="tag">小技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E7%AD%BE/" rel="tag">标签</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" rel="tag">源码 - SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">源码 - SpringMvc 多块请求解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式 - 结构型设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CI-CD/" style="font-size: 15px;">CI/CD</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Git-%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">Git - 基础</a> <a href="/tags/Idea/" style="font-size: 15px;">Idea</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/Mybatis%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Mybatis源码</a> <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">Mysql - DML条件语句</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Spring-Cacheable/" style="font-size: 10px;">Spring - Cacheable</a> <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">Spring - Spring基础 - Spring工具类</a> <a href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Spring - 事物传播机制</a> <a href="/tags/SpringCloud-GateWay/" style="font-size: 10px;">SpringCloud - GateWay</a> <a href="/tags/SpringCloud-Nacos/" style="font-size: 10px;">SpringCloud - Nacos</a> <a href="/tags/SpringCloud-OpenFeign/" style="font-size: 10px;">SpringCloud - OpenFeign</a> <a href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">SpringCloud - 项目搭建</a> <a href="/tags/SpringMVC-WebFlux/" style="font-size: 10px;">SpringMVC - WebFlux</a> <a href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">SpringMVC - 异常解析器</a> <a href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">SpringMVC - 异步模式</a> <a href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" style="font-size: 10px;">SpringMVC - 文件下载</a> <a href="/tags/centos-wget/" style="font-size: 10px;">centos - wget</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/linux-CentOS/" style="font-size: 15px;">linux - CentOS</a> <a href="/tags/linux-CentOS-gitlab-docker/" style="font-size: 10px;">linux - CentOS - gitlab - docker</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">小技巧</a> <a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 10px;">标签</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" style="font-size: 15px;">源码 - SpringMvc</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">源码 - SpringMvc 多块请求解析器</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式 - 结构型设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/01/24/GateWay/">GateWay</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Maven常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/23/OpenFeign/">OpenFeign</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/">Git Diff与Git Difftool</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/16/Devtools/">Devtools</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Curiosity<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/%20%7C%7C%20fa%20fa-home" class="mobile-nav-link">主页</a>
+  
+    <a href="/tags/%20%7C%7C%20fas%20fa-tags" class="mobile-nav-link">标签</a>
+  
+    <a href="/categories/%20%7C%7C%20fas%20fa-folder-open" class="mobile-nav-link">分类</a>
+  
+    <a href="/archives/%20%7C%7C%20fas%20fa-archive" class="mobile-nav-link">时间轴</a>
+  
+    <a href="/about/%20%7C%7C%20fa%20fa-heart" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

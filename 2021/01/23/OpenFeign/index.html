@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>OpenFeign | Curiosity的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、概述 官网  Feign是一个声明式WebService客户端，使用Feign能让编写WebService客户端更加简单     名称 解释     @RequestLine 方法上 定义HttpMethod 和 UriTemplate. UriTemplate 中使用{} 包裹的表达式，可以通过在方法参数上使用   @Param 自动注入 @Param 方法参数 定义模板变量，模板变量的值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenFeign">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/01/23/OpenFeign/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一、概述 官网  Feign是一个声明式WebService客户端，使用Feign能让编写WebService客户端更加简单     名称 解释     @RequestLine 方法上 定义HttpMethod 和 UriTemplate. UriTemplate 中使用{} 包裹的表达式，可以通过在方法参数上使用   @Param 自动注入 @Param 方法参数 定义模板变量，模板变量的值">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-23T07:42:33.000Z">
+<meta property="article:modified_time" content="2021-01-25T06:19:22.982Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="SpringCloud - OpenFeign">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Curiosity的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Curiosity的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/%20%7C%7C%20fa%20fa-home">主页</a>
+        
+          <a class="main-nav-link" href="/tags/%20%7C%7C%20fas%20fa-tags">标签</a>
+        
+          <a class="main-nav-link" href="/categories/%20%7C%7C%20fas%20fa-folder-open">分类</a>
+        
+          <a class="main-nav-link" href="/archives/%20%7C%7C%20fas%20fa-archive">时间轴</a>
+        
+          <a class="main-nav-link" href="/about/%20%7C%7C%20fa%20fa-heart">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lijinzedev.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-OpenFeign" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/01/23/OpenFeign/" class="article-date">
+  <time datetime="2021-01-23T07:42:33.000Z" itemprop="datePublished">2021-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SpringCloud/">SpringCloud</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenFeign
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-概述"><a class="markdownIt-Anchor" href="#一-概述"></a> 一、概述</h1>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/">官网</a></p>
+<blockquote>
+<p>Feign是一个声明式WebService客户端，使用Feign能让编写WebService客户端更加简单</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@RequestLine</td>
+<td>方法上 定义HttpMethod 和 UriTemplate. UriTemplate 中使用{} 包裹的表达式，可以通过在方法参数上使用</td>
+</tr>
+<tr>
+<td>@Param</td>
+<td>自动注入 @Param 方法参数 定义模板变量，模板变量的值可以使用名称的方式使用模板注入解析</td>
+</tr>
+<tr>
+<td>@Headers</td>
+<td>类上或者方法上 定义头部模板变量，使用@Param 注解提供参数值的注入。如果该注解添加在接口类上，则所有的请求都会携带对应的Header信息；如果在方法上，则只会添加到对应的方法请求上</td>
+</tr>
+<tr>
+<td>@QueryMap</td>
+<td>方法上 定义一个键值对或者 pojo，参数值将会被转换成URL上的 query 字符串上</td>
+</tr>
+<tr>
+<td>@HeaderMap</td>
+<td>方法上 定义一个HeaderMap, 与 UrlTemplate 和HeaderTemplate 类型，可以使用@Param 注解提供参数值</td>
+</tr>
+<tr>
+<td>@FeignClient</td>
+<td>注解指定调用的微服务名称，封装了调用 USER-API 的过程，作为消费方调用模板。</td>
+</tr>
+<tr>
+<td>@EnableFeignClients</td>
+<td>扫描声明它们是假装客户端的接口（@FeignClient ）。配置组件扫描指令以供使用(@Configuration )类。</td>
+</tr>
+<tr>
+<td>@SpringQueryMap</td>
+<td>Spring MVC相当于OpenFeign的{@QueryMap} 。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="feignclient详解"><a class="markdownIt-Anchor" href="#feignclient详解"></a> @FeignClient详解</h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name、value和serviceId</td>
+<td>从源码可以得知，name是value的别名，value也是name的别名。两者的作用是一致的，name指定FeignClient的名称，如果项目使用了Ribbon，name属性会作为微服务的名称，用于服务发现。其中，serviceId和value的作用一样，用于指定服务ID，已经废弃。</td>
+</tr>
+<tr>
+<td>qualifier</td>
+<td>该属性用来指定@Qualifier注解的值，该值是该FeignClient的限定词，可以使用改值进行引用。</td>
+</tr>
+<tr>
+<td>url</td>
+<td>url属性一般用于调试程序，允许我们手动指定@FeignClient调用的地址。</td>
+</tr>
+<tr>
+<td>decode404</td>
+<td>当发生http 404错误时，如果该字段位true，会调用decoder进行解码，否则抛出FeignException</td>
+</tr>
+<tr>
+<td>configuration</td>
+<td>Feign配置类，可以自定义Feign的Encoder、Decoder、LogLevel、Contract。</td>
+</tr>
+<tr>
+<td>fallback</td>
+<td>定义容错的处理类，当调用远程接口失败或超时时，会调用对应接口的容错逻辑，fallback指定的类必须实现@FeignClient标记的接口</td>
+</tr>
+<tr>
+<td>fallbackFactory</td>
+<td>工厂类，用于生成fallback类示例，通过这个属性我们可以实现每个接口通用的容错逻辑，减少重复的代码。</td>
+</tr>
+<tr>
+<td>path</td>
+<td>path属性定义当前FeignClient的统一前缀。</td>
+</tr>
+<tr>
+<td>primary</td>
+<td>是否将伪代理标记为主Bean，默认为true。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="enablefeignclients"><a class="markdownIt-Anchor" href="#enablefeignclients"></a> @EnableFeignClients</h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>为basePackages属性的别名，允许使用更简洁的书写方式。</td>
+</tr>
+<tr>
+<td>basePackage</td>
+<td>设置自动扫描带有@FeignClient注解的基础包路径。</td>
+</tr>
+<tr>
+<td>basePackageClasses</td>
+<td>该属性是basePackages属性的安全替代属性。该属性将扫描指定的每个类所在的包下面的所有被@FeignClient修饰的类；这需要考虑在每个包中创建一个特殊的标记类或接口，该类或接口除了被该属性引用外，没有其他用途。</td>
+</tr>
+<tr>
+<td>defaultConfiguration</td>
+<td>该属性用来自定义所有Feign客户端的配置，使用@Configuration进行配置。</td>
+</tr>
+<tr>
+<td>clients</td>
+<td>设置由@FeignClient注解修饰的类列表。如果clients不是空数组，则不通过类路径自动扫描功能来加载FeignClient。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="二-使用"><a class="markdownIt-Anchor" href="#二-使用"></a> 二 、使用</h1>
+<h2 id="1-基本使用"><a class="markdownIt-Anchor" href="#1-基本使用"></a> 1 基本使用</h2>
+<p><strong>依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动类添加注解<code>@EnableFeignClients</code></li>
+<li>接口添加注解<code>@FeignClient</code></li>
+<li>编写对应的Controller</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient(name = &quot;nacos-order-consumer&quot;, path = &quot;/feign&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestFeign</span> </span>&#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/get&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">providerFeign</span><span class="params">(<span class="meta">@RequestBody</span> Payment payment)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="2-文件操作"><a class="markdownIt-Anchor" href="#2-文件操作"></a> 2 文件操作</h2>
+<blockquote>
+<p>默认情况下，在SpringCloud Alibaba 微服务项目中，无法通过消费者服务直接将前端上传的文件，以请求的方式发送到服务提供者来操作文件上传的。</p>
+<p>因此需要在 OpenFeign 中将 文件名称 和 文件内容的Base64 封装为类，消费者添加 consumes 文件上传参数。</p>
+</blockquote>
+<h3 id="2-文件上传"><a class="markdownIt-Anchor" href="#2-文件上传"></a> 2. 文件上传</h3>
+<h4 id="21-配置类"><a class="markdownIt-Anchor" href="#21-配置类"></a> 2.1 配置类</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">CoreFeignConfiguration</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Request.<span class="function">Options <span class="title">options</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Request.Options(<span class="number">6</span> * <span class="number">1000</span>, <span class="number">6</span> * <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ObjectFactory&lt;HttpMessageConverters&gt; messageConverters;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Encoder <span class="title">multipartFormEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SpringFormEncoder(<span class="keyword">new</span> SpringEncoder(messageConverters));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> feign.Logger.<span class="function">Level <span class="title">multipartLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> feign.Logger.Level.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="22-接口"><a class="markdownIt-Anchor" href="#22-接口"></a> 2.2 接口</h4>
+<blockquote>
+<p>消费者 OssService 接口(<code>@FeignClient</code>注解修饰不需要实现类)，</p>
+<p>添加参数 <code>consumes = MediaType.MULTIPART_FORM_DATA_VALUE</code></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Curiosity</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2021/1/23 17:46</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@FeignClient(name = &quot;nacos-config-client&quot;, path = &quot;/feign&quot;, configuration = &#123;TestFeign2.CoreFeignConfiguration.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestFeign2</span> </span>&#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/get&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">providerFeign</span><span class="params">(<span class="meta">@RequestBody</span> Payment payment)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;/upload&quot;,consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)</span></span><br><span class="line">    <span class="function">String <span class="title">upload</span><span class="params">(<span class="meta">@RequestPart(&quot;file&quot;)</span> MultipartFile multipartFile)</span></span>;</span><br><span class="line">	<span class="comment">// 局部配置</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CoreFeignConfiguration</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="keyword">public</span> Request.<span class="function">Options <span class="title">options</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Request.Options(<span class="number">6</span> * <span class="number">1000</span>, <span class="number">6</span> * <span class="number">1000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Autowired</span></span><br><span class="line">        <span class="keyword">private</span> ObjectFactory&lt;HttpMessageConverters&gt; messageConverters;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Encoder <span class="title">multipartFormEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SpringFormEncoder(<span class="keyword">new</span> SpringEncoder(messageConverters));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="keyword">public</span> feign.Logger.<span class="function">Level <span class="title">multipartLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> feign.Logger.Level.FULL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="23-文件转化为multipartfile"><a class="markdownIt-Anchor" href="#23-文件转化为multipartfile"></a> 2.3 文件转化为MultipartFile</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法 1  </span></span><br><span class="line">File file = <span class="keyword">new</span> File(<span class="string">&quot;src/test/resources/input.txt&quot;</span>);</span><br><span class="line">    FileInputStream input = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">    MultipartFile multipartFile = <span class="keyword">new</span> MockMultipartFile(<span class="string">&quot;file&quot;</span>,</span><br><span class="line">            file.getName(), <span class="string">&quot;text/plain&quot;</span>, IOUtils.toByteArray(input));</span><br><span class="line"><span class="comment">// 方法 2</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MultipartFile <span class="title">file2MultipartFile</span><span class="params">(File file)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        FileItem fileItem = <span class="keyword">new</span> DiskFileItemFactory().createItem(<span class="string">&quot;file&quot;</span>,</span><br><span class="line">                Files.probeContentType(file.toPath()), <span class="keyword">false</span>, file.getName());</span><br><span class="line">        <span class="keyword">try</span> (InputStream in = <span class="keyword">new</span> FileInputStream(file); OutputStream out = fileItem.getOutputStream()) &#123;</span><br><span class="line">            StreamUtils.copy(in,out);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Invalid file: &quot;</span> + e, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CommonsMultipartFile(fileItem);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="24-实例2-多文件上传"><a class="markdownIt-Anchor" href="#24-实例2-多文件上传"></a> 2.4 实例2 多文件上传</h4>
+<p><strong>方法一</strong> (<code>测试无效,实际上只会穿一个文件</code>)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(value = &quot;/upload&quot;,consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)</span></span><br><span class="line"><span class="function">String <span class="title">upload</span><span class="params">(<span class="meta">@RequestPart(&quot;file&quot;)</span> MultipartFile[] multipartFile)</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="方法二"><a class="markdownIt-Anchor" href="#方法二"></a> 方法二</h5>
+<p><code>删除Encoder配置</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Encoder <span class="title">multipartFormEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SpringFormEncoder(<span class="keyword">new</span> SpringEncoder(messageConverters));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ProviderController</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(path = &quot;/add&quot;, consumes = MULTIPART_FORM_DATA_VALUE, produces = APPLICATION_JSON_VALUE)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> MyResponseObject <span class="title">add</span><span class="params">(<span class="meta">@RequestParam(name = &quot;username&quot;)</span> String username,</span></span></span><br><span class="line"><span class="function"><span class="params">                             <span class="meta">@RequestPart(name = &quot;filetoupload&quot;)</span> MultipartFile file)</span> </span>&#123;</span><br><span class="line">              Do something</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>OpenFeign接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(path = &quot;/myApi/add&quot;, consumes = MULTIPART_FORM_DATA_VALUE, </span></span><br><span class="line"><span class="meta">              produces = APPLICATION_JSON_VALUE)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> MyResponseObject <span class="title">addFile</span><span class="params">(<span class="meta">@RequestParam(name = &quot;username&quot;)</span> String username,</span></span></span><br><span class="line"><span class="function"><span class="params">                           <span class="meta">@RequestPart(name = &quot;filetoupload&quot;)</span> MultiValueMap&lt;String, Object&gt; file)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><strong>转化</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> MyResponseObject <span class="title">addFileInAnotherEndPoint</span><span class="params">(String username, MultipartFile file)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">    MultiValueMap&lt;String, Object&gt; multiValueMap = <span class="keyword">new</span> LinkedMultiValueMap&lt;&gt;();</span><br><span class="line">    ByteArrayResource contentsAsResource = <span class="keyword">new</span> ByteArrayResource(file.getBytes()) &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getFilename</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> file.getOriginalFilename();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    multiValueMap.add(<span class="string">&quot;filetoupload&quot;</span>, contentsAsResource);</span><br><span class="line">    multiValueMap.add(<span class="string">&quot;fileType&quot;</span>, file.getContentType());</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.myFeignClient.addFile(username, multiValueMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-文件下载"><a class="markdownIt-Anchor" href="#3-文件下载"></a> 3 文件下载</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> feign.Response;</span><br><span class="line"></span><br><span class="line"><span class="meta">@FeignClient(value = &quot;some-service&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Client</span></span>&#123;</span><br><span class="line">   <span class="meta">@RequestMapping(method = RequestMethod.GET, value =&quot;/download&quot;)</span></span><br><span class="line">   <span class="function">Response <span class="title">downloadFile</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Usage of Feign Client:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Response response = client.downloadFile();</span><br><span class="line"><span class="keyword">final</span> Response.Body body = response.body();</span><br><span class="line"><span class="keyword">final</span> InputStream inputStream = body.asInputStream();</span><br></pre></td></tr></table></figure>
+<h2 id="3-超时时间"><a class="markdownIt-Anchor" href="#3-超时时间"></a> 3 超时时间</h2>
+<blockquote>
+<p>配置OpenFeign的超时控制时间，OpenFeign 内与 ribbon 整合了，支持负载均衡，它的超时控制也由最底层的 ribbon 进行控制，yml 添加配置</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"> <span class="attr">client:</span></span><br><span class="line">   <span class="attr">config:</span></span><br><span class="line">     <span class="attr">default:</span></span><br><span class="line">       <span class="attr">connectTimeout:</span> <span class="number">10000</span> <span class="comment">#设置连接的超时时间 10s</span></span><br><span class="line">       <span class="attr">readTimeout:</span> <span class="number">20000</span>  <span class="comment">#设置读取的超时时间 20s</span></span><br></pre></td></tr></table></figure>
+<h3 id="局部超时"><a class="markdownIt-Anchor" href="#局部超时"></a> 局部超时</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: Curiosity</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span>: 2021/1/23 17:46</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@FeignClient(name = &quot;nacos-config-client&quot;, path = &quot;/feign&quot;, configuration = &#123;TestFeign2.CoreFeignConfiguration.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestFeign2</span> </span>&#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/get&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">providerFeign</span><span class="params">(<span class="meta">@RequestBody</span> Payment payment)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CoreFeignConfiguration</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Bean</span></span><br><span class="line">        <span class="keyword">public</span> Request.<span class="function">Options <span class="title">options</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Request.Options(<span class="number">6</span> * <span class="number">1000</span>, <span class="number">6</span> * <span class="number">1000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="4-日志处理"><a class="markdownIt-Anchor" href="#4-日志处理"></a> 4 日志处理</h2>
+<p>Feign提供了日志打印功能，我们可以通过配置来调整日志级别，从而了解Feign中Http请求的细节。说白了就是对Feign接口的调用i情况进行监控和输出</p>
+<p><strong>日志级别</strong></p>
+<ul>
+<li>
+<p><code>None</code>：默认的，不显示任何日志</p>
+</li>
+<li>
+<p><code>BASIC</code>：仅记录请求方法，URL，响应状态码几执行时间</p>
+</li>
+<li>
+<p><code>HEADERS</code>：除了BASIC中定义的信息之外，还有请求和响应的头信息</p>
+</li>
+<li>
+<p><code>FULL</code>：除了HEADERS中定义的信息之外，还有请求和响应的正文及元数据</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Logger.Level.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="comment"># feign日志以什么级别监控哪个接口</span></span><br><span class="line">    <span class="attr">com.service.PaymentFeignService:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lijinzedev.github.io/2021/01/23/OpenFeign/" data-id="ckkc718pa001ksgsmbwc1dvvw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud-OpenFeign/" rel="tag">SpringCloud - OpenFeign</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Maven常用命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Git Diff与Git Difftool</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git-%E5%9F%BA%E7%A1%80/">Git - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Idea/">Idea</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis%E6%BA%90%E7%A0%81/">Mybatis源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">Mysql - 多表操作</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/NoSQL-redis/">NoSQL - redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cacheable/">Spring - Cacheable</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">Spring - Spring基础 - Spring工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-%E4%BA%8B%E7%89%A9/">Spring - 事物</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringCloud/">SpringCloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/">SpringMVC - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/centos-wget/">centos - wget</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-CentOS/">linux - CentOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E7%B1%BB/">分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8B%E8%AF%95-JMeter/">测试 - JMeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/">源代码 - SpringMvc源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式 - 结构型设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git-%E5%9F%BA%E7%A1%80/" rel="tag">Git - 基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/" rel="tag">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JMeter/" rel="tag">JMeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/" rel="tag">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis%E6%BA%90%E7%A0%81/" rel="tag">Mybatis源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" rel="tag">Mysql - DML条件语句</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cacheable/" rel="tag">Spring - Cacheable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">Spring - Spring基础 - Spring工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" rel="tag">Spring - 事物传播机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-GateWay/" rel="tag">SpringCloud - GateWay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-Nacos/" rel="tag">SpringCloud - Nacos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-OpenFeign/" rel="tag">SpringCloud - OpenFeign</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">SpringCloud - 项目搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-WebFlux/" rel="tag">SpringMVC - WebFlux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">SpringMVC - 异常解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" rel="tag">SpringMVC - 异步模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" rel="tag">SpringMVC - 文件下载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-wget/" rel="tag">centos - wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS/" rel="tag">linux - CentOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS-gitlab-docker/" rel="tag">linux - CentOS - gitlab - docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="tag">小技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E7%AD%BE/" rel="tag">标签</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" rel="tag">源码 - SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">源码 - SpringMvc 多块请求解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式 - 结构型设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CI-CD/" style="font-size: 15px;">CI/CD</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Git-%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">Git - 基础</a> <a href="/tags/Idea/" style="font-size: 15px;">Idea</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/Mybatis%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Mybatis源码</a> <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">Mysql - DML条件语句</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Spring-Cacheable/" style="font-size: 10px;">Spring - Cacheable</a> <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">Spring - Spring基础 - Spring工具类</a> <a href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Spring - 事物传播机制</a> <a href="/tags/SpringCloud-GateWay/" style="font-size: 10px;">SpringCloud - GateWay</a> <a href="/tags/SpringCloud-Nacos/" style="font-size: 10px;">SpringCloud - Nacos</a> <a href="/tags/SpringCloud-OpenFeign/" style="font-size: 10px;">SpringCloud - OpenFeign</a> <a href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">SpringCloud - 项目搭建</a> <a href="/tags/SpringMVC-WebFlux/" style="font-size: 10px;">SpringMVC - WebFlux</a> <a href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">SpringMVC - 异常解析器</a> <a href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">SpringMVC - 异步模式</a> <a href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" style="font-size: 10px;">SpringMVC - 文件下载</a> <a href="/tags/centos-wget/" style="font-size: 10px;">centos - wget</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/linux-CentOS/" style="font-size: 15px;">linux - CentOS</a> <a href="/tags/linux-CentOS-gitlab-docker/" style="font-size: 10px;">linux - CentOS - gitlab - docker</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">小技巧</a> <a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 10px;">标签</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" style="font-size: 15px;">源码 - SpringMvc</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">源码 - SpringMvc 多块请求解析器</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式 - 结构型设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/01/24/GateWay/">GateWay</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Maven常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/23/OpenFeign/">OpenFeign</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/">Git Diff与Git Difftool</a>
+          </li>
+        
+          <li>
+            <a href="/2021/01/16/Devtools/">Devtools</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Curiosity<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/%20%7C%7C%20fa%20fa-home" class="mobile-nav-link">主页</a>
+  
+    <a href="/tags/%20%7C%7C%20fas%20fa-tags" class="mobile-nav-link">标签</a>
+  
+    <a href="/categories/%20%7C%7C%20fas%20fa-folder-open" class="mobile-nav-link">分类</a>
+  
+    <a href="/archives/%20%7C%7C%20fas%20fa-archive" class="mobile-nav-link">时间轴</a>
+  
+    <a href="/about/%20%7C%7C%20fa%20fa-heart" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
