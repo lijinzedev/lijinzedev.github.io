@@ -1,1351 +1,329 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>Curiosity的博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Curiosity的博客">
 <meta property="og:url" content="https://lijinzedev.github.io/page/3/index.html">
 <meta property="og:site_name" content="Curiosity的博客">
 <meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
 <meta property="article:author" content="Curiosity">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Curiosity的博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-<meta name="generator" content="Hexo 5.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Curiosity的博客</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/%20%7C%7C%20fa%20fa-home">主页</a>
-        
-          <a class="main-nav-link" href="/tags/%20%7C%7C%20fas%20fa-tags">标签</a>
-        
-          <a class="main-nav-link" href="/categories/%20%7C%7C%20fas%20fa-folder-open">分类</a>
-        
-          <a class="main-nav-link" href="/archives/%20%7C%7C%20fas%20fa-archive">时间轴</a>
-        
-          <a class="main-nav-link" href="/about/%20%7C%7C%20fa%20fa-heart">关于</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lijinzedev.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Git-解决Windows乱码" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/" class="article-date">
-  <time datetime="2020-12-13T06:23:14.000Z" itemprop="datePublished">2020-12-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Git-%E5%9F%BA%E7%A1%80/">Git - 基础</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/">解决Windows Git乱码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="windows-git乱码"><a class="markdownIt-Anchor" href="#windows-git乱码"></a> Windows Git乱码</h1>
-<ul>
-<li>第一步打开Git Bash 右键</li>
-</ul>
-<p><img src="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/image-20201213142640209.png" alt="image-20201213142640209"></p>
-<ul>
-<li>修改 text为UTF-8</li>
-</ul>
-<p><img src="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/image-20201213142722688.png" alt="image-20201213142722688"></p>
-<ul>
-<li>
-<p>修改WIndows环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LESSCHARSET</span><br><span class="line">utf-8</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><img src="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/image-20201213142758974.png" alt="image-20201213142758974"></p>
-<ul>
-<li>输入一下命令配置全局变量</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br><span class="line">git config --global gui.encoding utf-8</span><br><span class="line">git config --global i18n.commitEncoding utf-8</span><br><span class="line">git config --global i18n.logoutputEncoding utf-8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者修改.gitConfig</span></span><br><span class="line">[gui]  </span><br><span class="line">    encoding = utf-8  </span><br><span class="line">    <span class="comment"># 代码库统一使用utf-8  </span></span><br><span class="line">[i18n]  </span><br><span class="line">    commitencoding = utf-8  </span><br><span class="line">    <span class="comment"># log编码  </span></span><br><span class="line">[svn]  </span><br><span class="line">    pathnameencoding = utf-8  </span><br><span class="line">    <span class="comment"># 支持中文路径  </span></span><br><span class="line">[core]</span><br><span class="line">	quotepath = <span class="literal">false</span> </span><br><span class="line">	<span class="comment"># status引用路径不再是八进制（反过来说就是允许显示中文了）</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/" data-id="ckkc718ou000ksgsmgldsgdhk" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git-%E5%9F%BA%E7%A1%80/" rel="tag">Git - 基础</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JMeter初体验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/" class="article-date">
-  <time datetime="2020-12-13T06:15:15.000Z" itemprop="datePublished">2020-12-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B5%8B%E8%AF%95-JMeter/">测试 - JMeter</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/">JMeter初体验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="jmeter初体验"><a class="markdownIt-Anchor" href="#jmeter初体验"></a> JMeter初体验</h1>
-<h2 id="1-安装"><a class="markdownIt-Anchor" href="#1-安装"></a> 1 安装</h2>
-<h3 id="1-安装java环境变量略"><a class="markdownIt-Anchor" href="#1-安装java环境变量略"></a> 1  安装Java环境变量（略…）</h3>
-<h3 id="2-安装jmeter"><a class="markdownIt-Anchor" href="#2-安装jmeter"></a> 2 安装Jmeter</h3>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://jmeter.apache.org/download_jmeter.cgi">打开下载地址</a>（Windows版本下载zip（Binaries），Linux版本下载tgz（Binaries））</li>
-<li>解压</li>
-<li>配置环境变量
-<ul>
-<li>新增JMETER_HOME变量，变量值为解压路径</li>
-<li>编辑CLASSPATH变量加上 或者再Path中添加<code>%JMETER_HOME%\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;</code></li>
-<li>打开bin目录打开Jmeter.bat启动</li>
-</ul>
-</li>
-</ul>
-<h2 id="2-吞吐量测试"><a class="markdownIt-Anchor" href="#2-吞吐量测试"></a> 2 吞吐量测试</h2>
-<p>1 创建用户组</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213143631332.png" alt="创建用户组"></p>
-<p>2 设置用户组参数</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213143930228.png" alt="设置用户组参数"></p>
-<p>3 添加HTTP请求</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213144040565.png" alt="添加HTTP请求"></p>
-<p>4 HTTP参数设置</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213144317990.png" alt="HTTP参数设置"></p>
-<p>5 HTTP的响应断言</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213144405613.png" alt="image-20201213144405613"></p>
-<p>6 响应断言设置</p>
-<p><img src="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/image-20201213163712854.png" alt="image-20201213163712854"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ckkc718p10012sgsmax7p0tod" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JMeter/" rel="tag">JMeter</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Spring工具类" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" class="article-date">
-  <time datetime="2020-12-12T13:46:07.000Z" itemprop="datePublished">2020-12-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">Spring - Spring基础 - Spring工具类</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-spring工具"><a class="markdownIt-Anchor" href="#1-spring工具"></a> 1 Spring工具</h1>
-<h2 id="1-idgenerator唯一键生成器-uuid"><a class="markdownIt-Anchor" href="#1-idgenerator唯一键生成器-uuid"></a> 1 IdGenerator唯一键生成器 UUID</h2>
-<p><img src="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/image-20201212215449169.png" alt="image-20201212215449169"></p>
-<h3 id="1-jdkidgenerator"><a class="markdownIt-Anchor" href="#1-jdkidgenerator"></a> 1 <strong>JdkIdGenerator</strong></h3>
-<blockquote>
-<p>JDK内置UUID生成器</p>
-</blockquote>
-<h3 id="2-alternativejdkidgenerator"><a class="markdownIt-Anchor" href="#2-alternativejdkidgenerator"></a> 2 <strong>AlternativeJdkIdGenerator</strong></h3>
-<blockquote>
-<p>Spring提供的UUID生成器，替换调用<code>UUID#randomUUID()</code>。它提供了一个更好、更高性能的表现</p>
-</blockquote>
-<h3 id="3-simpleidgenerator"><a class="markdownIt-Anchor" href="#3-simpleidgenerator"></a> 3 <strong>SimpleIdGenerator</strong></h3>
-<blockquote>
-<p>类似于自增的Id生成器。每调用一次，自增1</p>
-</blockquote>
-<h2 id="2-assert-断言工具类"><a class="markdownIt-Anchor" href="#2-assert-断言工具类"></a> 2 Assert 断言工具类</h2>
-<blockquote>
-<p>Assert断言工具类，通常用于数据合法性检查。Assert断言工具类，通常用于数据合法性检查.</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Assert.notNull(Object object, <span class="string">&quot;object is required&quot;</span>)  </span><br></pre></td></tr></table></figure>
-<h2 id="3-pathmatcher-路径匹配器"><a class="markdownIt-Anchor" href="#3-pathmatcher-路径匹配器"></a> 3 PathMatcher 路径匹配器</h2>
-<blockquote>
-<p>Spring提供的实现：<code>AntPathMatcher</code>：Ant路径匹配规则</p>
-</blockquote>
-<p>1 AntPathMatcher可以匹配@RequestMapping，也可以用来匹配各种字符串，包括文件路径</p>
-<h3 id="1-匹配方式"><a class="markdownIt-Anchor" href="#1-匹配方式"></a> <strong>1 匹配方式</strong></h3>
-<ul>
-<li><code>?</code>匹配单字符</li>
-<li><code>*</code>匹配0或者任意数量的字符</li>
-<li><code>**</code> 匹配0或者更多目录</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>URL路径</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>/test/*.x</td>
-<td>匹配以.x结尾的</td>
-</tr>
-<tr>
-<td>/test/a??le</td>
-<td>类似于数据库的<code>_</code></td>
-</tr>
-<tr>
-<td>/test/**/</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">assertFalse(pathMatcher.match(<span class="string">&quot;test*&quot;</span>, <span class="string">&quot;test/&quot;</span>)); <span class="comment">//注意这里是false 因为路径不能用*匹配</span></span><br><span class="line">assertFalse(pathMatcher.match(<span class="string">&quot;test*&quot;</span>, <span class="string">&quot;test/t&quot;</span>)); <span class="comment">//这同理</span></span><br><span class="line"><span class="comment">//这个需要特别注意：&#123;&#125;里面的相当于Spring MVC里接受一个参数一样，所以任何东西都会匹配的</span></span><br><span class="line">assertTrue(pathMatcher.match(<span class="string">&quot;/&#123;bla&#125;.*&quot;</span>, <span class="string">&quot;/testing.html&quot;</span>));</span><br><span class="line">assertFalse(pathMatcher.match(<span class="string">&quot;/&#123;bla&#125;.htm&quot;</span>, <span class="string">&quot;/testing.html&quot;</span>)); <span class="comment">//这样就是false了</span></span><br></pre></td></tr></table></figure>
-<p><strong>最长匹配规则（has more characters）</strong></p>
-<blockquote>
-<p>​		即越精确的模式越会被优先匹配到。例如，URL请求/app/dir/file.jsp，现在存在两个路径匹配模式/**/<em>.jsp和/app/dir/</em>.jsp，那么会根据模式/app/dir/*.jsp来匹配。</p>
-</blockquote>
-<h3 id="2-匹配文件路径"><a class="markdownIt-Anchor" href="#2-匹配文件路径"></a> 2  匹配文件路径</h3>
-<blockquote>
-<p>​		AntPathMatcher不仅可以匹配URL路径，也可以匹配文件路径。但是需要注意AntPathMacher有构造参数，传递分割参数<code>pathSeparator</code>若不传值默认为<code>/</code>，对于操作系统来说，需要根据不同的操作系统来传递文件分割符，以此来防止匹配路径错误。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AntPathMatcher matcher=<span class="keyword">new</span> AntPathMatcher(File.separator);</span><br><span class="line">AntPathMatcher matcher = <span class="keyword">new</span> AntPathMatcher(System.getProperty(<span class="string">&quot;file.separator&quot;</span>));</span><br></pre></td></tr></table></figure>
-<h2 id="4-concurrentreferencehashmap"><a class="markdownIt-Anchor" href="#4-concurrentreferencehashmap"></a> 4 ConcurrentReferenceHashMap</h2>
-<blockquote>
-<p>JDK也为我们提供了<code>WeakHashMap</code>来使用。但是，但是它并不是线程安全的，因此刚好Spring给我们功提供这个工具类：<code>ConcurrentReferenceHashMap</code>满足了我们对线程安全的弱、软引用的需求。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    String key = <span class="keyword">new</span> String(<span class="string">&quot;key&quot;</span>);</span><br><span class="line">    String value = <span class="keyword">new</span> String(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">    Map&lt;String, String&gt; map = <span class="keyword">new</span> ConcurrentReferenceHashMap&lt;&gt;(<span class="number">8</span>, ConcurrentReferenceHashMap.ReferenceType.WEAK);</span><br><span class="line">    map.put(key, value);</span><br><span class="line">    System.out.println(map); <span class="comment">//&#123;key=val&#125;</span></span><br><span class="line">    key = <span class="keyword">null</span>;</span><br><span class="line">    System.gc();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//等待一会 确保GC能够过来</span></span><br><span class="line">    TimeUnit.SECONDS.sleep(<span class="number">5</span>);</span><br><span class="line">    System.out.println(map); <span class="comment">//&#123;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>我们发现当我们把key设置为null后，垃圾回收器会回收掉这部分内存。这就是弱、虚引用的作用，主要用来防止OOM。</p>
-</blockquote>
-<h2 id="5-defaultpropertiespersister"><a class="markdownIt-Anchor" href="#5-defaultpropertiespersister"></a> 5 DefaultPropertiesPersister</h2>
-<blockquote>
-<p>这个类本身没有什么特别的，就是代理了JDK的Properties类而已。但写到此处是觉得Spring优秀就优秀在它强大的<code>对扩展开放的原则</code>体现。</p>
-<p>比如如果我们需要对配置文件进行解密（比如数据库连接密码不能明文），这些操作通过复写这些扩展类的某些方法来做，将特别的优雅。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.xuebuyuan.com/1924773.html">spring启动时，解密配置文件的密文</a></p>
-<h2 id="6-digestutils"><a class="markdownIt-Anchor" href="#6-digestutils"></a> 6 DigestUtils</h2>
-<blockquote>
-<p>可以对字节数组、InputStream流生成摘要。10禁止或者16进制都行</p>
-</blockquote>
-<h2 id="7-fastbytearrayoutputstream"><a class="markdownIt-Anchor" href="#7-fastbytearrayoutputstream"></a> 7 FastByteArrayOutputStream</h2>
-<blockquote>
-<p>​		增强版的<code>ByteArrayOutputStream</code>实底层原理是Spring采用了一个LinkedList来作为缓冲区,而<code>ByteArrayOutputStream</code>直接使用的字节数组。这样每一次扩容中分配一个数组的空间，并当该数据放入到List中。相当于批量的操作，而ByteArrayOutputStream内部实现为一个数组每一次扩容需要重新分配空间并将数据复制到新数组中。效率高下立判了~因此推荐使用</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The buffers used to store the content bytes</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;<span class="keyword">byte</span>[]&gt; buffers = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br></pre></td></tr></table></figure>
-<h2 id="8-filecopyutils-filesystemutils-streamutils"><a class="markdownIt-Anchor" href="#8-filecopyutils-filesystemutils-streamutils"></a> 8 FileCopyUtils、FileSystemUtils、StreamUtils</h2>
-<blockquote>
-<p>​		都是操作文件、操作流的一些工具类。这里就不做过多的介绍了，因为还是比较简单的。</p>
-</blockquote>
-<h2 id="9-linkedcaseinsensitivemap-linkedmultivaluemap"><a class="markdownIt-Anchor" href="#9-linkedcaseinsensitivemap-linkedmultivaluemap"></a> 9 LinkedCaseInsensitiveMap ，LinkedMultiValueMap</h2>
-<h3 id="1-linkedcaseinsensitivemap"><a class="markdownIt-Anchor" href="#1-linkedcaseinsensitivemap"></a> 1 LinkedCaseInsensitiveMap</h3>
-<blockquote>
-<p>​		不区分大小写的有序map;底层代理了LinkedHashMap，因此它能保证有序。此Map的意义在于：在编写比如MaBatis这种类似的自动封装框架的时候，特备有用。</p>
-<p>​		<strong>数据库本身对大小写不敏感（例如mysql），但是创建表格的时候，数据库里面字段都会默认小写，所以MyBatis映射的时候，key也会映射成小写，可以用LinkedCaseInsensitiveMap（key值不区分大小写的LinkedMap）来处理。</strong></p>
-</blockquote>
-<p><strong>注意：</strong></p>
-<blockquote>
-<p>LinkedCaseInsensitiveMap的key一定是String</p>
-</blockquote>
-<h3 id="2-linkedmultivaluemap"><a class="markdownIt-Anchor" href="#2-linkedmultivaluemap"></a> 2 LinkedMultiValueMap</h3>
-<blockquote>
-<p>见名之意，一个key对应多个value。废话不多说，直接感受一把就知道了。没有Apache Common提供的好用。但是一般来说也足够用了~</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fun1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="comment">//用Map接的时候  请注意第二个泛型 是个List哦</span></span><br><span class="line">     <span class="comment">//Map&lt;String, List&lt;Integer&gt;&gt; map = new LinkedMultiValueMap&lt;&gt;();</span></span><br><span class="line">     LinkedMultiValueMap&lt;String, Integer&gt; map = <span class="keyword">new</span> LinkedMultiValueMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">     <span class="comment">//此处务必注意，如果你还是用put方法  那是没有效果的 同一个key还是会覆盖</span></span><br><span class="line">     <span class="comment">//map.put(&quot;a&quot;, Arrays.asList(1));</span></span><br><span class="line">     <span class="comment">//map.put(&quot;a&quot;, Arrays.asList(1));</span></span><br><span class="line">     <span class="comment">//map.put(&quot;a&quot;, Arrays.asList(1));</span></span><br><span class="line">     <span class="comment">//System.out.println(map); //&#123;a=[1]&#125;</span></span><br><span class="line"></span><br><span class="line">     <span class="comment">//请用add方法</span></span><br><span class="line">     map.add(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>);</span><br><span class="line">     map.add(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>);</span><br><span class="line">     map.add(<span class="string">&quot;a&quot;</span>, <span class="number">1</span>);</span><br><span class="line">     System.out.println(map); <span class="comment">//&#123;a=[1, 1, 1]&#125;</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="10-propertyplaceholderhelper"><a class="markdownIt-Anchor" href="#10-propertyplaceholderhelper"></a> 10 PropertyPlaceholderHelper</h2>
-<blockquote>
-<p>​	作用：将字符串里的占位符内容，用我们配置的properties里的替换。这个是一个单纯的类，没有继承没有实现，没有依赖Spring框架其他的任何类。</p>
-<p>我们自定义支持的表达式的时候，我们也可以高大上的说，我的格式支持spel表达式<code>SpelExpressionParser</code>。更加的灵活了。</p>
-<p>@Value注解或者其余spel表达式的东西，都得依赖于这个来做。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String a = <span class="string">&quot;&#123;name&#125;&#123;age&#125;&#123;sex&#125;&quot;</span>;</span><br><span class="line">    String b = <span class="string">&quot;&#123;name&#123;age&#125;&#123;sex&#125;&#125;&quot;</span>;</span><br><span class="line">    PropertyPlaceholderHelper propertyPlaceholderHelper = <span class="keyword">new</span> PropertyPlaceholderHelper(<span class="string">&quot;&#123;&quot;</span>, <span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">    InputStream in = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">&quot;D:\\work\\remotegitcheckoutproject\\myprojects\\java\\boot2-demo1\\src\\main\\resources\\application.properties&quot;</span>)));</span><br><span class="line">    Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">    properties.load(in);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//==============开始解析此字符串==============</span></span><br><span class="line">    System.out.println(<span class="string">&quot;替换前:&quot;</span> + a); <span class="comment">//替换前:&#123;name&#125;&#123;age&#125;&#123;sex&#125;</span></span><br><span class="line">    System.out.println(<span class="string">&quot;替换后:&quot;</span> + propertyPlaceholderHelper.replacePlaceholders(a, properties)); <span class="comment">//替换后:wangzha18man</span></span><br><span class="line">    System.out.println(<span class="string">&quot;====================================================&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;替换前:&quot;</span> + b); <span class="comment">//替换前:&#123;name&#123;age&#125;&#123;sex&#125;&#125;</span></span><br><span class="line">    System.out.println(<span class="string">&quot;替换后:&quot;</span> + properties); <span class="comment">//替换后:love  最后输出love，证明它是从内往外一层一层解析的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="11-springversion-springbootversion"><a class="markdownIt-Anchor" href="#11-springversion-springbootversion"></a> 11 SpringVersion、SpringBootVersion</h2>
-<blockquote>
-<p>获取当前Spring版本号</p>
-</blockquote>
-<h2 id="12-reflectionutils-反射工具类"><a class="markdownIt-Anchor" href="#12-reflectionutils-反射工具类"></a> 12 ReflectionUtils 反射工具类</h2>
-<blockquote>
-<p>反射在容器中使用是非常频繁的了，这些方法一般在Spring框架内部使用。</p>
-</blockquote>
-<h3 id="1-变量"><a class="markdownIt-Anchor" href="#1-变量"></a> 1 变量</h3>
-<blockquote>
-<p>该方法是从类里面找到字段对象(private以及父类的都会找哟，但是static的就不会）</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Field <span class="title">findField</span><span class="params">(Class&lt;?&gt; clazz, String name)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Field <span class="title">findField</span><span class="params">(Class&lt;?&gt; clazz, <span class="meta">@Nullable</span> String name, <span class="meta">@Nullable</span> Class&lt;?&gt; type)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setField</span><span class="params">(Field field, <span class="meta">@Nullable</span> Object target, <span class="meta">@Nullable</span> Object value)</span></span>;</span><br><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person person = <span class="keyword">new</span> Person(<span class="string">&quot;fsx&quot;</span>, <span class="number">18</span>);</span><br><span class="line">    Field field = ReflectionUtils.findField(Person.class, <span class="string">&quot;name&quot;</span>);</span><br><span class="line">    field.setAccessible(<span class="keyword">true</span>); <span class="comment">//注意，如果是private的属性，请加上这一句，否则抛出异常：can not access a member of class com.fsx.boot2demo1.bean.Person with modifiers &quot;private&quot;</span></span><br><span class="line"></span><br><span class="line">    System.out.println(ReflectionUtils.getField(field, person)); <span class="comment">//fsx</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-方法"><a class="markdownIt-Anchor" href="#2-方法"></a> 2 方法</h3>
-<blockquote>
-<p>也是一样非常的强大。private、父类方法都能获取到。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Method <span class="title">findMethod</span><span class="params">(Class&lt;?&gt; clazz, String name)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Method <span class="title">findMethod</span><span class="params">(Class&lt;?&gt; clazz, String name, <span class="meta">@Nullable</span> Class&lt;?&gt;... paramTypes)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">invokeMethod</span><span class="params">(Method method, <span class="meta">@Nullable</span> Object target)</span></span>; <span class="comment">//这个不需要自己处理异常哦</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">invokeMethod</span><span class="params">(Method method, <span class="meta">@Nullable</span> Object target, <span class="meta">@Nullable</span> Object... args)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person person = <span class="keyword">new</span> Person(<span class="string">&quot;fsx&quot;</span>, <span class="number">18</span>);</span><br><span class="line">    System.out.println(ReflectionUtils.findMethod(Person.class, <span class="string">&quot;clone&quot;</span>)); <span class="comment">//protected native java.lang.Object java.lang.Object.clone() throws java.lang.CloneNotSupportedException</span></span><br><span class="line">    System.out.println(ReflectionUtils.findMethod(Person.class, <span class="string">&quot;getName&quot;</span>)); <span class="comment">//public java.lang.String com.fsx.boot2demo1.bean.Person.getName()</span></span><br><span class="line">    System.out.println(ReflectionUtils.findMethod(Person.class, <span class="string">&quot;setName&quot;</span>, String.class)); <span class="comment">//public void com.fsx.boot2demo1.bean.Person.setName(java.lang.String)</span></span><br><span class="line">    System.out.println(ReflectionUtils.findMethod(Person.class, <span class="string">&quot;privateMethod&quot;</span>)); <span class="comment">//private void com.fsx.boot2demo1.bean.Person.privateMethod()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-异常"><a class="markdownIt-Anchor" href="#3-异常"></a> 3 异常</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleReflectionException</span><span class="params">(Exception ex)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rethrowRuntimeException</span><span class="params">(Throwable ex)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">declaresException</span><span class="params">(Method method, Class&lt;?&gt; exceptionType)</span></span>; <span class="comment">//判断一个方法上是否声明了指定类型的异常</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isPublicStaticFinal</span><span class="params">(Field field)</span></span>; <span class="comment">//判断字段是否是public static final的</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isEqualsMethod</span><span class="params">(Method method)</span></span>; <span class="comment">//判断该方法是否是equals方法</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isHashCodeMethod</span><span class="params">(Method method)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isToStringMethod</span><span class="params">(Method method)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isObjectMethod</span><span class="params">(Method method)</span></span>; <span class="comment">//判断该方法是否是Object类上的方法</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">makeAccessible</span><span class="params">(Field field)</span></span>; <span class="comment">//将一个字段设置为可读写，主要针对private字段</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makeAccessible</span><span class="params">(Method method)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makeAccessible</span><span class="params">(Constructor&lt;?&gt; ctor)</span></span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>在AopUtils中也有这几个isXXX方法，是的，其实AopUtils中的isXXX方法就是调用的ReflectionUtils的这几个方法的；所以可见此工具类的强大</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Person person = <span class="keyword">new</span> Person(<span class="string">&quot;fsx&quot;</span>, <span class="number">18</span>);</span><br><span class="line">    Method[] allDeclaredMethods = ReflectionUtils.getAllDeclaredMethods(Person.class);</span><br><span class="line">    <span class="comment">//我们发现  这个方法可以把所有的申明的方法都打印出来。包含private和父类的   备注：重复方法都会拿出来。比如此处的toString方法 子类父类的都有</span></span><br><span class="line">    <span class="keyword">for</span> (Method method : allDeclaredMethods) &#123;</span><br><span class="line">        System.out.println(method);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;------------------------------------&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//针对于上面的结果过滤。只会保留一个同名的方法（保留子类的）</span></span><br><span class="line">    Method[] uniqueDeclaredMethods = ReflectionUtils.getUniqueDeclaredMethods(Person.class);</span><br><span class="line">    <span class="keyword">for</span> (Method method : uniqueDeclaredMethods) &#123;</span><br><span class="line">        System.out.println(method);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4 方法</p>
-<p><img src="https://img-blog.csdnimg.cn/2019020220230677.png" alt="在这里插入图片描述"></p>
-<blockquote>
-<p>针对指定类型上的所有方法，依次调用MethodCallback回调；看个源码就知道这个方法的作用：</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doWithLocalMethods</span><span class="params">(Class&lt;?&gt; clazz, MethodCallback mc)</span> </span>&#123;</span><br><span class="line">    Method[] methods = getDeclaredMethods(clazz);</span><br><span class="line">    <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mc.doWith(method);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IllegalAccessException ex) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;...&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>其实实现很简单，就是得到类上的所有方法，然后执行回调接口；这个方法在Spring针对bean的方法上的标签处理时大量使用，比如<code>@Init，@Resource，@Autowire</code>等标签的预处理；</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/20190202202739940.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Y2NDEzODU3MTI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190202202655814.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190202202655814.png" alt="在这里插入图片描述"></p>
-<h2 id="13-resourceutils"><a class="markdownIt-Anchor" href="#13-resourceutils"></a> 13 ResourceUtils</h2>
-<blockquote>
-<p>Spring 提供了一个 ResourceUtils 工具类，它支持“<strong>classpath:</strong>”和“<strong>file:</strong>”的地址前缀，它能够从指定的地址加载文件资源。（其实还支持“jar:和war:前缀”）</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ResourceUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CLASSPATH_URL_PREFIX = <span class="string">&quot;classpath:&quot;</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String FILE_URL_PREFIX = <span class="string">&quot;file:&quot;</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String JAR_URL_PREFIX = <span class="string">&quot;jar:&quot;</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String WAR_URL_PREFIX = <span class="string">&quot;war:&quot;</span>;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">// 是否是一个URL</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isUrl</span><span class="params">(<span class="meta">@Nullable</span> String resourceLocation)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (resourceLocation == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 对classpath:进行了特殊的照顾</span></span><br><span class="line">		<span class="keyword">if</span> (resourceLocation.startsWith(CLASSPATH_URL_PREFIX)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">new</span> URL(resourceLocation);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (MalformedURLException ex) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URL <span class="title">getURL</span><span class="params">(String resourceLocation)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;...&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> File <span class="title">getFile</span><span class="params">(String resourceLocation)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;...&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> File <span class="title">getFile</span><span class="params">(URL resourceUrl)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;...&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> File <span class="title">getFile</span><span class="params">(URI resourceUri)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;...&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> File <span class="title">getFile</span><span class="params">(URI resourceUri, String description)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;...&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 判断</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isFileURL</span><span class="params">(URL url)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 均是和protocol 这个协议有关的~~~</span></span><br><span class="line">		String protocol = url.getProtocol();</span><br><span class="line">		<span class="keyword">return</span> (URL_PROTOCOL_FILE.equals(protocol) || URL_PROTOCOL_VFSFILE.equals(protocol) ||</span><br><span class="line">				URL_PROTOCOL_VFS.equals(protocol));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isJarURL</span><span class="params">(URL url)</span> </span>&#123;...&#125;</span><br><span class="line">	<span class="comment">// @since 4.1</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isJarFileURL</span><span class="params">(URL url)</span> </span>&#123;...&#125;</span><br><span class="line">	<span class="comment">// URL和URI的转换</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URI <span class="title">toURI</span><span class="params">(URL url)</span> <span class="keyword">throws</span> URISyntaxException </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> toURI(url.toString());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> URI <span class="title">toURI</span><span class="params">(String location)</span> <span class="keyword">throws</span> URISyntaxException </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> URI(StringUtils.replace(location, <span class="string">&quot; &quot;</span>, <span class="string">&quot;%20&quot;</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>例如：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</span><br><span class="line">    File file = ResourceUtils.getFile(<span class="string">&quot;classpath:application.properties&quot;</span>);</span><br><span class="line">    System.out.println(file); <span class="comment">//D:\work\remotegitcheckoutproject\myprojects\java\boot2-demo1\target\classes\application.properties</span></span><br><span class="line"></span><br><span class="line">    System.out.println(ResourceUtils.isUrl(<span class="string">&quot;classpath:application.properties&quot;</span>)); <span class="comment">//true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//注意此处输出的路径为正斜杠 ‘/’的  上面直接输出File是反斜杠的（和操作系统相关）</span></span><br><span class="line">    System.out.println(ResourceUtils.getURL(<span class="string">&quot;classpath:application.properties&quot;</span>)); <span class="comment">//file:/D:/work/remotegitcheckoutproject/myprojects/java/boot2-demo1/target/classes/application.properties</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>备注：若你在使用过程中，发现ResourceUtils.getFile()死活都找不到文件的话，那我提供一个建议：是否是在jar包内使用了此工具类，一般不建议在jar包内使用。另外，提供一个代替方案：可解决大多数问题：</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ClassPathResource resource = <span class="keyword">new</span> ClassPathResource(<span class="string">&quot;application.properties&quot;</span>);</span><br><span class="line">    System.out.println(resource); <span class="comment">//class path resource [application.properties]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="14-serializationutils"><a class="markdownIt-Anchor" href="#14-serializationutils"></a> 14 SerializationUtils</h2>
-<blockquote>
-<p>这个工具就不做过多解释了。提供了两个方法：对象&lt;–&gt;二进制的相互转化。（基于源生JDK的序列化方式）</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] serialize(<span class="meta">@Nullable</span> Object object);</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">deserialize</span><span class="params">(<span class="meta">@Nullable</span> <span class="keyword">byte</span>[] bytes)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="15-socketutils"><a class="markdownIt-Anchor" href="#15-socketutils"></a> 15 SocketUtils</h2>
-<blockquote>
-<p>提供给我们去系统找可用的Tcp、Udp端口来使用。有的时候确实还蛮好用的，必进端口有时候不用写死了，提高灵活性</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(SocketUtils.PORT_RANGE_MAX); <span class="comment">//65535 最大端口号</span></span><br><span class="line">    System.out.println(SocketUtils.findAvailableTcpPort()); <span class="comment">//45569 随便找一个可用的Tcp端口 每次执行值都不一样哦</span></span><br><span class="line">    System.out.println(SocketUtils.findAvailableTcpPort(<span class="number">1000</span>, <span class="number">2000</span>)); <span class="comment">//1325 从指定范围内随便找一个端口</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//找一堆端口出来  并且是排好序的</span></span><br><span class="line">    System.out.println(SocketUtils.findAvailableTcpPorts(<span class="number">10</span>, <span class="number">1000</span>, <span class="number">2000</span>)); <span class="comment">//[1007, 1034, 1287, 1483, 1494, 1553, 1577, 1740, 1963, 1981]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//UDP端口的找寻 同上</span></span><br><span class="line">    System.out.println(SocketUtils.findAvailableUdpPort()); <span class="comment">//12007</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>其长度都是16个bit，所以端口号范围是0到(2^16-1)，即 0到 65535。其中0到1023是IANA规定的系统端口，即系统保留窗口。<strong>例如HTTP为80端口，DNS服务为53端口</strong>。下面列出常用tcp和udp重要协议端口号，供以参考</p>
-</blockquote>
-<h2 id="16-stringutils"><a class="markdownIt-Anchor" href="#16-stringutils"></a> 16 StringUtils</h2>
-<h3 id="1-字符串判定"><a class="markdownIt-Anchor" href="#1-字符串判定"></a> 1 字符串判定</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断类：</span></span><br><span class="line"><span class="comment">// boolean isEmpty(Object str):字符串是否为空或者空字符串：&quot;&quot;</span></span><br><span class="line"><span class="comment">// boolean hasLength(CharSequence str):字符串是否为空，或者长度为0</span></span><br><span class="line"><span class="comment">// boolean hasText(String str):字符串是否有内容（不为空，且不全为空格）</span></span><br><span class="line">assertFalse(StringUtils.hasText(<span class="string">&quot;   &quot;</span>));</span><br><span class="line"><span class="comment">// boolean containsWhitespace(String str):字符串是否包含空格</span></span><br><span class="line">assertTrue(StringUtils.containsWhitespace(<span class="string">&quot;a b&quot;</span>));</span><br></pre></td></tr></table></figure>
-<h3 id="2-字符串头尾操作"><a class="markdownIt-Anchor" href="#2-字符串头尾操作"></a> 2 字符串头尾操作</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串头尾操作</span></span><br><span class="line"><span class="comment">// String trimWhitespace(String str):去掉字符串前后的空格</span></span><br><span class="line">assertEquals(<span class="string">&quot;abc&quot;</span>, StringUtils.trimWhitespace(<span class="string">&quot; abc &quot;</span>));</span><br><span class="line"><span class="comment">// String trimAllWhitespace(String str):去掉字符串中所有的空格</span></span><br><span class="line">assertEquals(<span class="string">&quot;abc&quot;</span>, StringUtils.trimAllWhitespace(<span class="string">&quot; a b c &quot;</span>));</span><br><span class="line"><span class="comment">// String trimLeadingWhitespace(String str):去掉字符串开头的空格</span></span><br><span class="line"><span class="comment">// String trimTrailingWhitespace(String str):去掉字符串结束的空格</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// String trimLeadingCharacter(String str, char leadingCharacter):去掉字符串开头的指定字符；</span></span><br><span class="line"><span class="comment">// String trimTrailingCharacter(String str, char trailingCharacter):去掉字符串结尾的指定字符；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// boolean startsWithIgnoreCase(String str, String prefix):</span></span><br><span class="line"><span class="comment">// 判断字符串是否以指定字符串开头，忽略大小写</span></span><br><span class="line">assertTrue(StringUtils.startsWithIgnoreCase(<span class="string">&quot;abcd&quot;</span>, <span class="string">&quot;AB&quot;</span>));</span><br><span class="line"><span class="comment">// boolean endsWithIgnoreCase(String str, String suffix):</span></span><br><span class="line"><span class="comment">// 判断字符串是否以指定字符串结尾，忽略大小写</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-文件操作"><a class="markdownIt-Anchor" href="#3-文件操作"></a> 3 <code>文件操作</code></h3>
-<blockquote>
-<p>文件路径名称相关操作，是针对文件名，文件路径，文件后缀等常见文件操作中需要用到的方法进行封装；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String unqualify(String qualifiedName):</span></span><br><span class="line"><span class="comment">// 得到以.分割的最后一个值，可以非常方便的获取类似类名或者文件后缀</span></span><br><span class="line">assertEquals(<span class="string">&quot;java&quot;</span>, StringUtils.unqualify(<span class="string">&quot;cn.wolfcode.java&quot;</span>));</span><br><span class="line">assertEquals(<span class="string">&quot;java&quot;</span>, StringUtils.unqualify(<span class="string">&quot;cn/wolfcode/Hello.java&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String unqualify(String qualifiedName, char separator):</span></span><br><span class="line"><span class="comment">// 得到以给定字符分割的最后一个值，可以非常方便的获取类似文件名</span></span><br><span class="line">assertEquals(<span class="string">&quot;Hello.java&quot;</span>, StringUtils.unqualify(<span class="string">&quot;cn/wolfcode/Hello.java&quot;</span>, File.separatorChar));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String capitalize(String str):首字母大写</span></span><br><span class="line">assertEquals(<span class="string">&quot;Wolfcode&quot;</span>, StringUtils.capitalize(<span class="string">&quot;wolfcode&quot;</span>));</span><br><span class="line"><span class="comment">// String uncapitalize(String str):取消首字母大写（首字母小写）</span></span><br><span class="line">assertEquals(<span class="string">&quot;java&quot;</span>, StringUtils.uncapitalize(<span class="string">&quot;Java&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String getFilename(String path):获取文件名,就不需要再使用FilenameUtils</span></span><br><span class="line">assertEquals(<span class="string">&quot;myfile.txt&quot;</span>,StringUtils.getFilename(<span class="string">&quot;mypath/myfile.txt&quot;</span>));</span><br><span class="line"><span class="comment">// String getFilenameExtension(String path):获取文件后缀名</span></span><br><span class="line">assertEquals(<span class="string">&quot;txt&quot;</span>,StringUtils.getFilenameExtension(<span class="string">&quot;mypath/myfile.txt&quot;</span>));</span><br><span class="line"><span class="comment">// String stripFilenameExtension(String path):截取掉文件路径后缀</span></span><br><span class="line">assertEquals(<span class="string">&quot;mypath/myfile&quot;</span>, StringUtils.stripFilenameExtension(<span class="string">&quot;mypath/myfile.txt&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String applyRelativePath(String path, String relativePath):</span></span><br><span class="line"><span class="comment">// 找到给定的文件，和另一个相对路径的文件，返回第二个文件的全路径</span></span><br><span class="line"><span class="comment">// 打印：d:/java/wolfcode/other/Some.java</span></span><br><span class="line">System.out.println(StringUtils.applyRelativePath(<span class="string">&quot;d:/java/wolfcode/Test.java&quot;</span>, <span class="string">&quot;other/Some.java&quot;</span>));</span><br><span class="line"><span class="comment">// 但是不支持重新定位绝对路径和上级目录等复杂一些的相对路径写法：</span></span><br><span class="line"><span class="comment">// 仍然打印：d:/java/wolfcode/../other/Some.java</span></span><br><span class="line">System.out.println(StringUtils.applyRelativePath(<span class="string">&quot;d:/java/wolfcode/Test.java&quot;</span>, <span class="string">&quot;../other/Some.java&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String cleanPath(String path): =====这个方法非常的重要</span></span><br><span class="line"><span class="comment">// 清理文件路径,这个方法配合applyRelativePath就可以计算一些简单的相对路径了</span></span><br><span class="line"><span class="comment">// 打印:d:/java/other/Some.java</span></span><br><span class="line">System.out.println(StringUtils.cleanPath(<span class="string">&quot;d:/java/wolfcode/../other/Some.java&quot;</span>));</span><br><span class="line"><span class="comment">// 需求：获取d:/java/wolfcode/Test.java相对路径为../../other/Some.java的文件全路径：</span></span><br><span class="line"><span class="comment">// 打印：d:/other/Some.java</span></span><br><span class="line">System.out.println(StringUtils.cleanPath(StringUtils.applyRelativePath( <span class="string">&quot;d:/java/wolfcode/Test.java&quot;</span>, <span class="string">&quot;../../other/Some.java&quot;</span>)));</span><br><span class="line"></span><br><span class="line"><span class="comment">// boolean pathEquals(String path1, String path2):</span></span><br><span class="line"><span class="comment">// 判断两个文件路径是否相同，会先执行cleanPath之后再比较</span></span><br><span class="line">assertTrue(StringUtils.pathEquals(<span class="string">&quot;d:/wolfcode.txt&quot;</span>,<span class="string">&quot;d:/somefile/../wolfcode.txt&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="4-字符串和子串的操作"><a class="markdownIt-Anchor" href="#4-字符串和子串的操作"></a> <strong>4 字符串和子串的操作</strong></h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boolean substringMatch(CharSequence str, int index, CharSequence</span></span><br><span class="line"><span class="comment">// substring):判断从指定索引开始，是否匹配子字符串</span></span><br><span class="line">assertTrue(StringUtils.substringMatch(<span class="string">&quot;aabbccdd&quot;</span>, <span class="number">1</span>, <span class="string">&quot;abb&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// int countOccurrencesOf(String str, String sub):判断子字符串在字符串中出现的次数</span></span><br><span class="line">assertEquals(<span class="number">4</span>, StringUtils.countOccurrencesOf(<span class="string">&quot;ababaabab&quot;</span>, <span class="string">&quot;ab&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String replace(String inString, String oldPattern, String</span></span><br><span class="line"><span class="comment">// newPattern):在字符串中使用子字符串替换</span></span><br><span class="line">assertEquals(<span class="string">&quot;cdcdacdcd&quot;</span>, StringUtils.replace(<span class="string">&quot;ababaabab&quot;</span>, <span class="string">&quot;ab&quot;</span>, <span class="string">&quot;cd&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String delete(String inString, String pattern):删除所有匹配的子字符串；</span></span><br><span class="line">assertEquals(<span class="string">&quot;a&quot;</span>, StringUtils.delete(<span class="string">&quot;ababaabab&quot;</span>, <span class="string">&quot;ab&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String deleteAny(String inString, String charsToDelete):删除子字符串中任意出现的字符</span></span><br><span class="line">assertEquals(<span class="string">&quot;&quot;</span>, StringUtils.deleteAny(<span class="string">&quot;ababaabab&quot;</span>, <span class="string">&quot;bar&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String quote(String str) :在字符串前后增加单引号,比较适合在日志时候使用；</span></span><br><span class="line">assertEquals(<span class="string">&quot;&#x27;hello&#x27;&quot;</span>, StringUtils.quote(<span class="string">&quot;hello&quot;</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="5-和locale相关的一些字符串操作"><a class="markdownIt-Anchor" href="#5-和locale相关的一些字符串操作"></a> 5 <strong>和Locale相关的一些字符串操作</strong></h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Locale parseLocaleString(String localeString):</span></span><br><span class="line"><span class="comment">// 从本地化字符串中解析出本地化信息，相当于Locale.toString()的逆向方法</span></span><br><span class="line">assertEquals(Locale.CHINA, StringUtils.parseLocaleString(<span class="string">&quot;zh_CN&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// @deprecated as of 5.0.4, in favor of &#123;@link Locale#toLanguageTag()&#125;</span></span><br><span class="line"><span class="comment">// String toLanguageTag(Locale locale):把Locale转化成HTTP中Accept-Language能接受的本地化标准；</span></span><br><span class="line"><span class="comment">// 比如标准的本地化字符串为：zh_CN，更改为zh-CN</span></span><br><span class="line">System.out.println(StringUtils.toLanguageTag(StringUtils.parseLocaleString(<span class="string">&quot;zh_CN&quot;</span>)));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="6-字符串和properties"><a class="markdownIt-Anchor" href="#6-字符串和properties"></a> 6 <strong>字符串和Properties</strong></h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Properties splitArrayElementsIntoProperties(String[] array, String delimiter):</span></span><br><span class="line"><span class="comment">// 把字符串数组中的每一个字符串按照给定的分隔符装配到一个Properties中</span></span><br><span class="line">String[] strs=<span class="keyword">new</span> String[]&#123;<span class="string">&quot;key:value&quot;</span>,<span class="string">&quot;key2:中文&quot;</span>&#125;;</span><br><span class="line">Properties ps=StringUtils.splitArrayElementsIntoProperties(strs, <span class="string">&quot;:&quot;</span>);</span><br><span class="line"><span class="comment">//打印输出：&#123;key=value, key2=中文&#125;</span></span><br><span class="line">System.out.println(ps);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Properties splitArrayElementsIntoProperties(String[] array, String delimiter, String charsToDelete)</span></span><br><span class="line"><span class="comment">//把字符串数组中的每一个字符串按照给定的分隔符装配到一个Properties中,并删除指定字符串，比如括号之类的；</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>7 <strong><code>字符串和数组之间的基本操作（重要）</code></strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String[] addStringToArray(String[] array, String str):把一个字符串添加到一个字符串数组中</span></span><br><span class="line"><span class="comment">// 打印：[a, b, c, d]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils</span><br><span class="line">        .addStringToArray(<span class="keyword">new</span> String[] &#123; <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span> &#125;, <span class="string">&quot;d&quot;</span>)));</span><br><span class="line"></span><br><span class="line"><span class="comment">// String[] concatenateStringArrays(String[] array1, String[]array2):连接两个字符串数组</span></span><br><span class="line"><span class="comment">//打印：[a, b, c, a, b, c, d]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.concatenateStringArrays(</span><br><span class="line">        <span class="keyword">new</span> String[] &#123; <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> String[] &#123; <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>,<span class="string">&quot;d&quot;</span> &#125;)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] mergeStringArrays(String[] array1, String[] array2)：连接两个字符串数组，去掉重复元素</span></span><br><span class="line"><span class="comment">//打印：[a, b, c, d]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.mergeStringArrays(</span><br><span class="line">        <span class="keyword">new</span> String[] &#123; <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span> &#125;,</span><br><span class="line">        <span class="keyword">new</span> String[] &#123; <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>,<span class="string">&quot;d&quot;</span> &#125;)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] sortStringArray(String[] array):字符串数组排序</span></span><br><span class="line"><span class="comment">//打印：[a, b, c, d]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.sortStringArray(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;d&quot;</span>,<span class="string">&quot;c&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;a&quot;</span>&#125;)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] toStringArray(Collection&lt;String&gt; collection):把字符串集合变成字符串数组</span></span><br><span class="line"><span class="comment">//String[] toStringArray(Enumeration&lt;String&gt; enumeration):把字符串枚举类型变成字符串数组</span></span><br><span class="line"><span class="comment">//String[] trimArrayElements(String[] array):把字符串数组中所有字符串执行trim功能；</span></span><br><span class="line"><span class="comment">//String[] removeDuplicateStrings(String[] array):去掉给定字符串数组中重复的元素，能保持原顺序；</span></span><br><span class="line"><span class="comment">//String[] split(String toSplit, String delimiter):按照指定字符串分割字符串；</span></span><br><span class="line">assertArrayEquals(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;wolfcode&quot;</span>,<span class="string">&quot;cn&quot;</span>&#125;, StringUtils.split(<span class="string">&quot;wolfcode.cn&quot;</span>, <span class="string">&quot;.&quot;</span>));</span><br><span class="line"><span class="comment">//只分割第一次，打印：[www, wolfcode.cn]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.split(<span class="string">&quot;www.wolfcode.cn&quot;</span>, <span class="string">&quot;.&quot;</span>)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] tokenizeToStringArray(String str, String delimiters)</span></span><br><span class="line"><span class="comment">//会对每一个元素执行trim操作，并去掉空字符串</span></span><br><span class="line"><span class="comment">//使用的是StringTokenizer完成，</span></span><br><span class="line"><span class="comment">//打印[b, c, d]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.tokenizeToStringArray(<span class="string">&quot;aa,ba,ca,da&quot;</span>, <span class="string">&quot;a,&quot;</span>)));</span><br><span class="line"><span class="comment">//String[] tokenizeToStringArray(String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens)</span></span><br><span class="line"><span class="comment">//后面两个参数在限定是否对每一个元素执行trim操作，是否去掉空字符串</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] delimitedListToStringArray(String str, String delimiter):分割字符串，会把delimiter作为整体分隔符</span></span><br><span class="line"><span class="comment">//打印：[a, b, c, da]</span></span><br><span class="line">System.out.println(Arrays.toString(StringUtils.delimitedListToStringArray(<span class="string">&quot;aa,ba,ca,da&quot;</span>, <span class="string">&quot;a,&quot;</span>)));</span><br><span class="line"><span class="comment">//String[] delimitedListToStringArray(String str, String delimiter, String charsToDelete)</span></span><br><span class="line"><span class="comment">//分割字符串，会把delimiter作为整体分隔符，增加一个要从分割字符串中删除的字符；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//String[] commaDelimitedListToStringArray(String str):使用逗号分割字符串</span></span><br><span class="line"><span class="comment">//是delimitedListToStringArray(str, &quot;,&quot;)的简单方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Set&lt;String&gt; commaDelimitedListToSet(String str)：使用逗号分割字符串，并放到set中去重</span></span><br><span class="line"><span class="comment">//使用LinkedHashSet;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//String collectionToDelimitedString(Collection&lt;?&gt; coll, String delim, String prefix, String suffix)</span></span><br><span class="line"><span class="comment">//将一个集合中的元素，使用前缀，后缀，分隔符拼装一个字符串，前缀后后缀是针对每一个字符串的</span></span><br><span class="line">String[] arrs=<span class="keyword">new</span> String[]&#123;<span class="string">&quot;aa&quot;</span>,<span class="string">&quot;bb&quot;</span>,<span class="string">&quot;cc&quot;</span>,<span class="string">&quot;dd&quot;</span>&#125;;</span><br><span class="line">assertEquals(<span class="string">&quot;&#123;aa&#125;,&#123;bb&#125;,&#123;cc&#125;,&#123;dd&#125;&quot;</span>, StringUtils.collectionToDelimitedString(Arrays.asList(arrs),<span class="string">&quot;,&quot;</span>,<span class="string">&quot;&#123;&quot;</span>,<span class="string">&quot;&#125;&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//String collectionToDelimitedString(Collection&lt;?&gt; coll, String delim)：集合变成指定字符串连接的字符串；</span></span><br><span class="line"><span class="comment">//是collectionToDelimitedString(coll, delim, &quot;&quot;, &quot;&quot;)的简写；</span></span><br><span class="line"><span class="comment">//String collectionToCommaDelimitedString(Collection&lt;?&gt; coll)：集合变成逗号连接的字符串；</span></span><br><span class="line"><span class="comment">//是collectionToDelimitedString(coll, &quot;,&quot;);的简写；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//String arrayToDelimitedString(Object[] arr, String delim)：数组使用指定字符串连接；</span></span><br><span class="line"><span class="comment">//String arrayToCommaDelimitedString(Object[] arr)：使用逗号连接数组，拼成字符串；</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>StringUtils类中的方法其实真的还是很多，可能平时我们用的比较多的还是一些普通的方法，其实类似文件路径，文件名等相关操作，以前还会专门引入common-io的FilenameUtils等额外的工具类，原来在StringUtils中都有，而且根据其设计的这些方法，我们也能大概的猜出一些方法在Spring中哪些地方可能有用；</strong></p>
-</blockquote>
-<h2 id="17-systempropertyutils-占位符解析工具类"><a class="markdownIt-Anchor" href="#17-systempropertyutils-占位符解析工具类"></a> 17 SystemPropertyUtils 占位符解析工具类</h2>
-<blockquote>
-<p>该类依赖于上面已经说到的<code>PropertyPlaceholderHelper</code>来处理。本类只处理系统默认属性值</p>
-<p>该工具类很简单，但是非常的使用。可以很好的利用起来，Spring内部也有非常之多的使用。</p>
-<p>在平时的程序开发中，我们也经常会遇到一些痛点，比如规则引擎（公式）：<code>A=$&#123;B&#125;+$&#123;C&#125;+1</code>，这样我们只需要得到B和C的值，然后再放入公式计算即可</p>
-<p>占位符在Spring、Tomcat、Maven里都有大量的使用。下面用简单的例子体验一把：</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">resolvePlaceholders</span><span class="params">(String text)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果标志位为true，则没有默认值的无法解析的占位符将保留原样不被解析 默认为false</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">resolvePlaceholders</span><span class="params">(String text, <span class="keyword">boolean</span> ignoreUnresolvablePlaceholders)</span></span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(SystemPropertyUtils.resolvePlaceholders(<span class="string">&quot;$&#123;os.name&#125;/logs/app.log&quot;</span>)); <span class="comment">//Windows 10/logs/app.log</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//备注：这里如果不传true，如果找不到app.root这个key就会报错哦。传true后找不到也原样输出</span></span><br><span class="line">    System.out.println(SystemPropertyUtils.resolvePlaceholders(<span class="string">&quot;$&#123;app.root&#125;/logs/app.log&quot;</span>, <span class="keyword">true</span>)); <span class="comment">//$&#123;app.root&#125;/logs/app.log</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>另外，<code>org.springframework.core.io.support.PropertiesLoaderUtils</code>也是Spring提供的加载<code>.properties</code>配置文件的重要工具类之一~</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/f641385712/article/details/89380067?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522160777993819724818085193%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&amp;request_id=160777993819724818085193&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_v2~rank_v29-1-89380067.pc_v2_rank_blog_default&amp;utm_term=%E5%B7%A5%E5%85%B7%E7%B1%BB&amp;spm=1018.2118.3001.4450">A哥Spring工具类第二篇</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" data-id="ckkc718q9004gsgsmfvrk83x4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">Spring - Spring基础 - Spring工具类</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Mybatis源码学习" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/09/Mybatis%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-12-09T13:20:14.000Z" itemprop="datePublished">2020-12-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Mybatis%E6%BA%90%E7%A0%81/">Mybatis源码</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/09/Mybatis%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">Mybatis源码学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mybatis-架构设计"><a class="markdownIt-Anchor" href="#mybatis-架构设计"></a> Mybatis 架构设计</h1>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/09/Mybatis%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" data-id="ckkc718p6001csgsmdoeefxbq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis%E6%BA%90%E7%A0%81/" rel="tag">Mybatis源码</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Docker基础入门" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" class="article-date">
-  <time datetime="2020-12-08T14:24:10.000Z" itemprop="datePublished">2020-12-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/docker/">docker</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/">Docker基础入门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-docker基础入门"><a class="markdownIt-Anchor" href="#1-docker基础入门"></a> 1 Docker基础入门</h1>
-<h2 id="1-安装"><a class="markdownIt-Anchor" href="#1-安装"></a> 1 安装</h2>
-<h3 id="1-安装docker"><a class="markdownIt-Anchor" href="#1-安装docker"></a> 1 安装docker</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.卸载旧版本</span></span><br><span class="line">yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.需要的安装包</span></span><br><span class="line">yum install -y yum-utils</span><br><span class="line"></span><br><span class="line"><span class="comment">#3.设置镜像的仓库</span></span><br><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment">#默认是从国外的，不推荐</span></span><br><span class="line"><span class="comment">#推荐使用国内的</span></span><br><span class="line">yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新yum软件包索引</span></span><br><span class="line">yum makecache fast</span><br><span class="line"></span><br><span class="line"><span class="comment">#4.安装docker相关的(docker-ce 社区版 而ee是企业版)</span></span><br><span class="line">yum install docker-ce docker-ce-cli containerd.io</span><br><span class="line"></span><br><span class="line"><span class="comment">#5.启动Docker</span></span><br><span class="line">systemctl start docker</span><br><span class="line"></span><br><span class="line"><span class="comment">#6.使用docker version查看是否按照成功</span></span><br><span class="line">docker version</span><br><span class="line"></span><br><span class="line"><span class="comment">#7.开机自启</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-<h3 id="2-配置阿里云镜像加速"><a class="markdownIt-Anchor" href="#2-配置阿里云镜像加速"></a> 2 配置阿里云镜像加速</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://4bj04jx5.mirror.aliyuncs.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<h2 id="2-命令"><a class="markdownIt-Anchor" href="#2-命令"></a> 2 命令</h2>
-<h3 id="1-帮助命令"><a class="markdownIt-Anchor" href="#1-帮助命令"></a> 1 帮助命令</h3>
-<ul>
-<li><code>docker version</code></li>
-<li><code>docker info</code></li>
-<li><code>docker --help</code></li>
-</ul>
-<h3 id="2-镜像命令"><a class="markdownIt-Anchor" href="#2-镜像命令"></a> 2  镜像命令</h3>
-<ul>
-<li>
-<p><code>docker images</code> 列出本地的镜像</p>
-<ul>
-<li><code>-a</code> 列出本地所有的镜像（含中间映像层）</li>
-<li><code>-q</code> 只显示镜像ID</li>
-<li><code>--digests</code> 显示镜像的摘要信息</li>
-<li><code>--no-trunc</code> 显示完整的镜像信息</li>
-</ul>
-</li>
-<li>
-<p><code>docker search &lt;某个镜像的名字&gt;</code></p>
-<ul>
-<li><code>--no--trunc</code> 显示完整的镜像描述</li>
-<li><code>-s</code> 列出收藏数不小于指定值的镜像</li>
-<li><code>automated</code> 只列出automated build类型的镜像</li>
-</ul>
-</li>
-<li>
-<p><code>docker pull &lt;某个XXX镜像的名字&gt;</code></p>
-</li>
-<li>
-<p><code>docker rmi &lt;某个XXX镜像名字ID&gt;</code></p>
-</li>
-<li>
-<p>删除镜像</p>
-<ul>
-<li>删除单个 <code>docker rmi -f &lt;镜像ID&gt;</code></li>
-<li>删除多个 <code>docker rmi -f 镜像名1:TAG 镜像名2:TAG</code></li>
-<li>删除全部 <code>docker rmi -f $&#123;docker images -qa&#125;</code></li>
-<li>docker ps -a -q | xargs docker rm</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-容器命令"><a class="markdownIt-Anchor" href="#3-容器命令"></a> 3 容器命令</h3>
-<ul>
-<li><code>docker run &lt;IMAGE&gt;</code>
-<ul>
-<li><code>--name=&lt;容器的新名字&gt;</code></li>
-<li><code>-d</code> 后台运行容器,并返回容器ID,启动守护式容器</li>
-<li><code>-i</code>交互式</li>
-<li><code>-t</code>为容器重新分配一个伪输入终端</li>
-<li><code>-P</code> 随机端口映射</li>
-<li><code>-p</code>指定端口映射
-<ul>
-<li>ip:hostPort:containerPort</li>
-<li>ip::containerPort</li>
-<li>hostPort:containerPort</li>
-<li>containerPort</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>docker run -it centos /bin/bash</code></li>
-</ul>
-<blockquote>
-<p>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。</p>
-</blockquote>
-<ul>
-<li>
-<p><code>docker ps</code> 列出所有<strong>正在运行</strong>的容器</p>
-<ul>
-<li><code>-a</code> :列出当前所有正在运行的容器+历史上运行过的</li>
-<li><code>-l</code> :显示最近创建的容器。</li>
-<li><code>-n</code>：显示最近n个创建的容器。</li>
-<li><code>-q</code> :静默模式，只显示容器编号。</li>
-<li><code>--no-trunc</code> :不截断输出。</li>
-</ul>
-</li>
-<li>
-<p><code>exit</code> 容器停止推出</p>
-</li>
-<li>
-<p><code>ctrk + P +Q</code> 容器不停止退出</p>
-</li>
-<li>
-<p><code>docker start</code> 启动容器</p>
-</li>
-<li>
-<p><code>docker stop</code>容器ID或者容器名</p>
-</li>
-<li>
-<p><code>docker kill</code> 容器ID或者容器名</p>
-</li>
-<li>
-<p><code>docker run -d centos /bin/sh -c &quot;while true;do echo hello zzyy;sleep 2;done&quot;</code></p>
-</li>
-</ul>
-<blockquote>
-<p>#使用镜像centos:latest以后台模式启动一个容器</p>
-<p>docker run -d centos</p>
-<p>问题：然后docker ps -a 进行查看, 会发现容器已经退出</p>
-<p>很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.</p>
-<p>容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。</p>
-<p>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,我们配置启动服务只需要启动响应的service即可。例如</p>
-<p>service nginx start</p>
-<p>但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,</p>
-<p>这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.</p>
-<p>所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行</p>
-</blockquote>
-<ul>
-<li><code>docker logs -f -t --tail &lt;容器Id&gt;</code>查看日志</li>
-<li><code>docker top &lt;容器Id&gt;</code> 查看容器内进程</li>
-<li><code>docker inspect &lt;容器ID&gt;</code> 查看容器内部细节</li>
-<li><code>docker exec -it &lt;容器ID&gt; bashShell</code></li>
-<li><code>docker attach &lt;容器ID&gt;</code></li>
-</ul>
-<blockquote>
-<p>attach 直接进入容器启动命令终端,不会启新的进程</p>
-<p>exec 是在容器打开新的终端,并且可以启动新的进程</p>
-</blockquote>
-<ul>
-<li><code>docker cp 容器ID:路径 路径</code> 从容器拷贝到主机上</li>
-</ul>
-<h2 id="3-docker-镜像"><a class="markdownIt-Anchor" href="#3-docker-镜像"></a> 3 Docker 镜像</h2>
-<h2 id="4-docker数据卷"><a class="markdownIt-Anchor" href="#4-docker数据卷"></a> 4 Docker数据卷</h2>
-<h2 id="5-dockerfile"><a class="markdownIt-Anchor" href="#5-dockerfile"></a> 5 DockerFile</h2>
-<h3 id="1-是什么"><a class="markdownIt-Anchor" href="#1-是什么"></a> 1 是什么？</h3>
-<blockquote>
-<p>DockerFIle是用来构建Docker镜像的构建工具,是由一系列命令和参数构成的脚本</p>
-</blockquote>
-<p><strong>构建三步:</strong></p>
-<ol>
-<li>编写DockerFile</li>
-<li>docker build</li>
-<li>docker run</li>
-</ol>
-<h3 id="2-dockerfile构建解析"><a class="markdownIt-Anchor" href="#2-dockerfile构建解析"></a> 2 DockerFIle构建解析</h3>
-<h4 id="1-dockerfile的内容基础"><a class="markdownIt-Anchor" href="#1-dockerfile的内容基础"></a> 1 DockerFIle的内容基础</h4>
-<ol>
-<li>每条保留字指令都必须为大写字母且后面要跟随至少一个参数</li>
-<li>指令按照从上到下,顺序执行</li>
-<li># 表示注释</li>
-<li><strong>每条指令都会创建一个新的镜像曾,并对镜像进行提交</strong></li>
-</ol>
-<h4 id="2-docker执行dockerfile的大致流程"><a class="markdownIt-Anchor" href="#2-docker执行dockerfile的大致流程"></a> 2 Docker执行Dockerfile的大致流程</h4>
-<ol>
-<li>docker从基础镜像运行一个容器</li>
-<li>执行一条指定并对容器做出修改</li>
-<li>执行类似docker commit 的操作提交一个新的镜像层</li>
-<li>docker再基于刚提交的镜像运行一个新容器</li>
-<li>执行dockerfile的下一条指令知道所有指令都执行完成</li>
-</ol>
-<h3 id="3-docker体系结构保留字指令"><a class="markdownIt-Anchor" href="#3-docker体系结构保留字指令"></a> 3 Docker体系结构(保留字指令)</h3>
-<ul>
-<li>
-<p><code>FORM</code> 基础镜像,当前镜像是基于那个镜像的</p>
-</li>
-<li>
-<p><code>MAINTAINER</code> 镜像的作者与作者的邮箱</p>
-</li>
-<li>
-<p><code>RUN</code> 容器构建需要执行的命令</p>
-</li>
-<li>
-<p><code>EXPOSE</code>容器对外暴露的端口</p>
-</li>
-<li>
-<p><code>WORKDIR</code>指定再创建容器后,终端默认登录进来的工作目录,一个落脚点</p>
-</li>
-<li>
-<p><code>ENV</code>用于在构建镜像过程中设置环境变量</p>
-</li>
-<li>
-<p><code>ADD</code> 将宿主机目录下的文件拷贝进镜像且ADD命令会自动处理URL和解压tar压缩包</p>
-</li>
-<li>
-<p><code>COPY</code>类似于ADD 拷贝文件和目录到镜像中,将从构建上下文目录中&lt;源路径&gt;的文件/目录复制到新的一层的镜像内&lt;目标路径&gt;的位置</p>
-</li>
-<li>
-<p><code>VOLUME</code>容器数据卷,用于数据保存和持久化工作</p>
-</li>
-<li>
-<p><code>CMD</code> 指定一个容器启动时要运行的命令,DockerFIle中可以又多个CMD指令,但只有最后一个生效,CMD会被docker run的参数替换</p>
-</li>
-<li>
-<p><code>ENTRYPOINT</code> 指定一个容器启动的时候要运行的命令,ENTRYPOINT的目的和CMD一样,都是在指定容器启动程序及参数</p>
-</li>
-<li>
-<p><code>ONBUILD</code>当构建一个被继承的DockerFile时运行命令,父镜像在被子继承后,父镜像的onbuild被触发</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>BUILD</th>
-<th>Both</th>
-<th>RUN</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>FROM</td>
-<td>WORKDIR</td>
-<td>CMD</td>
-</tr>
-<tr>
-<td>MAINTAINER</td>
-<td>USER</td>
-<td>ENV</td>
-</tr>
-<tr>
-<td>COPY</td>
-<td></td>
-<td>EXPOSE</td>
-</tr>
-<tr>
-<td>ADD</td>
-<td></td>
-<td>VOLUME</td>
-</tr>
-<tr>
-<td>RUN</td>
-<td></td>
-<td>ENTRYPOINT</td>
-</tr>
-<tr>
-<td>ONBUILD</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>.dockerignore</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="6-案例"><a class="markdownIt-Anchor" href="#6-案例"></a> 6 案例</h2>
-<h3 id="1-base镜像scratch"><a class="markdownIt-Anchor" href="#1-base镜像scratch"></a> 1 BASE镜像(scratch)</h3>
-<blockquote>
-<p>DockerHub中 99%的镜像都是通过在base镜像中安装和配置需要的软件构建出来的</p>
-</blockquote>
-<h3 id="2-自定义镜像mycentos"><a class="markdownIt-Anchor" href="#2-自定义镜像mycentos"></a> 2 自定义镜像mycentos</h3>
-<p><strong>需求:</strong></p>
-<ol>
-<li>
-<p>登录后的默认路径</p>
-</li>
-<li>
-<p>vim编辑器</p>
-</li>
-<li>
-<p>查看网络配置ifconfig支持</p>
-</li>
-</ol>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos</span><br><span class="line"><span class="keyword">ENV</span> mypath /tmp</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="variable">$mypath</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install vim</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install net-tools</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /bin/bash</span></span><br></pre></td></tr></table></figure>
-<p><strong>构建:</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># . 表示上下文环境</span></span><br><span class="line">docker build -t 新镜像名字:TAG .</span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line">dokcer run -it 新镜像名字:TAG</span><br><span class="line"><span class="comment"># 列出镜像的变更历史</span></span><br><span class="line">docker <span class="built_in">history</span> 镜像名</span><br></pre></td></tr></table></figure>
-<h3 id="3-entrypoint命令"><a class="markdownIt-Anchor" href="#3-entrypoint命令"></a> 3 ENTRYPOINT命令</h3>
-<p><strong>CMD</strong></p>
-<blockquote>
-<p>Dockerfile中可以有多个CMD指令,但只有最后一个生效,CMD会被Docker run 之后的参数替换</p>
-</blockquote>
-<p><strong>ENTRYPOINT</strong></p>
-<blockquote>
-<p>docker run 之后的参数会被当作参数传递给ENTRYPOINT.之后形成新的命令组合</p>
-</blockquote>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-java&quot;</span>,<span class="string">&quot;test.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
-<h3 id="4-自定义镜像tomcat"><a class="markdownIt-Anchor" href="#4-自定义镜像tomcat"></a> 4 自定义镜像Tomcat</h3>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span>         centos</span><br><span class="line"><span class="keyword">MAINTAINER</span>    zzyy&lt;zzyybs@<span class="number">126</span>.com&gt;</span><br><span class="line"><span class="comment">#把宿主机当前上下文的c.txt拷贝到容器/usr/local/路径下</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> c.txt /usr/<span class="built_in">local</span>/cincontainer.txt</span></span><br><span class="line"><span class="comment">#把java与tomcat添加到容器中</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> jdk-8u171-linux-x64.tar.gz /usr/<span class="built_in">local</span>/</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> apache-tomcat-9.0.8.tar.gz /usr/<span class="built_in">local</span>/</span></span><br><span class="line"><span class="comment">#安装vim编辑器</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install vim</span></span><br><span class="line"><span class="comment">#设置工作访问时候的WORKDIR路径，登录落脚点</span></span><br><span class="line"><span class="keyword">ENV</span> MYPATH /usr/local</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="variable">$MYPATH</span></span></span><br><span class="line"><span class="comment">#配置java与tomcat环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME /usr/local/jdk1.<span class="number">8.0</span>_171</span><br><span class="line"><span class="keyword">ENV</span> CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line"><span class="keyword">ENV</span> CATALINA_HOME /usr/local/apache-tomcat-<span class="number">9.0</span>.<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> CATALINA_BASE /usr/local/apache-tomcat-<span class="number">9.0</span>.<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin</span><br><span class="line"><span class="comment">#容器运行时监听的端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span>  <span class="number">8080</span></span><br><span class="line"><span class="comment">#启动时运行tomcat</span></span><br><span class="line"><span class="comment"># ENTRYPOINT [&quot;/usr/local/apache-tomcat-9.0.8/bin/startup.sh&quot; ]</span></span><br><span class="line"><span class="comment"># CMD [&quot;/usr/local/apache-tomcat-9.0.8/bin/catalina.sh&quot;,&quot;run&quot;]</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /usr/<span class="built_in">local</span>/apache-tomcat-9.0.8/bin/startup.sh &amp;&amp; tail -F /usr/<span class="built_in">local</span>/apache-tomcat-9.0.8/</span></span><br></pre></td></tr></table></figure>
-<p><strong>运行</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9080:8080 --name myt9 -v /zzyyuse/mydockerfile/tomcat9/<span class="built_in">test</span>:/usr/<span class="built_in">local</span>/apache-tomcat-9.0.8/webapps/<span class="built_in">test</span> -v /zzyyuse/mydockerfile/tomcat9/tomcat9logs/:/usr/<span class="built_in">local</span>/apache-tomcat-9.0.8/logs --privileged=<span class="literal">true</span> zzyytomcat9</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="7-docker网络"><a class="markdownIt-Anchor" href="#7-docker网络"></a> 7 Docker网络</h2>
-<p><img src="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/image-20201222233356901.png" alt="image-20201222233356901"></p>
-<ul>
-<li>容器的网卡是一对一对的</li>
-<li>evth-pair，就是一对虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连</li>
-<li>evth-pair充当一个桥梁，连接各种虚拟网络</li>
-</ul>
-<blockquote>
-<p>所有的容器不指定网络的情况下,都是docker0,docker会给容器分配一个默认的IP</p>
-</blockquote>
-<h2 id="8-容器互联link不推荐"><a class="markdownIt-Anchor" href="#8-容器互联link不推荐"></a> 8 容器互联–link（不推荐）</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --link 连接网络,centos 可以ping通tomcat 反之不行，在host的配置中添加了tomcat的映射</span></span><br><span class="line">docker run -d -P --name centos --link tomcat</span><br></pre></td></tr></table></figure>
-<h2 id="9-自定义网络"><a class="markdownIt-Anchor" href="#9-自定义网络"></a> 9 自定义网络</h2>
-<ul>
-<li>brideg 桥接（默认）自定义方式</li>
-<li>none 不配置网络</li>
-<li>host 和宿主机共享网络</li>
-<li>container 容器网络连通（局限性大）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># docker network ls</span></span><br><span class="line">NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">b1641c6fe2b8        bridge              bridge              <span class="built_in">local</span></span><br><span class="line">6e94609c9ec5        host                host                <span class="built_in">local</span></span><br><span class="line">13cba1d43999        none                null                <span class="built_in">local</span></span><br><span class="line">[root@localhost ~]<span class="comment"># </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接启动的命令默认有一个 --net bridge  这个就是docker0</span></span><br><span class="line">docker run -d -P --name centos --net bridge centos</span><br><span class="line"><span class="comment"># docker0 特点，默认，域名不能访问，--link可以打通连接</span></span><br><span class="line"></span><br><span class="line">docker network create --driver bridge --subnet 192.168.0.1/16 --gateway 192.168.0.1 customnet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看网络</span></span><br><span class="line">docker network inspect customnet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>自定义网络docker可以帮助维护对应关系，推荐平时使用</p>
-<p>不同的集群可以使用不同的网络，保证集群是安全和健康的</p>
-</blockquote>
-<h3 id="自定义网络连通docker0或者其他网络"><a class="markdownIt-Anchor" href="#自定义网络连通docker0或者其他网络"></a> 自定义网络连通docker0或者其他网络</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker network connect customnet centos</span><br><span class="line"><span class="comment">#连通之后就是把 centos 与customnet 打通，将centos放到了customnet网络下，也就是一个容器两个ip</span></span><br></pre></td></tr></table></figure>
-<p>跨网络操作其他容器就需要使用docker network connect</p>
-<h2 id="10-redis集群"><a class="markdownIt-Anchor" href="#10-redis集群"></a> 10 Redis集群</h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --driver bridge --subnet <span class="number">192.168</span>.<span class="number">0.1</span>/<span class="number">16</span> --gateway <span class="number">192.168</span>.<span class="number">0.1</span> redis</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" data-id="ckkc718oo000asgsmdf310eif" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Goole浏览器搜索技巧-持续更新" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" class="article-date">
-  <time datetime="2020-12-06T13:03:39.000Z" itemprop="datePublished">2020-12-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">搜索技巧[持续更新]</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="google"><a class="markdownIt-Anchor" href="#google"></a> GooGle</h1>
-<ul>
-<li>排除指定网站 <code>-site:blog.csdn.net</code></li>
-<li>指定网站 <code>site:blog.csdn.net</code></li>
-</ul>
-<h1 id="github"><a class="markdownIt-Anchor" href="#github"></a> GitHub</h1>
-<ul>
-<li><content> in:file 搜索文件中有content的代码</content></li>
-<li><content> in:path 搜索路径中有content的代码</content></li>
-<li><content> language:java  搜索用java写的包含content的代码</content></li>
-<li>filename:.vimrc commands 搜索 文件名匹配*.vimrc* 并且包含commands的代码</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" data-id="ckkc718oy000rsgsm4ot521ye" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="tag">小技巧</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-SpringMVC文件下载" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" class="article-date">
-  <time datetime="2020-12-06T12:58:51.000Z" itemprop="datePublished">2020-12-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/">SpringMVC - 基础</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/">SpringMVC文件下载</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="springmvc-文件下载"><a class="markdownIt-Anchor" href="#springmvc-文件下载"></a> SpringMVC 文件下载</h1>
-<h1 id="1-resource同步文件下载方式"><a class="markdownIt-Anchor" href="#1-resource同步文件下载方式"></a> 1 Resource同步文件下载方式</h1>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(value = &quot;/test/download/&#123;fileName&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Resource&gt; <span class="title">downLoad</span><span class="params">(<span class="meta">@PathVariable(&quot;fileName&quot;)</span> String fileName)</span> <span class="keyword">throws</span> UnsupportedEncodingException, InterruptedException </span>&#123;</span><br><span class="line">    String filePath = <span class="string">&quot;D:\\00_aa_lijinze_java_web_stady\\&quot;</span> + fileName;</span><br><span class="line">    FileSystemResource resource = <span class="keyword">new</span> FileSystemResource(filePath);</span><br><span class="line">    MediaType mediaType = MediaTypeFactory</span><br><span class="line">            .getMediaType(resource)</span><br><span class="line">            .orElse(MediaType.APPLICATION_OCTET_STREAM);</span><br><span class="line">    HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</span><br><span class="line">    headers.setContentType(mediaType);</span><br><span class="line">    ContentDisposition disposition = ContentDisposition.builder(<span class="string">&quot;attachment&quot;</span>)</span><br><span class="line">            .filename(<span class="keyword">new</span> String(resource.getFilename().getBytes(<span class="string">&quot;UTF-8&quot;</span>), <span class="string">&quot;ISO-8859-1&quot;</span>))</span><br><span class="line">            .build();</span><br><span class="line">    headers.setContentDisposition(disposition);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(resource, headers, HttpStatus.CREATED);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="2-streamingresponsebody-异步下载方式"><a class="markdownIt-Anchor" href="#2-streamingresponsebody-异步下载方式"></a> 2 StreamingResponseBody 异步下载方式</h1>
-<h3 id="1-配置task"><a class="markdownIt-Anchor" href="#1-配置task"></a> 1 配置Task</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableAsync</span></span><br><span class="line"><span class="meta">@EnableScheduling</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncConfiguration</span> <span class="keyword">implements</span> <span class="title">AsyncConfigurer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Bean(name = &quot;taskExecutor&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AsyncTaskExecutor <span class="title">getAsyncExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.debug(<span class="string">&quot;Creating Async Task Executor&quot;</span>);</span><br><span class="line">        ThreadPoolTaskExecutor executor = <span class="keyword">new</span> ThreadPoolTaskExecutor();</span><br><span class="line">        executor.setCorePoolSize(<span class="number">5</span>);</span><br><span class="line">        executor.setMaxPoolSize(<span class="number">10</span>);</span><br><span class="line">        executor.setQueueCapacity(<span class="number">25</span>);</span><br><span class="line">        <span class="keyword">return</span> executor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AsyncUncaughtExceptionHandler <span class="title">getAsyncUncaughtExceptionHandler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleAsyncUncaughtExceptionHandler();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/** Configure async support for Spring MVC. */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebMvcConfigurer <span class="title">webMvcConfigurer</span><span class="params">(<span class="meta">@Qualifier(&quot;taskExecutor&quot;)</span> AsyncTaskExecutor taskExecutor, CallableProcessingInterceptor callableProcessingInterceptor)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurer() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureAsyncSupport</span><span class="params">(AsyncSupportConfigurer configurer)</span> </span>&#123;</span><br><span class="line">                configurer.setDefaultTimeout(<span class="number">360000</span>).setTaskExecutor(taskExecutor);</span><br><span class="line">                configurer.registerCallableInterceptors(callableProcessingInterceptor);</span><br><span class="line">                WebMvcConfigurer.<span class="keyword">super</span>.configureAsyncSupport(configurer);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CallableProcessingInterceptor <span class="title">callableProcessingInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> TimeoutCallableProcessingInterceptor() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> &lt;T&gt; <span class="function">Object <span class="title">handleTimeout</span><span class="params">(NativeWebRequest request, Callable&lt;T&gt; task)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                log.error(<span class="string">&quot;timeout!&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">super</span>.handleTimeout(request, task);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-异步下载"><a class="markdownIt-Anchor" href="#2-异步下载"></a> 2 异步下载</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@GetMapping(value = &quot;/test/download&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;StreamingResponseBody&gt; <span class="title">downLoad2</span><span class="params">()</span> <span class="keyword">throws</span> IOExceptionn </span>&#123;</span><br><span class="line">    String filePath = <span class="string">&quot;D:\\00_aa_lijinze_java_web_stady\\《Spring源码深度解析（第2版）》_郝佳- AiBooKs.Cc.pdf&quot;</span>;</span><br><span class="line">    FileSystemResource resource = <span class="keyword">new</span> FileSystemResource(filePath);</span><br><span class="line">    MediaType mediaType = MediaTypeFactory</span><br><span class="line">            .getMediaType(resource)</span><br><span class="line">            .orElse(MediaType.APPLICATION_OCTET_STREAM);</span><br><span class="line">    HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();s</span><br><span class="line">    headers.setContentType(mediaType);</span><br><span class="line">    ContentDisposition disposition = ContentDisposition.builder(<span class="string">&quot;attachment&quot;</span>)</span><br><span class="line">            .filename(<span class="keyword">new</span> String(resource.getFilename().getBytes(<span class="string">&quot;UTF-8&quot;</span>), <span class="string">&quot;ISO-8859-1&quot;</span>))</span><br><span class="line">            .build();</span><br><span class="line">    headers.setContentDisposition(disposition);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;StreamingResponseBody&gt;(outputStream -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> (BufferedOutputStream stream = <span class="keyword">new</span> BufferedOutputStream(outputStream);</span><br><span class="line">             BufferedInputStream inputStream = <span class="keyword">new</span> BufferedInputStream(resource.getInputStream());) &#123;</span><br><span class="line">            StreamUtils.copy(inputStream, stream);</span><br><span class="line">    &#125;, headers, HttpStatus.CREATE);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" data-id="ckkc718pg0021sgsm1a3z3bcj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" rel="tag">SpringMVC - 文件下载</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Spring-MVC多块请求解析器" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" class="article-date">
-  <time datetime="2020-12-06T10:40:56.000Z" itemprop="datePublished">2020-12-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/">源代码 - SpringMvc源码</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/">Spring MVC多块请求解析器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-多块请求解析器"><a class="markdownIt-Anchor" href="#1-多块请求解析器"></a> 1 多块请求解析器</h1>
-<blockquote>
-<p>​		在进入doDispatcher方法后，最先用到的组件是多块请求解析器。多块请求解析器接口 包括以下三个方法。</p>
-</blockquote>
-<ul>
-<li>boolean isMultipart(HttpServletRequest request);</li>
-</ul>
-<blockquote>
-<p>判断是否为多块请求</p>
-</blockquote>
-<ul>
-<li>
-<p>MultipartHttpServletRequest resolveMultipart(HttpServletRequest reuqest)</p>
-<blockquote>
-<p>用于解析多块请求，返回新的包装类型MultipartHttpServletRequest 封装多块请求相关方法与属性</p>
-</blockquote>
-</li>
-<li>
-<p>void cleanupMultipart(MultipartHttpServletRequest  request);</p>
-<blockquote>
-<p>用于在请求处理完成后对多块请求使用的资源执行清理操作</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>默认的多块请求解析器为StandardServletMultipartResolver。在请求处理时候，先使用isMultipart判断是否为多块请求。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否为多块请求</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isMultipart</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line"><span class="comment">//判断前缀</span></span><br><span class="line">    <span class="keyword">return</span> StringUtils.startsWithIgnoreCase(request.getContentType(), <span class="string">&quot;multipart/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="1-处理多块请求逻辑"><a class="markdownIt-Anchor" href="#1-处理多块请求逻辑"></a> 1 处理多块请求逻辑</h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> MultipartHttpServletRequest <span class="title">resolveMultipart</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> MultipartException </span>&#123;</span><br><span class="line">    <span class="comment">// 对原始request进行包装</span></span><br><span class="line">    <span class="comment">//resolveLazily默认为false,表示实例创建的时候就对请求进行解析</span></span><br><span class="line">    <span class="comment">// 该配置通过spring.servlet.multipart.resolve-lazily修改</span></span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> StandardMultipartHttpServletRequest(request, <span class="keyword">this</span>.resolveLazily);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-standardmultiparthttpservletrequest的构造逻辑"><a class="markdownIt-Anchor" href="#2-standardmultiparthttpservletrequest的构造逻辑"></a> 2 <strong>StandardMultipartHttpServletRequest的构造逻辑</strong></h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">StandardMultipartHttpServletRequest</span><span class="params">(HttpServletRequest request, <span class="keyword">boolean</span> lazyParsing)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> MultipartException </span>&#123;</span><br><span class="line"><span class="comment">// 调用父类构造器,该类型为对HttpServletRequest的包装类,装饰者模式,用于增强原始类型的功能构造器参数为要包装的对象</span></span><br><span class="line">   <span class="keyword">super</span>(request);</span><br><span class="line">    <span class="comment">// 如果不是懒加载解析,则直接解析请求</span></span><br><span class="line">   <span class="keyword">if</span> (!lazyParsing) &#123;</span><br><span class="line">       <span class="comment">//解析请求</span></span><br><span class="line">      parseRequest(request);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-解析请求的方法"><a class="markdownIt-Anchor" href="#3-解析请求的方法"></a> 3 <strong>解析请求的方法</strong></h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">parseRequest</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 获取多块请求原始的Part类型集合</span></span><br><span class="line">       <span class="comment">// Part结合包括请求参数与请求文件</span></span><br><span class="line">      </span><br><span class="line">      Collection&lt;Part&gt; parts = request.getParts();</span><br><span class="line">       <span class="comment">// 用于保存多块请求的请求参数名称</span></span><br><span class="line">      <span class="keyword">this</span>.multipartParameterNames = <span class="keyword">new</span> LinkedHashSet&lt;&gt;(parts.size());</span><br><span class="line">       <span class="comment">// 用于保存多块请求的请求文件</span></span><br><span class="line">      MultiValueMap&lt;String, MultipartFile&gt; files = <span class="keyword">new</span> LinkedMultiValueMap&lt;&gt;(parts.size());</span><br><span class="line">      <span class="comment">// 遍历多块数据</span></span><br><span class="line">       <span class="keyword">for</span> (Part part : parts) &#123;</span><br><span class="line">           <span class="comment">//获取当前遍历块的Content-Disposition请求头</span></span><br><span class="line">         String headerValue = part.getHeader(HttpHeaders.CONTENT_DISPOSITION);</span><br><span class="line">           <span class="comment">// 解析Content-Disposition请求头为ContentDisposition类型,其中包括请求头内容类型,文件名等信息</span></span><br><span class="line">         ContentDisposition disposition = ContentDisposition.parse(headerValue);</span><br><span class="line">           <span class="comment">// 获取块请求的文件名</span></span><br><span class="line">         String filename = disposition.getFilename();</span><br><span class="line">           <span class="comment">// 如果文件名不为空</span></span><br><span class="line">         <span class="keyword">if</span> (filename != <span class="keyword">null</span>) &#123;</span><br><span class="line">             <span class="comment">// 如果当前块是个文件类型的块,解析文件名</span></span><br><span class="line">            <span class="keyword">if</span> (filename.startsWith(<span class="string">&quot;=?&quot;</span>) &amp;&amp; filename.endsWith(<span class="string">&quot;?=&quot;</span>)) &#123;</span><br><span class="line">               filename = MimeDelegate.decode(filename);</span><br><span class="line">            &#125;</span><br><span class="line">             <span class="comment">// 放入文件Map,key是请求参数名称,value是封装文件块请求与文件名的StandardMultipartFile类型</span></span><br><span class="line">            files.add(part.getName(), <span class="keyword">new</span> StandardMultipartFile(part, filename));</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="comment">// 不是文件类型的块请求,把块名放入请求参数名集合</span></span><br><span class="line">            <span class="keyword">this</span>.multipartParameterNames.add(part.getName());</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">       <span class="comment">// 在本实例保存多块请求文件的map,封装为不可修改的Map,防止处理过程中被篡改</span></span><br><span class="line">      setMultipartFiles(files);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">       <span class="comment">// 发生任何异常交给异常处理逻辑抛出异常</span></span><br><span class="line">      handleParseFailure(ex);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-清理资源"><a class="markdownIt-Anchor" href="#4-清理资源"></a> 4 清理资源</h2>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cleanupMultipart</span><span class="params">(MultipartHttpServletRequest request)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 只有是多块请求,且多块请求已经解析的情况下,才执行清理</span></span><br><span class="line">   <span class="keyword">if</span> (!(request <span class="keyword">instanceof</span> AbstractMultipartHttpServletRequest) ||</span><br><span class="line">         ((AbstractMultipartHttpServletRequest) request).isResolved()) &#123;</span><br><span class="line">      <span class="comment">// To be on the safe side: explicitly delete the parts,</span></span><br><span class="line">      <span class="comment">// but only actual file parts (for Resin compatibility)</span></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">// 遍历全部块</span></span><br><span class="line">         <span class="keyword">for</span> (Part part : request.getParts()) &#123;</span><br><span class="line">             <span class="comment">//如果块中包含文件则进行删除操作,清理占用的临时资源</span></span><br><span class="line">            <span class="keyword">if</span> (request.getFile(part.getName()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">               part.delete();</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">         LogFactory.getLog(getClass()).warn(<span class="string">&quot;Failed to perform cleanup of multipart items&quot;</span>, ex);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" data-id="ckkc718pc001qsgsm91pab0l1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">源码 - SpringMvc 多块请求解析器</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Spring-Cacheable-redis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/04/Spring-Cacheable-redis/" class="article-date">
-  <time datetime="2020-12-04T03:41:30.000Z" itemprop="datePublished">2020-12-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring-Cacheable/">Spring - Cacheable</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/04/Spring-Cacheable-redis/">Spring Cacheable + redis</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-spring整合redis缓存"><a class="markdownIt-Anchor" href="#1-spring整合redis缓存"></a> 1 Spring整合Redis缓存</h1>
-<h2 id="1-相关注解"><a class="markdownIt-Anchor" href="#1-相关注解"></a> 1 相关注解</h2>
-<h3 id="1-cacheable注解"><a class="markdownIt-Anchor" href="#1-cacheable注解"></a> 1 <code>@Cacheable</code>注解</h3>
-<p><strong>作用：</strong></p>
-<blockquote>
-<p>主要针对方法配置，能够根据方法的请求参数对结果进行缓存</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>解释</th>
-<th style="text-align:left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>value</td>
-<td>缓存的名称</td>
-<td style="text-align:left">每一个缓存名代表一个缓存对象。当一个方法填写多个缓存名称时将创建多个缓存对象。当多个方法使用同一缓存名称时相同的缓存参数会被覆盖。所以通常情况我们使用包名+类名+方法名，或者使用接口的RequestMapping作为缓存名称防止命名重复引起的问题。   <br>单缓存名称：@Cacheable（value=“myccache”）<br>多缓存名称：@Cacheable（value={“cache1”,”cache2”}）</td>
-</tr>
-<tr>
-<td>key</td>
-<td>缓存的key</td>
-<td style="text-align:left">key标记了缓存对象下的每一条缓存，如果不指定key则系统自动按照方法的所有入参生成key，也就是说相同的入参值会返回同样的缓存结果。<br>如果指定key则要按照SpEL表达式编写使用的入参列表。如下列无论方法存在多少个入参，只要userName值一致，则会返回相同的缓存结果。<br>@Cacheable(value=“test”,key=“#username”)</td>
-</tr>
-<tr>
-<td>condition</td>
-<td>缓存的条件</td>
-<td style="text-align:left">满足条件后结果才会被缓存。不填写则认为无条件全部缓存<br>条件使用SpEl表达式编写，返回true或者false，只有为true才进行缓存<br>如下例，只有用户名长度大于2时才会进行缓存<br>@Cacheabke(value=“test”,condition=“#username.length()&gt;2”)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-cacheput注解"><a class="markdownIt-Anchor" href="#2-cacheput注解"></a> 2 <code>@CachePut</code>注解</h3>
-<blockquote>
-<p>主要针对方法配置，能够根据方法的请求参数对结果进行缓存、和<code>@Cacheable</code>不同的是，它每次都会触发真实方法调用，此注解被常用于更新缓存使用</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>解释</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>value</td>
-<td>缓存的名称</td>
-<td>例如：<br>@CachePut(value=”mycache”) <br>@CachePut(value={”cache1”,”cache2”}</td>
-</tr>
-<tr>
-<td>key</td>
-<td>缓存的 key</td>
-<td>例如：<br>@CachePut(value=”testcache”,key=”#userName”)</td>
-</tr>
-<tr>
-<td>condition</td>
-<td>缓存的条件</td>
-<td>例如：<br>@CachePut(value=”testcache”,condition=”#userName.length()&gt;2”)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-cacheevict注解"><a class="markdownIt-Anchor" href="#3-cacheevict注解"></a> 3 <code>@CacheEvict</code>注解</h3>
-<blockquote>
-<p><strong>主要针对方法配置，能够根据一定的条件对缓存进行清空</strong></p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>解释</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>value</td>
-<td>缓存的名称</td>
-<td>删除指定名称的缓存对象。必须与下面的其中一个参数配合使用例如： <br>@CacheEvict(value=”mycache”) 或者 @CacheEvict(value={”cache1”,”cache2”}</td>
-</tr>
-<tr>
-<td>key</td>
-<td>缓存的 key</td>
-<td>删除指定key的缓存对象<br>例如： @CacheEvict(value=”testcache”,key=”#userName”)</td>
-</tr>
-<tr>
-<td>condition</td>
-<td>缓存的条件</td>
-<td>删除指定条件的缓存对象例如： <br>@CacheEvict(value=”testcache”,condition=”#userName.length()&gt;2”)</td>
-</tr>
-<tr>
-<td>allEntries</td>
-<td>方法执行后清空所有缓存</td>
-<td>缺省为 false，如果指定为 true，则方法调用后将立即清空所有缓存。<br>例如：<br> @CacheEvict(value=”testcache”,allEntries=true)</td>
-</tr>
-<tr>
-<td>beforeInvocation</td>
-<td>方法执行前清空所有缓存</td>
-<td>缺省为 false，如果指定为 true，则在方法还没有执行的时候就清空缓存，缺省情况下，如果方法执行抛出异常，则不会清空缓存。<br>例如：<br>@CacheEvict(value=”testcache”，beforeInvocation=true)<br></td>
-</tr>
-</tbody>
-</table>
-<h2 id="2-springboot中的cache"><a class="markdownIt-Anchor" href="#2-springboot中的cache"></a> 2 SpringBoot中的Cache</h2>
-<blockquote>
-<p>Spring Boot为我们提供了多种缓存CacheMannger配置方案。默认情况下会使用基于内存map一种缓存方案，</p>
-<p><code>ConcurrenMapCacheManager</code>。我们可以通过配置指定 Generic、JCache (JSR-107)、EhCache 2.x、Hazelcast、Infinispan、Redis、Guava、Simple等技术进行缓存实现。</p>
-</blockquote>
-<h3 id="1-引入依赖"><a class="markdownIt-Anchor" href="#1-引入依赖"></a> 1 引入依赖</h3>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&lt;dependency&gt;</span></span><br><span class="line">    <span class="attr">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">    <span class="attr">&lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;</span></span><br><span class="line"><span class="attr">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-启用缓存"><a class="markdownIt-Anchor" href="#2-启用缓存"></a> 2 启用缓存</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span> </span><br><span class="line"><span class="meta">@EnableCaching</span> <span class="comment">//启用缓存</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(App.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/04/Spring-Cacheable-redis/" data-id="ckkc718pb001osgsm9dz49am6" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Cacheable/" rel="tag">Spring - Cacheable</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Spring-事物传播机制" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/12/03/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" class="article-date">
-  <time datetime="2020-12-03T14:07:40.000Z" itemprop="datePublished">2020-12-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Spring-%E4%BA%8B%E7%89%A9/">Spring - 事物</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/03/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/">Spring 事物传播机制使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-spring事物"><a class="markdownIt-Anchor" href="#1-spring事物"></a> 1 Spring事物</h1>
-<h1 id="1-使用用例"><a class="markdownIt-Anchor" href="#1-使用用例"></a> 1 使用用例</h1>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;user1&#96; (</span><br><span class="line">  &#96;id&#96; INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; VARCHAR(45) NOT NULL DEFAULT &#39;&#39;,</span><br><span class="line">  PRIMARY KEY(&#96;id&#96;)</span><br><span class="line">)</span><br><span class="line">ENGINE &#x3D; InnoDB;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;user2&#96; (</span><br><span class="line">  &#96;id&#96; INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; VARCHAR(45) NOT NULL DEFAULT &#39;&#39;,</span><br><span class="line">  PRIMARY KEY(&#96;id&#96;)</span><br><span class="line">)</span><br><span class="line">ENGINE &#x3D; InnoDB;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lijinzedev.github.io/2020/12/03/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" data-id="ckkc718pe001usgsm11as2dd7" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" rel="tag">Spring - 事物传播机制</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &amp;raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CI-CD/">CI/CD</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git-%E5%9F%BA%E7%A1%80/">Git - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Idea/">Idea</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mybatis%E6%BA%90%E7%A0%81/">Mybatis源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">Mysql - 多表操作</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/NoSQL-redis/">NoSQL - redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell/">Shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cacheable/">Spring - Cacheable</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">Spring - Spring基础 - Spring工具类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-%E4%BA%8B%E7%89%A9/">Spring - 事物</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringCloud/">SpringCloud</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/">SpringMVC - 基础</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/centos-wget/">centos - wget</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-CentOS/">linux - CentOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%88%86%E7%B1%BB/">分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8B%E8%AF%95-JMeter/">测试 - JMeter</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/">源代码 - SpringMvc源码</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式 - 结构型设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI-CD/" rel="tag">CI/CD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git-%E5%9F%BA%E7%A1%80/" rel="tag">Git - 基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/" rel="tag">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JMeter/" rel="tag">JMeter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/" rel="tag">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis%E6%BA%90%E7%A0%81/" rel="tag">Mybatis源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" rel="tag">Mysql - DML条件语句</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/" rel="tag">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cacheable/" rel="tag">Spring - Cacheable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="tag">Spring - Spring基础 - Spring工具类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" rel="tag">Spring - 事物传播机制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-GateWay/" rel="tag">SpringCloud - GateWay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-Nacos/" rel="tag">SpringCloud - Nacos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-OpenFeign/" rel="tag">SpringCloud - OpenFeign</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" rel="tag">SpringCloud - 项目搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-WebFlux/" rel="tag">SpringMVC - WebFlux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">SpringMVC - 异常解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" rel="tag">SpringMVC - 异步模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" rel="tag">SpringMVC - 文件下载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-wget/" rel="tag">centos - wget</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS/" rel="tag">linux - CentOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-CentOS-gitlab-docker/" rel="tag">linux - CentOS - gitlab - docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="tag">小技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E7%AD%BE/" rel="tag">标签</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" rel="tag">源码 - SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" rel="tag">源码 - SpringMvc 多块请求解析器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式 - 结构型设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CI-CD/" style="font-size: 15px;">CI/CD</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Git-%E5%9F%BA%E7%A1%80/" style="font-size: 20px;">Git - 基础</a> <a href="/tags/Idea/" style="font-size: 15px;">Idea</a> <a href="/tags/JMeter/" style="font-size: 10px;">JMeter</a> <a href="/tags/Maven/" style="font-size: 15px;">Maven</a> <a href="/tags/Mybatis%E6%BA%90%E7%A0%81/" style="font-size: 10px;">Mybatis源码</a> <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">Mysql - DML条件语句</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Spring-Cacheable/" style="font-size: 10px;">Spring - Cacheable</a> <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 10px;">Spring - Spring基础 - Spring工具类</a> <a href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" style="font-size: 10px;">Spring - 事物传播机制</a> <a href="/tags/SpringCloud-GateWay/" style="font-size: 10px;">SpringCloud - GateWay</a> <a href="/tags/SpringCloud-Nacos/" style="font-size: 10px;">SpringCloud - Nacos</a> <a href="/tags/SpringCloud-OpenFeign/" style="font-size: 10px;">SpringCloud - OpenFeign</a> <a href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">SpringCloud - 项目搭建</a> <a href="/tags/SpringMVC-WebFlux/" style="font-size: 10px;">SpringMVC - WebFlux</a> <a href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">SpringMVC - 异常解析器</a> <a href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">SpringMVC - 异步模式</a> <a href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" style="font-size: 10px;">SpringMVC - 文件下载</a> <a href="/tags/centos-wget/" style="font-size: 10px;">centos - wget</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/linux-CentOS/" style="font-size: 15px;">linux - CentOS</a> <a href="/tags/linux-CentOS-gitlab-docker/" style="font-size: 10px;">linux - CentOS - gitlab - docker</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">小技巧</a> <a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 10px;">标签</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" style="font-size: 15px;">源码 - SpringMvc</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 10px;">源码 - SpringMvc 多块请求解析器</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式 - 结构型设计模式</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/01/24/GateWay/">GateWay</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Maven常用命令</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/23/OpenFeign/">OpenFeign</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/">Git Diff与Git Difftool</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/16/Devtools/">Devtools</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2021 Curiosity<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/%20%7C%7C%20fa%20fa-home" class="mobile-nav-link">主页</a>
-  
-    <a href="/tags/%20%7C%7C%20fas%20fa-tags" class="mobile-nav-link">标签</a>
-  
-    <a href="/categories/%20%7C%7C%20fas%20fa-folder-open" class="mobile-nav-link">分类</a>
-  
-    <a href="/archives/%20%7C%7C%20fas%20fa-archive" class="mobile-nav-link">时间轴</a>
-  
-    <a href="/about/%20%7C%7C%20fa%20fa-heart" class="mobile-nav-link">关于</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/page/3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-01-25 14:35:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/13/Git-%E8%A7%A3%E5%86%B3Windows%E4%B9%B1%E7%A0%81/" title="解决Windows Git乱码">解决Windows Git乱码</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-13T06:23:14.000Z" title="发表于 2020-12-13 14:23:14">2020-12-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git-%E5%9F%BA%E7%A1%80/">Git - 基础</a></span></div><div class="content"> Windows Git乱码
+
+第一步打开Git Bash 右键
+
+
+
+修改 text为UTF-8
+
+
+
+
+修改WIndows环境变量
+12LESSCHARSETutf-8
+
+
+
+
+输入一下命令配置全局变量
+
+123456789101112131415161718git config --global core.quotepath falsegit config --global gui.encoding utf-8git config --global i18n.commitEncoding utf-8git config --global i18n.logoutputEncoding utf-8# 或者修改.gitConfig[gui]      encoding = utf-8      # 代码库统一使用utf-8  [i18n]      commitencoding = utf-8      # log编码  [svn]      pathnameencoding = utf-8      # 支持中文路径  [core]	quotepath = false 	# stat ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/13/JMeter%E5%88%9D%E4%BD%93%E9%AA%8C/" title="JMeter初体验">JMeter初体验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-13T06:15:15.000Z" title="发表于 2020-12-13 14:15:15">2020-12-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%B5%8B%E8%AF%95-JMeter/">测试 - JMeter</a></span></div><div class="content"> JMeter初体验
+ 1 安装
+ 1  安装Java环境变量（略…）
+ 2 安装Jmeter
+
+打开下载地址（Windows版本下载zip（Binaries），Linux版本下载tgz（Binaries））
+解压
+配置环境变量
+
+新增JMETER_HOME变量，变量值为解压路径
+编辑CLASSPATH变量加上 或者再Path中添加%JMETER_HOME%\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;
+打开bin目录打开Jmeter.bat启动
+
+
+
+ 2 吞吐量测试
+1 创建用户组
+
+2 设置用户组参数
+
+3 添加HTTP请求
+
+4 HTTP参数设置
+
+5 HTTP的响应断言
+
+6 响应断言设置
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/12/Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" title="无题">无题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-12T13:46:07.000Z" title="发表于 2020-12-12 21:46:07">2020-12-12</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/">Spring - Spring基础 - Spring工具类</a></span></div><div class="content"> 1 Spring工具
+ 1 IdGenerator唯一键生成器 UUID
+
+ 1 JdkIdGenerator
+
+JDK内置UUID生成器
+
+ 2 AlternativeJdkIdGenerator
+
+Spring提供的UUID生成器，替换调用UUID#randomUUID()。它提供了一个更好、更高性能的表现
+
+ 3 SimpleIdGenerator
+
+类似于自增的Id生成器。每调用一次，自增1
+
+ 2 Assert 断言工具类
+
+Assert断言工具类，通常用于数据合法性检查。Assert断言工具类，通常用于数据合法性检查.
+
+1Assert.notNull(Object object, &quot;object is required&quot;)  
+ 3 PathMatcher 路径匹配器
+
+Spring提供的实现：AntPathMatcher：Ant路径匹配规则
+
+1 AntPathMatcher可以匹配@RequestMapping，也可以用来匹配各种字符串，包括文件路径
+ 1 匹配方式
+
+?匹配单字符
+*匹配0或者任意数量的字符
+** 匹配0或者更多目录
+
+
+
+
+U ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/09/Mybatis%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" title="Mybatis源码学习">Mybatis源码学习</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-09T13:20:14.000Z" title="发表于 2020-12-09 21:20:14">2020-12-09</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Mybatis%E6%BA%90%E7%A0%81/">Mybatis源码</a></span></div><div class="content"> Mybatis 架构设计
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Docker基础入门">Docker基础入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-08T14:24:10.000Z" title="发表于 2020-12-08 22:24:10">2020-12-08</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/docker/">docker</a></span></div><div class="content"> 1 Docker基础入门
+ 1 安装
+ 1 安装docker
+12345678910111213141516171819202122232425262728293031323334353637#1.卸载旧版本yum remove docker \                  docker-client \                  docker-client-latest \                  docker-common \                  docker-latest \                  docker-latest-logrotate \                  docker-logrotate \                  docker-engine#2.需要的安装包yum install -y yum-utils#3.设置镜像的仓库yum-config-manager \    --add-repo \    https://download.docker.com/linux/centos/doc ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/" title="搜索技巧[持续更新]">搜索技巧[持续更新]</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-06T13:03:39.000Z" title="发表于 2020-12-06 21:03:39">2020-12-06</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></span></div><div class="content"> GooGle
+
+排除指定网站 -site:blog.csdn.net
+指定网站 site:blog.csdn.net
+
+ GitHub
+
+ in:file 搜索文件中有content的代码
+ in:path 搜索路径中有content的代码
+ language:java  搜索用java写的包含content的代码
+filename:.vimrc commands 搜索 文件名匹配*.vimrc* 并且包含commands的代码
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" title="SpringMVC文件下载">SpringMVC文件下载</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-06T12:58:51.000Z" title="发表于 2020-12-06 20:58:51">2020-12-06</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringMVC-%E5%9F%BA%E7%A1%80/">SpringMVC - 基础</a></span></div><div class="content"> SpringMVC 文件下载
+ 1 Resource同步文件下载方式
+1234567891011121314151617@GetMapping(value = &quot;/test/download/&#123;fileName&#125;&quot;)public ResponseEntity&lt;Resource&gt; downLoad(@PathVariable(&quot;fileName&quot;) String fileName) throws UnsupportedEncodingException, InterruptedException &#123;    String filePath = &quot;D:\\00_aa_lijinze_java_web_stady\\&quot; + fileName;    FileSystemResource resource = new FileSystemResource(filePath);    MediaType mediaType = MediaTypeFactory            .getMe ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" title="Spring MVC多块请求解析器">Spring MVC多块请求解析器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-06T10:40:56.000Z" title="发表于 2020-12-06 18:40:56">2020-12-06</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%BA%90%E4%BB%A3%E7%A0%81-SpringMvc%E6%BA%90%E7%A0%81/">源代码 - SpringMvc源码</a></span></div><div class="content"> 1 多块请求解析器
+
+​		在进入doDispatcher方法后，最先用到的组件是多块请求解析器。多块请求解析器接口 包括以下三个方法。
+
+
+boolean isMultipart(HttpServletRequest request);
+
+
+判断是否为多块请求
+
+
+
+MultipartHttpServletRequest resolveMultipart(HttpServletRequest reuqest)
+
+用于解析多块请求，返回新的包装类型MultipartHttpServletRequest 封装多块请求相关方法与属性
+
+
+
+void cleanupMultipart(MultipartHttpServletRequest  request);
+
+用于在请求处理完成后对多块请求使用的资源执行清理操作
+
+
+
+
+默认的多块请求解析器为StandardServletMultipartResolver。在请求处理时候，先使用isMultipart判断是否为多块请求。
+
+1234567// 判断是否为多块请求@Overridepublic boolean isMultipart(Ht ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/04/Spring-Cacheable-redis/" title="Spring Cacheable + redis">Spring Cacheable + redis</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-04T03:41:30.000Z" title="发表于 2020-12-04 11:41:30">2020-12-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Spring-Cacheable/">Spring - Cacheable</a></span></div><div class="content"> 1 Spring整合Redis缓存
+ 1 相关注解
+ 1 @Cacheable注解
+作用：
+
+主要针对方法配置，能够根据方法的请求参数对结果进行缓存
+
+
+
+
+属性
+解释
+作用
+
+
+
+
+value
+缓存的名称
+每一个缓存名代表一个缓存对象。当一个方法填写多个缓存名称时将创建多个缓存对象。当多个方法使用同一缓存名称时相同的缓存参数会被覆盖。所以通常情况我们使用包名+类名+方法名，或者使用接口的RequestMapping作为缓存名称防止命名重复引起的问题。   单缓存名称：@Cacheable（value=“myccache”）多缓存名称：@Cacheable（value={“cache1”,”cache2”}）
+
+
+key
+缓存的key
+key标记了缓存对象下的每一条缓存，如果不指定key则系统自动按照方法的所有入参生成key，也就是说相同的入参值会返回同样的缓存结果。如果指定key则要按照SpEL表达式编写使用的入参列表。如下列无论方法存在多少个入参，只要userName值一致，则会返回相同的缓存结果。@Cacheable(value=“test”,key=“#username”)
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2020/12/03/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" title="Spring 事物传播机制使用">Spring 事物传播机制使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-03T14:07:40.000Z" title="发表于 2020-12-03 22:07:40">2020-12-03</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Spring-%E4%BA%8B%E7%89%A9/">Spring - 事物</a></span></div><div class="content"> 1 Spring事物
+ 1 使用用例
+12345678910111213CREATE TABLE &#96;user1&#96; (  &#96;id&#96; INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,  &#96;name&#96; VARCHAR(45) NOT NULL DEFAULT &#39;&#39;,  PRIMARY KEY(&#96;id&#96;))ENGINE &#x3D; InnoDB;CREATE TABLE &#96;user2&#96; (  &#96;id&#96; INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,  &#96;name&#96; VARCHAR(45) NOT NULL DEFAULT &#39;&#39;,  PRIMARY KEY(&#96;id&#96;))ENGINE &#x3D; InnoDB;
+</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">30</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/01/24/GateWay/" title="GateWay">GateWay</a><time datetime="2021-01-24T08:50:13.000Z" title="发表于 2021-01-24 16:50:13">2021-01-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Maven常用命令">Maven常用命令</a><time datetime="2021-01-23T07:48:33.000Z" title="发表于 2021-01-23 15:48:33">2021-01-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/01/23/OpenFeign/" title="OpenFeign">OpenFeign</a><time datetime="2021-01-23T07:42:33.000Z" title="发表于 2021-01-23 15:42:33">2021-01-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/" title="Git Diff与Git Difftool">Git Diff与Git Difftool</a><time datetime="2021-01-20T10:09:36.000Z" title="发表于 2021-01-20 18:09:36">2021-01-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/01/16/Devtools/" title="Devtools">Devtools</a><time datetime="2021-01-16T15:07:19.000Z" title="发表于 2021-01-16 23:07:19">2021-01-16</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CI-CD/"><span class="card-category-list-name">CI/CD</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git-%E5%9F%BA%E7%A1%80/"><span class="card-category-list-name">Git - 基础</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Idea/"><span class="card-category-list-name">Idea</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Maven/"><span class="card-category-list-name">Maven</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mybatis%E6%BA%90%E7%A0%81/"><span class="card-category-list-name">Mybatis源码</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mysql-%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">Mysql - 多表操作</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/NoSQL-redis/"><span class="card-category-list-name">NoSQL - redis</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/CI-CD/" style="font-size: 1.3em; color: #99a1ac">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.1em; color: #999">Git</a> <a href="/tags/Git-%E5%9F%BA%E7%A1%80/" style="font-size: 1.5em; color: #99a9bf">Git - 基础</a> <a href="/tags/Idea/" style="font-size: 1.3em; color: #99a1ac">Idea</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Maven/" style="font-size: 1.3em; color: #99a1ac">Maven</a> <a href="/tags/Mybatis%E6%BA%90%E7%A0%81/" style="font-size: 1.1em; color: #999">Mybatis源码</a> <a href="/tags/Mysql-DML%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 1.1em; color: #999">Mysql - DML条件语句</a> <a href="/tags/Shell/" style="font-size: 1.3em; color: #99a1ac">Shell</a> <a href="/tags/Spring-Cacheable/" style="font-size: 1.1em; color: #999">Spring - Cacheable</a> <a href="/tags/Spring-Spring%E5%9F%BA%E7%A1%80-Spring%E5%B7%A5%E5%85%B7%E7%B1%BB/" style="font-size: 1.1em; color: #999">Spring - Spring基础 - Spring工具类</a> <a href="/tags/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/" style="font-size: 1.1em; color: #999">Spring - 事物传播机制</a> <a href="/tags/SpringCloud-GateWay/" style="font-size: 1.1em; color: #999">SpringCloud - GateWay</a> <a href="/tags/SpringCloud-Nacos/" style="font-size: 1.1em; color: #999">SpringCloud - Nacos</a> <a href="/tags/SpringCloud-OpenFeign/" style="font-size: 1.1em; color: #999">SpringCloud - OpenFeign</a> <a href="/tags/SpringCloud-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/" style="font-size: 1.1em; color: #999">SpringCloud - 项目搭建</a> <a href="/tags/SpringMVC-WebFlux/" style="font-size: 1.1em; color: #999">SpringMVC - WebFlux</a> <a href="/tags/SpringMVC-%E5%BC%82%E5%B8%B8%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 1.1em; color: #999">SpringMVC - 异常解析器</a> <a href="/tags/SpringMVC-%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">SpringMVC - 异步模式</a> <a href="/tags/SpringMVC-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/" style="font-size: 1.1em; color: #999">SpringMVC - 文件下载</a> <a href="/tags/centos-wget/" style="font-size: 1.1em; color: #999">centos - wget</a> <a href="/tags/docker/" style="font-size: 1.5em; color: #99a9bf">docker</a> <a href="/tags/linux-CentOS/" style="font-size: 1.3em; color: #99a1ac">linux - CentOS</a> <a href="/tags/linux-CentOS-gitlab-docker/" style="font-size: 1.1em; color: #999">linux - CentOS - gitlab - docker</a> <a href="/tags/redis/" style="font-size: 1.1em; color: #999">redis</a> <a href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 1.1em; color: #999">小技巧</a> <a href="/tags/%E6%A0%87%E7%AD%BE/" style="font-size: 1.1em; color: #999">标签</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc/" style="font-size: 1.3em; color: #99a1ac">源码 - SpringMvc</a> <a href="/tags/%E6%BA%90%E7%A0%81-SpringMvc-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/" style="font-size: 1.1em; color: #999">源码 - SpringMvc 多块请求解析器</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.1em; color: #999">设计模式 - 结构型设计模式</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><span class="card-archive-list-count">13</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">19</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">8</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">40</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-01-25T06:35:32.334Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
