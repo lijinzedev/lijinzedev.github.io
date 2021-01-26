@@ -15,11 +15,54 @@ summary:
 
 # 配置Difftool
 
+
+
+## 1 配置
+
+### 1 meld
+
+[官网](http://meldmerge.org/)
+
+**命令配置**
+
+```bash
+git config --global diff.tool meld
+git config --global difftool.prompt false
+git config --global difftool.meld.cmd '"C:\Program Files (x86)\Meld\Meld.exe" "$LOCAL" "$REMOTE"'
+git config --global merge.tool meld
+git config --global mergetool.meld.cmd '"C:\Program Files (x86)\Meld\Meld.exe" "$BASE" "$LOCAL" "$REMOTE" "$MERGED"'
+git config --global mergetool.bc3.trustExitCode true
+```
+
+**配置**
+
+```bash
+[difftool "meld"]
+	cmd = \"C:\\Program Files (x86)\\Meld\\Meld.exe\" \"$LOCAL\" \"$REMOTE\"
+[mergetool "meld"]
+	cmd = \"C:\\Program Files (x86)\\Meld\\Meld.exe\" \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+```
+
+![效果](image-20210122110200827.png)
+
+
+
+### 2 bc3
+
 ```bash
 
 # 设置difftool
 git config --global diff.tool bc3 
 git config --global difftool.prompt false
+# 设置mergetool
+# cmd见下面设置
+git config --global merge.tool bc3 
+git config --global mergetool.bc3.trustExitCode true
+# 在.gitconfig中添加
+[merge]
+	tool = bc3
+[mergetool "bc3"]
+    cmd = \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\
 # 在.gitconfig添加
 [diff]
 	tool = bc3
@@ -27,7 +70,25 @@ git config --global difftool.prompt false
     cmd = \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\"
 ```
 
-## 1 使用
+![界面](image-20210122111632128.png)
+
+### 3 p4merge
+
+[官网](https://www.perforce.com/downloads/visual-merge-tool)
+
+```bash
+git config --global diff.tool p4merge
+git config --global difftool.p4merge.path "C:\Program Files\Perforce\p4merge.exe"
+# 因为每次使用diff tool的时候, git会弹出确认框, 我们最好把这个确认框从全局范围内默认不启用:
+git config --global difftool.prompt false
+git config --global merge.tool p4merge
+git config --global mergetool.p4merge.path "C:\Program Files\Perforce\p4merge.exe"
+git config --global mergetool.prompt false
+```
+
+
+
+## 2 使用
 
 > 与 diff 参数相同
 
@@ -60,20 +121,6 @@ git config --global difftool.prompt false
 ### 版本库与版本库
 
 * `git diff commit commit`
-
-# 配置MergeTool
-
-```bash
-# 设置mergetool
-# cmd见下面设置
-git config --global merge.tool bc3 
-git config --global mergetool.bc3.trustExitCode true
-# 在.gitconfig中添加
-[merge]
-	tool = bc3
-[mergetool "bc3"]
-    cmd = \"D:/workTools/Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
-```
 
 
 
