@@ -29,5 +29,8 @@ git branch -D feature_name1 feature_name2 feature_name3
 ```bash
 # 创建并切换分支
 git checkout -b dev origin/dev
+# 切换分支
+git switch dev
+git switch -c dev 0810beaed7
 ```
 

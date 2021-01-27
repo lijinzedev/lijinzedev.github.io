@@ -47,6 +47,10 @@ summary:
     交互式stash，每个修改逐个确认，之后不停按y/n来选择要stash的修改
   - `-k|–[no-]keep-index`
     已经git add的文件stash之后修改还保留
+
+  -k和--no-keep-index指定保存进度后，是否重置暂存区
+  --patch 会显示工作区和HEAD的差异,通过编辑差异文件，排除不需要保存的内容。和git add -p命令类似
+
   - `-q|–quiet`
   - `-u|–include-untracked`
     新创建的文件直接git stash是不会被stash的，加上这个就可以
@@ -62,7 +66,19 @@ summary:
   git stash push -m "this is a partly stash test" **/*.java
   ```
 
-  
+  * `git stash branch`
+
+  > branch  [branchname]   [stash]
+  >
+  > 以这个stash被创建的那个commit为起点，创建一个叫branchname的分支，然后再在这个分支执行git stash pop —index stash
+
+  * `git stash create`
+
+  > 创建一个stash，并返回他的commit对象，但并不在refs中存储这个对象
+
+  * `git stash store`
+
+  > 存储通过create创建的stash。(可以在refs的stash和log/refs下看到这个stash)
 
 # 示例
 * 首先对工作区与暂存区都做了修改
@@ -73,5 +89,15 @@ summary:
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200405202322751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxOTM0NDc4,size_16,color_FFFFFF,t_70)  
 * 不难发现 草(一种植物) 我暂存区内容的 emm 幸亏我们这里用了 apply git stash 中的记录还存在我们可以这样 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200405202557905.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxOTM0NDc4,size_16,color_FFFFFF,t_70)  
+# 解决GIt Stash 冲突
+
+```bash
+    git stash branch new_branch [<stash>]  # <stash> will be the last one if not provided.
+```
+
+
+
 # 总结 
+
 1.`git stash` 命令还是很好用的有木有
+
