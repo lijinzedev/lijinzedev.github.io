@@ -221,6 +221,12 @@ deb http://mirrors.aliyun.com/ubuntu/ focal-security universe
 deb http://mirrors.aliyun.com/ubuntu/ focal-security multiverse">/etc/apt/sources.list
 ```
 
+执行更新：
+
+```
+apt update && apt upgrade -y
+```
+
 # 六、安装docker
 
 > 因为wsl2已经完整使用了linux内核了，此种方式和先前在linux虚拟机安装docker类似，步骤如下：
@@ -246,10 +252,73 @@ docker images
 
 > **注意**：不同于完全linux虚拟机方式，WLS2下通过`apt install docker-ce`命令安装的docker无法启动，因为WSL2方式的ubuntu里面没有systemd。上述官方get-docker.sh安装的docker，dockerd进程是用ubuntu传统的init方式而非systemd启动的。
 
-# 七、参考文章
+
+
+# 七、修改WSL默认登录用户
+
+> 默认的root没有密码
+
+```shell
+ubuntu config --default-user root
+```
+
+# 八、WSL用户管理
+
+## 1 root用户下的用户管理
+
+```shell
+useradd username					#创建用户username
+passwd username					    #给已创建的用户username设置密码
+usermod --help					    #修改用户这个命令的相关参数
+userdel username					#删除用户username
+rm -rf username					    #删除用户username所在目录
+```
+
+## 2 用户切换
+
+```shell
+sudo -s					            #切换到root
+su username					        #切换到用户username
+exit					            #退出当前用户，返回root用户
+```
+
+## 3 用户组
+
+```shell
+groupadd usergroup					#组的添加
+groupdel usergroup					#组的删除
+```
+
+# 九、wsl设置root密码
+
+```shell
+sudo  passwd root
+```
+
+# 十、WIn10进入WSL文件系统
+
+## 1 在资源管理器中访问
+
+```shell
+\\wsl$\ubuntu
+```
+
+## 2 wsl 设置访问快捷方式
+
+> 创建软链接
+
+```shell
+ln -s /mnt/d/docker ~/win10
+```
+
+
+
+# 参考文章
 
 * [参考win10安装wsl2 - 1](https://segmentfault.com/a/1190000038911660)
 * [参考win10安装wsl2- 2](https://blog.csdn.net/yushuzhen2008/article/details/104944579)
 
 * [参考wsl2安装docker](https://www.cnblogs.com/360linux/p/13662355.html)
 
+* [安装脚本](gist.github.com/xiaopeng163/f3e72bb1990860859076985d5a723cba)
+* [wsl网络问题](https://blog.csdn.net/swordsm/article/details/107948497)
