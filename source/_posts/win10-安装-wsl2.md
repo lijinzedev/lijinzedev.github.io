@@ -58,7 +58,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
 ```
 
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911665)
+![命令](image-20210424112327542.png)
 
 ## (4) 方式三、通过“设置”启用 Hyper-V
 
@@ -67,7 +67,7 @@ DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V
 - 选择“打开或关闭 Windows 功能”。
 - 选择“Hyper-V”，然后单击“确定”。
 
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911666)
+![设置启用Hyper-V](image-20210424112200782.png)
 
 > 安装完成后，系统会提示你重启计算机。
 
@@ -116,7 +116,7 @@ wsl --set-default-version 2
 
 1. 打开 [Microsoft Store](https://aka.ms/wslstore)，并选择你偏好的 Linux 分发版 (如果上述连接打开有错，请直接打开Microsoft Store搜索)。
 
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911673)
+
 单击以下链接会打开每个分发版的 Microsoft Store 页面，(如果下述连接打开有错，请直接打开Microsoft Store搜索)。：
 
 - [Ubuntu 16.04 LTS](https://www.microsoft.com/store/apps/9pjn388hp8c9)
@@ -133,17 +133,17 @@ wsl --set-default-version 2
 
 1. 在分发版的页面中，选择“获取”。
 
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911667)
+![image-20210424112428253](image-20210424112428253.png)
 
 ## (4) 设置新分发版
 
 首次启动新安装的 Linux分发版时，将打开一个控制台窗口。（就是之前安装的应用）
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911663)
+![image-20210424112449354](image-20210424112449354.png)
 
 系统会要求你等待一分钟或两分钟，以便文件解压缩并存储到电脑上。未来的所有启动时间应不到一秒。
 
 然后，需要为新的 Linux 分发版创建用户帐户和密码。
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911672)
+![image-20210424112515287](image-20210424112515287.png)
 
 ## (5) 将分发版版本设置为 WSL 1 或 WSL 2
 
@@ -161,7 +161,7 @@ wsl --list --verbose
 
 > 通过以上命令，就可以查看刚刚已经安装的Linux发行版本，以及当前的WSL版本
 
-![在这里插入图片描述](https://segmentfault.com/img/remote/1460000038911669)
+![查看刚刚已经安装的Linux发行版本](image-20210424112535737.png)
 
 若要将分发版设置为受某一 WSL 版本支持，请运行：
 
