@@ -252,6 +252,31 @@ docker images
 
 > **注意**：不同于完全linux虚拟机方式，WLS2下通过`apt install docker-ce`命令安装的docker无法启动，因为WSL2方式的ubuntu里面没有systemd。上述官方get-docker.sh安装的docker，dockerd进程是用ubuntu传统的init方式而非systemd启动的。
 
+```shell
+vim /lib/systemd/system/docker.service
+
+### 修改文件
+[Service]
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock -H fd:// --containerd=/run/containerd/containerd.sock
+### 上面这一行,主要是增加了`-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock`
+
+
+1. vim /etc/default/docker
+
+2. 修改启动配置文件，如下：
+
+# 开启远程访问 -H tcp://0.0.0.0:2375
+# 开启本地套接字访问 -H unix:///var/run/docker.sock
+DOCKER_OPTS="-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
+重启Docker
+sudo service docker restart
+
+```
+
+
+
+## 配置docker远程tcp
+
 
 
 # 七、修改WSL默认登录用户
