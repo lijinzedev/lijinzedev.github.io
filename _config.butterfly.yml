@@ -54,11 +54,16 @@ favicon: https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5
 avatar:
   img: https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png
   effect: false # 頭像會一直轉圈
+
 aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true # display on mobile
   position: left # left or right
   card_author:
     enable: true
-    description:
+    description: 
     button:
       enable: true
       icon: fab fa-github
@@ -67,6 +72,33 @@ aside:
   card_announcement:
     enable: true
     content: 万般皆下品,唯有读书高
+  card_recent_post:
+    enable: true
+    limit: 5 # if set 0 will show all
+    sort: date # date or updated
+    sort_order: # Don't modify the setting unless you know how it works
+  card_categories:
+    enable: true
+    limit: 8 # if set 0 will show all
+    expand: none # none/true/false
+    sort_order: # Don't modify the setting unless you know how it works
+  card_tags:
+    enable: true
+    limit: 40 # if set 0 will show all
+    color: false
+    sort_order: # Don't modify the setting unless you know how it works
+  card_archives:
+    enable: true
+    type: monthly # yearly or monthly
+    format: MMMM YYYY # eg: YYYY年MM月
+    order: -1 # Sort of order. 1, asc for ascending; -1, desc for descending
+    limit: 8 # if set 0 will show all
+    sort_order: # Don't modify the setting unless you know how it works
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    sort_order: # Don't modify the setting unless you know how it works
 medium_zoom:
   enable: true
 related_post:
