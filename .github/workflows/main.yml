@@ -23,6 +23,7 @@ jobs:
           ls themes/Butterfly
           git config --global user.email "test@gmail.com"
           git config --global user.name "ci test"
+          cp _config.butterfly.yml themes/Butterfly/_config.yml
           npm install hexo-cli -g
           npm install
       - name: Deploy
