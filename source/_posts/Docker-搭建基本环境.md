@@ -13,13 +13,29 @@ password:
 summary:
 ---
 
-# 1 Docker 安装Mysql 5.7
+# 1 Docker 安装Mysql 
 
 ```bash
 # 下载镜像
 docker pull mysql:5.7
 # 运行
 docker run -d -p 3306:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql_ruoyi mysql:5.7
+# 安装8.0
+docker pull mysql:8.0.20
+docker run -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=123456  -d mysql:8.0.20
+docker cp  mysql:/etc/mysql /home/docker/mysql8.0.20
+docker rm -f  mysql
+docker run \
+-p 3306:3306 \
+--name mysql \
+--privileged=true \
+--restart unless-stopped \
+-v /home/docker/mysql8.0.20/mysql:/etc/mysql \
+-v /home/docker/mysql8.0.20/logs:/logs \
+-v /home/docker/mysql8.0.20/data:/var/lib/mysql \
+-v /etc/localtime:/etc/localtime \
+-e MYSQL_ROOT_PASSWORD=123456 \
+-d mysql:8.0.20
 ```
 
 # 2 Docker安装Nacos
@@ -30,9 +46,22 @@ docker pull nacos/nacos-server
 
 # 启动容器
 docker run --env MODE=standalone --name nacos -d -p 8848:8848 nacos/nacos-server
-
+# 
+docker cp nacos:/home/nacos /home/win10/
 # 单机模式运行 
 docker run --name nacos -d -p 8848:8848 --privileged=true --restart=always -e JVM_XMS=256m -e JVM_XMX=512m -e MODE=standalone -e PREFER_HOST_MODE=hostname -v /home/nacos/logs:/home/nacos/logs -v /home/nacos/conf/:/home/nacos/conf/ -v /home/nacos/init.d:/home/nacos/init.d  nacos/nacos-server
+
+docker run -it -e MODE=standalone \
+-e SPRING_DATASOURCE_PLATFORM=mysql \
+-e MYSQL_MASTER_SERVICE_HOST=172.17.0.1 \
+-e MYSQL_MASTER_SERVICE_DB_NAME=nacos_config \
+-e MYSQL_MASTER_SERVICE_PORT=3306 \
+-e MYSQL_MASTER_SERVICE_USER=root \
+-e MYSQL_MASTER_SERVICE_PASSWORD=123456 \
+-v /home/nacos/logs:/home/nacos/logs \
+--restart=always \
+--name nacos -p 8848:8848 nacos/nacos-server
+
 # 在浏览器访问 
 http://localhost:8848/nacos/index.html
 默认登录账号 nacos/nacos
