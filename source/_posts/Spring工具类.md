@@ -1,5 +1,5 @@
 ---
-2title: Spring工具类
+title: Spring工具类
 top: false
 cover: false
 toc: true
