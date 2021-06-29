@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - 分类
+  - Nginx
 tags:
-  - 标签
+  - Nginx
 date: 2020-12-21 14:48:15
 password:
 summary:
