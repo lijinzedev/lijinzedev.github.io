@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Git - 基础
+  - Git
 tags:
-  - Git - 基础
+  - Git
 date: 2020-11-30 11:07:32
 password:
 summary:

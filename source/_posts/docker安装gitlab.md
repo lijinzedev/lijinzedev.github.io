@@ -5,7 +5,7 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - linux - CentOS
+  - linux
 tags:
   - linux - CentOS - gitlab - docker
 date: 2020-11-29 16:10:36

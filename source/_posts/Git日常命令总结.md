@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Git - 基础
+  - Git
 tags:
-  - Git - 基础
+  - Git
 date: 2021-01-06 15:02:35
 password:
 summary:
@@ -41,24 +41,72 @@ git switch -c dev 0810beaed7
 git rebase <new base-commit> 
 # 会先checkout到feature分支然后执行rebase master的操作
 git rebase master feature
-
-# 将当前的base节点，嫁接到新的base节点上
-# 个人理解为将current base-commit ---> 当前分支所指向的commit 节点不包含current base-commit(左开右闭)
-# 嫁接到新的节点 new base-commit 上
-#  换句话说git执行这条命令的时候会先找到<current base-commit>和当前分支的共同祖先，然后将共同祖先之后的部分rebase到<new base-commit>。
-git rebase --onto <new base-commit> <current base-commit>
-# git执行这条命令的时候会先找到<current base-commit>和<target commit>的共同祖先，然后将共同祖先之后的部分rebase到<new base-commit>。
-git rebase --onto <new base-commit> <current base-commit> <target commit>
 ```
 
-## 示例
+# 4 Git Rebase --onto
 
-执行命令 `git rebase --onto  e6a161 a85b3fb`
+```bash
+# A : 是一个分支名称（代表此分支的 HEAD）或者是一个 commit_id (此 id 不在 C 上)      
+# B : 一个分支名称（此分支与 C 有共同的祖先 commit）或者是一个 commit_id (此 id 在 C 上)     
+# C : 一个分支名称
+git rebase --onto A B C 
+```
 
-![嫁接前](image-20210525151409346.png)
+**命令的作用：**
 
-![嫁接后](image-20210525154731695.png)
+1. 首先会执行 git checkout 切换到 C
 
-# 参考文档
+2.  将 B 到 C(HEAD) 之间所标识范围内的提交写到一个临时文件中 ，若B 为分支名称，则找到 B 与 C 共同的祖先 commit，则为此 commit 到 C(HEAD) 之间所标识范围内的提交，范围是（commit,C(HEAD)]。
+
+3. 将当前分支强制重置（git reset --hard）到 A
+
+4. 从2中临时文件的提交列表中，一个一个将提交按照顺序重新提交到重置之后的分支上
+
+**注意：**
+
+* 如果遇到提交已经在分支中包含，跳过该提交。
+* 如果在提交过程遇到冲突，衍合过程暂停。用户解决冲突后，执行 git rebase --continue 继续变基操作。或者执行 git rebase --skip 跳过此提交。或者执行 git rebase --abort 就此终止变基操作切换到变基前的分支上。
+* 衍合操作结束后，当前分支为 C
+
+## 例
+
+![原图片](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210702134539.png)
+
+![执行后](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210702134615.png)
+
+```bash
+git rebase --onto master server client
+```
+
+**解释:**
+
+​       server 和 client 的共同祖先commit 为 C3，首先当前分支切换到 client ，并将其 HEAD 重置为 master，即为 C6，然后将client 分支上 C3-C9 （不包括 C3，即 C8 和 C9）提交到当前分支上，即 C6 之后。最终结果即为 client : C1-C2-C5-C6-C8-C9，C8 和 C9 是重新提交，其 commit_id 会改变。
+
+​        $ git checkout master 
+
+​        $ git merge client 
+
+​        再进行如上两步操作，即可将 client 分支的部分功能开发内容合入 master
+
+## 扩展
+
+> 在代码库中，我们如果希望从某一 ref 开始到 HEAD保留下来，然后之前的历史删除。因为这个任务比较常见，所以可以写成一个 shell script 
+
+```bash
+#!/bin/bash
+git checkout --orphan temp $1
+git commit -m "new begin"
+git rebase --onto temp $1 master
+git branch -D temp
+```
+
+
+
+# 5 参考
 
 [Git Rebase](lixingcong.github.io/2019/12/04/git-rebase/)
+
+[git rebase --onto ](https://www.zhihu.com/question/60279937)
+
+[Git学习笔记（十） 改变历史 - Present - 博客频道 - CSDN.NET](https://link.zhihu.com/?target=http%3A//blog.csdn.net/agul_/article/details/7843182)
+[如何批量删除git仓库中的提交纪录？ - SegmentFault](https://link.zhihu.com/?target=https%3A//segmentfault.com/q/1010000002564327)

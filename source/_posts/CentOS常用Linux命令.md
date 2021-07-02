@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - linux - CentOS
+  - linux
 tags:
-  - linux - CentOS
+  - linux
 date: 2020-11-29 15:08:14
 password:
 summary:

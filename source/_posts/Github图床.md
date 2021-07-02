@@ -13,7 +13,7 @@ password:
 summary:
 ---
 
-# sPicGo + GitHub 搭建个人图床工具
+# PicGo + GitHub 搭建个人图床工具
 
 ## 1 Github生成token
 
