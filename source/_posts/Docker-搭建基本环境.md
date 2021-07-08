@@ -62,6 +62,18 @@ docker run -it -e MODE=standalone \
 --restart=always \
 --name nacos -p 8848:8848 nacos/nacos-server
 
+# 新版本
+docker run -it -e MODE=standalone \
+-e SPRING_DATASOURCE_PLATFORM=mysql \
+-e MYSQL_SERVICE_HOST=192.168.173.103 \
+-e MYSQL_SERVICE_DB_NAME=nacos_conifg \
+-e MYSQL_SERVICE_PORT=3307 \
+-e MYSQL_SERVICE_USER=root \
+-e MYSQL_SERVICE_PASSWORD=123456 \
+-v /home/nacos/logs:/home/nacos/logs \
+--restart=always \
+--name nacos -p 8848:8848 nacos/nacos-server
+
 # 在浏览器访问 
 http://localhost:8848/nacos/index.html
 默认登录账号 nacos/nacos

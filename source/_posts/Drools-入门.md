@@ -1034,7 +1034,7 @@ kieSession.dispose();
 
 **注意：上面的代码需要设置日期格式，否则我们在规则文件中写的日期格式和默认的日期格式不匹配程序会报错**
 
-# 五. Drools高级语法
+# 五、Drools高级语法
 
 前面章节我们已经知道了一套完整的规则文件内容构成如下：
 
@@ -1125,3 +1125,2530 @@ System.out.println(list.size());
 ~~~
 
 ## 5.2 query查询
+
+query查询提供了一种**查询working memory中符合约束条件的Fact对象**的简单方法。它仅包含规则文件中的LHS部分，不用指定“when”和“then”部分并且以end结束。具体语法结构如下：
+
+~~~java
+query 查询的名称(可选参数)
+	LHS
+end
+~~~
+
+具体操作步骤：
+
+第一步：编写规则文件/resources/rules/query.drl
+
+~~~java
+package testquery
+import com.entity.Student
+/*
+    此规则文件用于测试query查询
+*/
+
+//不带参数的查询
+//当前query用于查询Working Memory中age>10的Student对象
+query "query_1"
+    $student:Student(age > 10)
+end
+
+//带有参数的查询
+//当前query用于查询Working Memory中age>10同时name需要和传递的参数name相同的Student对象
+query "query_2"(String sname)
+    $student:Student(age > 20 && name == sname)
+end
+~~~
+
+第二步：编写单元测试
+
+~~~java
+KieServices kieServices = KieServices.Factory.get();
+KieContainer kieClasspathContainer = kieServices.getKieClasspathContainer();
+KieSession kieSession = kieClasspathContainer.newKieSession();
+
+Student student1 = new Student();
+student1.setName("张三");
+student1.setAge(12);
+
+Student student2 = new Student();
+student2.setName("李四");
+student2.setAge(8);
+
+Student student3 = new Student();
+student3.setName("王五");
+student3.setAge(22);
+
+//将对象插入Working Memory中
+kieSession.insert(student1);
+kieSession.insert(student2);
+kieSession.insert(student3);
+
+//调用规则文件中的查询
+QueryResults results1 = kieSession.getQueryResults("query_1");
+int size = results1.size();
+System.out.println("size=" + size);
+for (QueryResultsRow row : results1) {
+    Student student = (Student) row.get("$student");
+    System.out.println(student);
+}
+
+//调用规则文件中的查询
+QueryResults results2 = kieSession.getQueryResults("query_2","王五");
+size = results2.size();
+System.out.println("size=" + size);
+for (QueryResultsRow row : results2) {
+    Student student = (Student) row.get("$student");
+    System.out.println(student);
+}
+//kieSession.fireAllRules();
+kieSession.dispose();
+~~~
+
+## 5.3 function函数
+
+function关键字用于在规则文件中定义函数，就相当于java类中的方法一样。可以在规则体中调用定义的函数。使用函数的好处是可以将业务逻辑集中放置在一个地方，根据需要可以对函数进行修改。
+
+函数定义的语法结构如下：
+
+~~~java
+function 返回值类型 函数名(可选参数){
+	//逻辑代码
+}
+~~~
+
+具体操作步骤：
+
+第一步：编写规则文件/resources/rules/function.drl
+
+~~~java
+package testfunction
+import com.entity.Student
+/*
+    此规则文件用于测试function函数
+*/
+
+//定义一个函数
+function String sayHello(String name){
+    return "hello " + name;
+}
+
+rule "rule_function_1"
+    when
+        $student:Student(name != null)
+    then
+        //调用上面定义的函数
+        String ret = sayHello($student.getName());
+        System.out.println(ret);
+end
+~~~
+
+第二步：编写单元测试
+
+~~~java
+KieServices kieServices = KieServices.Factory.get();
+KieContainer kieClasspathContainer = kieServices.getKieClasspathContainer();
+KieSession kieSession = kieClasspathContainer.newKieSession();
+
+Student student = new Student();
+student.setName("小明");
+
+kieSession.insert(student);
+
+kieSession.fireAllRules();
+kieSession.dispose();
+~~~
+
+## 5.4 LHS加强
+
+前面我们已经知道了在规则体中的LHS部分是介于when和then之间的部分，主要用于模式匹配，只有匹配结果为true时，才会触发RHS部分的执行。本章节我们会针对LHS部分学习几个新的用法。
+
+### 5.4.1 复合值限制in/not in
+
+复合值限制是指超过一种匹配值的限制条件，类似于SQL语句中的in关键字。Drools规则体中的LHS部分可以使用in或者not in进行复合值的匹配。具体语法结构如下：
+
+**Object(field in (比较值1,比较值2...))**
+
+举例：
+
+~~~java
+$s:Student(name in ("张三","李四","王五"))
+$s:Student(name not in ("张三","李四","王五"))
+~~~
+
+### 5.4.2 条件元素eval
+
+eval用于规则体的LHS部分，并返回一个Boolean类型的值。语法结构如下：
+
+**eval(表达式)**
+
+举例：
+
+~~~java
+eval(true)
+eval(false)
+eval(1 == 1)
+~~~
+
+### 5.4.3 条件元素not
+
+not用于判断Working Memory中是否存在某个Fact对象，如果不存在则返回true，如果存在则返回false。语法结构如下：
+
+**not Object(可选属性约束)**
+
+举例：
+
+~~~java
+not Student()
+not Student(age < 10)
+~~~
+
+### 5.4.4 条件元素exists
+
+exists的作用与not相反，用于判断Working Memory中是否存在某个Fact对象，如果存在则返回true，不存在则返回false。语法结构如下：
+
+**exists Object(可选属性约束)**
+
+举例：
+
+~~~java
+exists Student()
+exists Student(age < 10 && name != null)
+~~~
+
+可能有人会有疑问，我们前面在LHS部分进行条件编写时并没有使用exists也可以达到判断Working Memory中是否存在某个符合条件的Fact元素的目的，那么我们使用exists还有什么意义？
+
+两者的区别：当向Working Memory中加入多个满足条件的Fact对象时，使用了exists的规则执行一次，不使用exists的规则会执行多次。
+
+例如：
+
+规则文件(只有规则体)：
+
+~~~java
+rule "使用exists的规则"
+    when
+    	exists Student()
+    then
+    	System.out.println("规则：使用exists的规则触发");
+end
+
+rule "没有使用exists的规则"
+    when
+    	Student()
+    then
+    	System.out.println("规则：没有使用exists的规则触发");
+end
+~~~
+
+Java代码：
+
+~~~java
+kieSession.insert(new Student());
+kieSession.insert(new Student());
+kieSession.fireAllRules();
+~~~
+
+上面第一个规则只会执行一次，因为Working Memory中存在两个满足条件的Fact对象，第二个规则会执行两次。
+
+### 5.4.5 规则继承
+
+规则之间可以使用extends关键字进行规则条件部分的继承，类似于java类之间的继承。
+
+例如：
+
+~~~java
+rule "rule_1"
+    when
+    	Student(age > 10)
+    then
+    	System.out.println("规则：rule_1触发");
+end
+
+rule "rule_2" extends "rule_1" //继承上面的规则
+    when
+    	/*
+    	此处的条件虽然只写了一个，但是从上面的规则继承了一个条件，
+    	所以当前规则存在两个条件，即Student(age < 20)和Student(age > 10)
+    	*/
+    	Student(age < 20) 
+    then
+    	System.out.println("规则：rule_2触发");
+end
+~~~
+
+## 5.5 RHS加强
+
+RHS部分是规则体的重要组成部分，当LHS部分的条件匹配成功后，对应的RHS部分就会触发执行。一般在RHS部分中需要进行业务处理。
+
+在RHS部分Drools为我们提供了一个内置对象，名称就是drools。本小节我们来介绍几个drools对象提供的方法。
+
+### 5.5.1 halt
+
+halt方法的作用是立即终止后面所有规则的执行。
+
+~~~java
+package testhalt
+rule "rule_halt_1"
+    when
+    then
+    	System.out.println("规则：rule_halt_1触发");
+		drools.halt();//立即终止后面所有规则执行
+end
+
+//当前规则并不会触发，因为上面的规则调用了halt方法导致后面所有规则都不会执行
+rule "rule_halt_2"
+    when
+    then
+    	System.out.println("规则：rule_halt_2触发");
+end
+~~~
+
+### 5.5.2 getWorkingMemory
+
+getWorkingMemory方法的作用是返回工作内存对象。
+
+~~~java
+package testgetWorkingMemory
+rule "rule_getWorkingMemory"
+    when
+    then
+    	System.out.println(drools.getWorkingMemory());
+end
+~~~
+
+### 5.5.3 getRule
+
+getRule方法的作用是返回规则对象。
+
+~~~java
+package testgetRule
+rule "rule_getRule"
+    when
+    then
+    	System.out.println(drools.getRule());
+end
+~~~
+
+## 5.6 规则文件编码规范
+
+我们在进行drl类型的规则文件编写时尽量遵循如下规范：
+
+- 所有的规则文件(.drl)应统一放在一个规定的文件夹中，如：/rules文件夹
+- 书写的每个规则应尽量加上注释。注释要清晰明了，言简意赅
+- 同一类型的对象尽量放在一个规则文件中，如所有Student类型的对象尽量放在一个规则文件中
+- 规则结果部分(RHS)尽量不要有条件语句，如if(...)，尽量不要有复杂的逻辑和深层次的嵌套语句
+- 每个规则最好都加上salience属性，明确执行顺序
+- Drools默认dialect为"Java"，尽量避免使用dialect "mvel"
+
+# 六 、Spring Boot整合Drools
+
+目前在企业开发中Spring Boot已经成为主流，本小节我们来进行Spring Boot整合Drools。具体操作步骤：
+
+第一步：创建maven工程drools_springboot并配置pom.xml
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starters</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.test</groupId>
+    <artifactId>drools_springboot</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!--drools规则引擎-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-templates</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>7.6.0.Final</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+~~~
+
+第二步：创建/resources/application.yml文件
+
+~~~properties
+server:
+  port: 8080
+spring:
+  application:
+    name: drools_springboot
+~~~
+
+第三步：创建规则文件/resources/rules/helloworld.drl
+
+~~~java
+package helloworld
+rule "rule_helloworld"
+    when
+        eval(true)
+    then
+        System.out.println("规则：rule_helloworld触发...");
+end
+~~~
+
+第四步：编写配置类DroolsConfig
+
+~~~java
+
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieRepository;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.io.ResourceFactory;
+import org.kie.spring.KModuleBeanFactoryPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.Resource;
+import java.io.IOException;
+/**
+ * 规则引擎配置类
+ */
+@Configuration
+public class DroolsConfig {
+    //指定规则文件存放的目录
+    private static final String RULES_PATH = "rules/";
+    private final KieServices kieServices = KieServices.Factory.get();
+    @Bean
+    @ConditionalOnMissingBean
+    public KieFileSystem kieFileSystem() throws IOException {
+        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+        ResourcePatternResolver resourcePatternResolver = 
+            new PathMatchingResourcePatternResolver();
+        Resource[] files = 
+            resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "*.*");
+        String path = null;
+        for (Resource file : files) {
+            path = RULES_PATH + file.getFilename();
+            kieFileSystem.write(ResourceFactory.newClassPathResource(path, "UTF-8"));
+        }
+        return kieFileSystem;
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieContainer kieContainer() throws IOException {
+        KieRepository kieRepository = kieServices.getRepository();
+        kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
+        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem());
+        kieBuilder.buildAll();
+        return kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieBase kieBase() throws IOException {
+        return kieContainer().getKieBase();
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KModuleBeanFactoryPostProcessor kiePostProcessor() {
+        return new KModuleBeanFactoryPostProcessor();
+    }
+}
+~~~
+
+第五步：创建RuleService类
+
+~~~java
+
+
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RuleService {
+    @Autowired
+    private KieBase kieBase;
+    public void rule(){
+        KieSession kieSession = kieBase.newKieSession();
+        kieSession.fireAllRules();
+        kieSession.dispose();
+    }
+}
+~~~
+
+第六步：创建HelloController类
+
+~~~java
+
+
+import com.itheima.drools.service.RuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/hello")
+public class HelloController {
+    @Autowired
+    private RuleService ruleService;
+    @RequestMapping("/rule")
+    public String rule(){
+        ruleService.rule();
+        return "OK";
+    }
+}
+~~~
+
+第七步：创建启动类DroolsApplication
+
+~~~java
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DroolsApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DroolsApplication.class,args);
+    }
+}
+~~~
+
+第八步：启动服务，访问http://localhost:8080/hello/rule
+
+# 七、WorkBench
+
+## 7.1 WorkBench简介
+
+WorkBench是KIE组件中的元素，也称为KIE-WB，是Drools-WB与JBPM-WB的结合体。它是一个可视化的规则编辑器。WorkBench其实就是一个war包，安装到tomcat中就可以运行。使用WorkBench可以在浏览器中创建数据对象、创建规则文件、创建测试场景并将规则部署到maven仓库供其他应用使用。
+
+下载地址：https://download.jboss.org/drools/release/7.6.0.Final/kie-drools-wb-7.6.0.Final-tomcat8.war
+
+注意：下载的war包需要安装到tomcat8中。
+
+## 7.2 安装方式
+
+软件安装时经常会涉及到软件版本兼容性的问题，所以需要明确各个软件的使用版本。
+
+本课程使用的软件环境如下：
+
+- 操作系统：Windows 10 64位
+- JDK版本：1.8
+- maven版本：3.5.4
+- Tomcat版本：8.5
+
+具体安装步骤：
+
+第一步：配置Tomcat的环境变量CATALINA_HOME，对应的值为Tomcat安装目录
+
+第二步：在Tomcat的bin目录下创建setenv.bat文件，内容如下：
+
+~~~properties
+CATALINA_OPTS="-Xmx512M \
+    -Djava.security.auth.login.config=$CATALINA_HOME/webapps/kie-drools-wb/WEB-INF/classes/login.config \
+    -Dorg.jboss.logging.provider=jdk"
+~~~
+
+第三步：将下载的WorkBench的war包改名为kie-drools-wb.war并复制到Tomcat的webapps目录下
+
+第四步：修改Tomcat下conf/tomcat-users.xml文件
+
+~~~xml
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+  <!--定义admin角色-->
+  <role rolename="admin"/>
+  <!--定义一个用户，用户名为kie，密码为kie，对应的角色为admin角色-->
+  <user username="kie" password="kie" roles="admin"/>
+</tomcat-users>
+~~~
+
+第五步：下载以下三个jar包并复制到Tomcat的lib目录下
+
+~~~properties
+kie-tomcat-integration-7.10.0.Final.jar
+javax.security.jacc-api-1.5.jar
+slf4j-api-1.7.25.jar
+~~~
+
+第六步：修改Tomcat的conf/server.xml文件，添加Valve标签，内容为：
+
+~~~xml
+<Valve className="org.kie.integration.tomcat.JACCValve"/>
+~~~
+
+第七步：启动Tomcat并访问http://localhost:8080/kie-drools-wb，可以看到WorkBench的登录页面。使用前面在tomcat-users.xml文件中定义的用户进行登录即可
+
+![12](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205832.png)
+
+登录成功后进入系统首页：
+
+![13](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205827.png)
+
+## 7.3 使用方式
+
+7.3.1 创建空间、项目
+
+WorkBench中存在空间和项目的概念。我们在使用WorkBench时首先需要创建空间（Space），在空间中创建项目，在项目中创建数据对象、规则文件等。
+
+- 创建空间
+
+  第一步：登录WorkBench后进行系统首页，点击首页中的Design区域进入项目列表页面：
+
+  ![14](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205822.png)
+
+  如果是第一次登录还没有创建项目则无法看到项目
+
+  第二步：点击左上角Spaces导航链接进入空间列表页面
+
+  ![15](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205817.png)
+
+  第三步：点击右上角Add Space按钮弹出创建添加空间窗口
+
+  ![16](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205812.png)
+
+  录入空间名称，点击Save按钮则完成空间的创建，如下图：
+
+  ![17](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205804.png)
+
+- 创建项目
+
+  前面已经提到，我们在WorkBench中需要先创建空间，在空间中才能创建项目。上面我们已经创建了一个空间itheima，现在需要住此空间中创建项目。
+
+  第一步：点击itheima空间，进入此空间
+
+  ![18](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205800.png)
+
+  可以看到当前空间中还没有项目
+
+  第二步：点击Add Project按钮弹出添加项目窗口
+
+  ![19](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205755.png)
+
+  第三步：在添加项目窗口中录入项目名称（例如项目名称为pro1），点击Add按钮完成操作
+
+  ![20](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205749.png)
+
+  可以看到在完成项目创建后，系统直接跳转到了项目页面。要查看当前itheima空间中的所有项目，可以点击左上角itheima链接：
+
+  ![21](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205744.png)
+
+### 7.3.2 创建数据对象
+
+数据对象其实就是JavaBean，一般都是在drl规则文件中使用进行规则匹配。
+
+第一步：在itheima空间中点击pro1项目，进入此项目页面
+
+![22](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205736.png)
+
+第二步：点击Create New Asset按钮选择“数据对象”
+
+![23](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205733.png)
+
+第三步：在弹出的创建数据对象窗口中输入数据对象的名称，点击确定按钮完成操作
+
+![24](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205729.png)
+
+操作完成后可以看到如下：
+
+![25](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205725.png)
+
+第四步：点击“添加字段”按钮弹出新建字段窗口
+
+![26](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205715.png)
+
+第五步：在新建字段窗口中录入字段Id（其实就是属性名），选择类型，点击创建按钮完成操作
+
+![27](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205710.png)
+
+完成操作后可以看到刚才创建的字段：
+
+![28](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205706.png)
+
+可以点击添加字段按钮继续创建其他字段：
+
+![29](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205701.png)
+
+注意添加完字段后需要点击右上角保存按钮完成保存操作：
+
+![32](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205658.png)
+
+点击源代码按钮可以查看刚才创建的Person对象源码：
+
+![30](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205632.png)
+
+点击左上角pro1项目链接，可以看到当前pro1项目中已经创建的各种类型的对象：
+
+![31](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205650.png)
+
+### 7.3.3 创建DRL规则文件
+
+第一步：在pro1项目页面点击右上角Create New Asset按钮，选择“DRL文件”，弹出创建DRL文件窗口
+
+![33](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205612.png)
+
+第二步：在添加DRL文件窗口录入DRL文件名称，点击确定按钮完成操作
+
+![34](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205607.png)
+
+第三步：上面点击确定按钮完成创建DRL文件后，页面会跳转到编辑DRL文件页面
+
+![35](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205605.png)
+
+可以看到DRL规则文件页面分为两个部分：左侧为项目浏览视图、右侧为编辑区域，需要注意的是左侧默认展示的不是项目浏览视图，需要点击上面设置按钮，选择“资料库视图”和“显示为文件夹”，如下图所示：
+
+![36](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205601.png)
+
+第四步：在编辑DRL文件页面右侧区域进行DRL文件的编写，点击右上角保存按钮完成保存操作，点击检验按钮进行规则文件语法检查
+
+![37](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205557.png)
+
+点击左上角pro1项目回到项目页面，可以看到此项目下已经存在两个对象，即person.drl规则文件和Person类：
+
+![38](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205553.png)
+
+### 7.3.4 创建测试场景
+
+前面我们已经创建了Person数据对象和person规则文件，现在我们需要测试一下规则文件中的规则，可以通过创建测试场景来进行测试。
+
+第一步：在项目页面点击Create New Asset按钮选择“测试场景”，弹出创建测试场景窗口
+
+![39](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205549.png)
+
+第二步：在弹出的创建测试场景窗口中录入测试场景的名称，点击确定完成操作
+
+![40](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205545.png)
+
+完成测试场景的创建后，页面会跳转到测试场景编辑页面，如下图：
+
+![41](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205542.png)
+
+第三步：因为我们编写的规则文件中需要从工作内存中获取Person对象进行规则匹配，所以在测试场景中需要准备Person对象给工作内存，点击“GIVEN”按钮弹出新建数据录入窗口，选择Person类，输入框中输入事实名称（名称任意），如下图
+
+![42](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205538.png)
+
+第四步：录入事实名称后点击后面的添加按钮，可以看到Person对象已经添加成功
+
+![43](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205534.png)
+
+第五步：我们给工作内存提供的Person对象还需要设置age属性的值，点击“添加字段”按钮弹出窗口，选择age属性
+
+![44](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205529.png)
+
+点击确定按钮后可以看到字段已经添加成功：
+
+![45](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205517.png)
+
+第六步：点击age属性后面的编辑按钮，弹出字段值窗口
+
+![image-20200113154817582](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205512.png)
+
+第七步：在弹出的窗口中点击字面值按钮，重新回到测试场景页面，可以看到age后面出现输入框，可以为age属性设置值
+
+![image-20200113155136957](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205508.png)
+
+设置好age属性的值后点击保存按钮保存测试场景
+
+第八步：点击右上角“运行测试场景”按钮进行测试
+
+![image-20200113155332666](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205436.png)
+
+测试成功后可以查看WorkBench部署的Tomcat控制台：
+
+![image-20200113155819517](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205429.png)
+
+### 7.3.5 设置KieBase和KieSession
+
+第一步：在pro1项目页面点击右上角Settings按钮进入设置页面
+
+![image-20200113162923877](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205423.png)
+
+第二步：在设置页面选择“知识库和会话”选项
+
+![image-20200113163005061](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205410.png)
+
+第三步：在弹出的知识库和会话页面点击“添加”按钮进行设置
+
+![image-20200113163313305](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205404.png)
+
+![image-20200113163344174](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205341.png)
+
+第四步：设置完成后点击右上角保存按钮完成设置操作，可以通过左侧浏览视图点击kmodule.xml，查看文件内容
+
+![image-20200113163539676](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205335.png)
+
+### 7.3.6 编译、构建、部署
+
+前面我们已经在WorkBench中创建了一个空间itheima，并且在此空间中创建了一个项目pro1，在此项目中创建了数据文件、规则文件和测试场景，如下图：
+
+![image-20200113160102668](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205329.png)
+
+点击右上角“Compile”按钮可以对项目进行编译，点击“Bulid&Deploy”按钮进行构建和部署。
+
+部署成功后可以在本地maven仓库中看到当前项目已经被打成jar包：
+
+<img src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205321.png" alt="image-20200113160728259" style="float: left;" />
+
+将上面的jar包进行解压，可以看到我们创建的数据对象Person和规则文件person以及kmodule.xml都已经打到jar包中了。
+
+### 7.3.7 在项目中使用部署的规则
+
+前面我们已经在WorkBench中创建了pro1项目，并且在pro1项目中创建了数据文件、规则文件等。最后我们将此项目打成jar包部署到了maven仓库中。本小节就需要在外部项目中使用我们定义的规则。
+
+第一步：在IDEA中创建一个maven项目并在pom.xml文件中导入相关坐标
+
+~~~xml
+<dependency>
+    <groupId>org.drools</groupId>
+    <artifactId>drools-compiler</artifactId>
+    <version>7.10.0.Final</version>
+</dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+~~~
+
+第二步：在项目中创建一个数据对象Person，需要和WorkBench中创建的Person包名、类名完全相同，属性也需要对应
+
+~~~java
+
+
+public class Person implements java.io.Serializable {
+
+    static final long serialVersionUID = 1L;
+
+    private java.lang.String id;
+    private java.lang.String name;
+    private int age;
+
+    public Person() {
+    }
+
+    public java.lang.String getId() {
+        return this.id;
+    }
+
+    public void setId(java.lang.String id) {
+        this.id = id;
+    }
+
+    public java.lang.String getName() {
+        return this.name;
+    }
+
+    public void setName(java.lang.String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Person(java.lang.String id, java.lang.String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+}
+~~~
+
+第三步：编写单元测试，远程加载maven仓库中的jar包最终完成规则调用
+
+~~~java
+@Test
+public void test1() throws Exception{
+    //通过此URL可以访问到maven仓库中的jar包
+    //URL地址构成：http://ip地址:Tomcat端口号/WorkBench工程名/maven2/坐标/版本号/xxx.jar
+    String url = 
+    "http://localhost:8080/kie-drools-wb/maven2/com/pro1/1.0.0/pro1-1.0.0.jar";
+    
+    KieServices kieServices = KieServices.Factory.get();
+    
+    //通过Resource资源对象加载jar包
+    UrlResource resource = (UrlResource) kieServices.getResources().newUrlResource(url);
+    //通过Workbench提供的服务来访问maven仓库中的jar包资源，需要先进行Workbench的认证
+    resource.setUsername("kie");
+    resource.setPassword("kie");
+    resource.setBasicAuthentication("enabled");
+    
+    //将资源转换为输入流，通过此输入流可以读取jar包数据
+    InputStream inputStream = resource.getInputStream();
+	
+    //创建仓库对象，仓库对象中保存Drools的规则信息
+    KieRepository repository = kieServices.getRepository();
+    
+    //通过输入流读取maven仓库中的jar包数据，包装成KieModule模块添加到仓库中
+    KieModule kieModule = 
+  	repository.
+        addKieModule(kieServices.getResources().newInputStreamResource(inputStream));
+    
+    //基于KieModule模块创建容器对象，从容器中可以获取session会话
+    KieContainer kieContainer = kieServices.newKieContainer(kieModule.getReleaseId());
+    KieSession session = kieContainer.newKieSession();
+
+    Person person = new Person();
+    person.setAge(10);
+    session.insert(person);
+
+    session.fireAllRules();
+    session.dispose();
+}
+~~~
+
+执行单元测试可以发现控制台已经输出了相关内容。通过WorkBench修改规则输出内容并发布，再次执行单元测试可以发现控制台输出的内容也发生了变化。
+
+**通过上面的案例可以发现，我们在IEDA中开发的项目中并没有编写规则文件，规则文件是我们通过WorkBench开发并安装部署到maven仓库中，我们自己开发的项目只需要远程加载maven仓库中的jar包就可以完成规则的调用。这种开发方式的好处是我们的应用可以和业务规则完全分离，同时通过WorkBench修改规则后我们的应用不需要任何修改就可以加载到最新的规则从而实现规则的动态变更。**
+
+# 八、Drools实战
+
+## 8.1 个人所得税计算器
+
+本小节我们需要通过Drools规则引擎来根据规则计算个人所得税，最终页面效果如下：
+
+![image-20200214132448956](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205242.png)
+
+### 8.1.1 名词解释
+
+税前月收入：即税前工资，指交纳个人所得税之前的总工资
+
+应纳税所得额：指按照税法规定确定纳税人在一定期间所获得的所有应税收入减除在该纳税期间依法允许减除的各种支出后的余额
+
+税率：是对征税对象的征收比例或征收额度
+
+速算扣除数：指为解决超额累进税率分级计算税额的复杂技术问题，而预先计算出的一个数据，可以简化计算过程
+
+扣税额：是指实际缴纳的税额
+
+税后工资：是指扣完税后实际到手的工资收入
+
+### 8.1.2 计算规则
+
+要实现个人所得税计算器，需要了解如下计算规则：
+
+| 规则编号 | 名称                                     | 描述                                                         |
+| -------- | ---------------------------------------- | ------------------------------------------------------------ |
+| 1        | 计算应纳税所得额                         | 应纳税所得额为税前工资减去3500                               |
+| 2        | 设置税率，应纳税所得额<=1500             | 税率为0.03，速算扣除数为0                                    |
+| 3        | 设置税率，应纳税所得额在1500至4500之间   | 税率为0.1，速算扣除数为105                                   |
+| 4        | 设置税率，应纳税所得额在4500志9000之间   | 税率为0.2，速算扣除数为555                                   |
+| 5        | 设置税率，应纳税所得额在9000志35000之间  | 税率为0.25，速算扣除数为1005                                 |
+| 6        | 设置税率，应纳税所得额在35000至55000之间 | 税率为0.3，速算扣除数为2755                                  |
+| 7        | 设置税率，应纳税所得额在55000至80000之间 | 税率为0.35，速算扣除数为5505                                 |
+| 8        | 设置税率，应纳税所得额在80000以上        | 税率为0.45，速算扣除数为13505                                |
+| 9        | 计算税后工资                             | 扣税额=应纳税所得额*税率-速算扣除数                                        税后工资=税前工资-扣税额 |
+
+### 8.1.3 实现步骤
+
+本实战案例我们基于Spring Boot整合Drools的方式来实现。
+
+第一步：创建maven工程calculation并配置pom.xml文件
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starters</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+    <groupId>cn.itcast</groupId>
+    <artifactId>calculation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!--drools规则引擎-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-templates</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>7.6.0.Final</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+~~~
+
+第二步：创建/resources/application.yml文件
+
+~~~xml
+server:
+  port: 8080
+spring:
+  application:
+    name: calculation
+~~~
+
+第三步：编写配置类DroolsConfig
+
+~~~java
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieRepository;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.io.ResourceFactory;
+import org.kie.spring.KModuleBeanFactoryPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.Resource;
+import java.io.IOException;
+/**
+ * 规则引擎配置类
+ */
+@Configuration
+public class DroolsConfig {
+    //指定规则文件存放的目录
+    private static final String RULES_PATH = "rules/";
+    private final KieServices kieServices = KieServices.Factory.get();
+    @Bean
+    @ConditionalOnMissingBean
+    public KieFileSystem kieFileSystem() throws IOException {
+        System.setProperty("drools.dateformat","yyyy-MM-dd");
+        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+        ResourcePatternResolver resourcePatternResolver = 
+            new PathMatchingResourcePatternResolver();
+        Resource[] files = 
+            resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "*.*");
+        String path = null;
+        for (Resource file : files) {
+            path = RULES_PATH + file.getFilename();
+            kieFileSystem.write(ResourceFactory.newClassPathResource(path, "UTF-8"));
+        }
+        return kieFileSystem;
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieContainer kieContainer() throws IOException {
+        KieRepository kieRepository = kieServices.getRepository();
+        kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
+        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem());
+        kieBuilder.buildAll();
+        return kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieBase kieBase() throws IOException {
+        return kieContainer().getKieBase();
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KModuleBeanFactoryPostProcessor kiePostProcessor() {
+        return new KModuleBeanFactoryPostProcessor();
+    }
+}
+~~~
+
+第四步：编写实体类Calculation
+
+~~~java
+
+public class Calculation {
+    private double wage;//税前工资
+    private double wagemore;//应纳税所得额
+    private double cess;//税率
+    private double preminus;//速算扣除数
+    private double wageminus;//扣税额
+    private double actualwage;//税后工资
+
+    public double getWage() {
+        return wage;
+    }
+
+    public void setWage(double wage) {
+        this.wage = wage;
+    }
+
+    public double getActualwage() {
+        return actualwage;
+    }
+
+    public void setActualwage(double actualwage) {
+        this.actualwage = actualwage;
+    }
+
+    public double getWagemore() {
+        return wagemore;
+    }
+
+    public void setWagemore(double wagemore) {
+        this.wagemore = wagemore;
+    }
+
+    public double getCess() {
+        return cess;
+    }
+
+    public void setCess(double cess) {
+        this.cess = cess;
+    }
+
+    public double getPreminus() {
+        return preminus;
+    }
+
+    public void setPreminus(double preminus) {
+        this.preminus = preminus;
+    }
+
+    public double getWageminus() {
+        return wageminus;
+    }
+
+    public void setWageminus(double wageminus) {
+        this.wageminus = wageminus;
+    }
+
+    @Override
+    public String toString() {
+        return "Calculation{" +
+                "wage=" + wage +
+                ", actualwage=" + actualwage +
+                ", wagemore=" + wagemore +
+                ", cess=" + cess +
+                ", preminus=" + preminus +
+                ", wageminus=" + wageminus +
+                '}';
+    }
+}
+~~~
+
+第五步：在resources/rules下创建规则文件calculation.drl文件
+
+~~~java
+package calculation
+import com.itheima.drools.entity.Calculation
+
+rule "个人所得税：计算应纳税所得额"
+    enabled true
+    salience 3
+    no-loop true
+    date-effective "2011-09-01" //生效日期
+    when
+        $cal : Calculation(wage>0)
+    then
+        $cal.setWagemore($cal.getWage()-3500);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额<=1500"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore <= 1500)
+    then
+        $cal.setCess(0.03);
+        $cal.setPreminus(0);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在1500至4500之间"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore > 1500 && wagemore <= 4500)
+    then
+        $cal.setCess(0.1);
+        $cal.setPreminus(105);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在4500志9000之间"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore > 4500 && wagemore <= 9000)
+    then
+        $cal.setCess(0.2);
+        $cal.setPreminus(555);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在9000志35000之间"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore > 9000 && wagemore <= 35000)
+    then
+        $cal.setCess(0.25);
+        $cal.setPreminus(1005);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在35000至55000之间"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore > 35000 && wagemore <= 55000)
+    then
+        $cal.setCess(0.3);
+        $cal.setPreminus(2755);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在55000至80000之间"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation()
+    then
+        $cal.setCess(0.35);
+        $cal.setPreminus(5505);
+        update($cal);
+end
+
+rule "个人所得税：设置税率-->>应纳税所得额在80000以上"
+    salience 2
+    no-loop true
+    activation-group "SETCess_Group"
+    when
+        $cal : Calculation(wagemore > 80000)
+    then
+        $cal.setCess(0.45);
+        $cal.setPreminus(13505);
+        update($cal);
+end
+
+rule "个人所得税：计算税后工资"
+    salience 1
+    when
+        $cal : Calculation(wage > 0 && wagemore > 0 && wagemore > 0 && cess > 0)
+    then
+        $cal.setWageminus($cal.getWagemore()*$cal.getCess()-$cal.getPreminus());
+        $cal.setActualwage($cal.getWage()-$cal.getWageminus());
+
+        System.out.println("-----税前工资："+$cal.getWage());
+        System.out.println("-----应纳税所得额："+$cal.getWagemore());
+        System.out.println("-----税率：" + $cal.getCess());
+        System.out.println("-----速算扣除数：" + $cal.getPreminus());
+        System.out.println("-----扣税额：" + $cal.getWageminus());
+        System.out.println("-----税后工资：" + $cal.getActualwage());
+end
+~~~
+
+第六步：创建RuleService
+
+~~~java
+
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * 调用规则引擎，执行规则
+ */
+@Service
+public class RuleService {
+    @Autowired
+    private KieBase kieBase;
+
+    //个人所得税计算
+    public Calculation calculate(Calculation calculation){
+        KieSession kieSession = kieBase.newKieSession();
+        kieSession.insert(calculation);
+        kieSession.fireAllRules();
+        kieSession.dispose();
+        return calculation;
+    }
+}
+~~~
+
+第七步：创建RuleController
+
+~~~java
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/rule")
+public class RuleController {
+    @Autowired
+    private RuleService ruleService;
+
+    @RequestMapping("/calculate")
+    public Calculation calculate(double wage){
+        Calculation calculation = new Calculation();
+        calculation.setWage(wage);
+        calculation = ruleService.calculate(calculation);
+        System.out.println(calculation);
+        return calculation;
+    }
+}
+~~~
+
+第八步：创建启动类DroolsApplication
+
+~~~java
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DroolsApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DroolsApplication.class);
+    }
+}
+~~~
+
+第九步：导入静态资源文件到resources/static目录下
+
+## 8.2 信用卡申请
+
+本小节我们需要通过Drools规则引擎来根据规则进行申请人的合法性检查，检查通过后再根据规则确定信用卡额度，最终页面效果如下：
+
+![image-20200214202525859](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205232.png)
+
+### 8.2.1 计算规则
+
+合法性检查规则如下：
+
+| 规则编号 | 名称                       | 描述                                                         |
+| -------- | -------------------------- | ------------------------------------------------------------ |
+| 1        | 检查学历与薪水1            | 如果申请人既没房也没车，同时学历为大专以下，并且月薪少于5000，那么不通过 |
+| 2        | 检查学历与薪水2            | 如果申请人既没房也没车，同时学历为大专或本科，并且月薪少于3000，那么不通过 |
+| 3        | 检查学历与薪水3            | 如果申请人既没房也没车，同时学历为本科以上，并且月薪少于2000，同时之前没有信用卡的，那么不通过 |
+| 4        | 检查申请人已有的信用卡数量 | 如果申请人现有的信用卡数量大于10，那么不通过                 |
+
+信用卡额度确定规则：
+
+| 规则编号 | 名称  | 描述                                                         |
+| -------- | ----- | ------------------------------------------------------------ |
+| 1        | 规则1 | 如果申请人有房有车，或者月收入在20000以上，那么发放的信用卡额度为15000 |
+| 2        | 规则2 | 如果申请人没房没车，但月收入在10000~20000之间，那么发放的信用卡额度为6000 |
+| 3        | 规则3 | 如果申请人没房没车，月收入在10000以下，那么发放的信用卡额度为3000 |
+| 4        | 规则4 | 如果申请人有房没车或者没房但有车，月收入在10000以下，那么发放的信用卡额度为5000 |
+| 5        | 规则5 | 如果申请人有房没车或者是没房但有车，月收入在10000~20000之间，那么发放的信用卡额度为8000 |
+
+### 8.2.2 实现步骤
+
+第一步：创建maven工程creditCardApply并配置pom.xml文件
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starters</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!--drools规则引擎-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-templates</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>7.6.0.Final</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+~~~
+
+第二步：创建/resources/application.yml文件
+
+~~~yaml
+server:
+  port: 8080
+spring:
+  application:
+    name: creditCardApply
+~~~
+
+第三步：编写配置类DroolsConfig
+
+~~~java
+
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieRepository;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.io.ResourceFactory;
+import org.kie.spring.KModuleBeanFactoryPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.Resource;
+import java.io.IOException;
+/**
+ * 规则引擎配置类
+ */
+@Configuration
+public class DroolsConfig {
+    //指定规则文件存放的目录
+    private static final String RULES_PATH = "rules/";
+    private final KieServices kieServices = KieServices.Factory.get();
+    @Bean
+    @ConditionalOnMissingBean
+    public KieFileSystem kieFileSystem() throws IOException {
+        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+        ResourcePatternResolver resourcePatternResolver =
+                new PathMatchingResourcePatternResolver();
+        Resource[] files =
+                resourcePatternResolver.getResources("classpath*:" + RULES_PATH + "*.*");
+        String path = null;
+        for (Resource file : files) {
+            path = RULES_PATH + file.getFilename();
+            kieFileSystem.write(ResourceFactory.newClassPathResource(path, "UTF-8"));
+        }
+        return kieFileSystem;
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieContainer kieContainer() throws IOException {
+        KieRepository kieRepository = kieServices.getRepository();
+        kieRepository.addKieModule(kieRepository::getDefaultReleaseId);
+        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem());
+        kieBuilder.buildAll();
+        return kieServices.newKieContainer(kieRepository.getDefaultReleaseId());
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KieBase kieBase() throws IOException {
+        return kieContainer().getKieBase();
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public KModuleBeanFactoryPostProcessor kiePostProcessor() {
+        return new KModuleBeanFactoryPostProcessor();
+    }
+}
+~~~
+
+第四步：编写实体类CreditCardApplyInfo
+
+~~~java
+
+/**
+ * 信用卡申请信息
+ */
+public class CreditCardApplyInfo {
+    public static final String EDUCATION_1 = "专科以下";
+    public static final String EDUCATION_2 = "专科";
+    public static final String EDUCATION_3 = "本科";
+    public static final String EDUCATION_4 = "本科以上";
+
+    private String name;
+    private String sex;
+    private int age;
+    private String education;
+    private String telephone;
+    private double monthlyIncome = 0;//月收入
+    private String address;
+
+    private boolean hasHouse = false;//是否有房
+    private boolean hasCar = false;//是否有车
+    private int hasCreditCardCount = 0;//现持有信用卡数量
+
+    private boolean checkResult = true;//审核是否通过
+    private double quota = 0;//额度
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public double getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(double monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isHasHouse() {
+        return hasHouse;
+    }
+
+    public void setHasHouse(boolean hasHouse) {
+        this.hasHouse = hasHouse;
+    }
+
+    public boolean isHasCar() {
+        return hasCar;
+    }
+
+    public void setHasCar(boolean hasCar) {
+        this.hasCar = hasCar;
+    }
+
+    public int getHasCreditCardCount() {
+        return hasCreditCardCount;
+    }
+
+    public void setHasCreditCardCount(int hasCreditCardCount) {
+        this.hasCreditCardCount = hasCreditCardCount;
+    }
+
+    public boolean isCheckResult() {
+        return checkResult;
+    }
+
+    public void setCheckResult(boolean checkResult) {
+        this.checkResult = checkResult;
+    }
+
+    public double getQuota() {
+        return quota;
+    }
+
+    public void setQuota(double quota) {
+        this.quota = quota;
+    }
+
+    public String toString() {
+        if(checkResult){
+            return "审核通过，信用卡额度为：" + quota;
+        }else {
+            return "审核不通过";
+        }
+    }
+}
+
+~~~
+
+第五步：在resources/rules下创建规则文件creditCardApply.drl文件
+
+~~~java
+
+//合法性检查
+rule "如果申请人既没房也没车，同时学历为大专以下，并且月薪少于5000，那么不通过"
+    salience 10
+    no-loop true
+    when
+        $c:CreditCardApplyInfo(hasCar == false &&
+                                hasHouse == false &&
+                                education == CreditCardApplyInfo.EDUCATION_1 &&
+                                monthlyIncome < 5000)
+    then
+        $c.setCheckResult(false);
+        drools.halt();
+end
+rule "如果申请人既没房也没车，同时学历为大专或本科，并且月薪少于3000，那么不通过"
+    salience 10
+    no-loop true
+    when
+        $c:CreditCardApplyInfo(hasCar == false &&
+                                hasHouse == false &&
+                                (education == CreditCardApplyInfo.EDUCATION_2  ||
+                                education == CreditCardApplyInfo.EDUCATION_3) &&
+                                monthlyIncome < 3000)
+    then
+        $c.setCheckResult(false);
+        drools.halt();
+end
+rule "如果申请人既没房也没车，同时学历为本科以上，并且月薪少于2000，同时之前没有信用卡的，那么不通过"
+    salience 10
+    no-loop true
+    when
+        $c:CreditCardApplyInfo(hasCar == false &&
+                                hasHouse == false &&
+                                education == CreditCardApplyInfo.EDUCATION_4 &&
+                                monthlyIncome < 2000 &&
+                                hasCreditCardCount == 0)
+    then
+        $c.setCheckResult(false);
+        drools.halt();
+end
+rule "如果申请人现有的信用卡数量大于10，那么不通过"
+    salience 10
+    no-loop true
+    when
+        $c:CreditCardApplyInfo(hasCreditCardCount > 10)
+    then
+        $c.setCheckResult(false);
+        drools.halt();
+end
+//--------------------------------------------------------------------------
+//确定额度
+rule "如果申请人有房有车，或者月收入在20000以上，那么发放的信用卡额度为15000"
+    salience 1
+    no-loop true
+    activation-group "quota_group"
+    when
+        $c:CreditCardApplyInfo(checkResult == true &&
+                                ((hasHouse == true && hasCar == true) ||
+                                (monthlyIncome > 20000)))
+    then
+        $c.setQuota(15000);
+end
+rule "如果申请人没房没车，但月收入在10000~20000之间，那么发放的信用卡额度为6000"
+    salience 1
+    no-loop true
+    activation-group "quota_group"
+    when
+        $c:CreditCardApplyInfo(checkResult == true &&
+                                hasHouse == false &&
+                                hasCar == false &&
+                                monthlyIncome >= 10000 &&
+                                monthlyIncome <= 20000)
+    then
+        $c.setQuota(6000);
+end
+rule "如果申请人没房没车，月收入在10000以下，那么发放的信用卡额度为3000"
+    salience 1
+    no-loop true
+    activation-group "quota_group"
+    when
+        $c:CreditCardApplyInfo(checkResult == true &&
+                                        hasHouse == false &&
+                                        hasCar == false &&
+                                        monthlyIncome < 10000)
+    then
+        $c.setQuota(3000);
+end
+rule "如果申请人有房没车或者没房但有车，月收入在10000以下，那么发放的信用卡额度为5000"
+    salience 1
+    no-loop true
+    activation-group "quota_group"
+    when
+        $c:CreditCardApplyInfo(checkResult == true &&
+                                ((hasHouse == true && hasCar == false) ||
+                                (hasHouse == false && hasCar == true)) &&
+                                monthlyIncome < 10000)
+    then
+        $c.setQuota(5000);
+end
+rule "如果申请人有房没车或者是没房但有车，月收入在10000~20000之间，那么发放的信用卡额度为8000"
+    salience 1
+    no-loop true
+    activation-group "quota_group"
+    when
+        $c:CreditCardApplyInfo(checkResult == true &&
+                                ((hasHouse == true && hasCar == false) ||
+                                (hasHouse == false && hasCar == true)) &&
+                                monthlyIncome >= 10000 &&
+                                monthlyIncome <= 20000)
+    then
+        $c.setQuota(8000);
+end
+~~~
+
+第六步：创建RuleService
+
+~~~java
+
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RuleService {
+    @Autowired
+    private KieBase kieBase;
+
+    //调用Drools规则引擎实现信用卡申请
+    public CreditCardApplyInfo creditCardApply(CreditCardApplyInfo creditCardApplyInfo){
+        KieSession session = kieBase.newKieSession();
+        session.insert(creditCardApplyInfo);
+        session.fireAllRules();
+        session.dispose();
+        return creditCardApplyInfo;
+    }
+}
+~~~
+
+第七步：创建RuleController
+
+~~~java
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/rule")
+public class RuleController {
+    @Autowired
+    private RuleService ruleService;
+
+    @RequestMapping("/creditCardApply")
+    public CreditCardApplyInfo creditCardApply(@RequestBody 
+        CreditCardApplyInfo creditCardApplyInfo){
+        creditCardApplyInfo = ruleService.creditCardApply(creditCardApplyInfo);
+        return creditCardApplyInfo;
+    }
+}
+~~~
+
+第八步：创建启动类DroolsApplication
+
+~~~java
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DroolsApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DroolsApplication.class);
+    }
+}
+~~~
+
+第九步：导入静态资源文件到resources/static目录下
+
+## 8.3 保险产品准入规则
+
+### 8.3.1 决策表
+
+前面的课程中我们编写的规则文件都是drl形式的文件，Drools除了支持drl形式的文件外还支持xls格式的文件（即Excel文件）。这种xls格式的文件通常称为决策表（decision table）。
+
+决策表（decision table）是一个“精确而紧凑的”表示条件逻辑的方式，非常适合商业级别的规则。决策表与现有的drl文件可以无缝替换。Drools提供了相应的API可以将xls文件编译为drl格式的字符串。
+
+一个决策表的例子如下：
+
+![image-20200217160930138](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205222.png)
+
+
+
+决策表语法：
+
+| 关键字       | 说明                                                         | 是否必须                                                     |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| RuleSet      | 相当于drl文件中的package                                     | 必须，只能有一个。如果没有设置RuleSet对应的值则使用默认值rule_table |
+| Sequential   | 取值为Boolean类型。true表示规则按照表格自上到下的顺序执行，false表示乱序 | 可选                                                         |
+| Import       | 相当于drl文件中的import，如果引入多个类则类之间用逗号分隔    | 可选                                                         |
+| Variables    | 相当于drl文件中的global，用于定义全局变量，如果有多个全局变量则中间用逗号分隔 | 可选                                                         |
+| RuleTable    | 它指示了后面将会有一批rule，RuleTable的名称将会作为以后生成rule的前缀 | 必须                                                         |
+| CONDITION    | 规则条件关键字，相当于drl文件中的when。下面两行则表示 LHS 部分，第三行则为注释行，不计为规则部分，从第四行开始，每一行表示一条规则 | 每个规则表至少有一个                                         |
+| ACTION       | 规则结果关键字，相当于drl文件中的then                        | 每个规则表至少有一个                                         |
+| NO-LOOP      | 相当于drl文件中的no-loop                                     | 可选                                                         |
+| AGENDA-GROUP | 相当于drl文件中的agenda-group                                | 可选                                                         |
+
+在决策表中还经常使用到占位符，语法为$后面加数字，用于替换每条规则中设置的具体值。
+
+
+
+上面的决策表例子转换为drl格式的规则文件内容如下：
+
+~~~java
+package rules;
+import java.util.List;
+global java.util.List listRules;
+
+rule "personCheck_10"
+	salience 65535
+	agenda-group "sign"
+	when
+		$person : PersonInfoEntity(sex != "男")
+	then
+		listRules.add("性别不对");
+end
+
+rule "personCheck_11"
+	salience 65534
+	agenda-group "sign"
+	when
+		$person : PersonInfoEntity(age < 22 || age > 25)
+	then
+		listRules.add("年龄不合适");
+end
+
+rule "personCheck_12"
+	salience 65533
+	agenda-group "sign"
+	when
+		$person : PersonInfoEntity(salary < 10000)
+	then
+		listRules.add("工资太低了");
+end
+~~~
+
+
+
+要进行决策表相关操作，需要导入如下maven坐标：
+
+~~~xml
+<dependency>
+    <groupId>org.drools</groupId>
+    <artifactId>drools-decisiontables</artifactId>
+    <version>7.10.0.Final</version>
+</dependency>
+~~~
+
+
+
+通过下图可以发现，由于maven的依赖传递特性在导入drools-decisiontables坐标后，drools-core和drools-compiler等坐标也被传递了过来
+
+![image-20200218105819932](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205216.png)
+
+
+
+Drools提供的将xls文件编译为drl格式字符串的API如下：
+
+~~~java
+String realPath = "C:\\testRule.xls";//指定决策表xls文件的磁盘路径
+File file = new File(realPath);
+InputStream is = new FileInputStream(file);
+SpreadsheetCompiler compiler = new SpreadsheetCompiler();
+String drl = compiler.compile(is, InputType.XLS);
+~~~
+
+
+
+Drools还提供了基于drl格式字符串创建KieSession的API：
+
+~~~java
+KieHelper kieHelper = new KieHelper();
+kieHelper.addContent(drl, ResourceType.DRL);
+KieSession session = kieHelper.build().newKieSession();
+~~~
+
+
+
+基于决策表的入门案例：
+
+第一步：创建maven工程drools_decisiontable_demo并配置pom.xml文件
+
+~~~xml
+<dependency>
+    <groupId>org.drools</groupId>
+    <artifactId>drools-decisiontables</artifactId>
+    <version>7.10.0.Final</version>
+</dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+~~~
+
+第二步：创建实体类PersonInfoEntity
+
+~~~java
+
+public class PersonInfoEntity {
+    private String sex;
+    private int age;
+    private double salary;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+}
+~~~
+
+第三步：创建xls规则文件（可以直接使用资料中提供的testRule.xls文件）
+
+第四步：创建单元测试
+
+~~~java
+@Test
+public void test1() throws Exception{
+    String realPath = "d:\\testRule.xls";//指定决策表xls文件的磁盘路径
+    File file = new File(realPath);
+    InputStream is = new FileInputStream(file);
+    SpreadsheetCompiler compiler = new SpreadsheetCompiler();
+    String drl = compiler.compile(is, InputType.XLS);
+
+    System.out.println(drl);
+    KieHelper kieHelper = new KieHelper();
+    kieHelper.addContent(drl, ResourceType.DRL);
+    KieSession session = kieHelper.build().newKieSession();
+
+    PersonInfoEntity personInfoEntity = new PersonInfoEntity();
+    personInfoEntity.setSex("男");
+    personInfoEntity.setAge(35);
+    personInfoEntity.setSalary(1000);
+
+    List<String> list = new ArrayList<String>();
+    session.setGlobal("listRules",list);
+
+    session.insert(personInfoEntity);
+    
+    session.getAgenda().getAgendaGroup("sign").setFocus();
+    
+    session.fireAllRules();
+
+    for (String s : list) {
+        System.out.println(s);
+    }
+    session.dispose();
+}
+~~~
+
+### 8.3.2 规则介绍
+
+各保险公司针对人身、财产推出了不同的保险产品，作为商业保险公司，筛选出符合公司利益最大化的客户是非常重要的，即各保险产品的准入人群是不同的，也就是说保险公司会针对不同的人群特征，制定不同的产品缴费和赔付规则。
+
+我们来看一下某保险产品准入规则的简化版，当不满足以下规则时，系统模块需要返回准入失败标识和失败原因
+
+~~~file
+规则1：  保险公司是：PICC
+规则2：  销售区域是：北京、天津
+规则3：  投保人年龄：0 ~ 17岁
+规则4：  保险期间是：20年、25年、30年
+规则5：  缴费方式是：趸交（一次性交清）或年交
+规则6：  保险期与交费期规则一：保险期间为20年期交费期间最长10年交且不能选择[趸交]
+规则7：  保险期与交费期规则二：保险期间为25年期交费期间最长15年交且不能选择[趸交]
+规则8：  保险期与交费期规则三：保险期间为30年期交费期间最长20年交且不能选择[趸交]
+规则9：  被保人要求：（投保年龄+保险期间）不得大于40周岁
+规则10： 保险金额规则：投保时约定，最低为5万元，超过部分必须为1000元的整数倍
+规则11： 出单基本保额限额规则：线上出单基本保额限额62.5万元，超62.5万元需配合契调转线下出单
+~~~
+
+在本案例中规则文件是一个Excel文件，业务人员可以直接更改这个文件中指标的值，系统不需要做任何变更。
+
+### 8.3.3 实现步骤
+
+本案例还是基于Spring Boot整合Drools的架构来实现。
+
+第一步：创建maven工程insuranceInfoCheck并配置pom.xml文件
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starters</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <!--drools规则引擎-->
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-templates</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>7.6.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>7.6.0.Final</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+~~~
+
+第二步：创建/resources/application.yml文件
+
+~~~file
+server:
+  port: 8080
+spring:
+  application:
+    name: insuranceInfoCheck
+~~~
+
+第三步：创建实体类InsuranceInfo
+
+~~~java
+
+/**
+ * 保险信息
+ */
+public class InsuranceInfo {
+    private String param1;//保险公司
+    private String param2;//方案代码
+    private String param3;//渠道号
+    private String param4;//销售区域
+    private String param5;//投保年龄
+    private String param6;//保险期间
+    private String param7;//缴费期间
+    private String param8;//缴费方式
+    private String param9;//保障类型
+    private String param10;//等待期
+    private String param11;//犹豫期
+    private String param12;//职业类型
+    private String param13;//保额限制
+    private String param14;//免赔额
+    private String param15;//主险保额
+    private String param16;//主险保费
+    private String param17;//附加险保额
+    private String param18;//附加险保费
+    private String param19;//与投保人关系
+    private String param20;//与被保人关系
+    private String param21;//性别
+    private String param22;//证件
+    private String param23;//保费
+    private String param24;//保额
+
+    //getter setter省略
+}
+~~~
+
+第四步：创建决策表文件（也可以直接使用实战资料中提供的insuranceInfoCheck.xls文件）
+
+![image-20200218120618384](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210703205155.png)
+
+第五步：封装工具类KieSessionUtils
+
+~~~java
+import org.drools.decisiontable.InputType;
+import org.drools.decisiontable.SpreadsheetCompiler;
+import org.kie.api.builder.Message;
+import org.kie.api.builder.Results;
+import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.utils.KieHelper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class KieSessionUtils {
+    private KieSessionUtils() {
+
+    }
+    // 把xls文件解析为String
+    public static String getDRL (String realPath) throws FileNotFoundException {
+        File file = new File(realPath); // 例如：C:\\abc.xls
+        InputStream is = new FileInputStream(file);
+        SpreadsheetCompiler compiler = new SpreadsheetCompiler();
+        String drl = compiler.compile(is, InputType.XLS);
+        System.out.println(drl);
+        return drl;
+    }
+
+    // drl为含有内容的字符串
+    public static KieSession createKieSessionFromDRL(String drl) throws Exception{
+        KieHelper kieHelper = new KieHelper();
+        kieHelper.addContent(drl, ResourceType.DRL);
+        Results results = kieHelper.verify();
+        if (results.hasMessages(Message.Level.WARNING, Message.Level.ERROR)) {
+            List<Message> messages = results.getMessages(Message.Level.WARNING, Message.Level.ERROR);
+            for (Message message : messages) {
+                System.out.println("Error: "+message.getText());
+            }
+            // throw new IllegalStateException("Compilation errors were found. Check the logs.");
+        }
+        return kieHelper.build().newKieSession();
+    }
+
+    // realPath为Excel文件绝对路径
+    public static KieSession getKieSessionFromXLS(String realPath) throws Exception {
+        return createKieSessionFromDRL(getDRL(realPath));
+    }
+}
+~~~
+
+第六步：创建RuleService类
+
+~~~java
+import org.kie.api.runtime.KieSession;
+import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class RuleService {
+    public List<String> insuranceInfoCheck(InsuranceInfo insuranceInfo) throws Exception{
+        KieSession session = KieSessionUtils.getKieSessionFromXLS("D:\\rules.xls");
+        session.getAgenda().getAgendaGroup("sign").setFocus();
+
+        session.insert(insuranceInfo);
+
+        List<String> listRules = new ArrayList<>();
+        session.setGlobal("listRules", listRules);
+
+        session.fireAllRules();
+        
+        return listRules;
+    }
+}
+~~~
+
+第七步：创建RuleController类
+
+~~~java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/rule")
+public class RuleController {
+    @Autowired
+    private RuleService ruleService;
+
+    @RequestMapping("/insuranceInfoCheck")
+    public Map insuranceInfoCheck(){
+        Map map = new HashMap();
+        
+        //模拟数据，实际应为页面传递过来
+        InsuranceInfo insuranceInfo = new InsuranceInfo();
+        insuranceInfo.setParam1("picc");
+        insuranceInfo.setParam4("上海");
+        insuranceInfo.setParam5("101");
+        insuranceInfo.setParam6("12");
+        insuranceInfo.setParam7("222");
+        insuranceInfo.setParam8("1");
+        insuranceInfo.setParam13("3");
+        
+        try {
+            List<String> list = ruleService.insuranceInfoCheck(insuranceInfo);
+            if(list != null && list.size() > 0){
+                map.put("checkResult",false);
+                map.put("msg","准入失败");
+                map.put("detail",list);
+            }else{
+                map.put("checkResult",true);
+                map.put("msg","准入成功");
+            }
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("checkResult",false);
+            map.put("msg","未知错误");
+            return map;
+        }
+    }
+}
+~~~
+
+第八步：创建启动类DroolsApplication
+
+~~~java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DroolsApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DroolsApplication.class);
+    }
+}
+~~~
+
