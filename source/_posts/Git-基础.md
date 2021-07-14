@@ -28,7 +28,6 @@ git add .//重新提交
 git commit -m "update .gitignore"
 git push
 
-
 ```
 
 
@@ -106,11 +105,11 @@ git config --list --system
 
 ## 2 工作区与暂存区
 
-![image-20200211143954709](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj09omlj30ju08n0ud.jpg?ynotemdtimestamp=1606703976531)
+![image-20200211143954709](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102725.jpeg)
 
 ![image-20200211144014011](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj08peqj30la08ota9.jpg?ynotemdtimestamp=1606703976531)
 
-![image-20200211144021875](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioj07z2ej30ig08vta6.jpg?ynotemdtimestamp=1606703976531)
+![image-20200211144021875](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102729.jpeg)
 
 ## 3 给文件重命名
 
@@ -171,7 +170,7 @@ git diff HEAD HEAD^
   - tags: 标签 内容为 commit
 - commit tree blob 的关系
 
-![image-20200211215858843](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiootxqaoj30ky0cp0yh.jpg?ynotemdtimestamp=1606703976531)
+![image-20200211215858843](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102735.jpeg)
 
 - 新建一个 仓库
 
@@ -179,7 +178,7 @@ git diff HEAD HEAD^
   git init  test
   ```
 
-  ![image-20200211221038828](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioq4rohdj30jn0a6gm8.jpg?ynotemdtimestamp=1606703976531)
+  ![image-20200211221038828](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102741.jpeg)
 
   ```bash
   # 创建一个文件
@@ -190,7 +189,7 @@ git diff HEAD HEAD^
   git add .
   ```
 
-  ![image-20200211222153328](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfioqjlvpyj30k30bpdgv.jpg?ynotemdtimestamp=1606703976531)
+  ![image-20200211222153328](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102747.jpeg)
 
   
 
@@ -212,11 +211,11 @@ git commit --amend
 git rebase -i 
 ```
 
-![image-20200212192200334](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiosta3ztj30kb0cht9t.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212192200334](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102757.jpeg)
 
 > 将变更的 第一个 7c6e74b 前面的 pick 改为 reword（或者偷懒谢一个 r） 保存 退出 git 会自己弹出另外一个 交互的界面
 
-![image-20200212192418247](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq4m4w7cj30kb0chgmh.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212192418247](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102805.jpeg)
 
 > 保存退出 出现successfull 就成功了
 >
@@ -236,9 +235,9 @@ git rebase -i 第五个
 
 > 那些commit 变更的文件都要但是要把他合并到前面的commit上去
 
-![image-20200212210308978](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq546m6cj30kp0ch0tw.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212210308978](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102813.jpeg)
 
-![image-20200212224256596](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5ft0o1j30gp04l407.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212224256596](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102816.jpeg)
 
 - 将不连续的 commit 合并
 
@@ -248,7 +247,7 @@ git rebase -i 第五个
   >
   > git rebase -i 最古老的
 
-![image-20200212225139935](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq5q6revj30pi0eqdl7.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212225139935](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102823.jpeg)
 
 > 发现不够手动添加最古老的
 >
@@ -256,21 +255,21 @@ git rebase -i 第五个
 >
 > 然后调整pick ’commit‘ 的位置 吧 需要合并的挨着放
 
-![image-20200212225549125](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6g0g7lj316f0ksqb7.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212225549125](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102828.jpeg)
 
-![image-20200212225725697](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq6rbkphj30m0034761.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212225725697](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102834.jpeg)
 
 > 输入 git statue 然后根据提示 接着做
 >
 > 变基完成
 
-![image-20200212230015054](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq77wxwmj30up0g6gsm.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212230015054](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102839.jpeg)
 
 > 出现了两个 commit 没有祖先的
 >
 > 但是和master 无关的分支已经没啥用##了
 
-![image-20200212230320205](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq7ha4sgj30a107gmy5.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212230320205](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102844.jpeg)
 
 ## 12 如何比较暂存区和HEAD所含文件的差异
 
@@ -278,7 +277,7 @@ git rebase -i 第五个
 git diff --cached
 ```
 
-![image-20200212230934332](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8dedjtj30kz09x0vd.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212230934332](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102847.jpeg)
 
 ## 13 如何比较工作区和暂存区的差异
 
@@ -289,7 +288,7 @@ git diff
 git diff -- readme style/style.css
 ```
 
-![image-20200212231543413](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq8obmbvj30gc0bvgr0.jpg?ynotemdtimestamp=1606703976531)
+![image-20200212231543413](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102850.jpeg)
 
 ## 14 如何让暂存区恢复和HEAD一样
 
@@ -400,7 +399,7 @@ git stash apply
 
 ## 22 Git 的备份
 
-![image-20200213122814992](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq94we8ij30ql0i1td0.jpg?ynotemdtimestamp=1606703976531)
+![image-20200213122814992](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102859.jpeg)
 
 > **直观区别：** 哑协议传输进度不可见；智能传输协议可见
 >
@@ -506,7 +505,7 @@ git merge origin/master  --allow-unrelated-histories
 > 3. git pull origin debug 
 > ```
 
-![image-20200213190214751](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9h5s8xj30sg08bjw9.jpg?ynotemdtimestamp=1606703976531)
+![image-20200213190214751](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102906.jpeg)
 
 ## 26 不同人修改了同文件的不同区域
 
@@ -566,21 +565,21 @@ git merge origin/master  --allow-unrelated-histories
 
 ## 33怎样选择适合自己团队的工作流
 
-![image-20200214100653733](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiq9vbmgqj30po0h8419.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214100653733](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102911.jpeg)
 
 ![image-20200214100726831](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqam8nn1j30po0iawiw.jpg?ynotemdtimestamp=1606703976531)
 
-![image-20200214100736627](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqb0ftc6j30sg0i941i.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214100736627](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102916.jpeg)
 
-![image-20200214100752269](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbbma3tj30oz0grq4r.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214100752269](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102920.jpeg)
 
-![image-20200214100810162](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqbvphqaj30rj0gmgo2.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214100810162](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102926.jpeg)
 
 ## 34 如何挑选和是的分支集成策略
 
 > 查看一些信息
 
-![image-20200214102353830](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqc8wuocj30xq0flaar.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214102353830](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102933.jpeg)
 
 > 选择集成方式
 >
@@ -590,15 +589,15 @@ git merge origin/master  --allow-unrelated-histories
 >
 > 第一种 产生marge commit
 
-![image-20200214102608582](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcjss4xj30t00ak3z0.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214102608582](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102937.jpeg)
 
-![merge commits](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqcu6l1vj30gz08rjs5.jpg?ynotemdtimestamp=1606703976531)
+![merge commits](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102709.jpeg)
 
 > 第二种 将产生的 commit 组合为一个commit 放入 master
 
 > 第三种 将长生的commit 一个一个跳出来放入master
 
-![image-20200214121045925](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqd6pgmdj30gj0a70te.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214121045925](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102944.jpeg)
 
 ## 35 启用issue跟踪需求和任务
 
@@ -606,7 +605,7 @@ git merge origin/master  --allow-unrelated-histories
 
 ## 36 项目内部怎么实施code review
 
-![image-20200214123352048](http://ww1.sinaimg.cn/large/006vQ8sXgy1gfiqdi7bjlj30sy0hgmyp.jpg?ynotemdtimestamp=1606703976531)
+![image-20200214123352048](https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210708102948.jpeg)
 
 ## 37团队协作时如何做多分支的集成
 
