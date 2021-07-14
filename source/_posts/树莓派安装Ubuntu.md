@@ -185,7 +185,9 @@ appendonly yes
 requirepass 123456 
 ------------------
 # 创建容器并启动
-docker run --name redis -p 6379:6379 -v /home/redis/data:/data -v /home/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf 
+docker run --name redis -p 6379:6379 -v /home/docker/redis/data:/data -v /home/docker/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf
+# 使用maclan 的方式启动
+docker run --name redis --n -p 6379:6379 -v /home/docker/redis/data:/data -v /home/docker/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf
 ```
 
 ## 5 安装Nacos
