@@ -163,6 +163,12 @@ id -nG
 sudo usermod -aG docker ${USER}
 ```
 
+### 3.2 安装Docker-compose
+
+[Docker-compose安装](https://github.com/docker/compose/issues/6831)
+
+[linuxserver/docker-compose](https://hub.docker.com/r/linuxserver/docker-compose)
+
 ## 4 安装Redis
 
 ```shell
