@@ -15,6 +15,8 @@ summary:
 
 # 1 Docker基础入门
 
+Docker设置代理:https://docs.docker.com/config/daemon/systemd/
+
 ## 1 安装
 
 ### 1 安装docker
@@ -103,7 +105,6 @@ sudo systemctl restart docker
   * docker ps -a -q | xargs docker rm
   
   
-  
 ###  3 容器命令
 
 * `docker run <IMAGE>`
@@ -120,7 +121,6 @@ sudo systemctl restart docker
 * `docker run -it centos /bin/bash `
 
 >   \#使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。 
->
 
 * `docker ps` 列出所有**正在运行**的容器
   * `-a` :列出当前所有正在运行的容器+历史上运行过的
