@@ -1,5 +1,5 @@
 ---
-title: 树莓派安装Ubuntu
+ctitle: 树莓派安装Ubuntu
 top: false
 cover: false
 toc: true
@@ -473,5 +473,28 @@ docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rab
 docker exec -it 镜像ID /bin/bash
 rabbitmq-plugins enable rabbitmq_management
 用户名和密码默认都是guest
+```
+
+### 1 Stats in management UI are disabled on this node
+
+```shell
+#进入rabbitmq容器
+docker exec -it {rabbitmq容器名称或者id} /bin/bash
+#进入容器后，cd到以下路径
+cd /etc/rabbitmq/conf.d/
+#修改 management_agent.disable_metrics_collector = false
+echo management_agent.disable_metrics_collector = false > management_agent.disable_metrics_collector.conf
+#退出容器
+exit
+#重启rabbitmq容器
+docker retart {rabbitmq容器id}
+```
+
+### 2 Web-UI界面无法访问 (同样遇到)
+
+```shell
+docker exec -it {rabbitmq容器名称或者id} rabbitmq-plugins enable rabbitmq_management
+#重启rabbitmq容器
+docker retart {rabbitmq容器id}
 ```
 

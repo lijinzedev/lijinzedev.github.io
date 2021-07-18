@@ -1,5 +1,5 @@
 ---
-title: ElasticSearch 入门
+title: ElasticSearch 入门1
 top: false
 cover: false
 toc: true
@@ -13,9 +13,12 @@ password:
 summary:
 ---
 
+环境:
+
+* 树莓派4b ubuntu 20
+* es 7.13.2
+
 # 一 ElasticSearch 
-
-
 
 ### 什么是Elasticsearch?
 
@@ -57,13 +60,12 @@ ELK是Elasticsearch、Logstash、Kibana三大开源框架首字母大写简称�
 version: '3'
 services:
   elasticsearch:
-    image:  arm64v8/elasticsearch:7.13.3
+    image:  arm64v8/elasticsearch:7.13.2
     container_name: es
     restart: always
     volumes:
       - /home/docker/elasticsearch/data:/usr/share/elasticsearch/data:rw
       - /home/docker/elasticsearch/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - /home/docker/elasticsearch/conf/jvm.options:/usr/share/elasticsearch/config/jvm.options
       - /home/docker/elasticsearch/logs:/user/share/elasticsearch/logs:rw
       - /home/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins
     ports:
@@ -72,21 +74,31 @@ services:
     environment:
         - discovery.type=single-node
   es-head:
-    image: tobias74/elasticsearch-head:6
+    image: aichenk/elasticsearch-head:5-alpine
     container_name: es-head
     restart: always
     ports:
       - "9100:9100"
   kibana:
-  	image: arm64v8/kibana:7.13.3
-  	container_name: kibana
-  	restart: always
-	environment:
-		- ELASTICSEARCH_URL=http://elasticsearch:9200
-    
-      
+    image: arm64v8/kibana:7.13.2
+    container_name: kibana
+    restart: always
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
  
 ```
+
+- **注意**：宿主机的目录需要赋权，否则启动会报 **failed to bind service AccessDeniedException** 错误
+
+  ```bash
+  chmod /home/docker/elasticsearch/data
+  ```
+
+  
 
 ### 2 编写elasticsearch.yml文件
 
@@ -104,59 +116,20 @@ http.cors.allow-origin: "*"
 xpack.security.audit.enabled: true
 ```
 
-### 3 编写jvm配置文件 
+### 3 汉化kibana
 
-```yaml
--Djna.nosys=true
-
-# turn off a JDK optimization that throws away stack traces for common
-# exceptions because stack traces are important for debugging
--XX:-OmitStackTraceInFastThrow
-
-# flags to configure Netty
--Dio.netty.noUnsafe=true
--Dio.netty.noKeySetOptimization=true
--Dio.netty.recycler.maxCapacityPerThread=0
-
-# log4j 2
--Dlog4j.shutdownHookEnabled=false
--Dlog4j2.disable.jmx=true
-
--Djava.io.tmpdir=${ES_TMPDIR}
-
-## heap dumps
-
-# generate a heap dump when an allocation from the Java heap fails
-# heap dumps are created in the working directory of the JVM
--XX:+HeapDumpOnOutOfMemoryError
-
-# specify an alternative path for heap dumps; ensure the directory exists and
-# has sufficient space
--XX:HeapDumpPath=data
-
-# specify an alternative path for JVM fatal error logs
--XX:ErrorFile=logs/hs_err_pid%p.log
-
-## JDK 8 GC logging
-
-8:-XX:+PrintGCDetails
-8:-XX:+PrintGCDateStamps
-8:-XX:+PrintTenuringDistribution
-8:-XX:+PrintGCApplicationStoppedTime
-8:-Xloggc:logs/gc.log
-8:-XX:+UseGCLogFileRotation
-8:-XX:NumberOfGCLogFiles=32
-8:-XX:GCLogFileSize=64m
-
-# JDK 9+ GC logging
-9-:-Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,pid,tags:filecount=32,filesize=64m
-# due to internationalization enhancements in JDK 9 Elasticsearch need to set the provider to COMPAT otherwise
-# time/date parsing will break in an incompatible way for some date patterns and locals
-9-:-Djava.locale.providers=COMPAT
-
-# temporary workaround for C2 bug with JDK 10 on hardware with AVX-512
-10-:-XX:UseAVX=2
+```bash
+# 查看目录下是否又中文json
+ls /usr/share/kibana/x-pack/plugins/translations/translations
+# 更改配置文件
+cd /usr/share/kibana/config
+vi kibana.yml
+添加i18n.locale: "zh-CN"
+# 重启容器
+docker-compose restart kibana
 ```
+
+
 
 # ElasticSearch安装
 
@@ -261,3 +234,678 @@ To forever, study every day, good good up # 文档2包含的内容
 elasticsearch的索引和Lucene的索引对比
 
 在elasticsearch中，索引（库)这个词被频繁使用，这就是术语的使用。在elasticsearch中，索引被分为多个分片，每份分片是一个Lucene的索引。所以一个elasticsearch索引是由多个Lucene索引组成的。别问为什么，谁让elasticsearch使用Lucene作为底层呢!如无特指，说起索引都是指elasticsearch的索引。
+
+## 1 ElasticSearch相关的数据类型
+
+- 字符串类型：text、keyword
+- 数值类型：long、integer、short、byte、doule、float、half float、scaled float
+- 日期类型：date
+- 布尔值类型：boolean
+- 二进制类型：binary
+- 等等......
+
+
+
+# 三 IK分词器
+
+分词：即把一段中文或者别的划分成一个个的关键字，我们在搜索时候会把自己的信息进行分词，会把数据库中或者索引库中的数据进行分词，然后进行一个匹配操作，默认的中文分词是将每个字看成一个词，这显然是不符合要求的，所以我们需要安装中文分词器IK来解决这个问题。
+
+**使用中文，建议使用IK分词器！**
+
+## 1 [安装](https://github.com/medcl/elasticsearch-analysis-ik)
+
+download or compile
+
+- optional 1 - download pre-build package from here: https://github.com/medcl/elasticsearch-analysis-ik/releases
+
+  create plugin folder `cd your-es-root/plugins/ && mkdir ik`
+
+  unzip plugin to folder `your-es-root/plugins/ik`
+
+```bash
+# 查看插件
+docker exec elasticsearch elasticsearch-plugin list
+```
+
+## 2 测试
+
+* ik_smart 最少切分
+
+![image-20210717005956619](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717005958.png)
+
+* ik_max_word为最细粒度划分，字典！穷尽所有可能
+
+![image-20210717010023634](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717010025.png)
+
+## 3 IK分词器增加自己的配置（保存后，需要重启）
+
+> IKAnalyzer.cfg.xml` can be located at `{conf}/analysis-ik/config/IKAnalyzer.cfg.xml` or `{plugins}/elasticsearch-analysis-ik-*/config/IKAnalyzer.cfg.xml
+
+在ik的config目录下添加新的字典文件
+
+```xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>IK Analyzer 扩展配置</comment>
+	<!--用户可以在这里配置自己的扩展字典 -->
+	<entry key="ext_dict">custom/mydict.dic;custom/single_word_low_freq.dic</entry>
+	 <!--用户可以在这里配置自己的扩展停止词字典-->
+	<entry key="ext_stopwords">custom/ext_stopword.dic</entry>
+ 	<!--用户可以在这里配置远程扩展字典 -->
+	<entry key="remote_ext_dict">location</entry>
+ 	<!--用户可以在这里配置远程扩展停止词字典-->
+	<entry key="remote_ext_stopwords">http://xxx.com/xxx.dic</entry>
+</properties>
+```
+
+# 四 基础操作
+
+
+
+基本Rest风格命令说明
+
+| method | url地址                                         | 描述                 |
+| ------ | ----------------------------------------------- | -------------------- |
+| PUT    | 127.0.0.1:9200/索引名称/类型名称/文档id         | 创建文档（指定id）   |
+| POST   | 127.0.0.1:9200/索引名称/类型名称                | 创建文档(随机文档ID) |
+| POST   | 127.0.0.1:9200/索引名称/类型名称/文档id/_update | 修改文档             |
+| DELETE | 127.0.01:9200/索引名称/类型名称/文档id          | 删除文档             |
+| GET    | 127.0.01:9200/索引名称/类型名称/文档id          | 查询文档通过ID       |
+| POST   | 127.0.0.1:9200/索引名称/类型名称/_search        | 查询所有数据         |
+
+## 1 基础测试
+
+### 1 创建索引
+
+> PUT /索引名/[文档名]/ID {请求体}
+
+```ruby
+PUT /test/type1/1
+{
+  "name":"jack",
+  "age":"18"
+}
+```
+
+![image-20210717120114392](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717120116.png)
+
+### 2 添加字段类型
+
+> 类似于mysql建表
+
+[官网教程](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html)
+
+```ruby
+PUT my-index-000001
+ 
+  "mappings": {
+    "properties": {
+      "name": {
+        "type":  "text"
+      },
+      "age":{
+        "type":"long"
+      }
+    }
+  }
+}
+```
+
+![image-20210717131808699](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717131809.png)
+
+### 3 获取索引信息
+
+```ruby
+GET my-index-000001
+```
+
+![image-20210717132024549](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717132026.png)
+
+> 注意： 如果文档没有指定类型，ES会默认配置字段类型
+
+### 4 获取健康信息
+
+```ruby
+GET /_cat/health
+```
+
+### 5 获取索引情况
+
+```ruby
+GET /_cat/indices?v
+```
+
+### 6 修改数据
+
+> PUT会造成覆盖不推荐，POST更灵活
+
+**PUT方式修改  不推荐** 
+
+```ruby
+PUT /test/type1/1
+{
+  "name":"jack",
+"age":"18"}
+```
+
+![image-20210717203220827](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717203231.png)
+
+**POST方式修改 推荐**
+
+```ruby
+POST /test/type1/1/_update
+{
+ "doc":{
+     "name":"jack123"
+ }
+}
+GET /test/type1/1/
+```
+
+![image-20210717203514944](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717203516.png)
+
+### 7 删除索引
+
+> 根据请求判断删除索引还是删除文档记录
+>
+> 写文档就直接删除文档，写库就直接删除库
+
+## 2 文档基本操作
+
+### 1 基本操作
+
+> 添加基础数据
+
+```ruby
+PUT /cur/user/1
+{
+  "name":"curiosity",
+  "local":"南非",
+  "home":["湖南","湖北"]
+}
+PUT /cur/user/2
+{
+  "name":"张三",
+  "local":"阿拉伯",
+  "home":["山东","河南"]
+}
+PUT /cur/user/3
+{
+  "name":"李四",
+  "local":"熬鹰哥特",
+  "home":["海南","重庆"]
+}
+```
+
+> Version代表更新次数
+
+![image-20210717205106399](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717205120.png)
+
+#### 1 条件查询
+
+```ruby
+GET cur/user/_search?q=name:李四
+```
+
+### 2 复杂操作
+
+#### 1 query 查询匹配条件
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "match": {
+      "name": "李四"
+    }
+  }
+}
+```
+
+![image-20210717211040017](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717201703.png)
+
+**hits:**
+
+* 索引和文档信息
+* 查询结果总数
+* 查询的具体文档
+* max_score可以判断谁是最匹配的结果
+
+#### 2 _source 指定查询出来的字段 
+
+> 类似于mysql的 select 字段
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "match": {
+      "name": "李四"
+    }
+  },
+  "_source":["name","local"]
+}
+
+```
+
+![image-20210717202337149](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717202338.png)
+
+#### 3 sort 排序
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "match": {
+      "name": "李四"
+    }
+  },
+  "_source":["name","local"],
+  "sort":[
+    {
+      "age":{
+        "order":"asc"
+      }
+    }
+  ]
+}
+```
+
+#### 4 from size分页
+
+> 数据下标从0开始 
+
+* from 设置从第几个数据开始
+* size 返回多少条数据
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "match": {
+      "name": "李四"
+    }
+  },
+  "_source":["name","local"],
+  "from":0,
+  "size":2
+}
+
+```
+
+#### 5 布尔查询
+
+> 类似于where语句
+
+* must 相当于mysql里面的 and
+* should 相当于mysql里面的 or
+* must_not 相当于 !=
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "bool": {
+      "must": [
+        {
+          "match": {
+               "name": "李四"
+          },
+          "match": {
+               "name": "李四"123
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+#### 6 filter 过滤
+
+> 例如：过滤区间
+
+* gt >
+* gte >=
+* lt <
+* lte <=
+
+> 筛选数据
+
+```ruby
+GET cur/user/_search
+{
+  "query":{
+    "bool": {
+      "must": [
+        {
+          "match": {
+               "name": "李四"
+          }
+          
+        }
+  
+      ], 
+      "filter": {
+        "range":{
+          "age":{
+             "lt": 20
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+#### 7 多条件
+
+> 多条件使用空格隔开，只要满足其中一个结果就可以被查出来
+>
+> 这个时候可以通过分值基本的判断
+
+![image-20210717214317982](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717214320.png)
+
+#### 8 term 查询
+
+> term查询直接通过倒排索引指定的词条进行精确查找
+
+**分词：**
+
+* term： 直接查询精确的
+
+* match 会使用分词器解析！（先分析文档，然后在通过分析的文档记性查询）
+
+
+
+**keyword 类型的不会被分词器解析**
+
+```ruby
+PUT testdb
+{
+  "mappings": {
+    "properties": {
+      "name":{
+        "type": "text"
+      },
+      "desc":{
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+PUT testdb/_doc/1
+{
+  "name":"我的家在东北",
+  "desc":"我的家在东北"
+}
+PUT testdb/_doc/3
+{
+  "name":"我的家在东北",
+  "desc":"我的家在东北3"
+}
+GET _analyze
+{
+  "analyzer": "keyword"
+  , "text": "我的家在东北"
+}
+
+GET _analyze
+{
+  "analyzer": "standard"
+  , "text": "我的家在东北"
+}
+GET testdb/_search
+{
+  "query": {
+    "term": {
+      "desc": "我"
+    }
+  }
+}
+
+```
+
+![image-20210717215353565](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717220621.png)
+
+#### 9 多个值精确查询
+
+```ruby
+GET testdb/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "desc": "我的家在东北"
+          }
+        },
+                {
+          "term": {
+            "desc": "我的家在东北2"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+#### 10 高亮查询heighligh
+
+```ruby
+
+GET cur/user/_search
+{
+  "query":{
+    "match": {
+      "name": "李四"
+    }
+  },
+  "highlight":{
+    "fields": {
+      "name":{}
+    }
+  }
+}
+
+```
+
+![image-20210717220617879](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717220627.png)
+
+**自定义高亮**
+
+![image-20210717213257144](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717213317.png)
+
+# 五 集成SpringBoot
+
+[官方文档](https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html)
+
+**注意：**
+
+> 注意es的版本避免不必要的错误
+
+![image-20210717224133923](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210717224136.png)
+
+## 1 创建索引
+
+```java
+@Test
+void testCreateIndex() throws IOException {
+    // 创建索引请求
+    CreateIndexRequest request = new CreateIndexRequest("boot_index");
+    // 执行请求
+    final CreateIndexResponse createIndexResponse = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
+    System.out.println(createIndexResponse);
+}
+```
+
+## 2 判断索引是否存在
+
+```java
+@Test
+// 获取索引判断是否存在
+void getIndex() throws IOException {
+    // 获取索引请求
+    GetIndexRequest request = new GetIndexRequest("boot_index");
+    // 执行请求
+    final boolean exists = restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
+    System.out.println(exists);
+}
+```
+
+## 3 删除索引
+
+```java
+@Test
+// 删除索引
+void deletreIndex() throws IOException {
+    // 获取索引请求
+    DeleteIndexRequest request = new DeleteIndexRequest("boot_index");
+    // 执行请求
+    final AcknowledgedResponse delete = restHighLevelClient.indices().delete(request, RequestOptions.DEFAULT);
+    System.out.println(delete.isAcknowledged());
+}
+```
+
+## 4 创建文档
+
+```java
+@Test
+//  创建文档
+void createDecument() throws IOException {
+    User user = new User();
+    user.setUser("漩涡鸣人");
+    user.setAge(17);
+    // 创建请求
+    IndexRequest request = new IndexRequest("boot_index");
+    // 规则 put /boot_index/_doc/1
+    request.id("1");
+    request.timeout(TimeValue.timeValueSeconds(1));
+    request.timeout("1s");
+    ObjectMapper mapper = new ObjectMapper();
+    final String string = mapper.writeValueAsString(user);
+    request.source(string, XContentType.JSON);
+    final IndexResponse index = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+    System.out.println(index.status().getStatus());
+
+}
+```
+
+## 5 获取文档判断是否存在
+
+```java
+@Test
+//  获取文档
+void getDecument() throws IOException {
+
+    // 创建请求
+    GetRequest request = new GetRequest("boot_index", "1");
+    // 不获取返回的_source 的上下文
+    request.fetchSourceContext(new FetchSourceContext(false));
+    request.storedFields("_none_");
+    final boolean exists = restHighLevelClient.exists(request, RequestOptions.DEFAULT);
+    System.out.println(exists);
+}
+
+```
+
+## 6 获取文档
+
+```java
+@Test
+//  获取文档
+void getDecumentSource() throws IOException {
+
+    // 创建请求
+    GetRequest request = new GetRequest("boot_index", "1");
+    final GetResponse documentFields = restHighLevelClient.get(request, RequestOptions.DEFAULT);
+    System.out.println(documentFields.getSourceAsString());
+}
+```
+
+## 7 更新文档
+
+```java
+@Test
+//  更新
+void update() throws IOException {
+
+    // 创建请求
+    UpdateRequest request = new UpdateRequest("boot_index", "1");
+    User user = new User();
+    user.setUser("纳鲁托");
+    user.setAge(17);
+    ObjectMapper mapper = new ObjectMapper();
+    final String string = mapper.writeValueAsString(user);
+    request.doc(string,XContentType.JSON);
+    final UpdateResponse update = restHighLevelClient.update(request, RequestOptions.DEFAULT);
+    System.out.println(update.getGetResult());
+}
+```
+
+## 8 删除文档
+
+```java
+@Test
+//  删除
+void delete() throws IOException {
+
+// 创建请求
+DeleteRequest request = new DeleteRequest("boot_index", "1");
+
+final DeleteResponse delete = restHighLevelClient.delete(request, RequestOptions.DEFAULT);
+System.out.println(delete.status());
+}
+```
+
+## 9 批量操作
+
+```java
+@Test
+//  批量导入
+void taskBulkRequest() throws IOException {
+
+    // 创建请求
+    BulkRequest request = new BulkRequest("boot_index");
+    List<User> list = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+        list.add(new User("测试"+i,i));
+    }
+    ObjectMapper mapper = new ObjectMapper();
+
+    for (int i = 0; i < list.size(); i++) {
+        request.add(new IndexRequest("boot_index").id(i+"").
+                    source(mapper.writeValueAsString(list.get(i)),XContentType.JSON));
+
+    }
+    final BulkResponse bulk = restHighLevelClient.bulk(request, RequestOptions.DEFAULT);
+    System.out.println(bulk.status());
+}
+```
+
+## 10 查询
+
+```java
+@Test
+//  查询
+void query() throws IOException {
+    SearchRequest searchRequest = new SearchRequest("boot_index");
+    SearchSourceBuilder searchRequestBuilder = new SearchSourceBuilder();
+    // 精确
+    final TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("user", "测试1");
+    // 匹配所有
+    final MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+    searchRequestBuilder.query(matchAllQueryBuilder);
+    searchRequest.source(searchRequestBuilder);
+    final SearchResponse search = restHighLevelClient.search(searchRequest,RequestOptions.DEFAULT);
+    final String s = Arrays.stream(search.getHits().getHits()).collect(Collectors.toList()).toString();
+    System.out.println(s);
+}
+```
+
