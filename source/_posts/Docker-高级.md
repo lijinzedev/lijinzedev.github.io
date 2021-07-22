@@ -65,10 +65,20 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 # 三、Compose的编写规则
 
+[官方文档](https://docs.docker.com/compose/compose-file/compose-file-v3/#build)
+
 ```yaml
 # 版本
 version: "3.9"
 # 服务
 services:
+	服务1:
+		服务1配置:
+	服务2:
+		服务2配置:
+# 其他配置
+volumes:
+networks:
+configs:
 ```
 

@@ -766,13 +766,17 @@ channel.basicPublish(exchangeName,routeKey, null,message.getBytes());
 
 ## 6. RabbitMQ入门案例 - Topic 模式
 
+> ` #`代表0,1,n级
+>
+> `*` 代表必须要有1 级
+
 ![](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210718211118.jpg)
 
 ```java
 //6.定义路由key
 String routeKey = "com.order.test.xxx";
 //7.指定交换机的类型
-String type = "direct";
+String type = "topic";
 channel.basicPublish(exchangeName,routeKey, null,message.getBytes());
 
 ```
@@ -782,7 +786,7 @@ channel.basicPublish(exchangeName,routeKey, null,message.getBytes());
 ```java
 //5.准备交换机
 String exchangeName = "direct_message_exchange";
-String exchangeType = "direct";
+String exchangeType = "topic";
 //如果你用界面把queue和exchange的关系先绑定话，代码就不需要在编写这些声明代码可以让代码变得更简洁
 //如果用代码的方式去声明，我们要学习一下
 //6.声明交换机 所谓的持久化就是指，交换机会不会随着服务器重启造成丢失
