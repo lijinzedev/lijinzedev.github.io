@@ -5,7 +5,7 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - NoSQL - redis
+  - redis
 tags:
   - redis
 date: 2020-12-26 17:15:44
