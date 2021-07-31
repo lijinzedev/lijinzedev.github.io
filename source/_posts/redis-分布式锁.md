@@ -226,7 +226,7 @@ end
 
 如果线程 A 成功获取锁并设置过期时间 30 秒，但线程 A 执行时间超过了 30 秒，锁过期自动释放，此时线程 B 获取到了锁，线程 A 和线程 B 并发执行。
 
-![img](E:\myblog\blog\source\_posts\redis-分布式锁\redis-lock-03.png)
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210731233037.png)
 
 A、B 两个线程发生并发显然是不被允许的，一般有两种方式解决该问题：
 
@@ -308,7 +308,7 @@ return redis.call('pttl', KEYS[1]);
 
 在包含主从模式的集群部署方式中，当主节点挂掉时，从节点会取而代之，但客户端无明显感知。当客户端 A 成功加锁，指令还未同步，此时主节点挂掉，从节点提升为主节点，新的主节点没有锁的数据，当客户端 B 加锁时就会成功。
 
-![img](E:\myblog\blog\source\_posts\redis-分布式锁\redis-lock-07.png)
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210731233048.png)
 
 单点是不行的，主从架构也不保险，对于这个问题，Redis 的官方给出了一个 `RedLock` 的解决方案。
 
@@ -318,7 +318,7 @@ return redis.call('pttl', KEYS[1]);
 
 当不同的客户端连接不同的 master 节点时，两个客户端可以同时拥有同一把锁。如下：
 
-![img](E:\myblog\blog\source\_posts\redis-分布式锁\redis-lock-08.png)
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210731233051.png)
 
 #### 3.2.8 RedLock
 
