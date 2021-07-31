@@ -1,5 +1,5 @@
 ---
-ctitle: 树莓派安装Ubuntu
+title: 树莓派安装Ubuntu
 top: false
 cover: false
 toc: true

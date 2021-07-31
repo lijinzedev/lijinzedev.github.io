@@ -1,5 +1,5 @@
 ---
-title: RabbitMQ入门
+ctitle: RabbitMQ入门
 top: false
 cover: false
 toc: true
@@ -667,7 +667,7 @@ AMQP全称：Advanced Message Queuing Protocol（高级消息队列协议）。�
 
 ### 02 RabbitMQ整体架构是什么样子的？
 
-![](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210718192239.jpg)
+![         ](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210718192239.jpg)
 
 ### 03 RabbitMQ的运行流程
 
@@ -1037,16 +1037,16 @@ public class RabbitMqConfiguration{
     }
     //3.完成绑定关系
     @Bean
-    public Binding smsBingding(){
-        return BindingBuilder.bin(smsQueue()).to(fanoutExchange());
+    public Binding smsBinding() {
+      return   BindingBuilder.bind(smsQueue()).to(fanoutExchange());
     }
     @Bean
     public Binding duanxinBingding(){
-        return BindingBuilder.bin(duanxinQueue()).to(fanoutExchange());
+        return BindingBuilder.bind(duanxinQueue()).to(fanoutExchange());
     }
     @Bean
     public Binding emailBingding(){
-        return BindingBuilder.bin(emailQueue()).to(fanoutExchange());
+        return BindingBuilder.bind(emailQueue()).to(fanoutExchange());
     }
 }
 
