@@ -351,7 +351,7 @@ server {
 
 扩展前面将“流量限制”应用到白名单内IP地址的例子：
 
-```ngxin
+```nginx
 http {
 	# ...
 
@@ -379,7 +379,7 @@ http {
 
 默认情况下，Nginx会在日志中记录由于流量限制而延迟或丢弃的请求，如下所示：
 
-```
+```ruby
 2015/06/13 04:20:00 [error] 120315#0: *32086 limiting requests, excess: 1.000 by zone "mylimit", client: 192.168.1.2, server: nginx.com, request: "GET / HTTP/1.0", host: "nginx.com"
 ```
 
@@ -395,7 +395,7 @@ http {
 
 默认情况下，Nginx以`error`级别来记录被拒绝的请求，如上面示例中的`[error]`所示(Ngin以较低级别记录延时请求，一般是`info`级别)。如要更改Nginx的日志记录级别，需要使用[`limit_req_log_level`](http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_log_level)指令。这里，我们将被拒绝请求的日志记录级别设置为`warn`：
 
-```
+```nginx
 location /login/ {
 	limit_req zone=mylimit burst=20 nodelay;
 	limit_req_log_level warn;
@@ -408,7 +408,7 @@ location /login/ {
 
 一般情况下，客户端超过配置的流量限制时，Nginx响应状态码为**503(Service Temporarily Unavailable)**。可以使用[`limit_req_status`](http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status)指令来设置为其它状态码(例如下面的**444**状态码):
 
-```
+```nginx
 location /login/ {
 	limit_req zone=mylimit burst=20 nodelay;
 	limit_req_status 444;
@@ -419,7 +419,7 @@ location /login/ {
 
 如果你想拒绝某个指定URL地址的所有请求，而不是仅仅对其限速，只需要在[`location`](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)块中配置[`deny`](http://nginx.org/en/docs/http/ngx_http_access_module.html#deny) **all**指令：
 
-```
+```nginx
 location /foo.php {
 	deny all;
 }
