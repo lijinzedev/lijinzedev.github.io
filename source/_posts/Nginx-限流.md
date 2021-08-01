@@ -8,7 +8,7 @@ categories:
   - nginx
 tags:
   - nginx
-date: 2021-07-31 23:50:10
+date: 2021-08-01 23:50:10
 password:
 summary:
 ---
@@ -137,7 +137,7 @@ server {
 
 限流速度为每秒10次请求，如果有10次请求同时到达一个空闲的nginx，他们都能得到执行吗？
 
-![空桶](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801172809.png)
+![](https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801172809.png)
 
 漏桶漏出请求是匀速的。10r/s是怎样匀速的呢？每100ms漏出一个请求。
 
