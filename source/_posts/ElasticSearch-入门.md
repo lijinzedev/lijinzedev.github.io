@@ -1,5 +1,5 @@
 ---
-title: ElasticSearch 入门1
+title: ElasticSearch 入门
 top: false
 cover: false
 toc: true
