@@ -1,5 +1,5 @@
 ---
-rrectitle: RabbitMQ入门
+title: RabbitMQ入门
 top: false
 cover: false
 toc: true
