@@ -227,3 +227,23 @@ public void testHaveTransactionAndTry() throws Exception {
 **结论：以上试验结果我们证明在外围方法开启事务的情况下`Propagation.REQUIRED`修饰的内部方法会加入到外围方法的事务中，所有`Propagation.REQUIRED`修饰的内部方法和外围方法均属于同一事务，只要一个方法回滚，整个事务均回滚。**
 
 ## 四、PROPAGATION_REQUIRES_NEW
+
+## 参考
+
+[Spring文档](https://docs.spring.io/spring-framework/docs/5.0.9.RELEASE/spring-framework-reference/data-access.html#tx-propagation-required)
+
+https://www.jianshu.com/p/25c8e5a35ece
+
+http://cxyzjd.com/article/PitBXu/114555573
+
+https://blog.csdn.net/soonfly/article/details/70305683
+
+https://juejin.cn/post/6844903600943022088
+
+https://processon.com/diagraming/6107fa916376897465d52346
+
+https://segmentfault.com/a/1190000022620219
+
+https://blog.51cto.com/u_15050718/2623204
+
+https://fgu123.github.io/2019/03/19/Spring-Transaction-Propagation/
