@@ -599,6 +599,25 @@ public void transactionNestedNestedExceptionTry(Father father, Son son) {
 
 **NESTED和REQUIRES_NEW都可以做到内部方法事务回滚而不影响外围方法事务。但是因为NESTED是嵌套事务，所以外围方法回滚之后，作为外围方法事务的子事务也会被回滚。而REQUIRES_NEW是通过开启新的事务实现的，内部事务和外围事务是两个事务，外围事务回滚不会影响内部事务。**
 
+## 七、总结
+
+| Propagation   | Calling method (outer) | Called method (inner) |
+| :------------ | :--------------------- | :-------------------- |
+| REQUIRED      | No                     | T2                    |
+| REQUIRED      | T1                     | T1                    |
+| REQUIRES_NEW  | No                     | T2                    |
+| REQUIRES_NEW  | T1                     | T2                    |
+| MANDATORY     | No                     | Exception             |
+| MANDATORY     | T1                     | T1                    |
+| NOT_SUPPORTED | No                     | No                    |
+| NOT_SUPPORTED | T1                     | No                    |
+| SUPPORTS      | No                     | No                    |
+| SUPPORTS      | T1                     | T1                    |
+| NEVER         | No                     | No                    |
+| NEVER         | T1                     | Exception             |
+| NESTED        | No                     | T2                    |
+| NESTED        | T1                     | T2                    |
+
 ## 参考
 
 [Spring文档](https://docs.spring.io/spring-framework/docs/5.0.9.RELEASE/spring-framework-reference/data-access.html#tx-propagation-required)
@@ -609,20 +628,3 @@ public void transactionNestedNestedExceptionTry(Father father, Son son) {
 
 [Don't Use @Transactional On Spring Boot Integration Test](http://aikin.me/2018/05/19/do-not-use-transactional-annotation-on-spring-integration-test/)
 
-[主要参考文章](https://segmentfault.com/a/1190000013341344)
-
-https://www.jianshu.com/p/25c8e5a35ece
-
-http://cxyzjd.com/article/PitBXu/114555573
-
-https://blog.csdn.net/soonfly/article/details/70305683
-
-https://juejin.cn/post/6844903600943022088
-
-https://processon.com/diagraming/6107fa916376897465d52346
-
-https://segmentfault.com/a/1190000022620219
-
-https://blog.51cto.com/u_15050718/2623204
-
-https://fgu123.github.io/2019/03/19/Spring-Transaction-Propagation/
