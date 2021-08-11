@@ -28,10 +28,13 @@ git branch -D feature_name1 feature_name2 feature_name3
 
 ```bash
 # 创建并切换分支
+#创建dev和跟踪origin/dev --track 不加为缺省默认值
 git checkout -b dev origin/dev
+git checkout --track origin/dev
 # 切换分支
 git switch dev
 git switch -c dev 0810beaed7
+git switch -c <branch> --track <remote>/<branch>
 ```
 
 # 3 Git Rebase 
@@ -41,6 +44,7 @@ git switch -c dev 0810beaed7
 git rebase <new base-commit> 
 # 会先checkout到feature分支然后执行rebase master的操作
 git rebase master feature
+注意：rebase是会重写历史的，会导致和远端的分支分离
 ```
 
 # 4 Git Rebase --onto
@@ -88,6 +92,17 @@ git rebase --onto master server client
 
 ​        再进行如上两步操作，即可将 client 分支的部分功能开发内容合入 master
 
+# 5 Git Branch
+
+```bash
+#使用git branch -f 来移动分支指针
+git branch -f master C2
+
+git branch -u upstream/branch branch
+```
+
+
+
 ## 扩展
 
 > 在代码库中，我们如果希望从某一 ref 开始到 HEAD保留下来，然后之前的历史删除。因为这个任务比较常见，所以可以写成一个 shell script 
@@ -110,3 +125,5 @@ git branch -D temp
 
 [Git学习笔记（十） 改变历史 - Present - 博客频道 - CSDN.NET](https://link.zhihu.com/?target=http%3A//blog.csdn.net/agul_/article/details/7843182)
 [如何批量删除git仓库中的提交纪录？ - SegmentFault](https://link.zhihu.com/?target=https%3A//segmentfault.com/q/1010000002564327)
+
+[**git checkout --track原点/分支和git checkout -b分支原点/分支之间的区别**](http://blog.huati365.com/3qmg2N68XeAQNAK)
