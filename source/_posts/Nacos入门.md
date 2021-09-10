@@ -584,3 +584,74 @@ nacos/nacos-server
 docker run --name my-nginx -v /usr/local/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:8080 -d nginx
 ```
 
+# 七、Nacos微服务注册地址为内网IP的解决办法
+
+Nacos注册中心是: https://github.com/alibaba/nacos
+
+各个服务通过Nacos客户端将服务信息注册到Nacos上
+当Nacos服务注册的IP默认选择出问题时，可以通过查阅对应的客户端文档，来选择配置不同的网卡或者IP
+`（参考org.springframework.cloud.alibaba.nacos.NacosDiscoveryProperties的配置）`
+
+例如，使用了Spring cloud alibaba（官方文档）作为Nacos客户端，
+服务默认获取了内网IP `192.168.1.21`,
+可以通过配置`spring.cloud.inetutils.preferred-networks=10.34.12`，使服务获取内网中前缀为`10.34.12`的IP
+
+解决方法：
+
+1、直接添加忽略某张网卡的配置：
+
+```properties
+spring.cloud.inetutils.ignored-interfaces[0]=eth0 # 忽略eth0, 支持正则表达式
+```
+
+正则：
+
+```properties
+spring.cloud.inetutils.ignored-interfaces=eth.*
+```
+
+2、指定默认IP：
+
+```properties
+spring.cloud.inetutils.preferred-networks=192.168.20.123 #可以是IP段：192.168.20
+```
+
+3、除了这些配置，还有以下的这些配置：
+
+```properties
+# 如果选择固定Ip注册可以配置
+spring.cloud.nacos.discovery.ip = 10.2.11.11
+spring.cloud.nacos.discovery.port = 9090
+
+# 如果选择固定网卡配置项
+spring.cloud.nacos.discovery.networkInterface = eth0
+
+# 如果想更丰富的选择，可以使用spring cloud 的工具 InetUtils进行配置
+# 具体说明可以自行检索: https://github.com/spring-cloud/spring-cloud-commons/blob/master/docs/src/main/asciidoc/spring-cloud-commons.adoc
+spring.cloud.inetutils.default-hostname
+spring.cloud.inetutils.default-ip-address
+spring.cloud.inetutils.ignored-interfaces[0]=eth0 	# 忽略网卡，eth0
+spring.cloud.inetutils.ignored-interfaces=eth.* 	# 忽略网卡，eth.*，正则表达式
+spring.cloud.inetutils.preferred-networks=10.34.12 	# 选择符合前缀的IP作为服务注册IP
+spring.cloud.inetutils.timeout-seconds
+spring.cloud.inetutils.use-only-site-local-interfaces
+spring.cloud.nacos.discovery.server-addr  #Nacos Server 启动监听的ip地址和端口
+spring.cloud.nacos.discovery.service  #给当前的服务命名
+spring.cloud.nacos.discovery.weight  #取值范围 1 到 100，数值越大，权重越大
+spring.cloud.nacos.discovery.network-interface #当IP未配置时，注册的IP为此网卡所对应的IP地址，如果此项也未配置，则默认取第一块网卡的地址
+spring.cloud.nacos.discovery.ip  # 优先级最高
+spring.cloud.nacos.discovery.port  # 默认情况下不用配置，会自动探测
+spring.cloud.nacos.discovery.namespace # 常用场景之一是不同环境的注册的区分隔离，例如开发测试环境和生产环境的资源（如配置、服务）隔离等。
+
+spring.cloud.nacos.discovery.access-key  # 当要上阿里云时，阿里云上面的一个云账号名
+spring.cloud.nacos.discovery.secret-key # 当要上阿里云时，阿里云上面的一个云账号密码
+spring.cloud.nacos.discovery.metadata    #使用Map格式配置，用户可以根据自己的需要自定义一些和服务相关的元数据信息
+spring.cloud.nacos.discovery.log-name   # 日志文件名
+spring.cloud.nacos.discovery.enpoint   # 地域的某个服务的入口域名，通过此域名可以动态地拿到服务端地址
+ribbon.nacos.enabled  # 是否集成Ribbon 默认为true
+
+```
+
+> ignored-interfaces和preferred-networks这两个配置。这两个配置决定了spring cloud应用在启动的时候所使用的网卡和IP地址。ignored-interfaces接收一个正则表达式数组，配置名字虽然是ignored-interfaces，忽略的网卡，但是因为其接收的是正则表达式，所以我们可以任意的选择和反选本机的网卡。preferred-networks是指倾向于使用的IP地址，接收一个正则表达式数组，用于选择Spring Cloud应用使用的本机的IP地址。通过这两个配置，我们可以任意指定Spring Cloud应用使用的网卡和IP地址。
+>
+> 更多解释参考官方说明，[spring-cloud-commons](https://github.com/spring-cloud/spring-cloud-commons/blob/master/docs/src/main/asciidoc/spring-cloud-commons.adoc)项目为Spring Cloud生态提供了顶层的抽象和基础设施的实现。 网络这个最基本的基础设施也是在这里有对应的实现：InetUtils、InetUtilsProperties和UtilAutoConfiguration提供了网络配置相关的功能。
