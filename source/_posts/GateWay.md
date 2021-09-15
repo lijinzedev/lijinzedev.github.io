@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - SpringCloud
+  - Gateway
 tags:
-  - SpringCloud - GateWay
+  - SpringCloud - Gateway
 date: 2021-01-24 16:50:13
 password:
 summary:
