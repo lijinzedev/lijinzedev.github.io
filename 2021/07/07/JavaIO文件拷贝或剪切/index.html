@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JavaIO文件拷贝剪切删除 | Curiosity的博客</title><meta name="keywords" content="文件拷贝,NIO"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一 创建写入文件    方法名      Files.newBufferedReader() Java 8   Files.write() Java 7 推荐   PrintWriter 一行一行写入   File.createNewFile    FileOutputStream.write 管道流,古老但灵活     Files.newBufferedReader()  1234567Pat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaIO文件拷贝剪切删除">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一 创建写入文件    方法名      Files.newBufferedReader() Java 8   Files.write() Java 7 推荐   PrintWriter 一行一行写入   File.createNewFile    FileOutputStream.write 管道流,古老但灵活     Files.newBufferedReader()  1234567Pat">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-07-07T22:20:02.000Z">
+<meta property="article:modified_time" content="2021-09-18T07:50:31.987Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="文件拷贝">
+<meta property="article:tag" content="NIO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-18 07:50:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JavaIO文件拷贝剪切删除</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-07T22:20:02.000Z" title="发表于 2021-07-07 22:20:02">2021-07-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-18T07:50:31.987Z" title="更新于 2021-09-18 07:50:31">2021-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/NIO/">NIO</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一-创建写入文件"><a class="markdownIt-Anchor" href="#一-创建写入文件"></a> 一 创建写入文件</h1>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Files.newBufferedReader()</td>
+<td>Java 8</td>
+</tr>
+<tr>
+<td>Files.write()</td>
+<td>Java 7 推荐</td>
+</tr>
+<tr>
+<td>PrintWriter</td>
+<td>一行一行写入</td>
+</tr>
+<tr>
+<td>File.createNewFile</td>
+<td></td>
+</tr>
+<tr>
+<td>FileOutputStream.write</td>
+<td>管道流,古老但灵活</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Files.newBufferedReader()</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Path path=Paths.get(<span class="string">&quot;D:\\delete\\123\\test.txt&quot;</span>);</span><br><span class="line"><span class="keyword">try</span> (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8))&#123;</span><br><span class="line">    bufferedWriter.write(<span class="string">&quot;hello word&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span> (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8,StandardOpenOption.APPEND))&#123;</span><br><span class="line">    bufferedWriter.write(<span class="string">&quot;追加&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Files.write()</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Path path=Paths.get(<span class="string">&quot;D:\\delete\\123\\test.txt&quot;</span>);</span><br><span class="line">Files.write(path,<span class="string">&quot;hello world&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">Files.write(path,<span class="string">&quot;hello world&quot;</span>.getBytes(StandardCharsets.UTF_8),StandardOpenOption.APPEND);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>PrintWriter</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> String fileName = <span class="string">&quot;D:\\delete\\123\\test.txt&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> (PrintWriter writer=<span class="keyword">new</span> PrintWriter(fileName,<span class="string">&quot;UTF-8&quot;</span>))&#123;</span><br><span class="line">    writer.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>File.createNewFile</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> String fileName = <span class="string">&quot;D:\\delete\\123\\test.txt&quot;</span>;</span><br><span class="line">File file=<span class="keyword">new</span> File(fileName);</span><br><span class="line">file.createNewFile();</span><br><span class="line"><span class="keyword">try</span> (FileWriter writer=<span class="keyword">new</span> FileWriter(file))&#123; </span><br><span class="line">    writer.write(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>FileOutputStream.write</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> String fileName = <span class="string">&quot;D:\\delete\\123\\test.txt&quot;</span>;</span><br><span class="line"><span class="keyword">try</span> (FileOutputStream fos =<span class="keyword">new</span> FileOutputStream(fileName);</span><br><span class="line">     OutputStreamWriter ios =<span class="keyword">new</span> OutputStreamWriter(fos);</span><br><span class="line">     BufferedWriter writer=<span class="keyword">new</span> BufferedWriter(ios)</span><br><span class="line">    )&#123;</span><br><span class="line">    writer.write(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    writer.flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="二-从文件中读取数据"><a class="markdownIt-Anchor" href="#二-从文件中读取数据"></a> 二 从文件中读取数据</h1>
+<ul>
+<li><code>Scanner</code>(Java 1.5) 按行读数据及String、Int类型等按分隔符读数据。</li>
+<li><code>Files.lines</code>, 返回<code>Stream</code> 流式数据处理，按行读取</li>
+<li><code>Files.readAllLines</code>, 返回<code>List&lt;String&gt;</code></li>
+<li><code>Files.readString</code>, 读取<code>String</code>(Java 11), 文件最大 2G.</li>
+<li><code>Files.readAllBytes</code>, 读取<code>byte[]</code>(Java 7), 文件最大 2G.</li>
+<li><code>BufferedReader</code>, 经典方式 (Java 1.1 -&gt; forever)</li>
+</ul>
+<h2 id="1scanner"><a class="markdownIt-Anchor" href="#1scanner"></a> 1.Scanner</h2>
+<blockquote>
+<p>第一种方式是Scanner，从JDK1.5开始提供的API，特点是可以按行读取、按分割符去读取文件数据，既可以读取String类型，也可以读取Int类型、Long类型等基础数据类型的数据。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testReadFile1</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">   <span class="comment">//文件内容：Hello World|Hello Zimug</span></span><br><span class="line">   String fileName = <span class="string">&quot;D:\data\test\newFile4.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span> (Scanner sc = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">      <span class="keyword">while</span> (sc.hasNextLine()) &#123;  <span class="comment">//按行读取字符串</span></span><br><span class="line">         String line = sc.nextLine();</span><br><span class="line">         System.out.println(line);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span> (Scanner sc = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">      sc.useDelimiter(<span class="string">&quot;\|&quot;</span>);  <span class="comment">//分隔符</span></span><br><span class="line">      <span class="keyword">while</span> (sc.hasNext()) &#123;   <span class="comment">//按分隔符读取字符串</span></span><br><span class="line">         String str = sc.next();</span><br><span class="line">         System.out.println(str);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//sc.hasNextInt() 、hasNextFloat() 、基础数据类型等等等等。</span></span><br><span class="line">   <span class="comment">//文件内容：1|2</span></span><br><span class="line">   fileName = <span class="string">&quot;D:\data\test\newFile5.txt&quot;</span>;</span><br><span class="line">   <span class="keyword">try</span> (Scanner sc = <span class="keyword">new</span> Scanner(<span class="keyword">new</span> FileReader(fileName))) &#123;</span><br><span class="line">      sc.useDelimiter(<span class="string">&quot;\|&quot;</span>);  <span class="comment">//分隔符</span></span><br><span class="line">      <span class="keyword">while</span> (sc.hasNextInt()) &#123;   <span class="comment">//按分隔符读取Int</span></span><br><span class="line">          <span class="keyword">int</span> intValue = sc.nextInt();</span><br><span class="line">         System.out.println(intValue);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2fileslines"><a class="markdownIt-Anchor" href="#2fileslines"></a> 2.Files.lines</h2>
+<blockquote>
+<p>按行处理数据文件的内容</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testReadFile2</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">   String fileName = <span class="string">&quot;D:\data\test\newFile.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 读取文件内容到Stream流中，按行读取</span></span><br><span class="line">   Stream&lt;String&gt; lines = Files.lines(Paths.get(fileName));</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 随机行顺序进行数据处理</span></span><br><span class="line">   lines.forEach(ele -&gt; &#123;</span><br><span class="line">      System.out.println(ele);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>forEach获取Stream流中的行数据不能保证顺序，但速度快。如果你想按顺序去处理文件中的行数据，可以使用forEachOrdered，但处理效率会下降。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按文件行顺序进行处理</span></span><br><span class="line">lines.forEachOrdered(System.out::println);</span><br></pre></td></tr></table></figure>
+<p>或者利用CPU多和的能力，进行数据的并行处理parallel()，适合比较大的文件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按文件行顺序进行处理</span></span><br><span class="line">lines.parallel().forEachOrdered(System.out::println);</span><br></pre></td></tr></table></figure>
+<p>也可以把<code>Stream&lt;String&gt;</code>转换成<code>List&lt;String&gt;</code>,但是要注意这意味着你要将所有的数据一次性加载到内存，要注意<a target="_blank" rel="noopener" href="http://www.zimug.com/tag/java">java</a>.lang.OutOfMemoryError</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 转换成List&lt;String&gt;, 要注意java.lang.OutOfMemoryError: Java heap space</span></span><br><span class="line">List&lt;String&gt; collect = lines.collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<h2 id="3filesreadalllines"><a class="markdownIt-Anchor" href="#3filesreadalllines"></a> 3.Files.readAllLines</h2>
+<p>这种方法仍然是java8 为我们提供的，如果我们不需要<code>Stream&lt;String&gt;</code>,我们想直接按行读取文件获取到一个<code>List&lt;String&gt;</code>，就采用下面的方法。同样的问题：这意味着你要将所有的数据一次性加载到内存，要注意java.lang.OutOfMemoryError</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">void testReadFile3() throws IOException &#123;</span><br><span class="line">   String fileName = &quot;D:\data\test\newFile3.txt&quot;;</span><br><span class="line"></span><br><span class="line">   // 转换成List&lt;String&gt;, 要注意java.lang.OutOfMemoryError: Java heap space</span><br><span class="line">   List&lt;String&gt; lines = Files.readAllLines(Paths.get(fileName),</span><br><span class="line">               StandardCharsets.UTF_8);</span><br><span class="line">   lines.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4filesreadstringjdk-11"><a class="markdownIt-Anchor" href="#4filesreadstringjdk-11"></a> 4.Files.readString(JDK 11)</h2>
+<p>从 java11开始，为我们提供了一次性读取一个文件的方法。文件不能超过2G，同时要注意你的服务器及JVM内存。<strong>这种方法适合快速读取小文本文件。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">void testReadFile4() throws IOException &#123;</span><br><span class="line">   String fileName = &quot;D:\data\test\newFile3.txt&quot;;</span><br><span class="line"></span><br><span class="line">   // java 11 开始提供的方法，读取文件不能超过2G，与你的内存息息相关</span><br><span class="line">   //String s = Files.readString(Paths.get(fileName));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5filesreadallbytes"><a class="markdownIt-Anchor" href="#5filesreadallbytes"></a> 5.Files.readAllBytes()</h2>
+<p>如果你没有JDK11（readAllBytes()始于JDK7）,仍然想一次性的快速读取一个文件的内容转为String，该怎么办？先将数据读取为二进制数组，然后转换成String内容。<strong>这种方法适合在没有JDK11的请开给你下，快速读取小文本文件。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">void testReadFile5() throws IOException &#123;</span><br><span class="line">   String fileName = &quot;D:\data\test\newFile3.txt&quot;;</span><br><span class="line"></span><br><span class="line">   //如果是JDK11用上面的方法，如果不是用这个方法也很容易</span><br><span class="line">   byte[] bytes = Files.readAllBytes(Paths.get(fileName));</span><br><span class="line"></span><br><span class="line">   String content = new String(bytes, StandardCharsets.UTF_8);</span><br><span class="line">   System.out.println(content);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6经典管道流的方式"><a class="markdownIt-Anchor" href="#6经典管道流的方式"></a> 6.经典管道流的方式</h2>
+<p>最后一种就是经典的管道流的方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">void testReadFile6() throws IOException &#123;</span><br><span class="line">   String fileName = &quot;D:\data\test\newFile3.txt&quot;;</span><br><span class="line"></span><br><span class="line">   // 带缓冲的流读取，默认缓冲区8k</span><br><span class="line">   try (BufferedReader br = new BufferedReader(new FileReader(fileName)))&#123;</span><br><span class="line">      String line;</span><br><span class="line">      while ((line = br.readLine()) != null) &#123;</span><br><span class="line">         System.out.println(line);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //java 8中这样写也可以</span><br><span class="line">   try (BufferedReader br = Files.newBufferedReader(Paths.get(fileName)))&#123;</span><br><span class="line">      String line;</span><br><span class="line">      while ((line = br.readLine()) != null) &#123;</span><br><span class="line">         System.out.println(line);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式可以通过管道流嵌套的方式，组合使用，比较灵活。比如我们<br>
+想从文件中读取java Object就可以使用下面的代码，前提是文件中的数据是ObjectOutputStream写入的数据，才可以用ObjectInputStream来读取。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">try (FileInputStream fis = new FileInputStream(fileName);</span><br><span class="line">     ObjectInputStream ois = new ObjectInputStream(fis))&#123;</span><br><span class="line">   ois.readObject();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h1 id><a class="markdownIt-Anchor" href="#"></a> </h1>
+<h1 id="三-文件复制剪切重命名"><a class="markdownIt-Anchor" href="#三-文件复制剪切重命名"></a> 三 文件复制,剪切,重命名</h1>
+<h2 id="1传统文件复制"><a class="markdownIt-Anchor" href="#1传统文件复制"></a> 1.传统文件复制</h2>
+<blockquote>
+<p>缺点:文件强行覆盖对使用者无感知</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">File file1 = <span class="keyword">new</span> File(<span class="string">&quot;/home/a.text&quot;</span>);</span><br><span class="line">File file2 = <span class="keyword">new</span> File(<span class="string">&quot;/home/b.text&quot;</span>);</span><br><span class="line"><span class="keyword">try</span> (FileInputStream in = <span class="keyword">new</span> FileInputStream(file1)</span><br><span class="line">     ; FileOutputStream out = <span class="keyword">new</span> FileOutputStream(file2)) &#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">int</span> length;</span><br><span class="line">    <span class="keyword">while</span> ((length=in.read(buffer))&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        out.write(buffer,<span class="number">0</span>,length);</span><br><span class="line">        out.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2nio文件复制与重命名推荐"><a class="markdownIt-Anchor" href="#2nio文件复制与重命名推荐"></a> 2.NIO文件复制与重命名(推荐)</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Path formFile = Paths.get(<span class="string">&quot;/home/a.text&quot;</span>);</span><br><span class="line">Path toFile = Paths.get(<span class="string">&quot;/home/b.text&quot;</span>);</span><br><span class="line"><span class="comment">// 源文件不存在会抛出异常,目标文件不存在也会抛出异常</span></span><br><span class="line">Files.copy(formFile, toFile);</span><br><span class="line"><span class="comment">// 如果目标文件已经存在就直接覆盖</span></span><br><span class="line">Files.copy(formFile, toFile, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 连文件属性也一起拷贝</span></span><br><span class="line">CopyOption[] options = &#123;StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.COPY_ATTRIBUTES&#125;;</span><br><span class="line">Files.copy(formFile, toFile, options);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件重命名</span></span><br><span class="line">Files.move(formFile, toFile, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更好的文件重命名</span></span><br><span class="line"><span class="comment">// 兼容性更好</span></span><br><span class="line">Files.move(formFile, formFile.resolveSibling(<span class="string">&quot;b.text&quot;</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="3-nio文件剪切"><a class="markdownIt-Anchor" href="#3-nio文件剪切"></a> 3. NIO文件剪切</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Path formFile = Paths.get(<span class="string">&quot;/home/a.text&quot;</span>);</span><br><span class="line">Path anotherDir = Paths.get(<span class="string">&quot;/home/user/&quot;</span>);</span><br><span class="line"><span class="comment">// 文件剪切</span></span><br><span class="line">Files.createDirectories(anotherDir);</span><br><span class="line">Files.move(formFile, anotherDir.resolve(formFile.getFileName()), StandardCopyOption.REPLACE_EXISTING);</span><br></pre></td></tr></table></figure>
+<h1 id="四-文件删除文件夹删除"><a class="markdownIt-Anchor" href="#四-文件删除文件夹删除"></a> 四 文件删除,文件夹删除</h1>
+<blockquote>
+<p>NIO使用Path 代表文件或者文件夹</p>
+<p>传统IO使用File 代表文件或者文件夹</p>
+</blockquote>
+<h2 id="1-删除文件或者空文件夹"><a class="markdownIt-Anchor" href="#1-删除文件或者空文件夹"></a> 1. 删除文件或者空文件夹</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>成功返回值</th>
+<th>是否能判断文件夹不存在导致失败</th>
+<th>是否能判断文件夹位空导致失败</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File.delete()</td>
+<td>true</td>
+<td>不能(返回false)</td>
+<td>不能(返回false)</td>
+<td>传统不推荐</td>
+</tr>
+<tr>
+<td>File.deleteOnExit()</td>
+<td>void</td>
+<td>不能 但存在就不会执行删除</td>
+<td>不能返回void</td>
+<td>不适用,有坑</td>
+</tr>
+<tr>
+<td>Files.delete(Path path)</td>
+<td>void</td>
+<td>NoSuchFileException</td>
+<td>DirectoryNotEmptyException</td>
+<td>NIO推荐</td>
+</tr>
+<tr>
+<td>Files.deleteExists(Path path)</td>
+<td>true</td>
+<td>false</td>
+<td>DirectoryNotEmptyException</td>
+<td>NIO</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1传统io"><a class="markdownIt-Anchor" href="#1传统io"></a> 1.传统IO</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件删除</span></span><br><span class="line">File file1 = <span class="keyword">new</span> File(<span class="string">&quot;/home/a.text&quot;</span>);</span><br><span class="line"><span class="keyword">boolean</span> delete = file1.delete();</span><br></pre></td></tr></table></figure>
+<h3 id="2-nio"><a class="markdownIt-Anchor" href="#2-nio"></a> 2. NIO</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件删除,可以抛出异常</span></span><br><span class="line">Path formFile = Paths.get(<span class="string">&quot;/home/a.text&quot;</span>);</span><br><span class="line">Files.delete(formFile);</span><br></pre></td></tr></table></figure>
+<h2 id="2-删除非空文件夹或者某一些符合条件的文件"><a class="markdownIt-Anchor" href="#2-删除非空文件夹或者某一些符合条件的文件"></a> 2. 删除非空文件夹或者某一些符合条件的文件</h2>
+<ul>
+<li>walkFileTree与FileVisitor</li>
+</ul>
+<blockquote>
+<p>可以通过BasicFileAttributes进行条件删除</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String pathname = <span class="string">&quot;D:\\delete\\123&quot;</span>;</span><br><span class="line">Path path = Paths.get(pathname);</span><br><span class="line">Files.walkFileTree(path, <span class="keyword">new</span> SimpleFileVisitor&lt;Path&gt;() &#123;</span><br><span class="line">    <span class="comment">// 先遍历删除文件</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">visitFile</span><span class="params">(Path file, BasicFileAttributes attrs)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Files.delete(file);</span><br><span class="line">        System.out.printf(<span class="string">&quot;删除文件 :$s:n&quot;</span>,file);</span><br><span class="line">        <span class="keyword">return</span> FileVisitResult.CONTINUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 后遍历删除目录</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">postVisitDirectory</span><span class="params">(Path dir, IOException exc)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 此时文件已经被删除了,这时候文件夹是空的</span></span><br><span class="line">        Files.delete(dir);</span><br><span class="line">        System.out.printf(<span class="string">&quot;删除文件 :$s:n&quot;</span>,dir);</span><br><span class="line">        <span class="keyword">return</span> FileVisitResult.CONTINUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Files.walk</li>
+</ul>
+<blockquote>
+<p>排序的目的是文件排在目录前面,先去删除文件,再去删除目录</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String pathname = <span class="string">&quot;D:\\delete\\123&quot;</span>;</span><br><span class="line">Path path = Paths.get(pathname);</span><br><span class="line"><span class="keyword">try</span> (Stream&lt;Path&gt; walk = Files.walk(path))&#123;</span><br><span class="line">    walk.sorted(Comparator.reverseOrder()).forEach(path1 -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Files.delete(path1);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>递归listFiles</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String pathname = <span class="string">&quot;D:\\delete\\123&quot;</span>;</span><br><span class="line">delete(<span class="keyword">new</span> File(pathname));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(File file)</span> </span>&#123;</span><br><span class="line">    File[] files = file.listFiles();</span><br><span class="line">    <span class="keyword">if</span> (files != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Arrays.stream(files).forEach(file1 -&gt; delete(file));</span><br><span class="line">    &#125;</span><br><span class="line">    file.delete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="五-创建文件夹"><a class="markdownIt-Anchor" href="#五-创建文件夹"></a> 五  创建文件夹</h1>
+<h2 id="1传统api创建文件夹方式"><a class="markdownIt-Anchor" href="#1传统api创建文件夹方式"></a> 1.传统API创建文件夹方式</h2>
+<p>Java传统的IO API种使用<code>java.io.File</code>类中的<code>file.mkdir()</code>和<code>file.mkdirs()</code>方法创建文件夹</p>
+<ul>
+<li><code>file.mkdir()</code>创建文件夹成功返回true，失败返回false。如果被创建文件夹的父文件夹不存在也返回false.没有异常抛出。</li>
+<li><code>file.mkdirs()</code>创建文件夹连同该文件夹的父文件夹，如果创建成功返回true，创建失败返回false。创建失败同样没有异常抛出。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">testCreateDir1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="comment">//“D:\data111”目录现在不存在</span></span><br><span class="line">   String dirStr = <span class="string">&quot;D:\data111\test&quot;</span>;</span><br><span class="line">   File directory = <span class="keyword">new</span> File(dirStr);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//mkdir</span></span><br><span class="line">   <span class="keyword">boolean</span> hasSucceeded = directory.mkdir();</span><br><span class="line">   System.out.println(<span class="string">&quot;创建文件夹结果（不含父文件夹）：&quot;</span> + hasSucceeded);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//mkdirs</span></span><br><span class="line">   hasSucceeded = directory.mkdirs();</span><br><span class="line">   System.out.println(<span class="string">&quot;创建文件夹结果（包含父文件夹）：&quot;</span> + hasSucceeded);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果如下：使用mkdir创建失败，使用mkdirs创建成功。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">创建文件夹结果（不含父文件夹）：<span class="keyword">false</span></span><br><span class="line">创建文件夹结果（包含父文件夹）：<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>大家可以看到，mkdir和mkdirs虽然可以创建文件，但是它们在异常处理的环节做的非常不友好。创建失败之后统一返回false，创建失败的原因没有说明。是父文件夹不存在所以创建失败？还是文件夹已经存在所以创建失败？还是因为磁盘IO原因导致创建文件夹失败？</p>
+<h2 id="2-java-nio创建文件夹"><a class="markdownIt-Anchor" href="#2-java-nio创建文件夹"></a> 2. Java NIO创建文件夹</h2>
+<p>为了解决传统IO创建文件夹中异常失败处理问题不明确的问题，在Java的NIO中进行了改进。</p>
+<h3 id="21-filescreatedirectory创建文件夹"><a class="markdownIt-Anchor" href="#21-filescreatedirectory创建文件夹"></a> 2.1. <code>Files.createDirectory</code>创建文件夹</h3>
+<ul>
+<li>如果被创建文件夹的父文件夹不存在，则抛出<code>NoSuchFileException</code>.</li>
+<li>如果被创建的文件夹已经存在，则抛出<code>FileAlreadyExistsException</code>.</li>
+<li>如果因为磁盘IO出现异常，则抛出<code>IOException</code>.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Path path = Paths.get(<span class="string">&quot;D:\data222\test&quot;</span>);</span><br><span class="line">Path pathCreate = Files.createDirectory(path);</span><br></pre></td></tr></table></figure>
+<h3 id="22filescreatedirectories创建文件夹及其父文件夹"><a class="markdownIt-Anchor" href="#22filescreatedirectories创建文件夹及其父文件夹"></a> 2.2.<code>Files.createDirectories</code>创建文件夹及其父文件夹</h3>
+<ul>
+<li>如果被创建文件夹的父文件夹不存在，就创建它</li>
+<li>如果被创建的文件夹已经存在，就是用已经存在的文件夹，不会重复创建，没有异常抛出</li>
+<li>如果因为磁盘IO出现异常，则抛出<code>IOException</code>.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Path path = Paths.get(<span class="string">&quot;D:\data222\test&quot;</span>);</span><br><span class="line">Path pathCreate = Files.createDirectorys(path);</span><br></pre></td></tr></table></figure>
+<p>注意：NIO的API创建的文件夹返回值是Path，这样方便我们在创建完成文件夹之后继续向文件夹里面写入文件数据等操作。比传统IO只返回一个boolean值要好得多。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/">https://lijinzedev.github.io/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D/">文件拷贝</a><a class="post-meta__tags" href="/tags/NIO/">NIO</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">树莓派安装Ubuntu</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/04/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85mysql/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">树莓派安装mysql</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E5%88%9B%E5%BB%BA%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text"> 一 创建写入文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E4%BB%8E%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text"> 二 从文件中读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1scanner"><span class="toc-number">2.1.</span> <span class="toc-text"> 1.Scanner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2fileslines"><span class="toc-number">2.2.</span> <span class="toc-text"> 2.Files.lines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3filesreadalllines"><span class="toc-number">2.3.</span> <span class="toc-text"> 3.Files.readAllLines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4filesreadstringjdk-11"><span class="toc-number">2.4.</span> <span class="toc-text"> 4.Files.readString(JDK 11)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5filesreadallbytes"><span class="toc-number">2.5.</span> <span class="toc-text"> 5.Files.readAllBytes()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E7%BB%8F%E5%85%B8%E7%AE%A1%E9%81%93%E6%B5%81%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">2.6.</span> <span class="toc-text"> 6.经典管道流的方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text"> </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E5%89%AA%E5%88%87%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text"> 三 文件复制,剪切,重命名</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E4%BC%A0%E7%BB%9F%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><span class="toc-number">4.1.</span> <span class="toc-text"> 1.传统文件复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2nio%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E4%B8%8E%E9%87%8D%E5%91%BD%E5%90%8D%E6%8E%A8%E8%8D%90"><span class="toc-number">4.2.</span> <span class="toc-text"> 2.NIO文件复制与重命名(推荐)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-nio%E6%96%87%E4%BB%B6%E5%89%AA%E5%88%87"><span class="toc-number">4.3.</span> <span class="toc-text"> 3. NIO文件剪切</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E5%A4%B9%E5%88%A0%E9%99%A4"><span class="toc-number">5.</span> <span class="toc-text"> 四 文件删除,文件夹删除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E6%88%96%E8%80%85%E7%A9%BA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 删除文件或者空文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E4%BC%A0%E7%BB%9Fio"><span class="toc-number">5.1.1.</span> <span class="toc-text"> 1.传统IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-nio"><span class="toc-number">5.1.2.</span> <span class="toc-text"> 2. NIO</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%A0%E9%99%A4%E9%9D%9E%E7%A9%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E6%88%96%E8%80%85%E6%9F%90%E4%B8%80%E4%BA%9B%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text"> 2. 删除非空文件夹或者某一些符合条件的文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">6.</span> <span class="toc-text"> 五  创建文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E4%BC%A0%E7%BB%9Fapi%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E6%96%B9%E5%BC%8F"><span class="toc-number">6.1.</span> <span class="toc-text"> 1.传统API创建文件夹方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-java-nio%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">6.2.</span> <span class="toc-text"> 2. Java NIO创建文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-filescreatedirectory%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">6.2.1.</span> <span class="toc-text"> 2.1. Files.createDirectory创建文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22filescreatedirectories%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E5%8F%8A%E5%85%B6%E7%88%B6%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">6.2.2.</span> <span class="toc-text"> 2.2.Files.createDirectories创建文件夹及其父文件夹</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/16/mac-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="mac 常用命令">mac 常用命令</a><time datetime="2021-09-16T10:26:20.000Z" title="发表于 2021-09-16 10:26:20">2021-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/15/%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/" title="单点登陆">单点登陆</a><time datetime="2021-09-15T17:56:56.000Z" title="发表于 2021-09-15 17:56:56">2021-09-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-%E5%AE%89%E8%A3%85brew/" title="mac 安装brew">mac 安装brew</a><time datetime="2021-09-14T15:16:12.000Z" title="发表于 2021-09-14 15:16:12">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-man%E6%B1%89%E5%8C%96/" title="mac man汉化">mac man汉化</a><time datetime="2021-09-14T14:19:43.000Z" title="发表于 2021-09-14 14:19:43">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/02/%E5%9C%A8YAML%E4%B8%AD%E4%BD%BF%E7%94%A8Maven%E5%8F%98%E9%87%8F/" title="在YAML中使用Maven变量">在YAML中使用Maven变量</a><time datetime="2021-09-02T16:06:42.000Z" title="发表于 2021-09-02 16:06:42">2021-09-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

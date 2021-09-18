@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>搜索技巧[持续更新] | Curiosity的博客</title><meta name="keywords" content="小技巧"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GooGle  排除指定网站 -site:blog.csdn.net 指定网站 site:blog.csdn.net   GitHub  指定搜索方式   &lt;content&gt; in:file 搜索文件中有content的代码   &lt;content&gt; in:path 搜索路径中有content的代码   &lt;content&gt; language:java  搜索用j">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜索技巧[持续更新]">
+<meta property="og:url" content="https://lijinzedev.github.io/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="GooGle  排除指定网站 -site:blog.csdn.net 指定网站 site:blog.csdn.net   GitHub  指定搜索方式   &lt;content&gt; in:file 搜索文件中有content的代码   &lt;content&gt; in:path 搜索路径中有content的代码   &lt;content&gt; language:java  搜索用j">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2020-12-06T21:03:39.000Z">
+<meta property="article:modified_time" content="2021-09-18T07:50:31.971Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="小技巧">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-18 07:50:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">搜索技巧[持续更新]</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-06T21:03:39.000Z" title="发表于 2020-12-06 21:03:39">2020-12-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-18T07:50:31.971Z" title="更新于 2021-09-18 07:50:31">2021-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="google"><a class="markdownIt-Anchor" href="#google"></a> GooGle</h1>
+<ul>
+<li>排除指定网站 <code>-site:blog.csdn.net</code></li>
+<li>指定网站 <code>site:blog.csdn.net</code></li>
+</ul>
+<h1 id="github"><a class="markdownIt-Anchor" href="#github"></a> GitHub</h1>
+<h2 id="指定搜索方式"><a class="markdownIt-Anchor" href="#指定搜索方式"></a> 指定搜索方式</h2>
+<ul>
+<li>
+<p>&lt;content&gt; in:file 搜索文件中有content的代码</p>
+</li>
+<li>
+<p>&lt;content&gt; in:path 搜索路径中有content的代码</p>
+</li>
+<li>
+<p>&lt;content&gt; language:java  搜索用java写的包含content的代码</p>
+</li>
+<li>
+<p>&lt;content&gt; in:fille,path  搜索路径或者是文件中有xxx的代码</p>
+</li>
+</ul>
+<h2 id="通过语言搜索代码"><a class="markdownIt-Anchor" href="#通过语言搜索代码"></a> 通过语言搜索代码</h2>
+<ul>
+<li>language:java     搜索用java写的代码</li>
+</ul>
+<h2 id="通过fork的数量或者是否有父节点的方式搜索"><a class="markdownIt-Anchor" href="#通过fork的数量或者是否有父节点的方式搜索"></a> 通过fork的数量或者是否有父节点的方式搜索</h2>
+<ul>
+<li>boot language:java fork:true  搜索用Java写的boot关的代码并且被fork过</li>
+</ul>
+<h2 id="按照目录结构搜索"><a class="markdownIt-Anchor" href="#按照目录结构搜索"></a> 按照目录结构搜索</h2>
+<ul>
+<li>controller path:src/main language:java 在<em>src/main</em> 目录下搜索controller关键字</li>
+</ul>
+<h2 id="通过文件名搜索"><a class="markdownIt-Anchor" href="#通过文件名搜索"></a> 通过文件名搜索</h2>
+<ul>
+<li>
+<p>filename:.vimrc commands 搜索 文件名匹配*.vimrc* 并且包含commands的代码</p>
+</li>
+<li>
+<p>minitest filename:test_helper path:test language:ruby 在test目录中搜索包含minitest且文件名匹配&quot;<em>test_helper</em>&quot;的代码</p>
+</li>
+</ul>
+<h2 id="根据扩展名来搜索代码"><a class="markdownIt-Anchor" href="#根据扩展名来搜索代码"></a> 根据扩展名来搜索代码</h2>
+<ul>
+<li>form path:cgi-bin extension:pm    搜索cgi-bin目录下以pm为扩展名的代码</li>
+</ul>
+<h3 id="参阅"><a class="markdownIt-Anchor" href="#参阅"></a> 参阅</h3>
+<p><a target="_blank" rel="noopener" href="https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-for-repositories">Github官网</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/">https://lijinzedev.github.io/2020/12/06/Goole%E6%B5%8F%E8%A7%88%E5%99%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/08/Docker%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Docker基础入门</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringMVC文件下载</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#google"><span class="toc-number">1.</span> <span class="toc-text"> GooGle</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#github"><span class="toc-number">2.</span> <span class="toc-text"> GitHub</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E6%90%9C%E7%B4%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text"> 指定搜索方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%AF%AD%E8%A8%80%E6%90%9C%E7%B4%A2%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text"> 通过语言搜索代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87fork%E7%9A%84%E6%95%B0%E9%87%8F%E6%88%96%E8%80%85%E6%98%AF%E5%90%A6%E6%9C%89%E7%88%B6%E8%8A%82%E7%82%B9%E7%9A%84%E6%96%B9%E5%BC%8F%E6%90%9C%E7%B4%A2"><span class="toc-number">2.3.</span> <span class="toc-text"> 通过fork的数量或者是否有父节点的方式搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E7%85%A7%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E6%90%9C%E7%B4%A2"><span class="toc-number">2.4.</span> <span class="toc-text"> 按照目录结构搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E6%96%87%E4%BB%B6%E5%90%8D%E6%90%9C%E7%B4%A2"><span class="toc-number">2.5.</span> <span class="toc-text"> 通过文件名搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E6%89%A9%E5%B1%95%E5%90%8D%E6%9D%A5%E6%90%9C%E7%B4%A2%E4%BB%A3%E7%A0%81"><span class="toc-number">2.6.</span> <span class="toc-text"> 根据扩展名来搜索代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E9%98%85"><span class="toc-number">2.6.1.</span> <span class="toc-text"> 参阅</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/16/mac-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="mac 常用命令">mac 常用命令</a><time datetime="2021-09-16T10:26:20.000Z" title="发表于 2021-09-16 10:26:20">2021-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/15/%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/" title="单点登陆">单点登陆</a><time datetime="2021-09-15T17:56:56.000Z" title="发表于 2021-09-15 17:56:56">2021-09-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-%E5%AE%89%E8%A3%85brew/" title="mac 安装brew">mac 安装brew</a><time datetime="2021-09-14T15:16:12.000Z" title="发表于 2021-09-14 15:16:12">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-man%E6%B1%89%E5%8C%96/" title="mac man汉化">mac man汉化</a><time datetime="2021-09-14T14:19:43.000Z" title="发表于 2021-09-14 14:19:43">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/02/%E5%9C%A8YAML%E4%B8%AD%E4%BD%BF%E7%94%A8Maven%E5%8F%98%E9%87%8F/" title="在YAML中使用Maven变量">在YAML中使用Maven变量</a><time datetime="2021-09-02T16:06:42.000Z" title="发表于 2021-09-02 16:06:42">2021-09-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

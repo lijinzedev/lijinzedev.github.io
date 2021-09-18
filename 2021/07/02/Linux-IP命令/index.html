@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux IP命令 | Curiosity的博客</title><meta name="keywords" content="linux"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、引言  linux的ip命令和ifconfig类似，但前者功能更强大，并旨在取代后者。使用ip命令，只需一个命令，你就能很轻松地执行一些网络管理任务。ifconfig是net-tools中已被废弃使用的一个命令，许多年前就已经没有维护了。iproute2套件里提供了许多增强功能的命令，ip命令即是其中之一   二、简介 123456789101112[root@localhost ~]# i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux IP命令">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/07/02/Linux-IP%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一、引言  linux的ip命令和ifconfig类似，但前者功能更强大，并旨在取代后者。使用ip命令，只需一个命令，你就能很轻松地执行一些网络管理任务。ifconfig是net-tools中已被废弃使用的一个命令，许多年前就已经没有维护了。iproute2套件里提供了许多增强功能的命令，ip命令即是其中之一   二、简介 123456789101112[root@localhost ~]# i">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-07-02T10:07:50.000Z">
+<meta property="article:modified_time" content="2021-09-18T07:50:31.987Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/07/02/Linux-IP%E5%91%BD%E4%BB%A4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-18 07:50:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux IP命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-02T10:07:50.000Z" title="发表于 2021-07-02 10:07:50">2021-07-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-18T07:50:31.987Z" title="更新于 2021-09-18 07:50:31">2021-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h1>
+<blockquote>
+<p>linux的<strong>ip</strong>命令和<strong>ifconfig</strong>类似，但前者功能更强大，并旨在取代后者。使用ip命令，只需一个命令，你就能很轻松地执行一些网络管理任务。ifconfig是net-tools中已被废弃使用的一个命令，许多年前就已经没有维护了。iproute2套件里提供了许多增强功能的命令，ip命令即是其中之一</p>
+</blockquote>
+<h1 id="二-简介"><a class="markdownIt-Anchor" href="#二-简介"></a> 二、简介</h1>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="variable">@localhost</span> ~]<span class="comment"># ip</span></span><br><span class="line"><span class="symbol">Usage:</span> ip [ OPTIONS ] OBJECT &#123; COMMAND <span class="params">| help &#125;</span></span><br><span class="line"><span class="params">       ip [ -force ] -batch filename</span></span><br><span class="line"><span class="params">where  OBJECT := &#123; link |</span> addr <span class="params">| addrlabel |</span> route <span class="params">| rule |</span> neigh <span class="params">| ntable |</span></span><br><span class="line">                   tunnel <span class="params">| tuntap |</span> maddr <span class="params">| mroute |</span> mrule <span class="params">| monitor |</span> xfrm <span class="params">|</span></span><br><span class="line"><span class="params">                   netns |</span> l2tp <span class="params">| tcp_metrics |</span> token &#125;</span><br><span class="line">       OPTIONS <span class="symbol">:</span>= &#123; -V[ersion] <span class="params">| -s[tatistics] |</span> -d[etails] <span class="params">| -r[esolve] |</span></span><br><span class="line">                    -f[amily] &#123; inet <span class="params">| inet6 |</span> ipx <span class="params">| dnet |</span> bridge <span class="params">| link &#125; |</span></span><br><span class="line">                    -<span class="number">4</span> <span class="params">| -6 |</span> -I <span class="params">| -D |</span> -B <span class="params">| -0 |</span></span><br><span class="line">                    -l[oops] &#123; maximum-addr-flush-attempts &#125; <span class="params">|</span></span><br><span class="line"><span class="params">                    -o[neline] |</span> -t[imestamp] <span class="params">| -b[atch] [filename] |</span></span><br><span class="line">                    -rc[vbuf] [size]&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-options"><a class="markdownIt-Anchor" href="#1-options"></a> 1 OPTIONS</h2>
+<p>OPTIONS：选项。</p>
+<ul>
+<li>-s：显示出该设备的统计数据(statistics)，例如总接受封包数等；</li>
+</ul>
+<p>OBJECT：动作对象，就是是可以针对哪些网络设备对象进行动作。</p>
+<ul>
+<li>link：关于设备 (device) 的相关设定，包括 MTU，MAC 地址等。</li>
+<li>addr/address：关于额外的 IP 设定，例如多 IP 的实现等。</li>
+<li>route ：与路由有关的相关设定。</li>
+</ul>
+<h1 id="三-常用命令"><a class="markdownIt-Anchor" href="#三-常用命令"></a> 三、常用命令</h1>
+<h2 id="查看网络接口信息"><a class="markdownIt-Anchor" href="#查看网络接口信息"></a> 查看网络接口信息</h2>
+<blockquote>
+<p>可以查看是否为静态IP地址</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看接口</span></span><br><span class="line">ip addr show </span><br><span class="line">ip addr</span><br><span class="line">ip a</span><br><span class="line"><span class="comment"># 解释</span></span><br><span class="line">[add|del]：</span><br><span class="line">add|del：进行相关参数的增加(add)或删除(del)设定。</span><br><span class="line">show：显示详细信息。</span><br><span class="line">IP 参数 ：主要就是网域的设定，例如 192.168.100.100/24 之类的设定。</span><br><span class="line">[dev 设备名]：IP 参数所要设定的设备，例如eth0, eth1等。</span><br><span class="line">[相关参数]：</span><br><span class="line">broadcast：设定广播位址，如果设定值是 + 表示让系统自动计算；</span><br><span class="line">label：该设备的别名，例如eth0:0；</span><br><span class="line">scope：这个设备的领域，默认global，通常是以下几个大类：</span><br><span class="line">global：允许来自所有来源的连线；</span><br><span class="line">site：仅支持IPv6 ，仅允许本主机的连接；</span><br><span class="line">link：仅允许本设备自我连接；</span><br><span class="line">host：仅允许本主机内部的连接；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>valid_lft 7153sec preferred_lft 3553sec 代表动态IP地址</p>
+<p>valid_lft forever preferred_lft forever 有效期永久代表静态IP地址</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210702104308.png" alt="命令行"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210702105002.png" alt="image-20210702105002235"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip -s link show em1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出发送接收的信息</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/20210702105210.png" alt="image-20210702105210778"></p>
+<h2 id="添加-删除ip地址"><a class="markdownIt-Anchor" href="#添加-删除ip地址"></a> 添加、删除IP地址</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip address add 192.168.1.232 dev ens160</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip a del 192.168.1.232 dev ens160</span><br></pre></td></tr></table></figure>
+<h2 id="启用-禁用网络接口"><a class="markdownIt-Anchor" href="#启用-禁用网络接口"></a> 启用、禁用网络接口</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip link set ens160 down</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip link set ens160 up</span><br></pre></td></tr></table></figure>
+<h2 id="查看路由信息"><a class="markdownIt-Anchor" href="#查看路由信息"></a> 查看路由信息</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 格式</span></span><br><span class="line">ip route [add|del] [IP或网域] [via gateway] [dev 设备]</span><br><span class="line">[IP或网域]：可使用192.168.50.0/24之类的网域或者是单纯的 IP 。</span><br><span class="line">[via gateway]：从哪个gateway出去，不一定需要。</span><br><span class="line">[dev 设备名]：所要设定的设备，例如eth0, eth1等。</span><br><span class="line"><span class="comment"># 显示详细信息</span></span><br><span class="line">ip route show</span><br></pre></td></tr></table></figure>
+<h1 id="四-表格"><a class="markdownIt-Anchor" href="#四-表格"></a> 四、表格</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">需求</th>
+<th>iproute</th>
+<th>net-tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">显示所有已连接的网络接口</td>
+<td>ip link show</td>
+<td>ifconfig -a</td>
+</tr>
+<tr>
+<td style="text-align:left">激活或停用网络接口</td>
+<td>ip link set down eth1 <br>ip link set up eth1</td>
+<td>ifconfig   eth1 up<br>ifconfig   eth1 down</td>
+</tr>
+<tr>
+<td style="text-align:left">为网络接口分配IPv4地址</td>
+<td>ip addr add 10.0.0.1/24 dev th1</td>
+<td>ifconfig eth1 10.0.0.1/24</td>
+</tr>
+<tr>
+<td style="text-align:left">给同一个接口分配多个IP地址</td>
+<td>ip addr add 10.0.0.1/24 broadcast 10.0.0.255 dev eth1</td>
+<td>ifconfig eth1 add 10.0.0.1</td>
+</tr>
+<tr>
+<td style="text-align:left">移除网络接口的IPv4地址</td>
+<td>ip addr del 10.0.0.1/24 dev eth1</td>
+<td>ifconfig eth1 add 0</td>
+</tr>
+<tr>
+<td style="text-align:left">显示网络接口的IPv4地址</td>
+<td>ip addr show dev eth1</td>
+<td>ipconfig eth1</td>
+</tr>
+<tr>
+<td style="text-align:left">查看IP路由表</td>
+<td>ip route show</td>
+<td>route -n<br>netstat -rn</td>
+</tr>
+<tr>
+<td style="text-align:left">添加修改默认路由</td>
+<td>ip route add default via 192.168.1.2 dev eth0<br>ip route replace default via 192.168.1.2 dev eth0</td>
+<td>route add default  gw 192.16.1.2 dev eth0<br>route del default  gw 192.16.1.2 dev eth0<br></td>
+</tr>
+<tr>
+<td style="text-align:left">添加移除静态路由</td>
+<td>ip route add 10.1.2.0/24 via 192.168.1.1 dev eth0<br>ip route del 10.1.2.0/24</td>
+<td>route add  -net 10.1.2.0/24 gw 192.168.1.1 dev eth0<br>route del -net 10.1.2.0/24</td>
+</tr>
+<tr>
+<td style="text-align:left">查看套接字统计信息</td>
+<td>ss<br>ss -l</td>
+<td>netstat<br>netstat -l</td>
+</tr>
+<tr>
+<td style="text-align:left">查看ARP表</td>
+<td>ip neigh</td>
+<td>arp -an</td>
+</tr>
+<tr>
+<td style="text-align:left">添加或删除静态arp</td>
+<td>ip neigh add 192.168.1.100 lladdr 00:01:22:c3:5b:ef dev eth0<br>ip neigh del 192.168.1.100 dev etho</td>
+<td>arp -s  192.168.1.100 00:01:22:c3:5b:ef<br>arp -d 192.168.1.100</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/07/02/Linux-IP%E5%91%BD%E4%BB%A4/">https://lijinzedev.github.io/2021/07/02/Linux-IP%E5%91%BD%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/02/Drools-%E5%85%A5%E9%97%A8/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Drools 入门</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E5%AF%BB%E5%9D%80%E9%97%AE%E9%A2%98/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络的寻址问题</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/11/29/CentOS常用Linux命令/" title="CentOS常用Linux命令"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-29</div><div class="title">CentOS常用Linux命令</div></div></a></div><div><a href="/2020/11/29/CentOS配置网络/" title="CentOS配置网络"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-29</div><div class="title">CentOS配置网络</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">57</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 一、引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text"> 二、简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-options"><span class="toc-number">2.1.</span> <span class="toc-text"> 1 OPTIONS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text"> 三、常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text"> 查看网络接口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-%E5%88%A0%E9%99%A4ip%E5%9C%B0%E5%9D%80"><span class="toc-number">3.2.</span> <span class="toc-text"> 添加、删除IP地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8-%E7%A6%81%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.3.</span> <span class="toc-text"> 启用、禁用网络接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF"><span class="toc-number">3.4.</span> <span class="toc-text"> 查看路由信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-%E8%A1%A8%E6%A0%BC"><span class="toc-number">4.</span> <span class="toc-text"> 四、表格</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/16/mac-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="mac 常用命令">mac 常用命令</a><time datetime="2021-09-16T10:26:20.000Z" title="发表于 2021-09-16 10:26:20">2021-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/15/%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/" title="单点登陆">单点登陆</a><time datetime="2021-09-15T17:56:56.000Z" title="发表于 2021-09-15 17:56:56">2021-09-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-%E5%AE%89%E8%A3%85brew/" title="mac 安装brew">mac 安装brew</a><time datetime="2021-09-14T15:16:12.000Z" title="发表于 2021-09-14 15:16:12">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/14/mac-man%E6%B1%89%E5%8C%96/" title="mac man汉化">mac man汉化</a><time datetime="2021-09-14T14:19:43.000Z" title="发表于 2021-09-14 14:19:43">2021-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/02/%E5%9C%A8YAML%E4%B8%AD%E4%BD%BF%E7%94%A8Maven%E5%8F%98%E9%87%8F/" title="在YAML中使用Maven变量">在YAML中使用Maven变量</a><time datetime="2021-09-02T16:06:42.000Z" title="发表于 2021-09-02 16:06:42">2021-09-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
