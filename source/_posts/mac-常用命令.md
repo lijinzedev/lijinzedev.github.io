@@ -1,5 +1,5 @@
 ---
-2title: mac 常用命令
+title: mac 常用命令
 top: false
 cover: false
 toc: true
