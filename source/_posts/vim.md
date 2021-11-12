@@ -108,3 +108,5 @@ summary:
 * y复制
 * d 删除
 * c 删除并进入输入模式
+
+https://www.openvim.com/tutorial.html
