@@ -323,6 +323,23 @@ set preview_images_method iterm2
 brew install libcaca highlight atool lynx w3m elinks poppler transmission mediainfo exiftool
 ```
 
+# 快速拷贝目录
+
+* shell的方式
+
+```shell
+ echo "$(cd "$(dirname "$1")" && pwd -P)/$(basename "$1")"
+```
+
+* mac
+
+```shell
+brew install coreutils
+greadlink -f file.txt
+```
+
+
+
 ## 集成fzf
 
 ranger是一个终端下的文件浏览器，和它配合使用可以实现文件的寻找并快速跳转。
@@ -418,10 +435,13 @@ map <C-f> fzf_select
 | ⌃ ⇧ B                    | 跳转到类`声明`处--在变量上按                     | ★★★      |
 | ⌘ ⇧ ⌫                    | 跳转到`最后一次`编辑处                           | ★★       |
 | ⌃ ⇧(↓ / ↑)               | 跳转到`上一个` / `下一个`方法名处                | ★★★★★    |
-| ⌘⇧ ([ / ])               | 跳转到`当前所在代码块`的花括号`开始`/`结束`处    | ★★       |
+| ⌘⌥  ([ / ])              | 跳转到`当前所在代码块`的花括号`开始`/`结束`处    | ★★       |
 | ⌘  (← /→) 或⌃ （ A / E） | 移动光标到**行首** **行尾**                      |          |
-| ⌘ (home/end)             | 文件首尾                                         |          |
-| Fn (← /→)                | 翻页                                             |          |
+| ⌘Fn (← /→)               | 文件首尾                                         |          |
+| Fn (↑/↓)                 | 翻页                                             |          |
+| ⌘⇧ ⌥  ([ / ])            | 选中到`当前所在代码块`的花括号`开始`/`结束`处    |          |
+| ⌃ M                      | 括号匹配，功能同⌘⌥  ([ / ])                      |          |
+| ⌥(← /→)                  | 单词移动                                         |          |
 
 ### 弹出
 
