@@ -13,10 +13,17 @@ password:
 summary:
 ---
 
-# GooGle
+# Google
 
 * 排除指定网站 `-site:blog.csdn.net`
 * 指定网站 `site:blog.csdn.net`
+* 完全匹配 ` "终极指南" `
+* X或Y搜索法 `鱼OR熊掌 或者 鱼 | 熊掌（反馈的结果也是一样的）`
+* 排除搜索法 例如：lose weight -advertising
+* 文本中的单词搜索法 `allintext:外贸网站感谢页`
+* 文本+Tile,URL等中的单词搜索法 `seo终极指南 intext:搜索意图`
+* .相关搜索法 `related:amazon.com`
+* 针对文件类型搜索  `filetype:pdf learn python`
 
 # GitHub
 
