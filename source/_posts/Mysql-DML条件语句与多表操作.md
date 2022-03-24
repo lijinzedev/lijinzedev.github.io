@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Mysql - 多表操作
+  - mysql
 tags:
-  - Mysql - DML条件语句 
+  - mysql
 date: 2020-12-02 10:32:00
 password:
 summary:

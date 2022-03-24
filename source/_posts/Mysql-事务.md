@@ -1,13 +1,13 @@
 ---
-title: Mysql 事务
+title: MySQL 事务
 top: false
 cover: false
 toc: true
 mathjax: true
 categories:
-  - 分类
+  - mysql
 tags:
-  - 标签
+  - mysql
 date: 2021-07-29 15:49:56
 password:
 summary:
