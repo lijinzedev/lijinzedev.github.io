@@ -1,30 +1,201 @@
 ---
-title: Mysql 事务
+title: MySQL 事务基础
 top: false
 cover: false
 toc: true
 mathjax: true
 categories:
-  - 分类
+  - mysql
 tags:
-  - 标签
+  - mysql
 date: 2021-07-29 15:49:56
 password:
 summary:
+
 ---
 
 # 一、事物
 
-## 1  事务的属性(ACID)
+## 1 事务概述
 
-- 原子性(Atomicity): 原子性是指事物是一个不可分割的单位,事务中的操作要么都发生,要么都不发生
-- 一致性(Consistenc): 事务必须使数据库从一个一致性状态变换到另一个一致性状态
-- 隔离性(Isolation) 事务的隔离性是指一个事务的执行不能被其他的事务干扰,即一个事务内部的操作及使用的数据库对并发的其他事务是隔离的,并发执行的各个事务之间不能互相干扰.
-- 持久性(Durability) : 持久性是指一个事务一旦被提交,它对数据库中的数据的改变就是永久性的,接下来的其他操作和数据库故障不应噶对其有任何影响
+### 1.1 存储引擎支持情况
+
+`SHOW ENGINES` 命令来查看当前 MySQL 支持的存储引擎都有哪些，以及这些存储引擎是否支持事务。
+
+![image-20220324145017146](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202203241450274.png)
+
+能看出在 MySQL 中，只有InnoDB 是支持事务的。
+
+### 1.2  基本概念
+
+**事务：**一组逻辑操作单元，使数据从一种状态变换到另一种状态。
+
+**事务处理的原则：**保证所有事务都作为 ==一个工作单元== 来执行，即使出现了故障，都不能改变这种执行方式。当在一个事务中执行多个操作时，要么所有的事务都被==提交( commit )==，那么这些修改就 ==永久== 地保存下来；要么数据库管理系统将 ==放弃== 所作的所有 ==修改== ，整个事务==回滚( rollback )==到最初状态。
+
+### 1.3 事务的属性(ACID)
+
+- **原子性(Atomicity):** 原子性是指事物是一个不可分割的单位,事务中的操作要么都发生,要么都不发生
+
+- **一致性(Consistenc):**（国内很多网站上对一致性的阐述有误，具体你可以参考 Wikipedia 对Consistency的阐述）
+
+  根据定义，一致性是指事务执行前后，数据从一个 ==合法性状态== 变换到另外一个 ==合法性状态== 。这种状态是 ==语义上== 的而不是语法上的，跟具体的业务有关。
+
+  那什么是合法的数据状态呢？满足 ==预定的约束== 的状态就叫做合法的状态。通俗一点，这状态是由你自己来定义的（比如满足现实世界中的约束）。满足这个状态，数据就是一致的，不满足这个状态，数据就是不一致的！如果事务中的某个操作失败了，系统就会自动撤销当前正在执行的事务，返回到事务操作
+
+  之前的状态。
+
+- **隔离性(Isolation)** 事务的隔离性是指一个事务的执行不能被其他的事务干扰,即一个事务内部的操作及使用的数据库对并发的其他事务是隔离的,并发执行的各个事务之间不能互相干扰.
+
+- **持久性(Durability) :** 持久性是指一个事务一旦被提交,它对数据库中的数据的改变就是==永久性的==,接下来的其他操作和数据库故障不应该对其有任何影响
+
+  持久性是通过 ==事务日志== 来保证的。日志包括了 ==重做日志== 和 ==回滚日志== 。当我们通过事务对数据进行修改的时候，首先会将数据库的变化信息记录到重做日志中，然后再对数据库中对应的行进行修改。这样做的好处是，即使数据库系统崩溃，数据库重启后也能找到没有更新到数据库系统中的重做日志，重新执行，从而使事务具有持久性。
+
+### 1.4 事务的状态
+
+我们现在知道 事务 是一个抽象的概念，它其实对应着一个或多个数据库操作，MySQL根据这些操作所执行的不同阶段把 事务 大致划分成几个状态：
+
+* **活动的（**active**）**
+
+事务对应的数据库操作正在执行过程中时，我们就说该事务处在 ==活动的== 状态。
+
+* **部分提交的（**partially committed**）**
+
+当事务中的最后一个操作执行完成，但由于操作都在内存中执行，所造成的影响并 ==没有刷新到磁盘时==，我们就说该事务处在 部分提交的 状态。
+
+* **失败的（**failed**）**
+
+当事务处在 ==活动的== 或者 ==部分提交的== 状态时，可能遇到了某些错误（数据库自身的错误、操作系统错误或者直接断电等）而无法继续执行，或者人为的停止当前事务的执行，我们就说该事务处在 失 败的 状态。
+
+* **中止的（**aborted**）**
+
+如果事务执行了一部分而变为 ==失败的== 状态，那么就需要把已经修改的事务中的操作还原到事务执行前的状态。换句话说，就是要撤销失败事务对当前数据库造成的影响。我们把这个撤销的过程称之为 ==回滚== 。当 ==回滚== 操作执行完毕时，也就是数据库恢复到了执行事务之前的状态，我们就说该事务处在了 ==中止的== 状态。
 
 
 
-## 2 事务隔离级别（tx_isolation）
+* **提交的（**committed**）**
+
+当一个处在 ==部分提交的== 状态的事务将修改过的数据都 ==同步到磁盘== 上之后，我们就可以说该事务处在了 ==提交的== 状态。
+
+一个基本的状态转换图如下所示：
+
+![image-20220324150505701](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202203241505768.png)
+
+## 2 如何使用事务
+
+使用事务有两种方式，分别为 ==显式事务== 和 ==隐式事务== 。 
+
+### 2.1  **显式事务**
+
+**步骤**1**：** `START TRANSACTION` 或者 `BEGIN` ，作用是显式开启一个事务。
+
+```mysql
+mysql> BEGIN;
+#或者
+mysql> START TRANSACTION;
+```
+
+`START TRANSACTION` 语句相较于 `BEGIN` 特别之处在于，后边能跟随几个 `修饰符` ：
+
+*  `READ ONLY` ：标识当前事务是一个 `只读事务` ，也就是属于该事务的数据库操作只能读取数据，而不能修改数据。
+*  `READ WRITE ：`标识当前事务是一个 `读写事务` ，也就是属于该事务的数据库操作既可以读取数据，也可以修改数据。
+*  `WITH CONSISTENT SNAPSHOT` ：启动一致性读
+
+**步骤**2**：**一系列事务中的操作（主要是DML，不含DDL）
+
+**步骤**3**：**提交事务 或 中止事务（即回滚事务）
+
+```mysql
+# 提交事务。当提交事务后，对数据库的修改是永久性的。 
+mysql> COMMIT;
+```
+
+```mysql
+# 回滚事务。即撤销正在进行的所有没有提交的修改 
+mysql> ROLLBACK; 
+# 将事务回滚到某个保存点。 
+mysql> ROLLBACK TO [SAVEPOINT]
+```
+
+### 2.2 **隐式事务**
+
+MySQL中有一个系统变量 `autocommit` ： 
+
+```mysql
+mysql> SHOW VARIABLES LIKE 'autocommit';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | ON    |
++---------------+-------+
+1 row in set (0.05 sec)
+```
+
+当然，如果我们想关闭这种 ==自动提交== 的功能，可以使用下边两种方法之一：
+
+* 显式的的使用 `START TRANSACTION` 或者 `BEGIN` 语句开启一个事务。这样在本次事务提交或者回滚前会暂时关闭掉自动提交的功能。
+
+* 把系统变量 `autocommit` 的值设置为 OFF ，就像这样：
+
+  ```mysql
+  SET autocommit = OFF; 
+  #或
+  SET autocommit = 0;
+  ```
+
+
+
+### 2.3 **隐式提交数据的情况**
+
+* **数据定义语言（**Data definition language**，缩写为：**DDL**）**
+* **隐式使用或修改**mysql**数据库中的表**
+* **关于MySQL复制的一些语句**
+* **其它的一些语句**
+* **事务控制或关于锁定的语句**
+
+  *  当我们在一个事务还没提交或者回滚时就又使用 START TRANSACTION 或者 BEGIN 语句开启了另一个事务时，会 隐式的提交 上一个事务。即：
+  *  当前的 `autocommit` 系统变量的值为 `OFF` ，我们手动把它调为 `ON` 时，也会 `隐式的提交` 前边语句所属的事务。
+  *  使用 `LOCK TABLES` 、 `UNLOCK TABLES` 等关于锁定的语句也会 `隐式的提交` 前边语句所属的事务。
+  *  **加载数据的语句**
+
+
+
+### 2.4 SAVEPOINT
+
+
+
+## 3 事务隔离级别（tx_isolation）
+
+
+
+MySQL是一个 `客户端／服务器` 架构的软件，对于同一个服务器来说，可以有若干个客户端与之连接，每个客户端与服务器连接上之后，就可以称为一个`会话（ Session ）`。每个客户端都可以在自己的会话中向服务器发出请求语句，一个请求语句可能是某个事务的一部分，也就是对于服务器来说可能同时处理多个事务。事务有 `隔离性` 的特性，理论上在某个事务 对某个数据进行访问 时，其他事务应该进行 `排 队` ，当该事务提交之后，其他事务才可以继续访问这个数据。但是这样对 性能影响太大 ，我们既想保持事务的隔离性，又想让服务器在处理访问同一数据的多个事务时 `性能尽量高些` ，那就看二者如何权衡取舍了。
+
+### 3.1 什么是脏写、脏读、幻读、不可重复读
+
+**数据并发问题**
+
+针对事务的隔离性和并发性，我们怎么做取舍呢？先看一下访问相同数据的事务在 不保证串行执行 （也就是执行完一个再执行另一个）的情况下可能会出现哪些问题
+
+#### 1 脏写**（** Dirty Write **）**
+
+> 对于两个事务 Session A、Session B，如果事务Session A 修改了 另一个 未提交 事务Session B 修改过 的数据，那就意味着发生了 脏写
+
+#### 2 脏读（Drity Read）
+
+> 某个事物已更新一份数据，另一个事物在此时读取了同一份数据，由于某些原因，前一个RollBack了操作，则后一个事物读取的数据就不会是正确的
+
+#### 3 不可重复度(Non-repeatable read)
+
+> 在一个事物的两次查询中数据不一致，这可能是两次查询过程中插入一个事物的更新
+>
+> 我们在Session B中提交了几个 隐式事务 （注意是隐式事务，意味着语句结束事务就提交了），这些事务都修改了studentno列为1的记录的列name的值，每次事务提交之后，如果Session A中的事务都可以查看到最新的值，这种现象也被称之为 不可重复读 。 
+
+#### 4 幻读（Phantom Read）
+
+> 在一个事物的两次查询中数据数量不一致，对于两个事务T1,T2,T1从一个表中读取了一个字段,然后T2再该表插入了一些新的行,之后,如果T1再次筛选同一个表,就会多出几行
+>
+> Session A中的事务先根据条件 studentno > 0这个条件查询表student，得到了name列值为'张三'的记录；之后Session B中提交了一个 隐式事务 ，该事务向表student中插入了一条新记录；之后Session A中的事务再根据相同的条件 studentno > 0查询表student，得到的结果集中包含Session B中的事务新插入的那条记录，这种现象也被称之为 幻读 。我们把新插入的那些记录称之为 幻影记录 。 
+
+### 3.2 SQL**中的四种隔离级别**
 
 mysql 有四级事务隔离级别 每个级别都有字符或数字编号
 
@@ -35,45 +206,110 @@ mysql 有四级事务隔离级别 每个级别都有字符或数字编号
 | 可重复读 | REPEATABLE-READ  | 2    | mysql 默认级别，解决脏读、不可重复读的问题，存在幻读的问题。使用 MMVC机制 实现可重复读 |
 | 序列化   | SERIALIZABLE     | 3    | 解决脏读、不可重复读、幻读，可保证事务安全，但完全串行执行，性能最低 |
 
-我们可以通过以下命令 `查看/设置` `全局/会话` 的事务隔离级别
+`SQL标准` 中规定，针对不同的隔离级别，并发事务可以发生不同严重程度的问题，具体情况如下：
 
-```ruby
-mysql> SELECT @@global.tx_isolation, @@tx_isolation;
-+-----------------------+------------------+
-| @@global.tx_isolation | @@tx_isolation   |
-+-----------------------+------------------+
-| REPEATABLE-READ       | READ-UNCOMMITTED |
-+-----------------------+------------------+
+![image-20220324152854166](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202203241528230.png)
+
+`脏写` 怎么没涉及到？因为脏写这个问题太严重了，不论是哪种隔离级别，都不允许脏写的情况发生。
+
+不同的隔离级别有不同的现象，并有不同的锁和并发机制，隔离级别越高，数据库的并发性能就越差，4种事务隔离级别与并发性能的关系如下：
+
+![image-20220324152943658](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202203241529730.png)
+
+### 3.3 MySQL**支持的四种隔离级别** 
+
+MySQL的默认隔离级别为REPEATABLE READ，我们可以手动修改一下事务的隔离级别。
+
+```mysql
+# 查看隔离级别，MySQL 5.7.20的版本之前：
+mysql> SHOW VARIABLES LIKE 'tx_isolation';
++---------------+-----------------+
+| Variable_name | Value |
++---------------+-----------------+
+| tx_isolation | REPEATABLE-READ |
++---------------+-----------------+
 1 row in set (0.00 sec)
-
-# 设定全局的隔离级别 设定会话 global 替换为 session 即可
-# SET [GLOABL] config_name = 'foobar';
-# SET @@[session.|global.]config_name = 'foobar';
-# SELECT @@[global.]config_name;
-
-SET @@gloabl.tx_isolation = 0;
-SET @@gloabl.tx_isolation = 'READ-UNCOMMITTED';
-
-SET @@gloabl.tx_isolation = 1;
-SET @@gloabl.tx_isolation = 'READ-COMMITTED';
-
-SET @@gloabl.tx_isolation = 2;
-SET @@gloabl.tx_isolation = 'REPEATABLE-READ';
-
-SET @@gloabl.tx_isolation = 3;
-SET @@gloabl.tx_isolation = 'SERIALIZABLE';
 ```
 
-## 3 什么是脏读、幻读、不可重复读
+```mysql
+# MySQL 5.7.20版本之后，引入transaction_isolation来替换tx_isolation
 
-### 1 脏读（Drity Read）
+# 查看隔离级别，MySQL 5.7.20的版本及之后：
+mysql> SHOW VARIABLES LIKE 'transaction_isolation';
++-----------------------+-----------------+
+| Variable_name         | Value           |
++-----------------------+-----------------+
+| transaction_isolation | REPEATABLE-READ |
++-----------------------+-----------------+
+1 row in set (0.02 sec)
+#或者不同MySQL版本中都可以使用的：
+SELECT @@transaction_isolation;
+```
 
-> 某个事物已更新一份数据，另一个事物在此时读取了同一份数据，由于某些原因，前一个RollBack了操作，则后一个事物读取的数据就不会是正确的
+### 3.4 **如何设置事务的隔离级别**
 
-### 2 不可重复度(Non-repeatable read)
+**通过下面的语句修改事务的隔离级别：**
 
-> 在一个事物的两次查询中数据不一致，这可能是两次查询过程中插入一个事物的更新
+```mysql
+SET [GLOBAL|SESSION] TRANSACTION ISOLATION LEVEL 隔离级别;
+#其中，隔离级别格式： 
+> READ UNCOMMITTED 
+> READ COMMITTED 
+> REPEATABLE READ 
+> SERIALIZABLE
+```
 
-### 3 幻读（Phantom Read）
+或者：
 
-> 在一个事物的两次查询中数据数量不一致，对于两个事务T1,T2,T1从一个表中读取了一个字段,然后T2再该表插入了一些新的行,之后,如果T1再次筛选同一个表,就会多出几行
+```mysql
+SET [GLOBAL|SESSION] TRANSACTION_ISOLATION = '隔离级别' 
+#其中，隔离级别格式： 
+> READ-UNCOMMITTED 
+> READ-COMMITTED 
+> REPEATABLE-READ 
+> SERIALIZABLE
+```
+
+**关于设置时使用**GLOBAL**或**SESSION**的影响：**
+
+* 使用 `GLOBAL` 关键字（在全局范围影响）：
+
+```mysql
+SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+#或
+SET GLOBAL TRANSACTION_ISOLATION = 'SERIALIZABLE';
+
+```
+
+则：
+
+* 当前已经存在的会话无效
+* 只对执行完该语句之后产生的会话起作用
+
+* 使用 SESSION 关键字（在会话范围影响）：
+
+```mysql
+SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+#或
+SET SESSION TRANSACTION_ISOLATION = 'SERIALIZABLE';
+```
+
+则：
+
+* 对当前会话的所有后续的事务有效
+* 如果在事务之间执行，则对后续的事务有效
+* 该语句可以在已经开启的事务中间执行，但不会影响当前正在执行的事务
+
+> 小结：
+>
+> 数据库规定了多种事务隔离级别，不同隔离级别对应不同的干扰程度，隔离级别越高，数据一致性就越好，但并发性越弱。
+
+## 4. **事务的常见分类**
+
+从事务理论的角度来看，可以把事务分为以下几种类型：
+
+* 扁平事务（Flat Transactions）
+* 带有保存点的扁平事务（Flat Transactions with Savepoints）
+* 链事务（Chained Transactions）
+* 嵌套事务（Nested Transactions）
+* 分布式事务（Distributed Transactions）
