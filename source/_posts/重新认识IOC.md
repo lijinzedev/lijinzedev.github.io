@@ -5,13 +5,12 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Spring 编程核心思想
+  - Spring编程核心思想
 tags:
-  - Spring 编程核心思想
+  - Spring编程核心思想
 date: 2022-03-30 23:51:46
 password:
 summary:
-comments:true
 ---
 
 # 一、IoC发展简介
