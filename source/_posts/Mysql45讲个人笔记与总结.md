@@ -1,6 +1,6 @@
 ---
 title: Mysql45讲个人笔记与总结
-top: false
+top: true
 cover: false
 toc: true
 mathjax: true

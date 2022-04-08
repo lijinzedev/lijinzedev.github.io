@@ -13,6 +13,204 @@ password:
 summary:
 ---
 
+
+**千万不要小看日志**。很多看似奇怪的问题，答案往往就藏在日志里。很多情况下，只有通过查看日志才 能发现问题的原因，真正解决问题。所以，一定要学会查看日志，养成检查日志的习惯，对提升你的数 据库应用开发能力至关重要。
+
+MySQL8.0 官网日志地址：https://dev.mysql.com/doc/refman/8.0/en/server-logs.html)
+
+# MySQL支持的日志
+
+## 1 日志类型
+
+MySQL有不同类型的日志文件，用来存储不同类型的日志，分为 二进制日志 、 错误日志 、 通用查询日志 和 慢查询日志 ，这也是常用的4种。MySQL 8又新增两种支持的日志： 中继日志 和 数据定义语句日志 。使 用这些日志文件，可以查看MySQL内部发生的事情。
+
+**这6类日志分别为：**
+
+- **慢查询日志：**记录所有执行时间超过long\_query\_time的所有查询，方便我们对查询进行优化。
+- **通用查询日志：**记录所有连接的起始时间和终止时间，以及连接发送给数据库服务器的所有指令， 对我们复原操作的实际场景、发现问题，甚至是对数据库操作的审计都有很大的帮助
+- **错误日志：**记录MySQL服务的启动、运行或停止MySQL服务时出现的问题，方便我们了解服务器的 状态，从而对服务器进行维护。**
+- 二进制日志：**记录所有更改数据的语句，可以用于主从服务器之间的数据同步，以及服务器遇到故 障时数据的无损失恢复。**
+- 中继日志：**用于主从服务器架构中，从服务器用来存放主服务器二进制日志内容的一个中间文件。 从服务器通过读取中继日志的内容，来同步主服务器上的操作。**
+- **数据定义语句日志：**记录数据定义语句执行的元数据操作。
+
+除二进制日志外，其他日志都是 文本文件 。默认情况下，所有日志创建于 `MySQL数据目录` 中。
+
+## 2 **日志的弊端**
+
+* 日志功能会 `降低MySQL数据库的性能` 
+
+* 日志会 `占用大量的磁盘空间` 
+
+MySQL数据目录 中。
+
+# 慢查询日志(slow query log) 
+
+前面章节《第09章\_性能分析工具的使用》已经详细讲述。
+
+# 通用查询日志(general query log)
+
+通用查询日志用来 `记录用户的所有操作` ，包括启动和关闭MySQL服务、所有用户的连接开始时间和截止 时间、发给 MySQL 数据库服务器的所有 SQL 指令等。当我们的数据发生异常时，**查看通用查询日志， 还原操作时的具体场景**，可以帮助我们准确定位问题。
+
+## **问题场景**
+
+## 查看当前状态
+
+```mysql
+mysql> SHOW VARIABLES LIKE '%general%';
++------------------+---------------------------------+
+| Variable_name    | Value                           |
++------------------+---------------------------------+
+| general_log      | OFF                             |
+| general_log_file | /var/lib/mysql/afde2166ebb9.log |
++------------------+---------------------------------+
+2 rows in set (0.04 sec)
+```
+
+
+
+## 启动日志
+
+**方式1：永久性方式** 修改my.cnf或者my.ini配置文件来设置。在[mysqld]组下加入log选项，并重启MySQL服务。格式如下：
+
+```mysql
+[mysqld]
+
+general\_log=ON
+general\_log\_file=[path[filename]]  #日志文件所在目录路径，filename为日志文件名
+```
+
+如果不指定目录和文件名，通用查询日志将默认存储在MySQL数据目录中的hostname.log文件中， hostname表示主机名。
+
+**方式2：临时性方式**
+
+```mysql
+SET GLOBAL general_log=on; # 开启通用查询日志
+SET GLOBAL general_log_file=’path/filename’; # 设置日志文件保存位置
+# 对应的，关闭操作SQL命令如下：
+SET GLOBAL general_log=off; # 关闭通用查询日志
+#查看设置后情况：
+查看设置后情况：
+```
+
+## 查看日志
+
+通用查询日志是以 `文本文件` 的形式存储在文件系统中的，可以使用 `文本编辑器` 直接打开日志文件。每台 MySQL服务器的通用查询日志内容是不同的。
+
+- 在Windows操作系统中，使用文本文件查看器；
+- 在Linux系统中，可以使用vi工具或者gedit工具查看；
+- 在Mac OSX系统中，可以使用文本文件查看器或者vi等工具查看。
+
+从 `SHOW VARIABLES LIKE 'general\_log%'`; 结果中可以看到通用查询日志的位置。
+
+在通用查询日志里面，我们可以清楚地看到，什么时候开启了新的客户端登陆数据库，登录之后做了什 么 SQL 操作，针对的是哪个数据表等信息。
+
+## 停止日志
+
+**方式1：永久性方式**
+
+修改 `my.cnf` 或者 `my.ini` 文件，把[mysqld]组下的 `general\_log` 值设置为 `OFF` 或者把general\_log一项注释掉。修改保存后，再重启MySQL服务 ，即可生效。 举例1：
+
+```mysql
+[mysqld] 
+general\_log=OFF
+```
+
+举例2：
+
+```mysql
+[mysqld] 
+#general\_log=ON
+```
+
+**方式2：临时性方式** 
+
+使用SET语句停止MySQL通用查询日志功能：
+
+```mysql
+SET GLOBAL general\_log=off; 
+```
+
+查询通用日志功能：
+
+```mysql
+SHOW VARIABLES LIKE 'general\_log%';
+```
+
+
+
+## 删除与刷新日志
+
+如果数据的使用非常频繁，那么通用查询日志会占用服务器非常大的磁盘空间。数据管理员可以删除很 长时间之前的查询日志，以保证MySQL服务器上的硬盘空间。
+
+**手动删除文件**
+
+```mysql
+SHOW VARIABLES LIKE 'general\_log%';
+```
+
+可以看出，通用查询日志的目录默认为MySQL数据目录。在该目录下手动删除通用查询日志 mysql.log。
+
+使用如下命令重新生成查询日志文件，具体命令如下。刷新MySQL数据目录，发现创建了新的日志文 件。前提一定要开启通用日志。
+
+```mysql
+mysqladmin -uroot -p flush-logs
+```
+
+# 错误日志(error log)
+
+## 启动日志
+
+在MySQL数据库中，错误日志功能是 `默认开启` 的。而且，错误日志 `无法被禁止` 。
+
+默认情况下，错误日志存储在MySQL数据库的数据文件夹下，名称默认为 `mysqld.log` （Linux系统）或hostname.err （mac系统）。如果需要制定文件名，则需要在my.cnf或者my.ini中做如下配置：
+
+```mysql
+[mysqld]
+log-error=[path/[filename]]  #path为日志文件所在的目录路径，filename为日志文件名
+```
+
+修改配置项后，需要重启MySQL服务以生效。
+
+## **查看日志**
+
+MySQL错误日志是以文本文件形式存储的，可以使用文本编辑器直接查看。 查询错误日志的存储路径：
+
+```mysql
+mysql>  SHOW VARIABLES LIKE 'log_err%';
++---------------------+--------------------------------+
+| Variable_name       | Value                          |
++---------------------+--------------------------------+
+| log_error           | /var/lib/mysql/mysql.error.log |
+| log_error_verbosity | 3                              |
++---------------------+--------------------------------+
+2 rows in set (0.04 sec)
+```
+
+执行结果中可以看到错误日志文件是mysqld.log，位于MySQL默认的数据目录下。
+
+## **删除与刷新日志**
+
+对于很久以前的错误日志，数据库管理员查看这些错误日志的可能性不大，可以将这些错误日志删除， 以保证MySQL服务器上的 `硬盘空间` 。MySQL的错误日志是以文本文件的形式存储在文件系统中的，可以`直接删除` 。
+
+```mysql
+[root@atguigu01 log]# mysqladmin -uroot -p flush-logs
+Enter password: 
+mysqladmin: refresh failed; error: 'Could not open file '/var/log/mysqld.log' for error logging.'
+```
+
+官网提示：
+
+![](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202203251744899.jpeg)
+
+补充操作：
+
+```mysql
+install -omysql -gmysql -m0644 /dev/null /var/log/mysqld.log
+```
+
+
+
+
 # binlog
 
 > 配合备份，恢复数据的日志

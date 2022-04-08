@@ -1,5 +1,5 @@
 ---
- title: MySQL主从复制
+title: MySQL主从复制
 top: false
 cover: false
 toc: true
