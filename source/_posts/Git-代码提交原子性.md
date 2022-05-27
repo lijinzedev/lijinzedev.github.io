@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - git
+  - Git
 tags:
-  - git
+  - Git
 date: 2022-03-30 09:59:22
 password:
 summary:
