@@ -106,3 +106,9 @@ and t3.sell_day between s.first_day and s.first_day + interval '30' day
 
 ```
 
+# 3 连续登录问题
+
+![](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202205091546188.png)
+
+
+

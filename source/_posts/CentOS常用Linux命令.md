@@ -1,5 +1,5 @@
 ---
-title: CentOS常用Linux命令
+title: 后端常用Linux命令
 top: false
 cover: false
 toc: true
@@ -33,7 +33,7 @@ summary:
 
 ```bash
 # 根据进程名找到进程Id停掉历史进程
-ps -aux | grep -v greo | grep ${serverName} | awk '{print $2}' | xargs kill -9
+ps -aux | grep -v grep | grep ${serverName} | awk '{print $2}' | xargs kill -9
 # 查看集群数量
 ps -ef | grep nacos | grep -v grep | wc -l
 # 去除包含grep的进程行 ，避免影响最终数据的正确性 
@@ -69,6 +69,36 @@ df -h
 # du -s 指定目录大小汇总
 # du -h 带计量单位
 # du -a 韩文建
+
+```
+
+# 3 脚本相关
+
+## 启动所有sh脚本
+
+```sh
+#!/bin/bash
+# 路径信息
+
+for i in $(ls  *.sh); 
+do 
+	if [ "$i" != "start.sh" ]; then
+		sh ${i}; 
+	fi
+	
+done
+
+
+```
+
+## Java脚本
+
+```sh
+pid=$(netstat -nlp | grep :8094 | awk '{print $7}' | awk -F'/' '{print $1}');
+if [ -n "$pid" ]; then
+    kill -9 $pid;
+fi
+nohup java -jar -Xmx512m -Xms128m -Xmn64m -Xss64m -Dfile.encoding=UTF-8 /usr/local/testServer/app-operation-1.0-SNAPSHOT.jar >/usr/local/testServer/logs/app-operation.log 2>&1 &
 
 ```
 
