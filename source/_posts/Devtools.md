@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Idea
+  - idea
 tags:
-  - Idea
+  - idea
 date: 2021-01-16 23:07:19
 password:
 summary:

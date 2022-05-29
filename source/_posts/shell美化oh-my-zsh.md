@@ -5,9 +5,13 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Shell
+  - 运维
+  - linux
+  - shell
 tags:
-  - Shell
+  - 运维
+  - linux
+  - shell
 date: 2020-12-28 14:52:45
 password:
 summary:

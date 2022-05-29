@@ -5,7 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
   - linux
+  - 网络 
 tags:
   - linux
 date: 2020-11-29 15:46:24

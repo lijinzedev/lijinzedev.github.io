@@ -5,8 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
   - CI/CD
 tags:
+  - 运维
   - CI/CD
 date: 2021-01-10 01:40:56
 password:

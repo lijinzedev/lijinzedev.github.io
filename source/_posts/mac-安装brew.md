@@ -5,9 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - mac环境搭建
+  - Mac
+  - 环境搭建
 tags:
-  - mac环境搭建
+  - Mac
 date: 2021-09-14 15:16:12
 password:
 summary:

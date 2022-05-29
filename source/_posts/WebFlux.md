@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - SpringMVC - 基础
+  - SpringMvc
 tags:
-  - SpringMVC - WebFlux
+  - SpringMvc
 date: 2020-12-15 22:59:57
 password:
 summary:

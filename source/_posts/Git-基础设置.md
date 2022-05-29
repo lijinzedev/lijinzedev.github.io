@@ -6,6 +6,7 @@ toc: true
 mathjax: true
 categories:
   - Git
+  - 配置 
 tags:
   - Git
 date: 2021-07-03 15:11:46

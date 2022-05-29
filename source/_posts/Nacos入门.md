@@ -6,8 +6,9 @@ toc: true
 mathjax: true
 categories:
   - SpringCloud
+  - Nacos 
 tags:
-  - SpringCloud - Nacos
+  - SpringCloud 
 date: 2021-01-15 21:52:10
 password:
 summary:

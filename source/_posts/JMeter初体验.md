@@ -5,8 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - 测试 - JMeter
+  - 测试
+  - JMeter
 tags:
+  - 测试
   - JMeter
 date: 2020-12-13 14:15:15
 password:
@@ -53,5 +55,4 @@ summary:
 6 响应断言设置
 
 ![image-20201213163712854](image-20201213163712854.png)
-
 

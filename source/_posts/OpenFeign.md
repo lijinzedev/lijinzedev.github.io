@@ -6,8 +6,9 @@ toc: true
 mathjax: true
 categories:
   - SpringCloud
+  - OpenFeign
 tags:
-  - SpringCloud - OpenFeign
+  - SpringCloud 
 date: 2021-01-23 15:42:33
 password:
 summary:

@@ -5,8 +5,11 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
   - linux
+  - 命令
 tags:
+  - 运维
   - linux
 date: 2021-07-02 10:07:50
 password:

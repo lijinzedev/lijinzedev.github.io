@@ -5,6 +5,7 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
   - cfw
 tags:
   - cfw

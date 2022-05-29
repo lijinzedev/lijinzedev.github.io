@@ -7,7 +7,7 @@ mathjax: true
 categories:
   - UML
 tags:
-  - UML - UML时序图
+  - UML
 date: 2021-01-27 13:27:12
 password:
 summary:

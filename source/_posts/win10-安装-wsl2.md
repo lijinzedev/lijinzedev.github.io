@@ -7,7 +7,7 @@ mathjax: true
 categories:
   - WSL
 tags:
-  - Win10 安装WSL
+  - WSL
 date: 2021-04-12 23:05:52
 password:
 summary:

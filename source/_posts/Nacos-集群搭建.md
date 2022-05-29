@@ -6,6 +6,7 @@ toc: true
 mathjax: true
 categories:
   - 集群
+  - Nacos
 tags:
   - 集群
 date: 2022-05-19 13:46:32

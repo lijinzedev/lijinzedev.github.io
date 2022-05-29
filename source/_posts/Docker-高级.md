@@ -6,7 +6,9 @@ toc: true
 mathjax: true
 categories:
   - docker
+  - 运维
 tags:
+  - 运维
   - docker
 date: 2021-04-13 15:54:09
 password:

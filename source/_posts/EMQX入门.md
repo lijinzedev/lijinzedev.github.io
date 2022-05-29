@@ -5,9 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 中间件
   - EMQX
 tags:
-  - EMQX - 物联网 - MQTT
+  - 中间件
 date: 2021-08-10 23:23:52
 password:
 summary:

@@ -5,9 +5,11 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Mybatis源码
+  - 源码
+  - Mybatis
 tags:
-  - Mybatis源码
+  - 源码
+  - Mybatis
 date: 2020-12-09 21:20:14
 password:
 summary:

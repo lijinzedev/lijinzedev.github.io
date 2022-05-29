@@ -5,8 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
   - docker
 tags:
+  - 运维
   - docker
 date: 2020-12-23 21:27:30
 password:

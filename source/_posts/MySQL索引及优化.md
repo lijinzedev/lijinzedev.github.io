@@ -6,6 +6,7 @@ toc: true
 mathjax: true
 categories:
   - mysql
+  - 优化
 tags:
   - mysql
 date: 2022-04-08 10:15:36

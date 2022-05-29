@@ -7,7 +7,7 @@ mathjax: true
 categories:
   - SpringSecurity
 tags:
-  - SpringSecurity入门
+  - SpringSecurity
 date: 2021-04-06 21:45:32
 password:
 summary:

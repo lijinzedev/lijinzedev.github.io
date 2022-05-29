@@ -5,9 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - SpringBoot
   - 日志
 tags:
-  - 日志
+  - SpringBoot
 date: 2021-03-31 10:37:12
 password:
 summary:

@@ -5,9 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - Spring - Cacheable
+  - Spring
+  - Cacheable
 tags:
-  - Spring - Cacheable
+  - Spring
 date: 2020-12-04 11:41:30
 password:
 summary:

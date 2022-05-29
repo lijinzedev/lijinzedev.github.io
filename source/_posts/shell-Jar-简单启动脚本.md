@@ -4,10 +4,13 @@ top: false
 cover: false
 toc: true
 mathjax: true
-categories:
-  - Shell
+categories:	
+  - 运维
+  - linux
+  - shell
 tags:
-  - Shell
+  -运维
+  - shell
 date: 2020-12-13 16:40:04
 password:
 summary:

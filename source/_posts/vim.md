@@ -5,6 +5,8 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 运维
+  - linux
   - vim
 tags:
   - vim

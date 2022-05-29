@@ -6,8 +6,11 @@ toc: true
 mathjax: true
 categories:
   - Spring
+  - Spring基础
+  - 事务
 tags:
-  - Spring - 事务传播机制
+  - Spring
+  - 事务传播
 date: 2021-08-02 22:07:40
 password:
 summary:

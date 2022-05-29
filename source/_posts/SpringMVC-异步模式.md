@@ -5,9 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - SpringMVC - 基础
+  - SpringMvc
+  - 异步
 tags:
-  - SpringMVC - 异步模式
+  - SpringMvc
 date: 2020-12-13 17:01:22
 password:
 summary:

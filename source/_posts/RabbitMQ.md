@@ -5,8 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 中间件
   - RabbitMQ
 tags:
+  - 中间件
   - RabbitMQ
 date: 2021-07-18 14:14:26
 password:

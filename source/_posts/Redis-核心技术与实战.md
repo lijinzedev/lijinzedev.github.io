@@ -5,6 +5,7 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 极客时间读书笔记
   - redis
 tags:
   - redis

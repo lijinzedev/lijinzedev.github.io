@@ -7,7 +7,7 @@ mathjax: true
 categories:
   - WSL
 tags:
-  - WSL搭建开发环境
+  - WSL
 date: 2021-04-14 15:38:20
 password:
 summary:

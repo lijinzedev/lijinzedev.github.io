@@ -6,8 +6,10 @@ toc: true
 mathjax: true
 categories:
   - mysql
+  - 运维  
 tags:
   - mysql
+  - 运维
 date: 2021-11-21 20:16:57
 password:
 summary:

@@ -5,9 +5,12 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - centos - wget
+  - 运维
+  - linux
+  - wget
 tags:
-  - centos - wget
+  - 运维
+  - linux
 date: 2020-12-03 16:06:08
 password:
 summary:

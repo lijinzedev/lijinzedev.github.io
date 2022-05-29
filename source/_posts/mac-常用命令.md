@@ -5,9 +5,9 @@ cover: false
 toc: true
 mathjax: true
 categories:
-  - mac	
+  - Mac	
 tags:
-  - mac
+  - Mac
 date: 2021-09-16 10:26:20
 password:
 summary:

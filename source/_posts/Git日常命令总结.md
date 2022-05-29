@@ -6,8 +6,10 @@ toc: true
 mathjax: true
 categories:
   - Git
+  - 操作
 tags:
   - Git
+  - 操作
 date: 2021-01-06 15:02:35
 password:
 summary:

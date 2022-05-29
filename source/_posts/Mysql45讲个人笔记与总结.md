@@ -5,8 +5,10 @@ cover: false
 toc: true
 mathjax: true
 categories:
+  - 极客时间读书笔记 
   - mysql
 tags:
+  - 极客时间读书笔记
   - mysql
 date: 2021-11-13 19:43:52
 password:
