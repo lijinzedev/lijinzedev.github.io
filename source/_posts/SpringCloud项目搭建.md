@@ -6,8 +6,9 @@ toc: true
 mathjax: true
 categories:
   - SpringCloud
+  - 项目搭建
 tags:
-  - SpringCloud - 项目搭建
+  - SpringCloud 
 date: 2021-01-15 22:18:11
 password:
 summary:
