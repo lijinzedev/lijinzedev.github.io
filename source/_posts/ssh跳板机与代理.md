@@ -187,11 +187,19 @@ ssh -o ServerAliveInterval=20 -g -Nf  -L 5001:localhost:6060 proxy@47.44.161.114
 
 # 参考文档
 
-[ssh技巧之跳板机]: https://mp.weixin.qq.com/s/IwLoUB99RTIBnnLm3FWIlw
-[ssh隧道代理]: http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html
-[SSH Config 那些你所知道和不知道的事]: SSHConfig那些你所知道和不知道的事
-[ssh端口转发笔记：ssh反向代理(隧道)、动态代理、本地代理]: https://blog.csdn.net/weixin_30337157/article/details/97996649
-[SSH动态代理访问内网]: https://blog.csdn.net/anjingshen/article/details/89055509
+[ssh技巧之跳板机](https://mp.weixin.qq.com/s/IwLoUB99RTIBnnLm3FWIlw)
+
+[ssh隧道代理](http://wlwang41.github.io/content/ops/ssh%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86.html )
+
+[ssh端口转发笔记：ssh反向代理(隧道)、动态代理、本地代理](https://blog.csdn.net/weixin_30337157/article/details/97996649)
+
+[SSH动态代理访问内网](https://blog.csdn.net/anjingshen/article/details/89055509)
+
+[SSH Config 那些你所知道和不知道的事](https://deepzz.com/post/how-to-setup-ssh-config.html)
+
+
+
+
 
 
 
