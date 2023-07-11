@@ -106,7 +106,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_LISTENERS: INSIDE://:9093,OUTSIDE://:9193
         #KAFKA_ADVERTISED_LISTENERS=INSIDE://<container>:9092,OUTSIDE://<host>:9094
-      SKAFKA_ADVERTISED_LISTENERS: INSIDE://kafka1:9093,OUTSIDE://localhost:9193
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka1:9093,OUTSIDE://localhost:9193
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zook1:2181,zook2:2181
@@ -138,7 +138,7 @@ services:
      # JMX_PORT: 9999 #开放JMX监控端口，来监测集群数据#
     volumes:
         - ./kafka/kafka2/wurstmeister/kafka:/wurstmeister/kafka
-        - ./kafka/kafka2/kafka:/kafk
+        - ./kafka/kafka2/kafka:/kafka
     depends_on:
       - zook1
       - zook2        
@@ -205,7 +205,7 @@ kafka-console-producer.sh --bootstrap-server kkafka1:9093,kafka2:9094 --topic qy
 # 再随便进入一个容器
 docker exec -it kafka2 /bin/bash
 # 查看主题 qy 的消息
-kafka-console-consumer.sh --bootstrap-serverkafka1:9093,kafka2:9094 --from-beginning --topic qy
+kafka-console-consumer.sh --bootstrap-server kafka1:9093,kafka2:9094 --from-beginning --topic qy
 
 ```
 
@@ -214,3 +214,38 @@ kafka-console-consumer.sh --bootstrap-serverkafka1:9093,kafka2:9094 --from-begin
 ## 六、参考
 
 https://blog.csdn.net/sinat_36053757/article/details/123724748
+
+## 七、非集群
+
+```yml
+version: "3"
+services:
+   zook1:
+     image: wurstmeister/zookeeper
+     restart: on-failure
+     hostname: zook1
+     container_name: zook1 #容器名称，方便在rancher中显示有意义的名称
+     ports:
+       - 2181:2181 #将本容器的zookeeper默认端口号映射出去
+   kafka1:
+    image: docker.io/wurstmeister/kafka
+    restart: always
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+        - 9092:9092
+        - 9192:9192        
+    environment:
+      KAFKA_BROKER_ID: 0
+      KAFKA_ZOOKEEPER_CONNECT: zook1:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka1:9092,OUTSIDE://localhost:9192
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9192
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      #JMX_PORT: 9999 #开放JMX监控端口，来监测集群数据
+    depends_on:
+      - zook1
+
+
+```
+

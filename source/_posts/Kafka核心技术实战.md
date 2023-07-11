@@ -606,8 +606,8 @@ auto.create.topics.enable参数我建议最好设置成 false，即不允许自�
 1. auto.create.topics.enable： 不能自立为王 
 2. unclean.leader.election.enable： 宁缺毋滥 
 3. auto.leader.rebalance.enable：江山不易改
-4. log.retention.{hours|minutes|ms} ：数据寿命
-5. hours=168 log.rentention.bytes: 祖宅大小  -1 表示没限制
+4. log.retention.{hours|minutes|ms} ：hours=168数据寿命
+5.  log.rentention.bytes: 祖宅大小  -1 表示没限制
 6.  message.max.bytes: 祖宅大门宽度，默认 1000012=976KB
 
 **advertised.listeners 这个配置能否再解释一下。感觉配置了 listeners之后就不用配置这个了呀？**
@@ -625,3 +625,843 @@ advertised.listeners这个参数在使用Docker的时候比较重要，Docker就
 这个参数既有broker端也有topic端，不过最终都是作用于topic的。另外算法上也不是简单的比较大小。举个例子吧：假设日志段大小是700MB，当前分区共有4个日志段文件，大小分别是700MB，700MB，700MB和1234B——显然1234B那个文件就是active日志段。此时该分区总的日志大小是3*700MB+1234B=2100MB+1234B，如果阈值设置为2000MB，那么超出阈值的部分就是100MB+1234B，小于日志段大小700MB，故Kafka不会执行任何删除操作，即使总大小已经超过了阈值；反之如果阈值设置为1400MB，那么超过阈值的部分就是700MB+1234B > 700MB，此时Kafka会删除最老的那个日志段文件
 
 老师说得太棒了，补充一点，kafka2.6默认配置log.retention.bytes和log.segment.bytes一致，另外该配置独立于log.retention.hours，也就是说触发了log.retention.bytes条件之后，就会裁剪删除日志段，不需要等到 log.retention.hours 该阈值到来
+
+# 08 | 最最最重要的集群参数配置（下）
+
+今天我们继续来聊那些重要的 Kafka 集群配置，下半部分主要是 Topic 级别参数、JVM 参数以及操作系统参数的设置。
+
+在上一期中，我们讨论了 Broker 端参数设置的一些法则，但其实 Kafka 也支持为不同的 Topic 设置不同的参数值。当前最新的 2.2 版本总共提供了大约 25 个 Topic 级别的参数，当然我们也不必全部了解它们的作用，这里我挑出了一些最关键的参数，你一定要把它们掌握清楚。除了 Topic 级别的参数，我今天还会给出一些重要的 JVM 参数和操作系统参数，正确设置这些参数是搭建高性能 Kafka 集群的关键因素。
+
+## Topic 级别参数
+
+说起 Topic 级别的参数，你可能会有这样的疑问：如果同时设置了 Topic 级别参数和全局 Broker 参数，到底听谁的呢？哪个说了算呢？答案就是 Topic 级别参数会覆盖全局 Broker 参数的值，而每个 Topic 都能设置自己的参数值，这就是所谓的 Topic 级别参数。
+
+举个例子说明一下，上一期我提到了消息数据的留存时间参数，在实际生产环境中，如果为所有 Topic 的数据都保存相当长的时间，这样做既不高效也无必要。更适当的做法是允许不同部门的 Topic 根据自身业务需要，设置自己的留存时间。如果只能设置全局 Broker 参数，那么势必要提取所有业务留存时间的最大值作为全局参数值，此时设置 Topic 级别参数把它覆盖，就是一个不错的选择。
+
+下面我们依然按照用途分组的方式引出重要的 Topic 级别参数。从保存消息方面来考量的话，下面这组参数是非常重要的：
+
+* `retention.ms`：规定了该 Topic 消息被保存的时长。默认是 7 天，即该 Topic 只保存最近 7 天的消息。一旦设置了这个值，它会覆盖掉 Broker 端的全局参数值。
+* `retention.bytes`：规定了要为该 Topic 预留多大的磁盘空间。和全局参数作用相似，这个值通常在多租户的 Kafka 集群中会有用武之地。当前默认值是 -1，表示可以无限使用磁盘空间。
+
+上面这些是从保存消息的维度来说的。如果从能处理的消息大小这个角度来看的话，有一个参数是必须要设置的，即max.message.bytes。
+
+> 该参数跟 message.max.bytes 参数的作用是一样的，只不过 max.message.bytes 是作用于某个 topic，而 message.max.bytes 是作用于全局。
+
+它决定了 Kafka Broker 能够正常接收该 Topic 的最大消息大小。我知道目前在很多公司都把 Kafka 作为一个基础架构组件来运行，上面跑了很多的业务数据。如果在全局层面上，我们不好给出一个合适的最大消息值，那么不同业务部门能够自行设定这个 Topic 级别参数就显得非常必要了。在实际场景中，这种用法也确实是非常常见的。
+
+好了，你要掌握的 Topic 级别的参数就这么几个。下面我来说说怎么设置 Topic 级别参数吧。其实说到这个事情，我是有点个人看法的：我本人不太赞同那种做一件事情开放给你很多种选择的设计方式，看上去好似给用户多种选择，但实际上只会增加用户的学习成本。特别是系统配置，如果你告诉我只能用一种办法来做，我会很努力地把它学会；反之，如果你告诉我说有两种方法甚至是多种方法都可以实现，那么我可能连学习任何一种方法的兴趣都没有了。Topic 级别参数的设置就是这种情况，我们有两种方式可以设置：
+
+* 创建 Topic 时进行设置
+* 修改 Topic 时设置
+
+我们先来看看如何在创建 Topic 时设置这些参数。我用上面提到的retention.ms和max.message.bytes举例。设想你的部门需要将交易数据发送到 Kafka 进行处理，需要保存最近半年的交易数据，同时这些数据很大，通常都有几 MB，但一般不会超过 5MB。现在让我们用以下命令来创建 Topic：
+
+```bash
+
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic transaction --partitions 1 --replication-factor 1 --config retention.ms=15552000000 --config max.message.bytes=5242880
+```
+
+我们只需要知道 Kafka 开放了kafka-topics命令供我们来创建 Topic 即可。对于上面这样一条命令，请注意结尾处的--config设置，我们就是在 config 后面指定了想要设置的 Topic 级别参数。
+
+下面看看使用另一个自带的命令kafka-configs来修改 Topic 级别参数。假设我们现在要发送最大值是 10MB 的消息，该如何修改呢？命令如下：
+
+```bash
+bin/kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --entity-name transaction --alter --add-config max.message.bytes=10485760
+```
+
+总体来说，你只能使用这么两种方式来设置 Topic 级别参数。我个人的建议是，你最好始终坚持使用第二种方式来设置，并且在未来，Kafka 社区很有可能统一使用kafka-configs脚本来调整 Topic 级别参数。
+
+## JVM 参数
+
+我在专栏前面提到过，Kafka 服务器端代码是用 Scala 语言编写的，但终归还是编译成 Class 文件在 JVM 上运行，因此 JVM 参数设置对于 Kafka 集群的重要性不言而喻。
+
+首先我先说说 Java 版本，我个人极其不推荐将 Kafka 运行在 Java 6 或 7 的环境上。Java 6 实在是太过陈旧了，没有理由不升级到更新版本。另外 Kafka 自 2.0.0 版本开始，已经正式摒弃对 Java 7 的支持了，所以有条件的话至少使用 Java 8 吧。
+
+说到 JVM 端设置，堆大小这个参数至关重要。虽然在后面我们还会讨论如何调优 Kafka 性能的问题，但现在我想无脑给出一个通用的建议：将你的 JVM 堆大小设置成 6GB 吧，这是目前业界比较公认的一个合理值。我见过很多人就是使用默认的 Heap Size 来跑 Kafka，说实话默认的 1GB 有点小，毕竟 Kafka Broker 在与客户端进行交互时会在 JVM 堆上创建大量的 ByteBuffer 实例，Heap Size 不能太小。
+
+JVM 端配置的另一个重要参数就是垃圾回收器的设置，也就是平时常说的 GC 设置。如果你依然在使用 Java 7，那么可以根据以下法则选择合适的垃圾回收器：
+
+* 如果 Broker 所在机器的 CPU 资源非常充裕，建议使用 CMS 收集器。启用方法是指定-XX:+UseCurrentMarkSweepGC。
+* 否则，使用吞吐量收集器。开启方法是指定-XX:+UseParallelGC。
+
+当然了，如果你在使用 Java 8，那么可以手动设置使用 G1 收集器。在没有任何调优的情况下，G1 表现得要比 CMS 出色，主要体现在更少的 Full GC，需要调整的参数更少等，所以使用 G1 就好了。
+
+现在我们确定好了要设置的 JVM 参数，我们该如何为 Kafka 进行设置呢？有些奇怪的是，这个问题居然在 Kafka 官网没有被提及。其实设置的方法也很简单，你只需要设置下面这两个环境变量即可：
+
+* KAFKA_HEAP_OPTS：指定堆大小。
+* KAFKA_JVM_PERFORMANCE_OPTS：指定 GC 参数。
+
+比如你可以这样启动 Kafka Broker，即在启动 Kafka Broker 之前，先设置上这两个环境变量：
+
+```bash
+
+$> export KAFKA_HEAP_OPTS=--Xms6g  --Xmx6g
+$> export KAFKA_JVM_PERFORMANCE_OPTS= -server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -Djava.awt.headless=true
+$> bin/kafka-server-start.sh config/server.properties
+```
+
+## 操作系统参数
+
+最后我们来聊聊 Kafka 集群通常都需要设置哪些操作系统参数。通常情况下，Kafka 并不需要设置太多的 OS 参数，但有些因素最好还是关注一下，比如下面这几个：
+
+* 文件描述符限制
+* 文件系统类型
+* Swappiness
+* 提交时间
+
+**首先是ulimit -n**。我觉得任何一个 Java 项目最好都调整下这个值。实际上，文件描述符系统资源并不像我们想象的那样昂贵，你不用太担心调大此值会有什么不利的影响。通常情况下将它设置成一个超大的值是合理的做法，比如ulimit -n 1000000。还记得电影《让子弹飞》里的对话吗：“你和钱，谁对我更重要？都不重要，没有你对我很重要！”。这个参数也有点这么个意思。其实设置这个参数一点都不重要，但不设置的话后果很严重，比如你会经常看到“Too many open files”的错误。
+
+> 在 Linux 系统中，一个长连接会占用一个 Socket 句柄（文件描述符），像 Ubuntu 默认是 1024，也就是最多 1024 个 Socket 长连接，Kafka 网络通信中大量使用长连接，这对比较大的 Kafka 集群来说可能是不够的。 为了避免 Socket 句柄不够用，将这个设置为一个比较大值是合理的。
+
+其次是文件系统类型的选择。这里所说的文件系统指的是如 ext3、ext4 或 XFS 这样的日志型文件系统。根据官网的测试报告，XFS 的性能要强于 ext4，所以生产环境最好还是使用 XFS。对了，最近有个 Kafka 使用 ZFS 的[数据报告](https://www.confluent.io/kafka-summit-sf18/kafka-on-zfs)，貌似性能更加强劲，有条件的话不妨一试。
+
+第三是 swap 的调优。网上很多文章都提到设置其为 0，将 swap 完全禁掉以防止 Kafka 进程使用 swap 空间。我个人反倒觉得还是不要设置成 0 比较好，我们可以设置成一个较小的值。为什么呢？因为一旦设置成 0，当物理内存耗尽时，操作系统会触发 OOM killer 这个组件，它会随机挑选一个进程然后 kill 掉，即根本不给用户任何的预警。但如果设置成一个比较小的值，当开始使用 swap 空间时，你至少能够观测到 Broker 性能开始出现急剧下降，从而给你进一步调优和诊断问题的时间。基于这个考虑，我个人建议将 swappniess 配置成一个接近 0 但不为 0 的值，比如 1。
+
+最后是提交时间或者说是 Flush 落盘时间。向 Kafka 发送数据并不是真要等数据被写入磁盘才会认为成功，而是只要数据被写入到操作系统的页缓存（Page Cache）上就可以了，随后操作系统根据 LRU 算法会定期将页缓存上的“脏”数据落盘到物理磁盘上。这个定期就是由提交时间来确定的，默认是 5 秒。一般情况下我们会认为这个时间太频繁了，可以适当地增加提交间隔来降低物理磁盘的写操作。当然你可能会有这样的疑问：如果在页缓存中的数据在写入到磁盘前机器宕机了，那岂不是数据就丢失了。的确，这种情况数据确实就丢失了，但鉴于 Kafka 在软件层面已经提供了多副本的冗余机制，因此这里稍微拉大提交间隔去换取性能还是一个合理的做法。
+
+## 小结
+
+今天我和你分享了关于 Kafka 集群设置的各类配置，包括 Topic 级别参数、JVM 参数以及操作系统参数，连同上一篇一起构成了完整的 Kafka 参数配置列表。我希望这些最佳实践能够在你搭建 Kafka 集群时助你一臂之力，但切记配置因环境而异，一定要结合自身业务需要以及具体的测试来验证它们的有效性。
+
+![image-20220624134708173](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241347472.png)
+
+## 开放讨论
+
+很多人争论 Kafka 不需要为 Broker 设置太大的堆内存，而应该尽可能地把内存留给页缓存使用。对此你是怎么看的？在你的实际使用中有哪些好的法则来评估 Kafka 对内存的使用呢？
+
+## FAQ
+
+**无脑配置给jvm heap 6G大小，这应该也看机器的吧，现在机器的内存也越来越大，我们这的机器都是64G 内存，配了16G的heap，可以优化吗**
+
+虽然无脑推荐6GB，但绝不是无脑推荐>6GB。一个16GB的堆Full GC一次要花多长时间啊，所以我觉得6GB可以是一个初始值，你可以实时监控堆上的live data大小，根据这个值调整heap size。只是因为大内存就直接调整到16GB，个人觉得不可取。 另外堆越小留给页缓存的空间也就越大，这对Kafka是好事啊。
+
+**kafka认为写入成功是指写入页缓存成功还是数据刷到磁盘成功算成功呢？还是上次刷盘宕机失败的问题，页缓存的数据如果刷盘失败，是不是就丢了？这个异常会不会响应给生产者让其重发呢？**
+
+写入到页缓存即认为成功。如果在flush之前机器就宕机了，的确这条数据在broker上就算丢失了。producer端表现如何取决于acks的设定。如果是acks=1而恰恰是leader broker在flush前宕机，那么的确有可能消息就丢失了，而且producer端不会重发——因为它认为是成功了。
+
+**ulimit -n这个参数说的太好了！如果不设置，单机在Centos7上几百的并发就报“Too many open files”了。网上搜索后设置成65535，用JMater压测单机也只能支撑到1000左右的并发，原来这个值可以设置到1000000！《Kafka权威指南》上说Kafka单机可以轻松处理300万并发；《响应式架构:消息模式Actor实现与Scala、Akka应用集成》上说Scala用Actor单机可以处理5000万并发。请问胡老师有没有推荐的Linux方面的书籍，可以详细解答ulimit -n参数、如何知道单台Linux机器可以处理的连接数上线？ 我在mac笔记本上用Go开启了10万个goroutine，压测服务器，结果得到异常“Too many open files”，后来也修改了ulimit -65535，但也只能保证1万左右的请求正常，请问Mac上也是只要设置ulimit -n参数就可以将请求的连接数提升到上限吗？**
+
+首先你的内存够不够，如果够，那么fd几乎没有限制，设置到你想要的值即可
+
+**页缓存它存在的意义和作用，以及它在整个过程中的机制又是怎样的呢？**
+
+页缓存属于磁盘缓存（Disk cache）的一种，主要是为了改善系统性能。重复访问磁盘上的磁盘块是常见的操作，把它们保存在内存中可以避免昂贵的磁盘IO操作。 既然叫页缓存，它是根据页（page）来组织的内存结构。每一页包含了很多磁盘上的块数据。Linux使用Radix树实现页缓存，主要是加速特定页的查找速度。另外一般使用LRU策略来淘汰过期页数据。总之它是一个完全由内核来管理的磁盘缓存，用户应用程序通常是无感知的。 如果要详细了解page cache，可以参见《Understanding the Linux Kernel》一书的第15章
+
+**最近环境中有一台3G堆内存的节点在某个topic handle request的时候一直OOM，调整到5G重启后恢复正常，很想知道如何评判堆内存大小设置的标准。**
+
+ 没有通用的标准，只有一个最佳实践值：6GB。最好还是监控一下实时的堆大小，特别是GC之后的live data大小，通常将heapsize设置成其1.5~2倍就足以了
+
+**怎么能限制消费者的消费速度，或者限制消费带宽啊**
+
+这是我之前写的，可以参考下：https://www.cnblogs.com/huxi2b/p/8609453.html
+
+> 消费者所在机器配置过低，承接不了kafka吐给他的数据量，可能会造成磁盘io过高，或者占用带宽较高吧
+
+**kafka消费段，过一段时间jvm内存就会超过设置上线，有什么好的思路调整吗**
+
+作者回复: OOM的问题首先看下到底是那OOM的问题可以这样排查： 1. 到底是哪部分内存。大部分是堆溢出 2. 如果是heap溢出，主要看stacktrace，看看到底是哪段代码导致的 3. 再看导致的原因，到底是内存泄露还是内存溢出。这两者是有区别的。前者是程序写的有问题，后者是程序确实需要这么多内存，那么只能增加heap size
+
+**在使用 kafka 客户端应用时，有时会需要 broker list 这个参数，在我的集群有三个broker 的情况下，我发现 只填一个 和 三个都填上 都可以用，这个有什么区别吗？网上搜了一圈也没搜着**
+
+ 确实只需要写1个就可以，因为Kafka能够通过这1个找到集群所有的Broker。当然最好还是多写几个
+
+**我们设置了过期时间3小时，但是客户端还是会消费到昨天的昨天的消息，这个如何查找原因呢**
+
+作者回复: 你要有多个日志段文件消息删除才可能生效。只有一个日志段文件是没用的。
+
+**我这边单机kafka，400个client，出现这个错误 ulimit 和 file-max都调大了，还是报错ERROR Error while accepting connection (kafka.network.Acceptor) java.io.IOException: No file descriptors available at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) at kafka.network.Acceptor.accept(SocketServer.scala:460) at kafka.network.Acceptor.run(SocketServer.scala:403) at java.lang.Thread.run(Thread.java:748)**
+
+最好确认下是否真的修改成功，比如是否是在/etc/security/limits.conf中修改的，这个才是永久生效的配置
+
+# 09 | 生产者消息分区机制原理剖析
+
+我们在使用 Apache Kafka 生产和消费消息的时候，肯定是希望能够将数据均匀地分配到所有服务器上。比如很多公司使用 Kafka 收集应用服务器的日志数据，这种数据都是很多的，特别是对于那种大批量机器组成的集群环境，每分钟产生的日志量都能以 GB 数，因此如何将这么大的数据量均匀地分配到 Kafka 的各个 Broker 上，就成为一个非常重要的问题。
+
+## 为什么分区？
+
+如果你对 Kafka 分区（Partition）的概念还不熟悉，可以先返回专栏第 2 期回顾一下。专栏前面我说过 Kafka 有主题（Topic）的概念，它是承载真实数据的逻辑容器，而在主题之下还分为若干个分区，也就是说 Kafka 的消息组织方式实际上是三级结构：主题 - 分区 - 消息。主题下的每条消息只会保存在某一个分区中，而不会在多个分区中被保存多份。官网上的这张图非常清晰地展示了 Kafka 的三级结构，如下所示：
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241415058.jpg)
+
+> 消息是kafka处理的对象， 分区是kafka设计的负载均衡能力，提高吞吐率，实现kafka的弹性伸缩， 主题是kafka对消息的分类，同一类消息被放在同一个kafka队列中。
+
+现在我抛出一个问题你可以先思考一下：你觉得为什么 Kafka 要做这样的设计？为什么使用分区的概念而不是直接使用多个主题呢？
+
+其实分区的作用就是提供负载均衡的能力，或者说对数据进行分区的主要原因，就是为了实现系统的高伸缩性（Scalability）。不同的分区能够被放置到不同节点的机器上，而数据的读写操作也都是针对分区这个粒度而进行的，这样每个节点的机器都能独立地执行各自分区的读写请求处理。并且，我们还可以通过添加新的节点机器来增加整体系统的吞吐量
+
+实际上分区的概念以及分区数据库早在 1980 年就已经有大牛们在做了，比如那时候有个叫 Teradata 的数据库就引入了分区的概念。
+
+值得注意的是，不同的分布式系统对分区的叫法也不尽相同。比如在 Kafka 中叫分区，在 MongoDB 和 Elasticsearch 中就叫分片 Shard，而在 HBase 中则叫 Region，在 Cassandra 中又被称作 vnode。从表面看起来它们实现原理可能不尽相同，但对底层分区（Partitioning）的整体思想却从未改变。
+
+除了提供负载均衡这种最核心的功能之外，利用分区也可以实现其他一些业务级别的需求，比如实现业务级别的消息顺序的问题，这一点我今天也会分享一个具体的案例来说明。
+
+## 都有哪些分区策略？
+
+下面我们说说 Kafka 生产者的分区策略。**所谓分区策略是决定生产者将消息发送到哪个分区的算法。**Kafka 为我们提供了默认的分区策略，同时它也支持你自定义分区策略。
+
+如果要自定义分区策略，你需要显式地配置生产者端的参数partitioner.class。这个参数该怎么设定呢？方法很简单，在编写生产者程序时，你可以编写一个具体的类实现org.apache.kafka.clients.producer.Partitioner接口。这个接口也很简单，只定义了两个方法：partition()和close()，通常你只需要实现最重要的 partition 方法。我们来看看这个方法的方法签名：
+
+```java
+int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster);
+```
+
+这里的topic、key、keyBytes、value和valueBytes都属于消息数据，cluster则是集群信息（比如当前 Kafka 集群共有多少主题、多少 Broker 等）。Kafka 给你这么多信息，就是希望让你能够充分地利用这些信息对消息进行分区，计算出它要被发送到哪个分区中。只要你自己的实现类定义好了 partition 方法，同时设置partitioner.class参数为你自己实现类的 Full Qualified Name，那么生产者程序就会按照你的代码逻辑对消息进行分区。虽说可以有无数种分区的可能，但比较常见的分区策略也就那么几种，下面我来详细介绍一下。
+
+#### 轮询策略
+
+也称 Round-robin 策略，即顺序分配。比如一个主题下有 3 个分区，那么第一条消息被发送到分区 0，第二条被发送到分区 1，第三条被发送到分区 2，以此类推。当生产第 4 条消息时又会重新开始，即将其分配到分区 0，就像下面这张图展示的那样。
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241427862.jpg)
+
+这就是所谓的轮询策略。轮询策略是 Kafka Java 生产者 API 默认提供的分区策略。如果你未指定partitioner.class参数，那么你的生产者程序会按照轮询的方式在主题的所有分区间均匀地“码放”消息。
+
+**轮询策略有非常优秀的负载均衡表现，它总是能保证消息最大限度地被平均分配到所有分区上，故默认情况下它是最合理的分区策略，也是我们最常用的分区策略之一。**
+
+#### 随机策略
+
+也称 Randomness 策略。所谓随机就是我们随意地将消息放置到任意一个分区上，如下面这张图所示。
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241438663.jpg)
+
+如果要实现随机策略版的 partition 方法，很简单，只需要两行代码即可：
+
+```java
+
+List<PartitionInfo> partitions = cluster.partitionsForTopic(topic);
+return ThreadLocalRandom.current().nextInt(partitions.size());
+```
+
+先计算出该主题总的分区数，然后随机地返回一个小于它的正整数。
+
+本质上看随机策略也是力求将数据均匀地打散到各个分区，但从实际表现来看，它要逊于轮询策略，所以**如果追求数据的均匀分布，还是使用轮询策略比较好。**事实上，随机策略是老版本生产者使用的分区策略，在新版本中已经改为轮询了。
+
+#### 按消息键保序策略
+
+也称 Key-ordering 策略。有点尴尬的是，这个名词是我自己编的，Kafka 官网上并无这样的提法。
+
+Kafka 允许为每条消息定义消息键，简称为 Key。这个 Key 的作用非常大，它可以是一个有着明确业务含义的字符串，比如客户代码、部门编号或是业务 ID 等；也可以用来表征消息元数据。特别是在 Kafka 不支持时间戳的年代，在一些场景中，工程师们都是直接将消息创建时间封装进 Key 里面的。一旦消息被定义了 Key，那么你就可以保证同一个 Key 的所有消息都进入到相同的分区里面，由于每个分区下的消息处理都是有顺序的，故这个策略被称为按消息键保序策略，如下图所示。
+
+> 其实就是一种路由策略，将需要顺序消费或者指定路由消费的数据写入同一个分区即可。比如说打车软件的车辆信息、redis中key存在scan操作等，写入相同的分区可以极大的提升查找的性能。另外一种场景是具有因果关系的两个任务，也最好是能够发到一个分区，保证能够在一个消费端进行消息的消费
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241444490.jpg)
+
+实现这个策略的 partition 方法同样简单，只需要下面两行代码即可：
+
+```java
+
+List<PartitionInfo> partitions = cluster.partitionsForTopic(topic);
+return Math.abs(key.hashCode()) % partitions.size();
+```
+
+前面提到的 Kafka 默认分区策略实际上同时实现了两种策略：如果指定了 Key，那么默认实现按消息键保序策略；如果没有指定 Key，则使用轮询策略。
+
+在你了解了 Kafka 默认的分区策略之后，我来给你讲一个真实的案例，希望能加强你对分区策略重要性的理解。
+
+我曾经给一个国企进行过 Kafka 培训，当时碰到的一个问题就是如何实现消息的顺序问题。这家企业发送的 Kafka 的消息是有因果关系的，故处理因果关系也必须要保证有序性，否则先处理了“果”后处理“因”必然造成业务上的混乱。
+
+当时那家企业的做法是给 Kafka 主题设置单分区，也就是 1 个分区。这样所有的消息都只在这一个分区内读写，因此保证了全局的顺序性。这样做虽然实现了因果关系的顺序性，但也丧失了 Kafka 多分区带来的高吞吐量和负载均衡的优势。
+
+后来经过了解和调研，我发现这种具有因果关系的消息都有一定的特点，比如在消息体中都封装了固定的标志位，后来我就建议他们对此标志位设定专门的分区策略，保证同一标志位的所有消息都发送到同一分区，这样既可以保证分区内的消息顺序，也可以享受到多分区带来的性能红利。
+
+这种基于个别字段的分区策略本质上就是按消息键保序的思想，其实更加合适的做法是把标志位数据提取出来统一放到 Key 中，这样更加符合 Kafka 的设计思想。经过改造之后，这个企业的消息处理吞吐量一下提升了 40 多倍，从这个案例你也可以看到自定制分区策略的效果可见一斑。
+
+#### 其他分区策略
+
+上面这几种分区策略都是比较基础的策略，除此之外你还能想到哪些有实际用途的分区策略？其实还有一种比较常见的，即所谓的基于地理位置的分区策略。当然这种策略一般只针对那些大规模的 Kafka 集群，特别是跨城市、跨国家甚至是跨大洲的集群。
+
+我就拿“极客时间”举个例子吧，假设极客时间的所有服务都部署在北京的一个机房（这里我假设它是自建机房，不考虑公有云方案。其实即使是公有云，实现逻辑也差不多），现在极客时间考虑在南方找个城市（比如广州）再创建一个机房；另外从两个机房中选取一部分机器共同组成一个大的 Kafka 集群。显然，这个集群中必然有一部分机器在北京，另外一部分机器在广州。
+
+假设极客时间计划为每个新注册用户提供一份注册礼品，比如南方的用户注册极客时间可以免费得到一碗“甜豆腐脑”，而北方的新注册用户可以得到一碗“咸豆腐脑”。如果用 Kafka 来实现则很简单，只需要创建一个双分区的主题，然后再创建两个消费者程序分别处理南北方注册用户逻辑即可。
+
+但问题是你需要把南北方注册用户的注册消息正确地发送到位于南北方的不同机房中，因为处理这些消息的消费者程序只可能在某一个机房中启动着。换句话说，送甜豆腐脑的消费者程序只在广州机房启动着，而送咸豆腐脑的程序只在北京的机房中，如果你向广州机房中的 Broker 发送北方注册用户的消息，那么这个用户将无法得到礼品！
+
+此时我们就可以根据 Broker 所在的 IP 地址实现定制化的分区策略。比如下面这段代码：
+
+```java
+
+List<PartitionInfo> partitions = cluster.partitionsForTopic(topic);
+return partitions.stream().filter(p -> isSouth(p.leader().host())).map(PartitionInfo::partition).findAny().get();
+```
+
+我们可以从所有分区中找出那些 Leader 副本在南方的所有分区，然后随机挑选一个进行消息发送。
+
+## 小结
+
+今天我们讨论了 Kafka 生产者消息分区的机制以及常见的几种分区策略。切记分区是实现负载均衡以及高吞吐量的关键，故在生产者这一端就要仔细盘算合适的分区策略，避免造成消息数据的“倾斜”，使得某些分区成为性能瓶颈，这样极易引发下游数据消费的性能下降。
+
+![image-20220624154528203](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206241545325.png)
+
+
+
+## 开放讨论
+
+在你的生产环境中使用最多的是哪种消息分区策略？实际在使用过程中遇到过哪些“坑”？
+
+# 10 | 生产者压缩算法面面观
+
+说起压缩（compression），我相信你一定不会感到陌生。它秉承了用时间去换空间的经典 trade-off 思想，具体来说就是用 CPU 时间去换磁盘空间或网络 I/O 传输量，希望以较小的 CPU 开销带来更少的磁盘占用或更少的网络 I/O 传输。在 Kafka 中，压缩也是用来做这件事的。今天我就来跟你分享一下 Kafka 中压缩的那些事儿。
+
+> 通俗一点，一个1G的数据，通过压缩，压缩的过程中，消耗了时间和cpu，最终数据大小变为700M。这样数据在传输的过程中变快。这就是时间换空间
+
+## 怎么压缩？
+
+Kafka 是如何压缩消息的呢？要弄清楚这个问题，就要从 Kafka 的消息格式说起了。目前 Kafka 共有两大类消息格式，社区分别称之为 V1 版本和 V2 版本。V2 版本是 Kafka 0.11.0.0 中正式引入的。
+
+不论是哪个版本，Kafka 的消息层次都分为两层：消息集合（message set）以及消息（message）。一个消息集合中包含若干条日志项（record item），而日志项才是真正封装消息的地方。Kafka 底层的消息日志由一系列消息集合日志项组成。Kafka 通常不会直接操作具体的一条条消息，它总是在消息集合这个层面上进行写入操作。
+
+那么社区引入 V2 版本的目的是什么呢？V2 版本主要是针对 V1 版本的一些弊端做了修正，和我们今天讨论的主题相关的修正有哪些呢？先介绍一个，就是把消息的公共部分抽取出来放到外层消息集合里面，这样就不用每条消息都保存这些信息了。
+
+我来举个例子。原来在 V1 版本中，每条消息都需要执行 CRC 校验，但有些情况下消息的 CRC 值是会发生变化的。比如在 Broker 端可能会对消息时间戳字段进行更新，那么重新计算之后的 CRC 值也会相应更新；再比如 Broker 端在执行消息格式转换时（主要是为了兼容老版本客户端程序），也会带来 CRC 值的变化。鉴于这些情况，再对每条消息都执行 CRC 校验就有点没必要了，不仅浪费空间还耽误 CPU 时间，因此在 V2 版本中，消息的 CRC 校验工作就被移到了消息集合这一层。
+
+我对两个版本分别做了一个简单的测试，结果显示，在相同条件下，不论是否启用压缩，V2 版本都比 V1 版本节省磁盘空间。当启用压缩时，这种节省空间的效果更加明显，就像下面这两张图展示的那样：
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271452666.png)
+
+## 何时压缩？
+
+在 Kafka 中，压缩可能发生在两个地方：生产者端和 Broker 端。
+
+生产者程序中配置 compression.type 参数即表示启用指定类型的压缩算法。比如下面这段程序代码展示了如何构建一个开启 GZIP 的 Producer 对象：
+
+```bash
+
+ Properties props = new Properties();
+ props.put("bootstrap.servers", "localhost:9092");
+ props.put("acks", "all");
+ props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+ props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+ // 开启GZIP压缩
+ props.put("compression.type", "gzip");
+ 
+ Producer<String, String> producer = new KafkaProducer<>(props);
+```
+
+这里比较关键的代码行是 props.put(“compression.type”, “gzip”)，它表明该 Producer 的压缩算法使用的是 GZIP。这样 Producer 启动后生产的每个消息集合都是经 GZIP 压缩过的，故而能很好地节省网络传输带宽以及 Kafka Broker 端的磁盘占用。
+
+在生产者端启用压缩是很自然的想法，那为什么我说在 Broker 端也可能进行压缩呢？其实大部分情况下 Broker 从 Producer 端接收到消息后仅仅是原封不动地保存而不会对其进行任何修改，但这里的“大部分情况”也是要满足一定条件的。有两种例外情况就可能让 Broker 重新压缩消息。
+
+情况一：Broker 端指定了和 Producer 端不同的压缩算法。
+
+先看一个例子。想象这样一个对话。
+
+Producer 说：“我要使用 GZIP 进行压缩。”
+
+Broker 说：“不好意思，我这边接收的消息必须使用 Snappy 算法进行压缩。”
+
+你看，这种情况下 Broker 接收到 GZIP 压缩消息后，只能解压缩然后使用 Snappy 重新压缩一遍。如果你翻开 Kafka 官网，你会发现 Broker 端也有一个参数叫 compression.type，和上面那个例子中的同名。但是这个参数的默认值是 producer，这表示 Broker 端会“尊重”Producer 端使用的压缩算法。可一旦你在 Broker 端设置了不同的 compression.type 值，就一定要小心了，因为可能会发生预料之外的压缩 / 解压缩操作，通常表现为 Broker 端 CPU 使用率飙升。
+
+情况二：Broker 端发生了消息格式转换。
+
+所谓的消息格式转换主要是为了兼容老版本的消费者程序。还记得之前说过的 V1、V2 版本吧？在一个生产环境中，Kafka 集群中同时保存多种版本的消息格式非常常见。为了兼容老版本的格式，Broker 端会对新版本消息执行向老版本格式的转换。这个过程中会涉及消息的解压缩和重新压缩。一般情况下这种消息格式转换对性能是有很大影响的，除了这里的压缩之外，它还让 Kafka 丧失了引以为豪的 Zero Copy 特性。
+
+所谓“Zero Copy”就是“零拷贝”，我在专栏第 6 期提到过，说的是当数据在磁盘和网络进行传输时避免昂贵的内核态数据拷贝，从而实现快速的数据传输。因此如果 Kafka 享受不到这个特性的话，性能必然有所损失，所以尽量保证消息格式的统一吧，这样不仅可以避免不必要的解压缩 / 重新压缩，对提升其他方面的性能也大有裨益。如果有兴趣你可以深入地了解下 Zero Copy 的原理。
+
+> 关于零拷贝在 Producer -> Broker，Broker -> Consumer中的传输作用请参考链接：1. https://www.jianshu.com/p/835ec2d4c170； 2. https://blog.csdn.net/ljheee/article/details/99652448；
+
+## 何时解压缩？
+
+有压缩必有解压缩！通常来说解压缩发生在消费者程序中，也就是说 Producer 发送压缩消息到 Broker 后，Broker 照单全收并原样保存起来。当 Consumer 程序请求这部分消息时，Broker 依然原样发送出去，当消息到达 Consumer 端后，由 Consumer 自行解压缩还原成之前的消息。
+
+那么现在问题来了，Consumer 怎么知道这些消息是用何种压缩算法压缩的呢？其实答案就在消息中。Kafka 会将启用了哪种压缩算法封装进消息集合中，这样当 Consumer 读取到消息集合时，它自然就知道了这些消息使用的是哪种压缩算法。如果用一句话总结一下压缩和解压缩，那么我希望你记住这句话：**Producer 端压缩、Broker 端保持、Consumer 端解压缩。**
+
+除了在 Consumer 端解压缩，Broker 端也会进行解压缩。注意了，这和前面提到消息格式转换时发生的解压缩是不同的场景。每个压缩过的消息集合在 Broker 端写入时都要发生解压缩操作，目的就是为了对消息执行各种验证。我们必须承认这种解压缩对 Broker 端性能是有一定影响的，特别是对 CPU 的使用率而言。
+
+事实上，最近国内京东的小伙伴们刚刚向社区提出了一个 bugfix，建议去掉因为做消息校验而引入的解压缩。据他们称，去掉了解压缩之后，Broker 端的 CPU 使用率至少降低了 50%。不过有些遗憾的是，目前社区并未采纳这个建议，原因就是这种消息校验是非常重要的，不可盲目去之。毕竟先把事情做对是最重要的，在做对的基础上，再考虑把事情做好做快。针对这个使用场景，你也可以思考一下，是否有一个两全其美的方案，既能避免消息解压缩也能对消息执行校验。
+
+## 各种压缩算法对比
+
+那么我们来谈谈压缩算法。这可是重头戏！之前说了这么多，我们还是要比较一下各个压缩算法的优劣，这样我们才能有针对性地配置适合我们业务的压缩策略。
+
+在 Kafka 2.1.0 版本之前，Kafka 支持 3 种压缩算法：GZIP、Snappy 和 LZ4。从 2.1.0 开始，Kafka 正式支持 Zstandard 算法（简写为 zstd）。它是 Facebook 开源的一个压缩算法，能够提供超高的压缩比（compression ratio）。
+
+对了，看一个压缩算法的优劣，有两个重要的指标：一个指标是压缩比，原先占 100 份空间的东西经压缩之后变成了占 20 份空间，那么压缩比就是 5，显然压缩比越高越好；另一个指标就是压缩 / 解压缩吞吐量，比如每秒能压缩或解压缩多少 MB 的数据。同样地，吞吐量也是越高越好。
+
+下面这张表是 Facebook Zstandard 官网提供的一份压缩算法 benchmark 比较结果：
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271518205.png)
+
+从表中我们可以发现 zstd 算法有着最高的压缩比，而在吞吐量上的表现只能说中规中矩。反观 LZ4 算法，它在吞吐量方面则是毫无疑问的执牛耳者。当然对于表格中数据的权威性我不做过多解读，只想用它来说明一下当前各种压缩算法的大致表现。
+
+在实际使用中，GZIP、Snappy、LZ4 甚至是 zstd 的表现各有千秋。但对于 Kafka 而言，它们的性能测试结果却出奇得一致，即在吞吐量方面：LZ4 > Snappy > zstd 和 GZIP；而在压缩比方面，zstd > LZ4 > GZIP > Snappy。具体到物理资源，使用 Snappy 算法占用的网络带宽最多，zstd 最少，这是合理的，毕竟 zstd 就是要提供超高的压缩比；在 CPU 使用率方面，各个算法表现得差不多，只是在压缩时 Snappy 算法使用的 CPU 较多一些，而在解压缩时 GZIP 算法则可能使用更多的 CPU。
+
+## 最佳实践
+
+了解了这些算法对比，我们就能根据自身的实际情况有针对性地启用合适的压缩算法。
+
+首先来说压缩。何时启用压缩是比较合适的时机呢？
+
+你现在已经知道 Producer 端完成的压缩，那么启用压缩的一个条件就是 Producer 程序运行机器上的 CPU 资源要很充足。如果 Producer 运行机器本身 CPU 已经消耗殆尽了，那么启用消息压缩无疑是雪上加霜，只会适得其反。
+
+除了 CPU 资源充足这一条件，如果你的环境中带宽资源有限，那么我也建议你开启压缩。事实上我见过的很多 Kafka 生产环境都遭遇过带宽被打满的情况。这年头，带宽可是比 CPU 和内存还要珍贵的稀缺资源，毕竟万兆网络还不是普通公司的标配，因此千兆网络中 Kafka 集群带宽资源耗尽这件事情就特别容易出现。如果你的客户端机器 CPU 资源有很多富余，我强烈建议你开启 zstd 压缩，这样能极大地节省网络资源消耗。
+
+其次说说解压缩。其实也没什么可说的。一旦启用压缩，解压缩是不可避免的事情。这里只想强调一点：我们对不可抗拒的解压缩无能为力，但至少能规避掉那些意料之外的解压缩。就像我前面说的，因为要兼容老版本而引入的解压缩操作就属于这类。有条件的话尽量保证不要出现消息格式转换的情况。
+
+## 小结
+
+总结一下今天分享的内容：我们主要讨论了 Kafka 压缩的各个方面，包括 Kafka 是如何对消息进行压缩的、何时进行压缩及解压缩，还对比了目前 Kafka 支持的几个压缩算法，最后我给出了工程化的最佳实践。分享这么多内容，我就只有一个目的：就是希望你能根据自身的实际情况恰当地选择合适的 Kafka 压缩算法，以求实现最大的资源利用率。
+
+![image-20220627153540968](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271535121.png)
+
+## 开放讨论
+
+最后给出一道作业题，请花时间思考一下：前面我们提到了 Broker 要对压缩消息集合执行解压缩操作，然后逐条对消息进行校验，有人提出了一个方案：把这种消息校验移到 Producer 端来做，Broker 直接读取校验结果即可，这样就可以避免在 Broker 端执行解压缩操作。你认同这种方案吗？
+
+## FAQ
+
+文中对于消息结构的描述，确实引起了一些混乱，下面试图整理一下，希望对大家有帮助。 消息（v1叫message，v2叫record）是分批次（batch）读写的，batch是kafka读写（网络传输和文件读写）的基本单位，不同版本，对相同（或者叫相似）的概念，叫法不一样。 v1（kafka 0.11.0之前）:message set, message v2（kafka 0.11.0以后）:record batch,record 其中record batch对英语message set，record对应于message。 一个record batch（message set）可以包含多个record（message）。 对于每个版本的消息结构的细节，可以参考kafka官方文档的5.3 Message Format 章，里面对消息结构列得非常清楚。
+
+# 11 | 无消息丢失配置怎么实现？
+
+一直以来，很多人对于 Kafka 丢失消息这件事情都有着自己的理解，因而也就有着自己的解决之道。在讨论具体的应对方法之前，我觉得我们首先要明确，在 Kafka 的世界里什么才算是消息丢失，或者说 Kafka 在什么情况下能保证消息不丢失。这点非常关键，因为很多时候我们容易混淆责任的边界，如果搞不清楚事情由谁负责，自然也就不知道由谁来出解决方案了。
+
+那 Kafka 到底在什么情况下才能保证消息不丢失呢？
+
+**一句话概括，Kafka 只对“已提交”的消息（committed message）做有限度的持久化保证。**
+
+这句话里面有两个核心要素，我们一一来看。
+
+第一个核心要素是“**已提交的消息**”。什么是已提交的消息？当 Kafka 的若干个 Broker 成功地接收到一条消息并写入到日志文件后，它们会告诉生产者程序这条消息已成功提交。此时，这条消息在 Kafka 看来就正式变为“已提交”消息了。
+
+那为什么是若干个 Broker 呢？这取决于你对“已提交”的定义。你可以选择只要有一个 Broker 成功保存该消息就算是已提交，也可以是令所有 Broker 都成功保存该消息才算是已提交。不论哪种情况，Kafka 只对已提交的消息做持久化保证这件事情是不变的。
+
+第二个核心要素就是“**有限度的持久化保证**”，也就是说 Kafka 不可能保证在任何情况下都做到不丢失消息。举个极端点的例子，如果地球都不存在了，Kafka 还能保存任何消息吗？显然不能！倘若这种情况下你依然还想要 Kafka 不丢消息，那么只能在别的星球部署 Kafka Broker 服务器了。
+
+现在你应该能够稍微体会出这里的“有限度”的含义了吧，其实就是说 Kafka 不丢消息是有前提条件的。假如你的消息保存在 N 个 Kafka Broker 上，那么这个前提条件就是这 N 个 Broker 中至少有 1 个存活。只要这个条件成立，Kafka 就能保证你的这条消息永远不会丢失。
+
+总结一下，Kafka 是能做到不丢失消息的，只不过这些消息必须是已提交的消息，而且还要满足一定的条件。当然，说明这件事并不是要为 Kafka 推卸责任，而是为了在出现该类问题时我们能够明确责任边界。
+
+## “消息丢失”案例
+
+好了，理解了 Kafka 是怎样做到不丢失消息的，那接下来我带你复盘一下那些常见的“Kafka 消息丢失”案例。注意，这里可是带引号的消息丢失哦，其实有些时候我们只是冤枉了 Kafka 而已。
+
+### 案例 1：生产者程序丢失数据
+
+Producer 程序丢失消息，这应该算是被抱怨最多的数据丢失场景了。我来描述一个场景：你写了一个 Producer 应用向 Kafka 发送消息，最后发现 Kafka 没有保存，于是大骂：“Kafka 真烂，消息发送居然都能丢失，而且还不告诉我？！”如果你有过这样的经历，那么请先消消气，我们来分析下可能的原因。
+
+目前 Kafka Producer 是异步发送消息的，也就是说如果你调用的是 producer.send(msg) 这个 API，那么它通常会立即返回，但此时你不能认为消息发送已成功完成。
+
+这种发送方式有个有趣的名字，叫“fire and forget”，翻译一下就是“发射后不管”。这个术语原本属于导弹制导领域，后来被借鉴到计算机领域中，它的意思是，执行完一个操作后不去管它的结果是否成功。调用 producer.send(msg) 就属于典型的“fire and forget”，因此如果出现消息丢失，我们是无法知晓的。这个发送方式挺不靠谱吧，不过有些公司真的就是在使用这个 API 发送消息。
+
+如果用这个方式，可能会有哪些因素导致消息没有发送成功呢？其实原因有很多，例如网络抖动，导致消息压根就没有发送到 Broker 端；或者消息本身不合格导致 Broker 拒绝接收（比如消息太大了，超过了 Broker 的承受能力）等。这么来看，让 Kafka“背锅”就有点冤枉它了。就像前面说过的，Kafka 不认为消息是已提交的，因此也就没有 Kafka 丢失消息这一说了。
+
+不过，就算不是 Kafka 的“锅”，我们也要解决这个问题吧。实际上，解决此问题的方法非常简单：**Producer 永远要使用带有回调通知的发送 API，也就是说不要使用 producer.send(msg)，而要使用 producer.send(msg, callback)**。不要小瞧这里的 callback（回调），它能准确地告诉你消息是否真的提交成功了。一旦出现消息提交失败的情况，你就可以有针对性地进行处理。
+
+举例来说，如果是因为那些瞬时错误，那么仅仅让 Producer 重试就可以了；如果是消息不合格造成的，那么可以调整消息格式后再次发送。总之，处理发送失败的责任在 Producer 端而非 Broker 端。
+
+你可能会问，发送失败真的没可能是由 Broker 端的问题造成的吗？当然可能！如果你所有的 Broker 都宕机了，那么无论 Producer 端怎么重试都会失败的，此时你要做的是赶快处理 Broker 端的问题。但之前说的核心论据在这里依然是成立的：Kafka 依然不认为这条消息属于已提交消息，故对它不做任何持久化保证。
+
+### 案例 2：消费者程序丢失数据
+
+Consumer 端丢失数据主要体现在 Consumer 端要消费的消息不见了。Consumer 程序有个“位移”的概念，表示的是这个 Consumer 当前消费到的 Topic 分区的位置。下面这张图来自于官网，它清晰地展示了 Consumer 端的位移数据。
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271626959.png)
+
+比如对于 Consumer A 而言，它当前的位移值就是 9；Consumer B 的位移值是 11。
+
+这里的“位移”类似于我们看书时使用的书签，它会标记我们当前阅读了多少页，下次翻书的时候我们能直接跳到书签页继续阅读。
+
+正确使用书签有两个步骤：第一步是读书，第二步是更新书签页。如果这两步的顺序颠倒了，就可能出现这样的场景：当前的书签页是第 90 页，我先将书签放到第 100 页上，之后开始读书。当阅读到第 95 页时，我临时有事中止了阅读。那么问题来了，当我下次直接跳到书签页阅读时，我就丢失了第 96～99 页的内容，即这些消息就丢失了。
+
+同理，Kafka 中 Consumer 端的消息丢失就是这么一回事。要对抗这种消息丢失，办法很简单：维**持先消费消息（阅读），再更新位移**（书签）的顺序即可。这样就能最大限度地保证消息不丢失。
+
+当然，这种处理方式可能带来的问题是消息的重复处理，类似于同一页书被读了很多遍，但这不属于消息丢失的情形。在专栏后面的内容中，我会跟你分享如何应对重复消费的问题。
+
+除了上面所说的场景，其实还存在一种比较隐蔽的消息丢失场景。
+
+我们依然以看书为例。假设你花钱从网上租借了一本共有 10 章内容的电子书，该电子书的有效阅读时间是 1 天，过期后该电子书就无法打开，但如果在 1 天之内你完成阅读就退还租金。
+
+为了加快阅读速度，你把书中的 10 个章节分别委托给你的 10 个朋友，请他们帮你阅读，并拜托他们告诉你主旨大意。当电子书临近过期时，这 10 个人告诉你说他们读完了自己所负责的那个章节的内容，于是你放心地把该书还了回去。不料，在这 10 个人向你描述主旨大意时，你突然发现有一个人对你撒了谎，他并没有看完他负责的那个章节。那么很显然，你无法知道那一章的内容了。
+
+对于 Kafka 而言，这就好比 Consumer 程序从 Kafka 获取到消息后开启了多个线程异步处理消息，而 Consumer 程序自动地向前更新位移。假如其中某个线程运行失败了，它负责的消息没有被成功处理，但位移已经被更新了，因此这条消息对于 Consumer 而言实际上是丢失了。
+
+这里的关键在于 Consumer 自动提交位移，与你没有确认书籍内容被全部读完就将书归还类似，你没有真正地确认消息是否真的被消费就“盲目”地更新了位移。
+
+这个问题的解决方案也很简单**：如果是多线程异步处理消费消息，Consumer 程序不要开启自动提交位移，而是要应用程序手动提交位移**。在这里我要提醒你一下，单个 Consumer 程序使用多线程来消费消息说起来容易，写成代码却异常困难，因为你很难正确地处理位移的更新，也就是说避免无消费消息丢失很简单，但极易出现消息被消费了多次的情况。
+
+## 最佳实践
+
+看完这两个案例之后，我来分享一下 Kafka 无消息丢失的配置，每一个其实都能对应上面提到的问题。
+
+1. 不要使用 producer.send(msg)，而要使用 producer.send(msg, callback)。记住，一定要使用带有回调通知的 send 方法。
+
+2. 设置 acks = all。acks 是 Producer 的一个参数，代表了你对“已提交”消息的定义。如果设置成 all，则表明所有副本 Broker 都要接收到消息，该消息才算是“已提交”。这是最高等级的“已提交”定义。
+
+   > acks 和 min.insync.replicas 区别： replication.refactor是副本replica总数， min.insync.replicas是要求确保至少有多少个replica副本写入后才算是提交成功，这个参数是个硬指标；acks=all是个动态指标，确保当前能正常工作的replica副本都写入后才算是提交成功。举个例子：比如，此时副本总数3，即replication.refactor = 3，设置min.insync.replicas=2，acks=all，那如果所有副本都正常工作，消息要都写入三个副本，才算提交成功，此时这个min.insync.replicas=2下限值不起作用。如果其中一个副本因为某些原因挂了，此时acks=all的动态约束就是写入两个副本即可，触达了min.insync.replicas=2这个下限约束。如果三个副本挂了两个，此时ack=all的约束就变成了1个副本，但是因为有min.insync.replicas=2这个下限约束，写入就会不成功。
+
+3. 设置 retries 为一个较大的值。这里的 retries 同样是 Producer 的参数，对应前面提到的 Producer 自动重试。当出现网络的瞬时抖动时，消息发送可能会失败，此时配置了 retries > 0 的 Producer 能够自动重试消息发送，避免消息丢失。
+
+4. 设置 unclean.leader.election.enable = false。这是 Broker 端的参数，它控制的是哪些 Broker 有资格竞选分区的 Leader。如果一个 Broker 落后原先的 Leader 太多，那么它一旦成为新的 Leader，必然会造成消息的丢失。故一般都要将该参数设置成 false，即不允许这种情况的发生。
+
+5. 设置 replication.factor >= 3。这也是 Broker 端的参数。其实这里想表述的是，最好将消息多保存几份，毕竟目前防止消息丢失的主要机制就是冗余。
+
+6. 设置 min.insync.replicas > 1。这依然是 Broker 端参数，控制的是消息至少要被写入到多少个副本才算是“已提交”。设置成大于 1 可以提升消息持久性。在实际环境中千万不要使用默认值 1。
+
+7. 确保 replication.factor > min.insync.replicas。如果两者相等，那么只要有一个副本挂机，整个分区就无法正常工作了。我们不仅要改善消息的持久性，防止数据丢失，还要在不降低可用性的基础上完成。推荐设置成 replication.factor = min.insync.replicas + 1。
+
+8. 确保消息消费完成再提交。Consumer 端有个参数 enable.auto.commit，最好把它设置成 false，并采用手动提交位移的方式。就像前面说的，这对于单 Consumer 多线程处理的场景而言是至关重要的。
+
+## 小结
+
+今天，我们讨论了 Kafka 无消息丢失的方方面面。我们先从什么是消息丢失开始说起，明确了 Kafka 持久化保证的责任边界，随后以这个规则为标尺衡量了一些常见的数据丢失场景，最后通过分析这些场景，我给出了 Kafka 无消息丢失的“最佳实践”。总结起来，我希望你今天能有两个收获：
+
+* 明确 Kafka 持久化保证的含义和限定条件。
+* 熟练配置 Kafka 无消息丢失参数。
+
+![image-20220627165801152](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271658338.png)
+
+## 开放讨论
+
+其实，Kafka 还有一种特别隐秘的消息丢失场景：增加主题分区。当增加主题分区后，在某段“不凑巧”的时间间隔后，Producer 先于 Consumer 感知到新增加的分区，而 Consumer 设置的是“从最新位移处”开始读取消息，因此在 Consumer 感知到新分区前，Producer 发送的这些消息就全部“丢失”了，或者说 Consumer 无法读取到这些消息。严格来说这是 Kafka 设计上的一个小缺陷，你有什么解决的办法吗？
+
+
+
+## FAQ
+
+**单个 Consumer 程序使用多线程来消费消息说起来容易，写成代码却异常困难，因为你很难正确地处理位移的更新，也就是说避免无消费消息丢失很简单，但极易出现消息被消费了多次的情况。 关于这个问题，老师能否提供个java代码的最佳实践?**  
+
+作者回复: 写过一两篇，https://www.cnblogs.com/huxi2b/p/7089854.html， 但总觉得不太完美。如果你想深入了解的话，推荐读一下Flink Kafka Connector的源码
+
+# 12 | 客户端都有哪些不常见但是很高级的功能？
+
+## 什么是拦截器？
+
+如果你用过 Spring Interceptor 或是 Apache Flume，那么应该不会对拦截器这个概念感到陌生，其基本思想就是允许应用程序在不修改逻辑的情况下，动态地实现一组可插拔的事件处理逻辑链。它能够在主业务操作的前后多个时间点上插入对应的“拦截”逻辑。下面这张图展示了 Spring MVC 拦截器的工作原理：
+
+如果你用过 Spring Interceptor 或是 Apache Flume，那么应该不会对拦截器这个概念感到陌生，其基本思想就是允许应用程序在不修改逻辑的情况下，动态地实现一组可插拔的事件处理逻辑链。它能够在主业务操作的前后多个时间点上插入对应的“拦截”逻辑。下面这张图展示了 Spring MVC 拦截器的工作原理：
+
+![img](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271720773.png)
+
+拦截器 1 和拦截器 2 分别在请求发送之前、发送之后以及完成之后三个地方插入了对应的处理逻辑。而 Flume 中的拦截器也是同理，它们插入的逻辑可以是修改待发送的消息，也可以是创建新的消息，甚至是丢弃消息。这些功能都是以配置拦截器类的方式动态插入到应用程序中的，故可以快速地切换不同的拦截器而不影响主程序逻辑。
+
+Kafka 拦截器借鉴了这样的设计思路。你可以在消息处理的前后多个时点动态植入不同的处理逻辑，比如在消息发送前或者在消息被消费后。
+
+作为一个非常小众的功能，Kafka 拦截器自 0.10.0.0 版本被引入后并未得到太多的实际应用，我也从未在任何 Kafka 技术峰会上看到有公司分享其使用拦截器的成功案例。但即便如此，在自己的 Kafka 工具箱中放入这么一个有用的东西依然是值得的。今天我们就让它来发挥威力，展示一些非常酷炫的功能。
+
+## Kafka 拦截器
+
+**Kafka 拦截器分为生产者拦截器和消费者拦截器。**生产者拦截器允许你在发送消息前以及消息提交成功后植入你的拦截器逻辑；而消费者拦截器支持在消费消息前以及提交位移后编写特定逻辑。值得一提的是，这两种拦截器都支持链的方式，即你可以将一组拦截器串连成一个大的拦截器，Kafka 会按照添加顺序依次执行拦截器逻辑。
+
+举个例子，假设你想在生产消息前执行两个“前置动作”：第一个是为消息增加一个头信息，封装发送该消息的时间，第二个是更新发送消息数字段，那么当你将这两个拦截器串联在一起统一指定给 Producer 后，Producer 会按顺序执行上面的动作，然后再发送消息。
+
+当前 Kafka 拦截器的设置方法是通过参数配置完成的。生产者和消费者两端有一个相同的参数，名字叫 interceptor.classes，它指定的是一组类的列表，每个类就是特定逻辑的拦截器实现类。拿上面的例子来说，假设第一个拦截器的完整类路径是 com.yourcompany.kafkaproject.interceptors.AddTimeStampInterceptor，第二个类是 com.yourcompany.kafkaproject.interceptors.UpdateCounterInterceptor，那么你需要按照以下方法在 Producer 端指定拦截器：
+
+```bash
+
+Properties props = new Properties();
+List<String> interceptors = new ArrayList<>();
+interceptors.add("com.yourcompany.kafkaproject.interceptors.AddTimestampInterceptor"); // 拦截器1
+interceptors.add("com.yourcompany.kafkaproject.interceptors.UpdateCounterInterceptor"); // 拦截器2
+props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, interceptors);
+……
+```
+
+现在问题来了，我们应该怎么编写 AddTimeStampInterceptor 和 UpdateCounterInterceptor 类呢？其实很简单，这两个类以及你自己编写的所有 Producer 端拦截器实现类都要继承 org.apache.kafka.clients.producer.ProducerInterceptor 接口。该接口是 Kafka 提供的，里面有两个核心的方法。
+
+1. onSend：该方法会在消息发送之前被调用。如果你想在发送之前对消息“美美容”，这个方法是你唯一的机会。
+2. onAcknowledgement：该方法会在消息成功提交或发送失败之后被调用。还记得我在上一期中提到的发送回调通知 callback 吗？onAcknowledgement 的调用要早于 callback 的调用。值得注意的是，这个方法和 onSend 不是在同一个线程中被调用的，因此如果你在这两个方法中调用了某个共享可变对象，一定要保证线程安全哦。还有一点很重要，这个方法处在 Producer 发送的主路径中，所以最好别放一些太重的逻辑进去，否则你会发现你的 Producer TPS 直线下降。
+
+同理，指定消费者拦截器也是同样的方法，只是具体的实现类要实现 org.apache.kafka.clients.consumer.ConsumerInterceptor 接口，这里面也有两个核心方法。
+
+1. onConsume：该方法在消息返回给 Consumer 程序之前调用。也就是说在开始正式处理消息之前，拦截器会先拦一道，搞一些事情，之后再返回给你。
+2. onCommit：Consumer 在提交位移之后调用该方法。通常你可以在该方法中做一些记账类的动作，比如打日志等。
+
+一定要注意的是，**指定拦截器类时要指定它们的全限定名**，即 full qualified name。通俗点说就是要把完整包名也加上，不要只有一个类名在那里，并且还要保证你的 Producer 程序能够正确加载你的拦截器类。
+
+## 典型使用场景
+
+Kafka 拦截器都能用在哪些地方呢？其实，跟很多拦截器的用法相同，**Kafka 拦截器可以应用于包括客户端监控、端到端系统性能检测、消息审计等多种功能在内的场景**。
+
+我以端到端系统性能检测和消息审计为例来展开介绍下。
+
+今天 Kafka 默认提供的监控指标都是针对单个客户端或 Broker 的，你很难从具体的消息维度去追踪集群间消息的流转路径。同时，如何监控一条消息从生产到最后消费的端到端延时也是很多 Kafka 用户迫切需要解决的问题。
+
+从技术上来说，我们可以在客户端程序中增加这样的统计逻辑，但是对于那些将 Kafka 作为企业级基础架构的公司来说，在应用代码中编写统一的监控逻辑其实是很难的，毕竟这东西非常灵活，不太可能提前确定好所有的计算逻辑。另外，将监控逻辑与主业务逻辑耦合也是软件工程中不提倡的做法。
+
+现在，通过实现拦截器的逻辑以及可插拔的机制，我们能够快速地观测、验证以及监控集群间的客户端性能指标，特别是能够从具体的消息层面上去收集这些数据。这就是 Kafka 拦截器的一个非常典型的使用场景。
+
+我们再来看看消息审计（message audit）的场景。设想你的公司把 Kafka 作为一个私有云消息引擎平台向全公司提供服务，这必然要涉及多租户以及消息审计的功能。
+
+作为私有云的 PaaS 提供方，你肯定要能够随时查看每条消息是哪个业务方在什么时间发布的，之后又被哪些业务方在什么时刻消费。一个可行的做法就是你编写一个拦截器类，实现相应的消息审计逻辑，然后强行规定所有接入你的 Kafka 服务的客户端程序必须设置该拦截器。
+
+## 案例分享
+
+下面我以一个具体的案例来说明一下拦截器的使用。在这个案例中，我们通过编写拦截器类来统计消息端到端处理的延时，非常实用，我建议你可以直接移植到你自己的生产环境中。
+
+我曾经给一个公司做 Kafka 培训，在培训过程中，那个公司的人提出了一个诉求。他们的场景很简单，某个业务只有一个 Producer 和一个 Consumer，他们想知道该业务消息从被生产出来到最后被消费的平均总时长是多少，但是目前 Kafka 并没有提供这种端到端的延时统计。
+
+学习了拦截器之后，我们现在知道可以用拦截器来满足这个需求。既然是要计算总延时，那么一定要有个公共的地方来保存它，并且这个公共的地方还是要让生产者和消费者程序都能访问的。在这个例子中，我们假设数据被保存在 Redis 中。
+
+Okay，这个需求显然要实现生产者拦截器，也要实现消费者拦截器。我们先来实现前者：
+
+```java
+
+public class AvgLatencyProducerInterceptor implements ProducerInterceptor<String, String> {
+
+
+    private Jedis jedis; // 省略Jedis初始化
+
+
+    @Override
+    public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+        jedis.incr("totalSentMessage");
+        return record;
+    }
+
+
+    @Override
+    public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
+    }
+
+
+    @Override
+    public void close() {
+    }
+
+
+    @Override
+    public void configure(Map<java.lang.String, ?> configs) {
+    }
+```
+
+上面的代码比较关键的是在发送消息前更新总的已发送消息数。为了节省时间，我没有考虑发送失败的情况，因为发送失败可能导致总发送数不准确。不过好在处理思路是相同的，你可以有针对性地调整下代码逻辑。
+
+下面是消费者端的拦截器实现，代码如下：
+
+```java
+
+public class AvgLatencyConsumerInterceptor implements ConsumerInterceptor<String, String> {
+
+
+    private Jedis jedis; //省略Jedis初始化
+
+
+    @Override
+    public ConsumerRecords<String, String> onConsume(ConsumerRecords<String, String> records) {
+        long lantency = 0L;
+        for (ConsumerRecord<String, String> record : records) {
+            lantency += (System.currentTimeMillis() - record.timestamp());
+        }
+        jedis.incrBy("totalLatency", lantency);
+        long totalLatency = Long.parseLong(jedis.get("totalLatency"));
+        long totalSentMsgs = Long.parseLong(jedis.get("totalSentMessage"));
+        jedis.set("avgLatency", String.valueOf(totalLatency / totalSentMsgs));
+        return records;
+    }
+
+
+    @Override
+    public void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets) {
+    }
+
+
+    @Override
+    public void close() {
+    }
+
+
+    @Override
+    public void configure(Map<String, ?> configs) {
+```
+
+在上面的消费者拦截器中，我们在真正消费一批消息前首先更新了它们的总延时，方法就是用当前的时钟时间减去封装在消息中的创建时间，然后累计得到这批消息总的端到端处理延时并更新到 Redis 中。之后的逻辑就很简单了，我们分别从 Redis 中读取更新过的总延时和总消息数，两者相除即得到端到端消息的平均处理延时。
+
+创建好生产者和消费者拦截器后，我们按照上面指定的方法分别将它们配置到各自的 Producer 和 Consumer 程序中，这样就能计算消息从 Producer 端到 Consumer 端平均的处理延时了。这种端到端的指标监控能够从全局角度俯察和审视业务运行情况，及时查看业务是否满足端到端的 SLA 目标。
+
+## 小结
+
+今天我们花了一些时间讨论 Kafka 提供的冷门功能：拦截器。如之前所说，拦截器的出场率极低，以至于我从未看到过国内大厂实际应用 Kafka 拦截器的报道。但冷门不代表没用。事实上，我们可以利用拦截器满足实际的需求，比如端到端系统性能检测、消息审计等。
+
+从这一期开始，我们将逐渐接触到更多的实际代码。看完了今天的分享，我希望你能够亲自动手编写一些代码，去实现一个拦截器，体会一下 Kafka 拦截器的功能。要知道，“纸上得来终觉浅，绝知此事要躬行”。也许你在敲代码的同时，就会想到一个使用拦截器的绝妙点子，让我们拭目以待吧。
+
+![image-20220627173808057](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206271738230.png)
+
+## FAQ
+
+**遇到一个线上问题：消息经常堆积起来，不能消费了，重启服务就能继续消费了。我目前得能力还搞不定，望老师能给指点一二**
+
+消息堆积可能原因如下：1. 生产速度大于消费速度，这样可以适当增加分区，增加consumer数量，提升消费TPS；2. consumer消费性能低，查一下是否有很重的消费逻辑（比如拿到消息后写HDFS或HBASE这种逻辑就挺重的），看看是否可以优化consumer TPS；3. 确保consumer端没有因为异常而导致消费hang住; 4. 如果你使用的是消费者组，确保没有频繁地发生rebalance 主要排查下可能是哪些原因 
+
+**如果一个主题，由一个应用的名为A的消费组消费，然后把消费组名改为B，重新发布应用，这个时候是不是从主题的分区头开始消费？如何保证从上次A消费组的最新偏移量处开始消费？**
+
+我假设你指的名字是group.id。那么把A改成B对于Kafka而言就是新的consumer。新consumer从头还是从最新开始消费取决于auto.offset.reset的设置
+
+group.id 换了的话，可以先把老的 offset 取出来，再按 offset 开始消费，就能保持从之前的最新偏移量处开始消费了。
+
+**consumer消费：比如异步发积分，发积分的消息进入kafka，加积分服务监听kafka的topic，为了避免重复消费，加积分服务获取到消息后先写入mysql，并利用mysql的唯一索引的能力来避免重复消费，然后加积分服务异步去执行mysql中的信息去实现加积分。这种实现方案会导致消费性能低下，但是写入mysql一是避免重复消费，二是做一条成功的记录(便于后期查询)。这种如何优化呢**
+
+如果只是这样使用，我倒是不建议用MySQL来做去重，你还不如在应用层面自行去重。一定要用的话，不妨试试把MySQL表为topic key做分区表吧
+
+# 13 | Java生产者是如何管理TCP连接的？
+
+## 为何采用 TCP？
+
+Apache Kafka 的所有通信都是基于 TCP 的，而不是基于 HTTP 或其他协议。无论是生产者、消费者，还是 Broker 之间的通信都是如此。你可能会问，为什么 Kafka 不使用 HTTP 作为底层的通信协议呢？其实这里面的原因有很多，但最主要的原因在于 TCP 和 HTTP 之间的区别。
+
+> TCP是传输层协议，定义数据传输和连接方式的规范。握手过程中传送的包里不包含数据，三次握手完毕后，客户端与服务器才正式开始传送数据。 HTTP 超文本传送协议(Hypertext Transfer Protocol )是应用层协议，定义的是传输数据的内容的规范。 HTTP协议中的数据是利用TCP协议传输的，特点是客户端发送的每次请求都需要服务器回送响应，它是TCP协议族中的一种，默认使用 TCP 80端口。 好比网络是路，TCP是跑在路上的车，HTTP是车上的人。每个网站内容不一样，就像车上的每个人有不同的故事一样。
+
+从社区的角度来看，在开发客户端时，人们能够利用 TCP 本身提供的一些高级功能，比如多路复用请求以及同时轮询多个连接的能力。
+
+所谓的多路复用请求，即 multiplexing request，是指将两个或多个数据流合并到底层单一物理连接中的过程。TCP 的多路复用请求会在一条物理连接上创建若干个虚拟连接，每个虚拟连接负责流转各自对应的数据流。其实严格来说，TCP 并不能多路复用，它只是提供可靠的消息交付语义保证，比如自动重传丢失的报文。
+
+更严谨地说，作为一个基于报文的协议，TCP 能够被用于多路复用连接场景的前提是，上层的应用协议（比如 HTTP）允许发送多条消息。不过，我们今天并不是要详细讨论 TCP 原理，因此你只需要知道这是社区采用 TCP 的理由之一就行了。
+
+除了 TCP 提供的这些高级功能有可能被 Kafka 客户端的开发人员使用之外，社区还发现，目前已知的 HTTP 库在很多编程语言中都略显简陋。
+
+基于这两个原因，Kafka 社区决定采用 TCP 协议作为所有请求通信的底层协议。
+
+## Kafka 生产者程序概览
+
+Kafka 的 Java 生产者 API 主要的对象就是 KafkaProducer。通常我们开发一个生产者的步骤有 4 步。
+
+第 1 步：构造生产者对象所需的参数对象。
+
+第 2 步：利用第 1 步的参数对象，创建 KafkaProducer 对象实例。
+
+第 3 步：使用 KafkaProducer 的 send 方法发送消息。
+
+第 4 步：调用 KafkaProducer 的 close 方法关闭生产者并释放各种系统资源。
+
+上面这 4 步写成 Java 代码的话大概是这个样子：
+
+```java
+
+Properties props = new Properties ();
+props.put(“参数1”, “参数1的值”)；
+props.put(“参数2”, “参数2的值”)；
+……
+try (Producer<String, String> producer = new KafkaProducer<>(props)) {
+            producer.send(new ProducerRecord<String, String>(……), callback);
+  ……
+}
+```
+
+这段代码使用了 Java 7 提供的 try-with-resource 特性，所以并没有显式调用 producer.close() 方法。无论是否显式调用 close 方法，所有生产者程序大致都是这个路数。
+
+现在问题来了，当我们开发一个 Producer 应用时，生产者会向 Kafka 集群中指定的主题（Topic）发送消息，这必然涉及与 Kafka Broker 创建 TCP 连接。那么，Kafka 的 Producer 客户端是如何管理这些 TCP 连接的呢？
+
+## 何时创建 TCP 连接？
+
+要回答上面这个问题，我们首先要弄明白生产者代码是什么时候创建 TCP 连接的。就上面的那段代码而言，可能创建 TCP 连接的地方有两处：Producer producer = new KafkaProducer(props) 和 producer.send(msg, callback)。你觉得连向 Broker 端的 TCP 连接会是哪里创建的呢？前者还是后者，抑或是两者都有？请先思考 5 秒钟，然后我给出我的答案。
+
+首先，生产者应用在创建 KafkaProducer 实例时是会建立与 Broker 的 TCP 连接的。其实这种表述也不是很准确，应该这样说：在**创建 KafkaProducer 实例时，生产者应用会在后台创建并启动一个名为 Sender 的线程，该 Sender 线程开始运行时首先会创建与 Broker 的连接**。我截取了一段测试环境中的日志来说明这一点：
+
+> [2018-12-09 09:35:45,620] DEBUG [Producer clientId=producer-1] Initialize connection to node localhost:9093 (id: -2 rack: null) for sending metadata request (org.apache.kafka.clients.NetworkClient:1084)
+
+> [2018-12-09 09:35:45,622] DEBUG [Producer clientId=producer-1] Initiating connection to node localhost:9093 (id: -2 rack: null) using address localhost/127.0.0.1 (org.apache.kafka.clients.NetworkClient:914)
+
+> [2018-12-09 09:35:45,814] DEBUG [Producer clientId=producer-1] Initialize connection to node localhost:9092 (id: -1 rack: null) for sending metadata request (org.apache.kafka.clients.NetworkClient:1084)
+
+> [2018-12-09 09:35:45,815] DEBUG [Producer clientId=producer-1] Initiating connection to node localhost:9092 (id: -1 rack: null) using address localhost/127.0.0.1 (org.apache.kafka.clients.NetworkClient:914)
+
+> [2018-12-09 09:35:45,828] DEBUG [Producer clientId=producer-1] Sending metadata request (type=MetadataRequest, topics=) to node localhost:9093 (id: -2 rack: null) (org.apache.kafka.clients.NetworkClient:1068)
+
+你也许会问：怎么可能是这样？如果不调用 send 方法，这个 Producer 都不知道给哪个主题发消息，它又怎么能知道连接哪个 Broker 呢？难不成它会连接 bootstrap.servers 参数指定的所有 Broker 吗？嗯，是的，Java Producer 目前还真是这样设计的。
+
+> kafka java生产者实现类： 会在创建producer对象时 新建sender线程并与broker建立连接（针对Java实现这里有一个风险点：在创建对象时创建线程，会造成this指针逃逸） 【重点】：创建producer对象时会与bootstrap.servers所有的broker建立连接！！！！但是kafka只需要与其中一个broker建立连接就可以拿到所有的matedata信息，所以在kafka集群环境中只需要配置3-4个brokers即可
+
+我在这里稍微解释一下 bootstrap.servers 参数。它是 Producer 的核心参数之一，指定了这个 Producer 启动时要连接的 Broker 地址。请注意，这里的“启动时”，代表的是 Producer 启动时会发起与这些 Broker 的连接。因此，如果你为这个参数指定了 1000 个 Broker 连接信息，那么很遗憾，你的 Producer 启动时会首先创建与这 1000 个 Broker 的 TCP 连接。
+
+在实际使用过程中，我并不建议把集群中所有的 Broker 信息都配置到 bootstrap.servers 中，通常你指定 3～4 台就足以了。因为 Producer 一旦连接到集群中的任一台 Broker，就能拿到整个集群的 Broker 信息，故没必要为 bootstrap.servers 指定所有的 Broker。
+
+让我们回顾一下上面的日志输出，请注意我标为橙色的内容。从这段日志中，我们可以发现，在 KafkaProducer 实例被创建后以及消息被发送前，Producer 应用就开始创建与两台 Broker 的 TCP 连接了。当然了，在我的测试环境中，我为 bootstrap.servers 配置了 localhost:9092、localhost:9093 来模拟不同的 Broker，但是这并不影响后面的讨论。另外，日志输出中的最后一行也很关键：它表明 Producer 向某一台 Broker 发送了 METADATA 请求，尝试获取集群的元数据信息——这就是前面提到的 Producer 能够获取集群所有信息的方法。
+
+讲到这里，我有一些个人的看法想跟你分享一下。通常情况下，我都不认为社区写的代码或做的设计就一定是对的，因此，很多类似的这种“质疑”会时不时地在我脑子里冒出来。
+
+拿今天的这个 KafkaProducer 创建实例来说，社区的官方文档中提及 KafkaProducer 类是线程安全的。我本人并没有详尽地去验证过它是否真的就是 thread-safe 的，但是大致浏览一下源码可以得出这样的结论：KafkaProducer 实例创建的线程和前面提到的 Sender 线程共享的可变数据结构只有 RecordAccumulator 类，故维护了 RecordAccumulator 类的线程安全，也就实现了 KafkaProducer 类的线程安全。
+
+你不需要了解 RecordAccumulator 类是做什么的，你只要知道它主要的数据结构是一个 ConcurrentMap。TopicPartition 是 Kafka 用来表示主题分区的 Java 对象，本身是不可变对象。而 RecordAccumulator 代码中用到 Deque 的地方都有锁的保护，所以基本上可以认定 RecordAccumulator 类是线程安全的。
+
+说了这么多，我其实是想说，纵然 KafkaProducer 是线程安全的，我也不赞同创建 KafkaProducer 实例时启动 Sender 线程的做法。写了《Java 并发编程实践》的那位布赖恩·格茨（Brian Goetz）大神，明确指出了这样做的风险：在对象构造器中启动线程会造成 this 指针的逃逸。理论上，Sender 线程完全能够观测到一个尚未构造完成的 KafkaProducer 实例。当然，在构造对象时创建线程没有任何问题，但最好是不要同时启动它。
+
+> this 逃逸是指在构造函数返回之前其他线程就持有该对象的引用。调用尚未构造完成的对象的方法可能引起奇怪的问题。
+
+好了，我们言归正传。针对 TCP 连接何时创建的问题，目前我们的结论是这样的：**TCP 连接是在创建 KafkaProducer 实例时建立的**。那么，我们想问的是，它只会在这个时候被创建吗？
+
+当然不是！**TCP 连接还可能在两个地方被创建：一个是在更新元数据后，另一个是在消息发送时**。为什么说是可能？因为这两个地方并非总是创建 TCP 连接。当 Producer 更新了集群的元数据信息之后，如果发现与某些 Broker 当前没有连接，那么它就会创建一个 TCP 连接。同样地，当要发送消息时，Producer 发现尚不存在与目标 Broker 的连接，也会创建一个。
+
+> 生产者创建TCP连接另外两个场景： 1、获取matedata原数据时，发现有新的broker加入Kafka集群，这是生产者会与新的broker尝试建立TCP连接 2、发送message信息时，发现未与所属的topic/partition 的broker建立tcp连接，也会发起新的TCP连接 【配置】：生产者有个获取原数据配置参数 matedata.max.age.ms 强制生产者间隔**时间刷新最新的matedata信息
+
+接下来，我们来看看 Producer 更新集群元数据信息的两个场景。
+
+场景一：当 Producer 尝试给一个不存在的主题发送消息时，Broker 会告诉 Producer 说这个主题不存在。此时 Producer 会发送 METADATA 请求给 Kafka 集群，去尝试获取最新的元数据信息。
+
+场景二：Producer 通过 metadata.max.age.ms 参数定期地去更新元数据信息。该参数的默认值是 300000，即 5 分钟，也就是说不管集群那边是否有变化，Producer 每 5 分钟都会强制刷新一次元数据以保证它是最及时的数据。
+
+讲到这里，我们可以“挑战”一下社区对 Producer 的这种设计的合理性。目前来看，一个 Producer 默认会向集群的所有 Broker 都创建 TCP 连接，不管是否真的需要传输请求。这显然是没有必要的。再加上 Kafka 还支持强制将空闲的 TCP 连接资源关闭，这就更显得多此一举了。
+
+试想一下，在一个有着 1000 台 Broker 的集群中，你的 Producer 可能只会与其中的 3～5 台 Broker 长期通信，但是 Producer 启动后依次创建与这 1000 台 Broker 的 TCP 连接。一段时间之后，大约有 995 个 TCP 连接又被强制关闭。这难道不是一种资源浪费吗？很显然，这里是有改善和优化的空间的。
+
+## 何时关闭 TCP 连接？
+
+说完了 TCP 连接的创建，我们来说说它们何时被关闭。
+
+Producer 端关闭 TCP 连接的方式有两种：**一种是用户主动关闭；一种是 Kafka 自动关闭。**
+
+我们先说第一种。这里的主动关闭实际上是广义的主动关闭，甚至包括用户调用 kill -9 主动“杀掉”Producer 应用。当然最推荐的方式还是调用 producer.close() 方法来关闭。
+
+第二种是 Kafka 帮你关闭，这与 Producer 端参数 connections.max.idle.ms 的值有关。默认情况下该参数值是 9 分钟，即如果在 9 分钟内没有任何请求“流过”某个 TCP 连接，那么 Kafka 会主动帮你把该 TCP 连接关闭。用户可以在 Producer 端设置 connections.max.idle.ms=-1 禁掉这种机制。一旦被设置成 -1，TCP 连接将成为永久长连接。当然这只是软件层面的“长连接”机制，由于 Kafka 创建的这些 Socket 连接都开启了 keepalive，因此 keepalive 探活机制还是会遵守的。
+
+值得注意的是，在第二种方式中，TCP 连接是在 Broker 端被关闭的，但其实这个 TCP 连接的发起方是客户端，因此在 TCP 看来，这属于被动关闭的场景，即 passive close。被动关闭的后果就是会产生大量的 CLOSE_WAIT 连接，因此 Producer 端或 Client 端没有机会显式地观测到此连接已被中断。
+
+> CLOSE_WAIT状态是在被动方的，即：主动方发起close请求（FIN），被动方回复ACK后，被动方将进入CLOSE_WAIT状态； 之后，被动方才发起FIN请求，进行后续的关闭操作。 这里有个疑问：就是为啥被动关闭的后果是会产生大量的CLOSE_WAIT连接呢？ 个人的理解是被动方接下来会发起FIN请求来接着完成四次挥手中的后两次挥手。 直到看了下面的评论才明白，客户端有可能会hold住这个连接，比如不是使用完这个Producer实例发送完消息就进行关闭，而是一直持有，那么就可能会出现上面这种现象！
+
+## 小结
+
+我们来简单总结一下今天的内容。对最新版本的 Kafka（2.1.0）而言，Java Producer 端管理 TCP 连接的方式是：
+
+1. KafkaProducer 实例创建时启动 Sender 线程，从而创建与 bootstrap.servers 中所有 Broker 的 TCP 连接。
+2. KafkaProducer 实例首次更新元数据信息之后，还会再次创建与集群中所有 Broker 的 TCP 连接。
+3. 如果 Producer 端发送消息到某台 Broker 时发现没有与该 Broker 的 TCP 连接，那么也会立即创建连接。
+4. 如果设置 Producer 端 connections.max.idle.ms 参数大于 0，则步骤 1 中创建的 TCP 连接会被自动关闭；如果设置该参数 =-1，那么步骤 1 中创建的 TCP 连接将无法被关闭，从而成为“僵尸”连接。
+
+![image-20220628152643140](https://raw.githubusercontent.com/lijinzedev/picture/main/img/202206281526408.png)
+
+## FAQ
+
+**Producer 通过 metadata.max.age.ms定期更新元数据，在连接多个broker的情况下，producer是如何决定向哪个broker发起该请求？**
+
+向它认为当前负载最少的节点发送请求，所谓负载最少就是指未完成请求数最少的broker
+
+未完成的请求保存在InFlightsRequests中，结构是Map<Node,Deque<Request>>
+
+producer的InFlightsRequests中维护着每个broker的等待回复消息的队列，所有队列中等待回复的消息数最少的这个队列所对应的broker就是负载最小的，因为等待数量越少说明broker处理速度越快，负载越小
+
+**在kafka中创建了许多topic，目前对kafka了解还不够深入，不知道这个对性能有什么影响？topic的数量多大范围比较合适？**
+
+topic数量只要不是太多，通常没有什么影响。如果单台broker上分区数超过2k，那么可能要关注是否会出现性能问题了。
+
+**Kafka的元数据信息是存储在zookeeper中的，而Producer是通过broker来获取元数据信息的，那么这个过程是否是这样的，Producer向Broker发送一个获取元数据的请求给Broker，之后Broker再向zookeeper请求这个信息返回给Producer?**
+
+集群元数据持久化在ZooKeeper中，同时也缓存在每台Broker的内存中，因此不需要请求ZooKeeper
+
+**1. Producer实例创建和维护的tcp连接在底层是否是多个Producer实例共享的，还是Jvm内，多个Producer实例会各自独立创建和所有broker的tcp连接 2.Producer实例会和所有broker维持连接，这里的所有，是指和topic下各个分区leader副本所在的broker进行连接的，还是所有的broker，即使该broker下的所有topic分区都是flower**
+
+1. 这些TCP连接只会被Producer实例下的Sender线程使用。多个Producer实例会创建各自的TCP连接 2. 从长期来看，只和需要交互的Broker有连接
+
+**KafkaProducer是建议创建实例后复用，像连接池那样使用，还是建议每次发送构造一个实例？听完这讲后感觉哪个都不合理，每次new会有很大的开销，但是一次new感觉又有僵尸连接，KafkaProducer适合池化吗？还是建议单例？**
+
+KafkaProducer是线程安全的，复用是没有问题的。只是要监控内存缓冲区的使用情况。毕竟如果多个线程都使用一个KafkaProducer实例，缓冲器被填满的速度会变快。
+
+**目前遇到一个文中所提的一个问题，就是broker端被直接kill -9,然后产生不量的close_wait,导致重启broker后，producer和consumer都连不上，刷了大量的日志，把机器磁盘给刷爆了，请问老师这个问题我应该怎么去处理**
+
+为什么连不上了呢？是ulimit打满了吗？如果是可否调大一下？
+
+**请问Producer会和同一台broker建立多个TCP连接吗？**
+
+有可能，可能用于不同的目的，通常最终会收敛成一个
+
+# 14 | 幂等生产者和事务生产者是一回事吗？
+
+Kafka 消息交付可靠性保障以及精确处理一次语义的实现。
+
+所谓的消息交付可靠性保障，是指 Kafka 对 Producer 和 Consumer 要处理的消息提供什么样的承诺。常见的承诺有以下三种：
+
+* 最多一次（at most once）：消息可能会丢失，但绝不会被重复发送。
+* 至少一次（at least once）：消息不会丢失，但有可能被重复发送。
+* 精确一次（exactly once）：消息不会丢失，也不会被重复发送。
+
+目前，Kafka 默认提供的交付可靠性保障是第二种，即至少一次。在专栏第 11 期中，我们说过消息“已提交”的含义，即只有 Broker 成功“提交”消息且 Producer 接到 Broker 的应答才会认为该消息成功发送。不过倘若消息成功“提交”，但 Broker 的应答没有成功发送回 Producer 端（比如网络出现瞬时抖动），那么 Producer 就无法确定消息是否真的提交成功了。因此，它只能选择重试，也就是再次发送相同的消息。这就是 Kafka 默认提供至少一次可靠性保障的原因，不过这会导致消息重复发送。
+
+Kafka 也可以提供最多一次交付保障，只需要让 Producer 禁止重试即可。这样一来，消息要么写入成功，要么写入失败，但绝不会重复发送。我们通常不会希望出现消息丢失的情况，但一些场景里偶发的消息丢失其实是被允许的，相反，消息重复是绝对要避免的。此时，使用最多一次交付保障就是最恰当的。
+
+无论是至少一次还是最多一次，都不如精确一次来得有吸引力。大部分用户还是希望消息只会被交付一次，这样的话，消息既不会丢失，也不会被重复处理。或者说，即使 Producer 端重复发送了相同的消息，Broker 端也能做到自动去重。在下游 Consumer 看来，消息依然只有一条。

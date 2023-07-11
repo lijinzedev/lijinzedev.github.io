@@ -6,6 +6,7 @@ toc: true
 mathjax: true
 categories:
   - SpringCloud
+  - Alibaba
   - Nacos 
 tags:
   - SpringCloud 
