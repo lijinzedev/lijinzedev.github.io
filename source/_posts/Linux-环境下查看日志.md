@@ -44,6 +44,9 @@ summary:
 有的时候，我们想统计这个日志输出了多少行，我们可以使用这条命令：
 
 - `cat service.log | wc -l`
+- `cat filename |grep 关键字 -C10 `上面显示关键字的前后10行          -C显示前后多少行
+- `cat filename |grep 关键字 -A10`  上面显示关键字的后10行              -A显示后多少行
+- `cat filename |grep 关键字 -B10  `上面显示关键字的前10行              -B显示前多少行
 
 
 
@@ -150,5 +153,7 @@ docker-compose ps --services
 docker-compose ps 
 # 列出当docker-compose 容器id
 docker-compose ps  -q
+
+docker-compose logs -f    --tail="all" -- backend-dynamic-mining-backend 
 ```
 
