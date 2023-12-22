@@ -8,7 +8,7 @@ categories:
   - idea
 tags:
   - idea
-date: 2021-01-16 21:01:35
+date: 2023-12-22 21:01:35
 password:
 summary:
 ---
