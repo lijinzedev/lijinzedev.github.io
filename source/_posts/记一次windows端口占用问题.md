@@ -147,8 +147,8 @@ $ netsh int ipv4 add excludedportrange  protocol=tcp startport=8081 numberofport
 重新设置一下「TCP 动态端口范围」，让 `Hyper-V` 只在我们设定的范围内保留端口即可。可以以管理员权限运行下面的命令，将「TCP 动态端口范围」重新设定为 `49152-65535`。如果你觉得这个范围太大，还可以改小一点。
 
 ```bash
-netsh int ipv4 ``set` `dynamic tcp start=49152 num=16384
-netsh int ipv6 ``set` `dynamic tcp start=49152 num=16384
+netsh int ipv4  set dynamic tcp start=49152 num=16384
+netsh int ipv6  set dynamic tcp start=49152 num=16384
 ```
 
 重启电脑后，再运行命令 `netsh int ipv4 show dynamicport tcp` 查看动态端口范围，发现确实已经修改为了 `49152-65535`。现在只有这个范围内的端口可能会被保留了，基本不会影响日常使用（图 3）。
