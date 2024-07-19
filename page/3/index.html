@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curiosity的博客">
+<meta property="og:url" content="https://lijinzedev.github.io/page/3/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:author" content="Curiosity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/page/3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-19 06:03:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/06/27/%E8%AE%B0%E4%B8%80%E6%AC%A1linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A3%81%E7%9B%98%E6%BB%A1%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" title="记一次linux服务器磁盘满问题排查">记一次linux服务器磁盘满问题排查</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-27T14:11:13.000Z" title="发表于 2022-06-27 14:11:13">2022-06-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E8%BF%90%E7%BB%B4/linux/">linux</a></span></div><div class="content"> linux服务器磁盘满了怎么办
+ 方法一
+ 步骤一：遇到磁盘空间不足的报错时候，首先使用df -h查看磁盘空间使用情况。如下/ 目录磁盘空间达到100%。
+1234567891011[root@localhost]# df -h文件系统                    容量  已用  可用 已用% 挂载点devtmpfs                 4.8G     0  4.8G    0% /devtmpfs                    4.8G     0  4.8G    0% /dev/shmtmpfs                    4.8G  489M  4.3G   11% /runtmpfs                    4.8G     0  4.8G    0% /sys/fs/cgroup/dev/mapper/centos-root   50G   46G  4.4G   92% //dev/sda1               1014M  151M  864M   15% /boot/dev/mapper/centos- ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/06/13/kafka-%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="kafka 集群环境搭建">kafka 集群环境搭建</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-13T17:14:17.000Z" title="发表于 2022-06-13 17:14:17">2022-06-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">环境搭建</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/kafka/">kafka</a></span></div><div class="content"> 一、原生Docker命令
+
+
+删除所有dangling数据卷（即无用的Volume，僵尸文件）
+1docker volume rm $(docker volume ls -qf dangling=true)
+
+
+删除所有dangling镜像（即无tag的镜像）
+
+
+   1docker rmi $(docker images | grep &quot;^&lt;none&gt;&quot; | awk &quot;&#123;print $3&#125;&quot;
+
+
+删除所有关闭的容器
+1docker ps -a | grep Exit | cut -d &#x27; &#x27; -f 1 | xargs docker rm
+
+
+ 二、镜像选择
+环境为M1版本的mbp:
+
+Zookeeper采用zookeeper
+Kafka采用wurstmeister/kafka
+Kafka-Manager采用scjtqs/kafka-manager
+MySQL采用mysql/mysql-server
+
+ 三、集群规划
+
+
+
+hostname
+port
+listener
+
+
+
+
+zook1
+2 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/06/10/Kafka%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E5%AE%9E%E6%88%98/" title="Kafka核心技术实战">Kafka核心技术实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-10T09:15:18.000Z" title="发表于 2022-06-10 09:15:18">2022-06-10</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">极客时间读书笔记</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/kafka/">kafka</a></span></div><div class="content"> 开篇词
+在过去 5 年中，我经历了 Kafka 从最初的 0.8 版本逐步演进到现在的 2.3 版本的完整过程，踩了很多坑也交了很多学费，慢慢地我梳理出了一个相对系统、完整的 Kafka 应用实战指南，最终以“Kafka 核心技术与实战”专栏的形式呈现给你，希望分享我对 Apache Kafka 的理解和实战方面的经验，帮你透彻理解 Kafka、更好地应用 Kafka。
+你可能会有这样的疑问，**我为什么要学习 Kafka 呢？**要回答这个问题，我们不妨从更大的视角来审视它，先聊聊我对这几年互联网技术发展的理解吧。
+互联网蓬勃发展的这些年涌现出了很多令人眼花缭乱的新技术。以我个人的浅见，截止到 2019 年，当下互联网行业最火的技术当属 ABC 了，即所谓的 AI 人工智能、BigData 大数据和 Cloud 云计算云平台。我个人对区块链技术发展前景存疑，毕竟目前没有看到特别好的落地应用场景，也许在未来几年它会更令人刮目相看吧。
+在这 ABC 当中，坦率说 A 和 C 是有点曲高和寡的，不是所有玩家都能入场。反观 B 要显得平民得多，几乎所有公司都能参与进来。我曾经到过一个理发厅 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/05/27/git%E4%B8%8Essh%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" title="git与ssh配置相关问题">     <img class="post_bg" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git与ssh配置相关问题"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/05/27/git%E4%B8%8Essh%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" title="git与ssh配置相关问题">git与ssh配置相关问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-05-27T21:24:32.000Z" title="发表于 2022-05-27 21:24:32">2022-05-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git/">Git</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Git/%E9%85%8D%E7%BD%AE/">配置</a></span></div><div class="content"> Git SSH相关问题
+ 一 ssh生成
+ 1、进行配置
+12345# 检查下自己之前有没有已经生成ls -al ~/.ssh#设置Git的user name和email：git config --global user.name &quot;你的名字&quot;git config --global user.email &quot;你的邮箱@gmail.com&quot;
+ 2、生成秘钥
+代码参数含义：
+
+-t 指定密钥类型，默认是 rsa ，可以省略。
+-C 设置注释文字，比如邮箱。
+-f 指定密钥文件存储文件名。
+
+1234567891011121314151617181920212223242526# 生成秘钥ssh-keygen -t rsa -C &quot;你的邮箱@gmail.com&quot;# 接着按3个回车[root@localhost ~]# ssh-keygen -t rsa       &lt;== 建立密钥对，-t代表类型，有RSA和DSA两种Generating public/private rsa key pair.Enter file in wh ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/05/19/Nacos-%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/" title="Nacos 集群搭建">Nacos 集群搭建</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-05-19T13:46:32.000Z" title="发表于 2022-05-19 13:46:32">2022-05-19</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E9%9B%86%E7%BE%A4/">集群</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E9%9B%86%E7%BE%A4/Nacos/">Nacos</a></span></div><div class="content"> Nacos集群搭建
+ 官方文档
+https://nacos.io/zh-cn/docs/quick-start-docker.html
+ 环境
+
+M1
+Nacos 2.0.3
+
+ 步骤
+12# 拉取镜像docker pull zhusaidong/nacos-server-m1:2.0.3
+ Docker-Compose搭建Nacos单机版本
+123mkdir  -p ./mysql_53306/&#123;log,data,conf&#125;:mkdir -p ./nacos_8848/&#123;standalone-logs,init.d&#125;touch  ./nacos_8848/init.d/custom.properties
+nacos-standalone.yml
+12345678910111213141516171819202122232425262728293031323334353637383940version: &#x27;3&#x27;services:  mysql:    image: mysql/mysql-server:5.7    cont ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/05/05/Redis-%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" title="Redis 核心技术与实战">Redis 核心技术与实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-05-05T16:08:26.000Z" title="发表于 2022-05-05 16:08:26">2022-05-05</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">极客时间读书笔记</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/redis/">redis</a></span></div><div class="content"> 开篇词 | 这样学Redis，才能技高一筹
+
+“两大维度”就是指系统维分组度和应用维度，“三大主线”也就是指高性能、高可靠和高可扩展（可以简称为“三高”）。
+首先，从系统维度上说，你需要了解 Redis 的各项关键技术的设计原理，这些能够为你判断和推理问题打下坚实的基础，而且，你还能从中掌握一些优雅的系统设计规范，例如 run-to-complete 模型、epoll 网络模型，这些可以应用到你后续的系统开发实践中。
+这里有一个问题是，Redis 作为庞大的键值数据库，可以说遍地都是知识，一抓一大把，我们怎么能快速地知道该学哪些呢？别急，接下来就要看“三大主线”的魔力了。
+
+高性能主线，包括线程模型、数据结构、持久化、网络框架；
+高可靠主线，包括主从复制、哨兵机制；
+高可扩展主线，包括数据分片、负载均衡。
+
+其次，在应用维度上，我建议你按照两种方式学习: “应用场景驱动”和“典型案例驱动”，一个是“面”的梳理，一个是“点”的掌握。
+
+举个例子，如果你遇到了 Redis 的响应变慢问题，对照着这张图，你就可以发现，这个问题和 Redis 的性能主线相关，而性能主线又和数据结构、异步机制 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/04/19/JRebel%E7%83%AD%E9%83%A8%E7%BD%B2/" title="JRebel热部署">JRebel热部署</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-04-19T13:41:57.000Z" title="发表于 2022-04-19 13:41:57">2022-04-19</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/idea/">idea</a></span></div><div class="content"> 官方文档
+https://www.jrebel.com/products/jrebel/quickstart/intellij#installation
+ 手动热部署项目
+
+默认情况下，JRebel 热部署插件在你修改完已经编译好的 Java 文件失去焦点的时候，自动会将修改后 Java 文件编译，并替换掉旧的 Class 文件；
+
+使用 Jrebel 热部署插件启动Tomcat项目，一般修改一两个Java文件，可能热部署会很慢，在失去焦点的时候才会自动编译已经修改后的Java文件，并替换旧的class文件，此时IDEA中并没有太多热部署重新编译替换这一系列操作的提示信息，你根本不知道是否已经替换成功！
+重点理解：Recompile、Rebuild、Build功能区别：
+a）Recompile：对选定的目标（Java 类文件），进行强制性编译，不管目标是否是被修改过。
+b）Rebuild：对选定的目标（Project），进行强制性编译，不管目标是否是被修改过。由于 Rebuild 的目标只有 Project，所以 Rebuild 每次花的时间会比较长。
+c）Build：对选定的目标（ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/04/18/%E6%89%8B%E6%9C%BA%E7%9B%B8%E6%9C%BA%E6%8B%8D%E7%85%A7/" title="手机相机拍照">手机相机拍照</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-04-18T22:04:00.000Z" title="发表于 2022-04-18 22:04:00">2022-04-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></span></div><div class="content"> 一、
+ 二、构图
+九条万能好用的法则
+ 1.黄金分割法    1:0.618
+也就是三分法 九宫格  四个交叉点就是黄金分割点   拍人像是稳妥的构图
+ 2.点构图
+
+适合环境人像   场景通常视野开阔  画面干净   没有太多杂物  强调环境和人物和谐统一
+通常大环境 小人物
+人物只有一个点   有可能不好找到人物  所以也被称为“找你妹”构图
+ 3.对角线构图
+适用于拍摄景物或者风光
+拍摄植物和花朵 百试不爽  画面更饱满
+仔细寻找大自然本身就有的对角线哦
+
+
+
+
+ 4.中心构图
+并不是所有人像用三分法都好看
+有倒影的时候   一片平平 中间有突出的树的时候就适合中心构图  追求中心对称
+适用于人物特写 突出神态 饱满构图
+中心构图突出画面中心
+
+
+
+ 5.三角形构图
+静物和人像都可以尝试
+看起来饱满
+景物可以摆拍
+利用人物肢体动作 拍摄三角形构图
+看起来稳定又不失活泼
+
+
+
+
+
+ 6.引导线构图
+公路场景中 道路可以作为引导线
+
+
+
+
+ 7.重复线条构图
+利用画面本身的线条 如柱子  树木
+照片看起来工整 有秩序
+
+
+
+ 8.开放式构图
+先说什么是封闭式构图呢？
+它讲究画面完整 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/04/12/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="Java并发编程实战读书笔记">Java并发编程实战读书笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-04-12T09:23:29.000Z" title="发表于 2022-04-12 09:23:29">2022-04-12</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">极客时间读书笔记</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%93%E9%A2%98/">并发编程专题</a></span></div><div class="content"> 01 | 可见性、原子性和有序性问题：并发编程Bug的源头
+ 并发程序幕后的故事
+这些年，我们的 CPU、内存、I/O 设备都在不断迭代，不断朝着更快的方向努力。但是，在这个快速发展的过程中，有一个核心矛盾一直存在，就是这三者的速度差异。CPU 和内存的速度差异可以形象地描述为：CPU 是天上一天，内存是地上一年（假设 CPU 执行一条普通指令需要一天，那么 CPU 读写内存得等待一年的时间）。内存和 I/O 设备的速度差异就更大了，内存是天上一天，I/O 设备是地上十年。
+程序里大部分语句都要访问内存，有些还要访问 I/O，根据木桶理论（一只水桶能装多少水取决于它最短的那块木板），程序整体的性能取决于最慢的操作——读写 I/O 设备，也就是说单方面提高 CPU 性能是无效的。
+为了合理利用 CPU 的高性能，平衡这三者的速度差异，计算机体系结构、操作系统、编译程序都做出了贡献，主要体现为：
+
+CPU 增加了缓存，以均衡与内存的速度差异；
+操作系统增加了进程、线程，以分时复用 CPU，进而均衡 CPU 与 I/O 设备的速度差异；
+编译程序优化指令执行次序，使得缓存能够得到更加合理地 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/04/11/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BJMM-volatile/" title="并发编程之JMM&amp;volatile">并发编程之JMM&amp;volatile</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-04-11T20:31:35.000Z" title="发表于 2022-04-11 20:31:35">2022-04-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content"></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">10</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">操作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">配置</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/NIO/"><span class="card-category-list-name">NIO</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/Stream/"><span class="card-category-list-name">Stream</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/"><span class="card-category-list-name">Mac</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">环境搭建</span><span class="card-category-list-count">2</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BF%90%E7%BB%B4-shell/" style="font-size: 1.1em; color: #999">-运维 - shell</a> <a href="/tags/CI-CD/" style="font-size: 1.16em; color: #999b9e">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.44em; color: #99a7ba">Git</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Java/" style="font-size: 1.16em; color: #999b9e">Java</a> <a href="/tags/Mac/" style="font-size: 1.27em; color: #99a0a9">Mac</a> <a href="/tags/Maven/" style="font-size: 1.21em; color: #999ea4">Maven</a> <a href="/tags/Mybatis/" style="font-size: 1.1em; color: #999">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/SQL%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">SQL案例分析</a> <a href="/tags/Sharding-JDBC/" style="font-size: 1.1em; color: #999">Sharding-JDBC</a> <a href="/tags/Spring/" style="font-size: 1.21em; color: #999ea4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.1em; color: #999">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.27em; color: #99a0a9">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.1em; color: #999">SpringMVC</a> <a href="/tags/SpringMvc/" style="font-size: 1.21em; color: #999ea4">SpringMvc</a> <a href="/tags/SpringSecurity/" style="font-size: 1.1em; color: #999">SpringSecurity</a> <a href="/tags/Spring%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" style="font-size: 1.16em; color: #999b9e">Spring编程核心思想</a> <a href="/tags/UML/" style="font-size: 1.16em; color: #999b9e">UML</a> <a href="/tags/WSL/" style="font-size: 1.16em; color: #999b9e">WSL</a> <a href="/tags/WebRTC/" style="font-size: 1.16em; color: #999b9e">WebRTC</a> <a href="/tags/apt/" style="font-size: 1.16em; color: #999b9e">apt</a> <a href="/tags/cfw/" style="font-size: 1.1em; color: #999">cfw</a> <a href="/tags/docker/" style="font-size: 1.33em; color: #99a2af">docker</a> <a href="/tags/drools/" style="font-size: 1.1em; color: #999">drools</a> <a href="/tags/electron/" style="font-size: 1.1em; color: #999">electron</a> <a href="/tags/elk/" style="font-size: 1.1em; color: #999">elk</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/gitlab/" style="font-size: 1.1em; color: #999">gitlab</a> <a href="/tags/google/" style="font-size: 1.1em; color: #999">google</a> <a href="/tags/idea/" style="font-size: 1.27em; color: #99a0a9">idea</a> <a href="/tags/java/" style="font-size: 1.1em; color: #999">java</a> <a href="/tags/linux/" style="font-size: 1.39em; color: #99a4b4">linux</a> <a href="/tags/logback/" style="font-size: 1.1em; color: #999">logback</a> <a href="/tags/mysql/" style="font-size: 1.5em; color: #99a9bf">mysql</a> <a href="/tags/nginx/" style="font-size: 1.21em; color: #999ea4">nginx</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/redis/" style="font-size: 1.21em; color: #999ea4">redis</a> <a href="/tags/shell/" style="font-size: 1.1em; color: #999">shell</a> <a href="/tags/sql/" style="font-size: 1.1em; color: #999">sql</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">155</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-19T06:03:38.416Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

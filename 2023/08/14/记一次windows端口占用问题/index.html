@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>记一次windows端口占用问题 | Curiosity的博客</title><meta name="keywords" content="网络"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在我们开发web程序的时候，常常需要指定端口进行测试，但是在Windows下面，我们常常会遇到端口占用的相关问题，下面将展示端口占用的一些解决方法  1. 常规解决方案  a 查询端口 12345$ netstat -aon|findstr &quot;8080&quot;  # 这里的8080即要查询的端口号# 结果如下 TCP    0.0.0.0:8080           0.0.0.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次windows端口占用问题">
+<meta property="og:url" content="https://lijinzedev.github.io/2023/08/14/%E8%AE%B0%E4%B8%80%E6%AC%A1windows%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="在我们开发web程序的时候，常常需要指定端口进行测试，但是在Windows下面，我们常常会遇到端口占用的相关问题，下面将展示端口占用的一些解决方法  1. 常规解决方案  a 查询端口 12345$ netstat -aon|findstr &quot;8080&quot;  # 这里的8080即要查询的端口号# 结果如下 TCP    0.0.0.0:8080           0.0.0.0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2023-08-14T17:23:14.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.649Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2023/08/14/%E8%AE%B0%E4%B8%80%E6%AC%A1windows%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">记一次windows端口占用问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-14T17:23:14.000Z" title="发表于 2023-08-14 17:23:14">2023-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.649Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/windows/">windows</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/windows/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在我们开发web程序的时候，常常需要指定端口进行测试，但是在Windows下面，我们常常会遇到端口占用的相关问题，下面将展示端口占用的一些解决方法</p>
+<h2 id="1-常规解决方案"><a class="markdownIt-Anchor" href="#1-常规解决方案"></a> 1. 常规解决方案</h2>
+<h3 id="a-查询端口"><a class="markdownIt-Anchor" href="#a-查询端口"></a> <strong>a 查询端口</strong></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -aon|findstr <span class="string">&quot;8080&quot;</span>  <span class="comment"># 这里的8080即要查询的端口号</span></span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line"> TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       19024</span><br><span class="line"> TCP    127.0.0.1:2736         127.0.0.1:8080         ESTABLISHED     8960</span><br><span class="line"> TCP    127.0.0.1:8080         127.0.0.1:2736         ESTABLISHED     19024</span><br></pre></td></tr></table></figure>
+<h3 id="b-查询进程"><a class="markdownIt-Anchor" href="#b-查询进程"></a> <strong>b 查询进程</strong></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tasklist|findstr <span class="string">&quot;19024&quot;</span> <span class="comment"># 这里的19024即进程号,根据a查到</span></span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line">node.exe                     19024 Console                    1    267,456 K</span><br></pre></td></tr></table></figure>
+<h3 id="c-关闭进程"><a class="markdownIt-Anchor" href="#c-关闭进程"></a> <strong>c 关闭进程</strong></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ taskkill /T /F /PID 19024 <span class="comment"># 这里的19024为PID，根据b查到</span></span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line">成功: 已终止 PID 19024 (属于 PID 14464 子进程)的进程</span><br></pre></td></tr></table></figure>
+<h2 id="2-查找不到对应端口号"><a class="markdownIt-Anchor" href="#2-查找不到对应端口号"></a> <strong>2. 查找不到对应端口号</strong></h2>
+<p>有些时候，我们使用<code>netstat</code>命令找不到对应端口占用的程序，这时因为这时候这些端口被用作了windows自己的保留端口。</p>
+<p>每次开机，windows就会随机保留一些端口，原因如下</p>
+<ul>
+<li>因为发现病毒活动而被微软屏蔽</li>
+<li>安装过windows update以后，保留的端口发生变化</li>
+<li>开启了 <code>Hyper-V</code> 特性</li>
+<li>…</li>
+</ul>
+<p>由于这些端口被保留，所以即使没有任何程序在使用，用户自己创建的程序也无法使用这些端口(为什么你的梯子常常提示提示端口占用，这就是原因)。</p>
+<p>这些保留端口有一部分经常是8000及50000端口附近，所以经常会影响web开发，因为对于web来说，8080是一个常用的端口。</p>
+<h2 id="3-解决方法如下"><a class="markdownIt-Anchor" href="#3-解决方法如下"></a> 3 解决方法如下</h2>
+<h3 id="a-重启电脑直到需要的端口不在保留端口中"><a class="markdownIt-Anchor" href="#a-重启电脑直到需要的端口不在保留端口中"></a> <strong>a 重启电脑，直到需要的端口不在保留端口中</strong></h3>
+<p>运行 <code>net stop winnat</code> 停止 winnat 服务，然后再运行 <code>net start winnat</code> 启动 winnat 服务。</p>
+<h3 id="b-彻底解决"><a class="markdownIt-Anchor" href="#b-彻底解决"></a> <strong>b 彻底解决</strong></h3>
+<h4 id="1-查看保留端口"><a class="markdownIt-Anchor" href="#1-查看保留端口"></a> <strong>(1) 查看保留端口</strong></h4>
+<p>通常上一步无法解决端口占用问题的话，这一步里面，需要的端口会在保留端口中，这里<code>*</code>标注的代表这些范围内的端口不会被作为保留端口使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$ netsh interface ipv4 show excludedportrange protocol=tcp</span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line">协议 tcp 端口排除范围</span><br><span class="line"></span><br><span class="line">开始端口    结束端口</span><br><span class="line">----------    --------</span><br><span class="line">      1095        1194</span><br><span class="line">      1195        1294</span><br><span class="line">      1295        1394</span><br><span class="line">      1395        1494</span><br><span class="line">      1495        1594</span><br><span class="line">      2180        2279</span><br><span class="line">      2280        2379</span><br><span class="line">      2380        2479</span><br><span class="line">      2480        2579</span><br><span class="line">      2580        2679</span><br><span class="line">      3000        3000     *</span><br><span class="line">      3033        3132</span><br><span class="line">      3133        3232</span><br><span class="line">      8028        8028</span><br><span class="line">      8080        8080     *</span><br><span class="line">      8996        8996</span><br><span class="line">     10157       10256</span><br><span class="line">     10257       10356</span><br><span class="line">     10357       10456</span><br><span class="line">     10457       10556</span><br><span class="line">     10557       10656</span><br><span class="line">     10657       10756</span><br><span class="line">     50000       50059     *</span><br><span class="line">     55500       55599     *</span><br><span class="line"></span><br><span class="line">* - 管理的端口排除。</span><br></pre></td></tr></table></figure>
+<h4 id="2-排除端口"><a class="markdownIt-Anchor" href="#2-排除端口"></a> <strong>(2) 排除端口</strong></h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ netsh int ipv4 add excludedportrange  protocol=tcp startport=8081 numberofports=10</span><br><span class="line"> <span class="comment"># 这里8081为开始的端口，10的意思为8081-8090这些端口全都要移出保留端口，如果只想8081不作为端口，那么10可以改成1</span></span><br><span class="line"> $ netsh interface ipv4 show excludedportrange protocol=tcp</span><br><span class="line"> <span class="comment"># 再次查询，结果如下</span></span><br><span class="line"> 开始端口    结束端口</span><br><span class="line"> ----------    --------</span><br><span class="line">       1095        1194</span><br><span class="line">       1195        1294</span><br><span class="line">       1295        1394</span><br><span class="line">       1395        1494</span><br><span class="line">       1495        1594</span><br><span class="line">       2180        2279</span><br><span class="line">       2280        2379</span><br><span class="line">       2380        2479</span><br><span class="line">       2480        2579</span><br><span class="line">       2580        2679</span><br><span class="line">       3000        3000     *</span><br><span class="line">       3033        3132</span><br><span class="line">       3133        3232</span><br><span class="line">       8028        8028</span><br><span class="line">       8080        8080     *</span><br><span class="line">       8081        8090     *</span><br><span class="line">       8996        8996</span><br><span class="line">      10157       10256</span><br><span class="line">      10257       10356</span><br><span class="line">      10357       10456</span><br><span class="line">      10457       10556</span><br><span class="line">      10557       10656</span><br><span class="line">      10657       10756</span><br><span class="line">      50000       50059     *</span><br><span class="line">      55500       55599     *</span><br></pre></td></tr></table></figure>
+<h4 id="3-重新设置一下tcp-动态端口范围"><a class="markdownIt-Anchor" href="#3-重新设置一下tcp-动态端口范围"></a> (3) 重新设置一下「TCP 动态端口范围</h4>
+<p>重新设置一下「TCP 动态端口范围」，让 <code>Hyper-V</code> 只在我们设定的范围内保留端口即可。可以以管理员权限运行下面的命令，将「TCP 动态端口范围」重新设定为 <code>49152-65535</code>。如果你觉得这个范围太大，还可以改小一点。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh int ipv4  <span class="built_in">set</span> dynamic tcp start=49152 num=16384</span><br><span class="line">netsh int ipv6  <span class="built_in">set</span> dynamic tcp start=49152 num=16384</span><br></pre></td></tr></table></figure>
+<p>重启电脑后，再运行命令 <code>netsh int ipv4 show dynamicport tcp</code> 查看动态端口范围，发现确实已经修改为了 <code>49152-65535</code>。现在只有这个范围内的端口可能会被保留了，基本不会影响日常使用（图 3）。</p>
+<p>命令示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 禁用Hyper-V</span></span><br><span class="line">dism.exe /Online /Disable-Feature:Microsoft-Hyper-V</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Hyper-V</span></span><br><span class="line">dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示动态端口范围</span></span><br><span class="line">netsh int ipv4 show dynamicport tcp</span><br><span class="line"><span class="comment"># 显示例外端口范围</span></span><br><span class="line">netsh interface ipv4 show excludedportrange protocol=tcp</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置动态端口TCP范围</span></span><br><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamicport tcp start=1024 num=13977</span><br><span class="line"><span class="comment"># 设置动态端口UDP范围</span></span><br><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamicport udp start=1024 num=13977</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加例外端口</span></span><br><span class="line">netsh int ipv4 add excludedportrange protocol=tcp startport=1099 numberofports=1</span><br></pre></td></tr></table></figure>
+<h2 id="4-idea无法启动"><a class="markdownIt-Anchor" href="#4-idea无法启动"></a> <strong>4. IDEA无法启动</strong></h2>
+<p>有时候，打开了IDEA，但是IDEA一直处于加载状态，始终进不去。</p>
+<p>其实如果查看报错的日志的话，会看到与端口相关的报错提示，比如<code>bindException</code>关键词，这也和windows保留端口有关系，这时候可以按照以下步骤操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ net stop winnat</span><br><span class="line">Windows NAT Driver 服务已成功停止。</span><br><span class="line">$ net start winnat</span><br></pre></td></tr></table></figure>
+<p>重启NAT服务，这时候重新打开IDEA，就可以正常启动了。</p>
+<p>此外也可以参考步骤2，排除端口，这里的端口范围可以去IDEA官网查询</p>
+<h2 id="备注"><a class="markdownIt-Anchor" href="#备注"></a> <strong>备注</strong></h2>
+<h3 id="1-添加保留端口"><a class="markdownIt-Anchor" href="#1-添加保留端口"></a> <strong>1. 添加保留端口</strong></h3>
+<p>上面的方法主要是如何排除保留端口，如果想要添加保留端口，让应用程序无法使用这些端口，可以参考微软官方的做法</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/troubleshoot/windows-server/networking/reserve-a-range-of-ephemeral-ports">https://learn.microsoft.com/zh-cn/troubleshoot/windows-server/networking/reserve-a-range-of-ephemeral-ports</a></p>
+<h3 id="2-hyper启用和禁用命令"><a class="markdownIt-Anchor" href="#2-hyper启用和禁用命令"></a> <strong>2 <code>Hyper</code>启用和禁用命令</strong></h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 禁用</span></span><br><span class="line">dism.exe /Online /Disable-Feature:Microsoft-Hyper-V /All</span><br><span class="line"><span class="comment"># 启用</span></span><br><span class="line">dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhaoji.wang/solve-the-problem-of-windows-10-ports-being-randomly-reserved-occupied-by-hyper-v/">https://zhaoji.wang/solve-the-problem-of-windows-10-ports-being-randomly-reserved-occupied-by-hyper-v/</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2023/08/14/%E8%AE%B0%E4%B8%80%E6%AC%A1windows%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/">https://lijinzedev.github.io/2023/08/14/%E8%AE%B0%E4%B8%80%E6%AC%A1windows%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C/">网络</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/15/Postgrep-sql%E8%AF%AD%E5%8F%A5%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB%E6%93%8D%E4%BD%9C/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Postgrep sql语句进行数据库迁移操作</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/07/Windows-%E5%AE%89%E8%A3%85psping%E5%B7%A5%E5%85%B7/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Windows 安装psping工具</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B8%B8%E8%A7%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text"> 1. 常规解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E6%9F%A5%E8%AF%A2%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.1.</span> <span class="toc-text"> a 查询端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> b 查询进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-%E5%85%B3%E9%97%AD%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text"> c 关闭进程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9F%A5%E6%89%BE%E4%B8%8D%E5%88%B0%E5%AF%B9%E5%BA%94%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="toc-number">2.</span> <span class="toc-text"> 2. 查找不到对应端口号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E5%A6%82%E4%B8%8B"><span class="toc-number">3.</span> <span class="toc-text"> 3 解决方法如下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E9%87%8D%E5%90%AF%E7%94%B5%E8%84%91%E7%9B%B4%E5%88%B0%E9%9C%80%E8%A6%81%E7%9A%84%E7%AB%AF%E5%8F%A3%E4%B8%8D%E5%9C%A8%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3%E4%B8%AD"><span class="toc-number">3.1.</span> <span class="toc-text"> a 重启电脑，直到需要的端口不在保留端口中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E5%BD%BB%E5%BA%95%E8%A7%A3%E5%86%B3"><span class="toc-number">3.2.</span> <span class="toc-text"> b 彻底解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9F%A5%E7%9C%8B%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.2.1.</span> <span class="toc-text"> (1) 查看保留端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%8E%92%E9%99%A4%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.2.2.</span> <span class="toc-text"> (2) 排除端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%87%8D%E6%96%B0%E8%AE%BE%E7%BD%AE%E4%B8%80%E4%B8%8Btcp-%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3%E8%8C%83%E5%9B%B4"><span class="toc-number">3.2.3.</span> <span class="toc-text"> (3) 重新设置一下「TCP 动态端口范围</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-idea%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8"><span class="toc-number">4.</span> <span class="toc-text"> 4. IDEA无法启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E6%B3%A8"><span class="toc-number">5.</span> <span class="toc-text"> 备注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E4%BF%9D%E7%95%99%E7%AB%AF%E5%8F%A3"><span class="toc-number">5.1.</span> <span class="toc-text"> 1. 添加保留端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-hyper%E5%90%AF%E7%94%A8%E5%92%8C%E7%A6%81%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">5.2.</span> <span class="toc-text"> 2 Hyper启用和禁用命令</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

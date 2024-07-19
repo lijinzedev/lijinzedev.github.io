@@ -1,0 +1,330 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nginx 限流 | Curiosity的博客</title><meta name="keywords" content="nginx"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Nginx 限流篇 实验环境：  树莓派4b ubuntu server nginx arm64v8-1.21.1   一、前言 随着业务的扩散，系统并发越来越高时,有三样利器用来保护系统，分别是缓存、降级和限流。 **缓存:**缓存是现在系统中必不可少的模块,并且已经成为了高并发高性能架构的一个关键组件，缓存的目的是提升系统访问速度和增大系统处理容量。 **降级:**这个在天猫双11的时候非常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 限流">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/08/01/Nginx-%E9%99%90%E6%B5%81/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="Nginx 限流篇 实验环境：  树莓派4b ubuntu server nginx arm64v8-1.21.1   一、前言 随着业务的扩散，系统并发越来越高时,有三样利器用来保护系统，分别是缓存、降级和限流。 **缓存:**缓存是现在系统中必不可少的模块,并且已经成为了高并发高性能架构的一个关键组件，缓存的目的是提升系统访问速度和增大系统处理容量。 **降级:**这个在天猫双11的时候非常">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-08-01T23:50:10.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.493Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/08/01/Nginx-%E9%99%90%E6%B5%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Nginx 限流</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-01T23:50:10.000Z" title="发表于 2021-08-01 23:50:10">2021-08-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.493Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nginx/">nginx</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="nginx-限流篇"><a class="markdownIt-Anchor" href="#nginx-限流篇"></a> Nginx 限流篇</h1>
+<p>实验环境：</p>
+<ul>
+<li>树莓派4b ubuntu server</li>
+<li>nginx arm64v8-1.21.1</li>
+</ul>
+<h2 id="一-前言"><a class="markdownIt-Anchor" href="#一-前言"></a> 一、前言</h2>
+<p>随着业务的扩散，系统并发越来越高时,有三样利器用来保护系统，分别是缓存、降级和限流。</p>
+<p>**缓存:**缓存是现在系统中必不可少的模块,并且已经成为了高并发高性能架构的一个关键组件，缓存的目的是提升系统访问速度和增大系统处理容量。</p>
+<p>**降级:**这个在天猫双11的时候非常常见，降级是当服务出现问题或者影响到核心流程时，需要暂时屏蔽掉，待高峰或者问题解决后再打开。</p>
+<p>**限流:**限流的目的是通过对并发访问/请求进行限速，或者对一个时间窗口内的请求进行限速来保护系统，一旦达到限制速率则可以拒绝服务、排队或等待、降级等处理</p>
+<h2 id="二-docker环境搭建"><a class="markdownIt-Anchor" href="#二-docker环境搭建"></a> 二、Docker环境搭建</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建文件夹</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /docker/nginx/&#123;html,logs&#125;</span><br><span class="line"><span class="built_in">cd</span> /docker/nginx</span><br><span class="line"><span class="comment"># 拷贝文件</span></span><br><span class="line">docker run --name tmp-nginx-container -d arm64v8/nginx</span><br><span class="line">docker <span class="built_in">cp</span> tmp-nginx-container:/etc/nginx/nginx.conf $(<span class="built_in">pwd</span>)</span><br><span class="line">docker <span class="built_in">rm</span> -f tmp-nginx-container</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nginx</span></span><br><span class="line">docker run -d -p 8080:80 --name nginx -v $(<span class="built_in">pwd</span>)/html:/usr/share/nginx/html -v $(<span class="built_in">pwd</span>)/nginx.conf:/etc/nginx/nginx.conf -v $(<span class="built_in">pwd</span>)/logs:/var/log/nginx arm64v8/nginx</span><br><span class="line"><span class="comment"># 测试 创建index.html</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;<span class="built_in">head</span>&gt;</span><br><span class="line">&lt;meta charset=<span class="string">&quot;utf-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;nginx&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;hello world!&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"><span class="comment"># 访问</span></span><br><span class="line">curl localhost:8080</span><br></pre></td></tr></table></figure>
+<h2 id="三-nginx如何限流"><a class="markdownIt-Anchor" href="#三-nginx如何限流"></a> 三、Nginx如何限流</h2>
+<p><code>Nginx</code>的”流量限制”使用漏桶算法(<em>leaky bucket algorithm</em>)，该算法在通讯和分组交换计算机网络中广泛使用，用以处理带宽有限时的突发情况。就好比，一个桶口在倒水，桶底在漏水的水桶。如果桶口倒水的速率大于桶底的漏水速率，桶里面的水将会溢出；同样，在请求处理方面，水代表来自客户端的请求，水桶代表根据”先进先出调度算法”(FIFO)等待被处理的请求队列，桶底漏出的水代表离开缓冲区被服务器处理的请求，桶口溢出的水代表被丢弃和不被处理的请求。</p>
+<h3 id="31-配置基本的限流"><a class="markdownIt-Anchor" href="#31-配置基本的限流"></a> 3.1 配置基本的限流</h3>
+<blockquote>
+<p>Nginx自身有的请求限制模块<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html">ngx_http_limit_req_module</a>、流量限制模块<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html">ngx_stream_limit_conn_module</a>基于令牌桶算法，可以方便的控制令牌速率，自定义调节限流，实现基本的限流控制。</p>
+<p>对于提供下载的网站，肯定是要进行流量控制的，例如软件下载站、视频服务等。<br>
+它也可以减少一些爬虫程序或者DDOS的攻击。</p>
+</blockquote>
+<p><strong>1 添加limit_zone和limit_req_zone</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">limit_zone</span> one  <span class="variable">$binary_remote_addr</span>  <span class="number">20m</span>;</span><br><span class="line"><span class="attribute">limit_req_zone</span>  <span class="variable">$binary_remote_addr</span>  zone=req_one:<span class="number">20m</span> rate=12r/s;</span><br></pre></td></tr></table></figure>
+<p><strong>2 添加limit_conn 和limit_req</strong></p>
+<p>这个变量可以在<code>http</code>, <code>server</code>, <code>location</code>使用 如果限制nginx上的所有服务，可以添加到http里面 （如果你需要限制部分服务，可在nginx/conf/domains里面选择相应的server或者location添加上便可）</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">limit_conn</span> one <span class="number">10</span>;</span><br><span class="line"><span class="attribute">limit_req</span> zone=req_one burst=<span class="number">120</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 是针对每个变量(这里指IP，即$binary_remote_addr)定义一个存储session状态的容器。这个示例中定义了一个20m的容器，按照32bytes/session，可以处理640000个session。</span></span><br><span class="line">limit_zone，</span><br><span class="line"><span class="comment"># 与limit_zone类似。rate是请求频率. 每秒允许12个请求。</span></span><br><span class="line"><span class="attribute">limit_req_zone</span> </span><br><span class="line"><span class="comment"># 表示一个IP能发起10个并发连接数</span></span><br><span class="line">limit_conn  one <span class="number">10</span> </span><br><span class="line"><span class="comment"># 与limit_req_zone对应。burst表示缓存住的请求数。</span></span><br><span class="line">limit_req:</span><br></pre></td></tr></table></figure>
+<h4 id="311-limit_req_zone-速率控制"><a class="markdownIt-Anchor" href="#311-limit_req_zone-速率控制"></a> 3.1.1 limit_req_zone  速率控制</h4>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">limit_req_zone</span> <span class="variable">$binary_remote_addr</span> zone=mylimit:<span class="number">10m</span> rate=10r/s;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="section">location</span> /login/ &#123;</span><br><span class="line">		<span class="attribute">limit_req</span> zone=mylimit;</span><br><span class="line">		<span class="attribute">proxy_pass</span> http://my_upstream;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3111-定义"><a class="markdownIt-Anchor" href="#3111-定义"></a> 3.1.1.1 定义</h5>
+<p>用来限制单位时间内的请求数，限制单一的IP地址的请求的处理速率，即速率限制,采用的漏桶算法 “leaky bucket”。</p>
+<p><code>limit_req_zone</code>指令通常在HTTP块中定义，使其可在多个上下文中使用，它需要以下三个参数：</p>
+<ul>
+<li><strong>Key</strong> - 定义应用限制的请求特性。示例中的Nginx变量<code>$binary_remote_addr</code>，保存客户端IP地址的二进制形式。这意味着，我们可以将每个不同的IP地址限制到，通过第三个参数设置的请求速率。(使用该变量是因为比字符串形式的客户端IP地址<code>$remote_addr</code>，占用更少的空间)</li>
+<li><strong>Zone</strong> - 定义用于存储每个IP地址状态以及被限制请求URL访问频率的共享内存区域。保存在内存共享区域的信息，意味着可以在Nginx的worker进程之间共享。定义分为两个部分：通过<code>zone=keyword</code>标识区域的名字，以及冒号后面跟区域大小。16000个IP地址的状态信息，大约需要1MB，所以示例中区域可以存储160000个IP地址。</li>
+<li><strong>Rate</strong> - 定义最大请求速率。在示例中，速率不能超过每秒10个请求。Nginx实际上以毫秒的粒度来跟踪请求，所以速率限制相当于每100毫秒1个请求。因为不允许”突发情况”(见下一章节)，这意味着在前一个请求100毫秒内到达的请求将被拒绝。、</li>
+</ul>
+<blockquote>
+<p>当Nginx需要添加新条目时存储空间不足，将会删除旧条目。如果释放的空间仍不够容纳新记录，Nginx将会返回 <strong>503状态码</strong>(Service Temporarily Unavailable)。另外，为了防止内存被耗尽，Nginx每次创建新条目时，最多删除两条60秒内未使用的条目。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_zone"><code>limit_req_zone</code></a>指令定义了流量限制相关的参数，而<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req"><code>limit_req</code></a>指令在出现的上下文中启用流量限制(示例中，对于”/login/”的所有请求)。</p>
+<p><code>limit_req_zone</code>指令设置流量限制和共享内存区域的参数，但实际上并不限制请求速率。所以需要通过添加<code>limit_req</code>指令，将流量限制应用在特定的<code>location</code>或者<code>server</code>块。在上面示例中，我们对<code>/login/</code>请求进行流量限制。</p>
+<p>现在每个IP地址被限制为每秒只能请求10次<code>/login/</code>，更准确地说，在前一个请求的100毫秒内不能请求该URL。</p>
+<h5 id="3112-简单使用"><a class="markdownIt-Anchor" href="#3112-简单使用"></a> 3.1.1.2 简单使用</h5>
+<p>在http中添加：<code>limit_req_zone $binary_remote_addr zone=mylimit:10m rate=10r/s;</code></p>
+<ul>
+<li>第一个参数：$binary_remote_addr 表示通过remote_addr这个标识来做限制，“binary_”的目的是缩写内存占用量，是限制同一客户端ip地址。</li>
+<li>第二个参数：zone=one:10m表示生成一个大小为10M，名字为one的内存区域，用来存储访问的频次信息。</li>
+<li>第三个参数：rate=1r/s表示允许相同标识的客户端的访问频次，这里限制的是每秒10次，还可以有比如30r/m的。</li>
+</ul>
+<p>限流速度为每秒10次请求，如果有10次请求同时到达一个空闲的nginx，他们都能得到执行吗？</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801172809.png" alt></p>
+<p>漏桶漏出请求是匀速的。10r/s是怎样匀速的呢？每100ms漏出一个请求。</p>
+<p>在这样的配置下，桶是空的，所有不能实时漏出的请求，都会被拒绝掉。</p>
+<p>所以如果10次请求同时到达，那么只有一个请求能够得到执行，其它的，都会被拒绝。</p>
+<h5 id="3113-处理突发"><a class="markdownIt-Anchor" href="#3113-处理突发"></a> 3.1.1.3 处理突发</h5>
+<p>如果我们在100毫秒内接收到2个请求，怎么办？对于第二个请求，Nginx将给客户端返回状态码503。这可能并不是我们想要的结果，因为应用本质上趋向于突发性。相反地，我们希望缓冲任何超额的请求，然后及时地处理它们。我们更新下配置，在<code>limit_req</code>中使用<code>burst</code>参数：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> /login/ &#123;</span><br><span class="line">	<span class="attribute">limit_req</span> zone=mylimit burst=<span class="number">12</span>;</span><br><span class="line">	<span class="attribute">proxy_pass</span> http://my_upstream;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>第一个参数：zone=one 设置使用哪个配置区域来做限制，与上面limit_req_zone 里的name对应。</p>
+</li>
+<li>
+<p>第二个参数：burst=12，重点说明一下这个配置，burst是爆发的意思，这个配置的意思是设置一个大小为5的缓冲区当有大量请求（爆发）过来时，超过了访问频次限制的请求可以先放到这个缓冲区内。例如，如果从一个给定IP地址发送13个请求，Nginx会立即将第一个请求发送到上游服务器群，然后将余下12个请求放在队列中。然后每100毫秒转发一个排队的请求，只有当传入请求使队列中排队的请求数超过12时，Nginx才会向客户端返回503。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801185744.png" alt="Burst"></p>
+</li>
+</ul>
+<p>逻辑上叫漏桶，实现起来是FIFO队列，把得不到执行的请求暂时缓存起来。</p>
+<p>这样漏出的速度仍然是100ms一个请求，但并发而来，暂时得不到执行的请求，可以先缓存起来。只有当队列满了的时候，才会拒绝接受新请求。</p>
+<p>这样漏桶在限流的同时，也起到了削峰填谷的作用。</p>
+<p>在这样的配置下，如果有10次请求同时到达，它们会依次执行，每100ms执行1个。</p>
+<p>虽然得到执行了，但因为排队执行，延迟大大增加，在很多场景下仍然是不能接受的。</p>
+<h5 id="3114-无延迟的排队"><a class="markdownIt-Anchor" href="#3114-无延迟的排队"></a> 3.1.1.4 无延迟的排队</h5>
+<p>配置<code>burst</code>参数将会使通讯更流畅，但是可能会不太实用，因为该配置会使站点看起来很慢。在上面的示例中，队列中的第20个包需要等待2秒才能被转发，此时返回给客户端的响应可能不再有用。要解决这个情况，可以在<code>burst</code>参数后添加<code>nodelay</code>参数：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 存储空间为10m 每秒钟只允许有10个请求经过</span></span><br><span class="line"><span class="attribute">limit_req_zone</span> <span class="variable">$binary_remote_addr</span> zone=ip_limit:<span class="number">10m</span> rate=10r/s;</span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="section">location</span> /login/ &#123;</span><br><span class="line">        <span class="attribute">limit_req</span> zone=ip_limit burst=<span class="number">12</span> nodelay;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://login_upstream;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>第三个参数：nodelay，如果设置，超过访问频次而且缓冲区也满了的时候就会直接返回503，如果没有设置，则所有请求会等待排队。</p>
+<p>也就是说使用<code>nodelay</code>参数，Nginx仍将根据<code>burst</code>参数分配队列中的位置，并应用已配置的速率限制，而不是清理队列中等待转发的请求。相反地，当一个请求到达“太早”时，只要在队列中能分配位置，Nginx将立即转发这个请求。将队列中的该位置标记为”taken”(占据)，并且不会被释放以供另一个请求使用，直到一段时间后才会被释放(在这个示例中是，100毫秒后)。</p>
+<p>假设如前所述，队列中有12个空位，从给定的IP地址发出的13个请求同时到达。Nginx会立即转发这个13个请求，并且标记队列中占据的12个位置，然后每100毫秒释放一个位置。如果是15个请求同时到达，Nginx将会立即转发其中的13个请求，标记队列中占据的12个位置，并且返回503状态码来拒绝剩下的2个请求。</p>
+<p>现在假设，第一组请求被转发后101毫秒，另20个请求同时到达。队列中只会有一个位置被释放，所以Nginx转发一个请求并返回503状态码来拒绝其他19个请求。如果在20个新请求到达之前已经过去了501毫秒，5个位置被释放，所以Nginx立即转发5个请求并拒绝另外15个。</p>
+<p>效果相当于每秒10个请求的“流量限制”。如果希望不限制两个请求间允许间隔的情况下实施“流量限制”，<code>nodelay</code>参数是很实用的。</p>
+<p><strong>注意：</strong> 对于大部分部署，建议使用<code>burst</code>和<code>nodelay</code>参数来配置<code>limit_req</code>指令。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801185740.png" alt="NoDelay"></p>
+<p>要么立刻执行，要么被拒绝，请求不会因为限流而增加延迟了。</p>
+<p>因为请求从桶里漏出来还是匀速的，桶的空间又是固定的，最终平均下来，还是每秒执行了5次请求，限流的目的还是达到了。</p>
+<p>但这样也有缺点，限流是限了，但是限得不那么匀速。以上面的配置举例，如果有12个请求同时到达，那么这12个请求都能够立刻执行，然后后面的请求只能匀速进桶，100ms执行1个。如果有一段时间没有请求，桶空了，那么又可能出现并发的12个请求一起执行。</p>
+<h5 id="3115-delay"><a class="markdownIt-Anchor" href="#3115-delay"></a> 3.1.1.5 delay</h5>
+<p>大部分情况下，这种限流不匀速，不算是大问题。不过nginx也提供了一个参数才控制并发执行也就是nodelay的请求的数量。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">limit_req_zone</span> <span class="variable">$binary_remote_addr</span> zone=ip_limit:<span class="number">10m</span> rate=10r/s;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="section">location</span> /login/ &#123;</span><br><span class="line">        <span class="attribute">limit_req</span> zone=ip_limit burst=<span class="number">12</span> delay=<span class="number">4</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://login_upstream;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>delay=4 从桶内第5个请求开始delay</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210801185907.png" alt="DelayNum"></p>
+<p>这样通过控制delay参数的值，可以调整允许并发执行的请求的数量，使得请求变的均匀起来，在有些耗资源的服务上控制这个数量，还是有必要的。</p>
+<h4 id="312-limit_req_conn-并发控制"><a class="markdownIt-Anchor" href="#312-limit_req_conn-并发控制"></a> 3.1.2 limit_req_conn 并发控制</h4>
+<p>用来限制同一时间连接数，即并发限制。</p>
+<p>ngx_http_limit_conn_module这个模块用来限制单个IP的请求数。并非所有的连接都被计数。只有在服务器处理了请求并且已经读取了整个请求头时，连接才被计数。</p>
+<p><strong>语法</strong></p>
+<blockquote>
+<p>limit_conn_zone $variable zone=name:size;</p>
+</blockquote>
+<p><strong>参数说明:</strong></p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>b</mi><mi>l</mi><mi>e</mi><mo>:</mo><mtext>定义的键，要限流的维度</mtext><mo separator="true">,</mo><mo stretchy="false">[</mo></mrow><annotation encoding="application/x-tex">variable: 定义的键，要限流的维度,[</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">a</span><span class="mord mathnormal">b</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord cjk_fallback">定</span><span class="mord cjk_fallback">义</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">键</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">要</span><span class="mord cjk_fallback">限</span><span class="mord cjk_fallback">流</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">维</span><span class="mord cjk_fallback">度</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">[</span></span></span></span>binary_remote_addr:同一客户端IP，$server_name:限制同一server最大并发数]</li>
+<li>size: 定义各个键共享内存空间大小</li>
+<li>name: zone名称</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按IP配置内存区域zone的大小为10m:</span></span><br><span class="line"><span class="attribute">limit_conn_zone</span> <span class="variable">$binary_remote_addr</span> zone=perip_conn:<span class="number">10m</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按server配置一个连接 zone</span></span><br><span class="line"><span class="attribute">limit_conn_zone</span> <span class="variable">$server_name</span> zone=perserver_conn:<span class="number">100m</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="3121-limit_conn"><a class="markdownIt-Anchor" href="#3121-limit_conn"></a> 3.1.2.1 limit_conn</h5>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 限制同一个IP同一时间来源的连接数:10个</span></span><br><span class="line"><span class="attribute">limit_conn</span> perip_conn <span class="number">10</span>;</span><br><span class="line"><span class="comment"># 限制同一个虚拟服务器同一时的总连接数</span></span><br><span class="line"><span class="attribute">limit_conn</span> perserver_conn <span class="number">2000</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="3122-limit_rate-限速"><a class="markdownIt-Anchor" href="#3122-limit_rate-限速"></a> 3.1.2.2 limit_rate 限速</h5>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从下载指定的文件大小(1M)之后开始限速</span></span><br><span class="line"><span class="attribute">limit_rate_after</span> <span class="number">1m</span>;</span><br><span class="line"><span class="comment"># 限制请求资源</span></span><br><span class="line"><span class="attribute">limit_rate</span> <span class="number">1k</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="3123-配置限制固定连接数"><a class="markdownIt-Anchor" href="#3123-配置限制固定连接数"></a> 3.1.2.3 配置限制固定连接数</h5>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#根据IP地址来限制，存储内存大小10M</span></span><br><span class="line"><span class="attribute">limit_conn_zone</span> <span class="variable">$binary_remote_addr</span> zone=addr:<span class="number">1m</span>;</span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line"><span class="section">location</span> /user/ &#123;</span><br><span class="line">     <span class="comment"># 表示 同一个地址只允许连接2次。</span></span><br><span class="line">     <span class="attribute">limit_conn</span> addr <span class="number">2</span>;</span><br><span class="line">     <span class="attribute">proxy_pass</span> http://172.16.0.235:18083;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3124-限制每个客户端ip与服务器的连接数同时限制与虚拟服务器的连接总数"><a class="markdownIt-Anchor" href="#3124-限制每个客户端ip与服务器的连接数同时限制与虚拟服务器的连接总数"></a> 3.1.2.4 限制每个客户端IP与服务器的连接数，同时限制与虚拟服务器的连接总数</h5>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">limit_conn_zone</span> <span class="variable">$binary_remote_addr</span> zone=perip:<span class="number">10m</span>;</span><br><span class="line"><span class="attribute">limit_conn_zone</span> <span class="variable">$server_name</span> zone=perserver:<span class="number">10m</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line"><span class="section">location</span> /user/ &#123;</span><br><span class="line">     <span class="comment">#limit_conn addr 2;</span></span><br><span class="line">     <span class="comment"># 单个客户端ip与服务器的连接数．</span></span><br><span class="line">     <span class="attribute">limit_conn</span> perip <span class="number">10</span>;</span><br><span class="line">     <span class="comment"># 限制与服务器的总连接数</span></span><br><span class="line">     <span class="attribute">limit_conn</span> perserver <span class="number">100</span>; </span><br><span class="line">     <span class="attribute">proxy_pass</span> http://172.16.0.235:18083;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四-高级配置示例"><a class="markdownIt-Anchor" href="#四-高级配置示例"></a> 四、高级配置示例</h2>
+<p>通过将基本的“流量限制”与其他Nginx功能配合使用，我们可以实现更细粒度的流量限制。</p>
+<h3 id="41-白名单"><a class="markdownIt-Anchor" href="#41-白名单"></a> 4.1 白名单</h3>
+<p>下面这个例子将展示，如何对任何不在白名单内的请求强制执行“流量限制”：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">geo</span> <span class="variable">$limit</span> &#123;</span><br><span class="line">	<span class="attribute">default</span> 		<span class="number">1</span>;</span><br><span class="line">	10.0.0.0/8 		0;</span><br><span class="line">	192.168.0.0/64 	0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">map</span> <span class="variable">$limit</span> <span class="variable">$limit_key</span> &#123;</span><br><span class="line">	0 &quot;&quot;;</span><br><span class="line">	1 $binary_remote_addr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">limit_req_zone</span> <span class="variable">$limit_key</span> zone=req_zone:<span class="number">10m</span> rate=5r/s;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="section">location</span> / &#123;</span><br><span class="line">		<span class="attribute">limit_req</span> zone=req_zone burst=<span class="number">10</span> nodelay;</span><br><span class="line"></span><br><span class="line">		<span class="comment"># ...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子同时使用了<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_geo_module.html#geo"><code>geo</code></a>和<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_map_module.html#map"><code>map</code></a>指令。<code>geo</code>块将给在白名单中的IP地址对应的<code>$limit</code>变量分配一个值0，给其它不在白名单中的分配一个值1。然后我们使用一个映射将这些值转为key，如下：</p>
+<ul>
+<li>如果<code>$limit</code>变量的值是0，<code>$limit_key</code>变量将被赋值为空字符串</li>
+<li>如果<code>$limit</code>变量的值是1，<code>$limit_key</code>变量将被赋值为客户端二进制形式的IP地址</li>
+</ul>
+<p>两个指令配合使用，白名单内IP地址的<code>$limit_key</code>变量被赋值为空字符串，不在白名单内的被赋值为客户端的IP地址。当<code>limit_req_zone</code>后的第一个参数是空字符串时，不会应用“流量限制”，所以白名单内的IP地址(10.0.0.0/8和192.168.0.0/24 网段内)不会被限制。其它所有IP地址都会被限制到每秒5个请求。</p>
+<p><code>limit_req</code>指令将限制应用到**/**的location块，允许在配置的限制上最多超过10个数据包的突发，并且不会延迟转发。</p>
+<h3 id="42-location包含多limit_req指令"><a class="markdownIt-Anchor" href="#42-location包含多limit_req指令"></a> 4.2 location包含多<code>limit_req</code>指令</h3>
+<p>我们可以在一个location块中配置多个<code>limit_req</code>指令。符合给定请求的所有限制都被应用时，意味着将采用最严格的那个限制。例如，多个指令都制定了延迟，将采用最长的那个延迟。同样，请求受部分指令影响被拒绝，即使其他指令允许通过也无济于事。</p>
+<p>扩展前面将“流量限制”应用到白名单内IP地址的例子：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">	<span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">	<span class="attribute">limit_req_zone</span> <span class="variable">$limit_key</span> zone=req_zone:<span class="number">10m</span> rate=5r/s;</span><br><span class="line">	<span class="attribute">limit_req_zone</span> <span class="variable">$binary_remote_addr</span> zone=req_zone_wl:<span class="number">10m</span> rate=15r/s;</span><br><span class="line"></span><br><span class="line">	<span class="section">server</span> &#123;</span><br><span class="line">		<span class="comment"># ...</span></span><br><span class="line">		<span class="section">location</span> / &#123;</span><br><span class="line">			<span class="attribute">limit_req</span> zone=req_zone burst=<span class="number">10</span> nodelay;</span><br><span class="line">			<span class="attribute">limit_req</span> zone=req_zone_wl burst=<span class="number">20</span> nodelay;</span><br><span class="line">			<span class="comment"># ...</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>白名单内的IP地址不会匹配到第一个“流量限制”，而是会匹配到第二个<code>req_zone_wl</code>，并且被限制到每秒15个请求。不在白名单内的IP地址两个限制能匹配到，所以应用限制更强的那个：每秒5个请求。</p>
+<h2 id="五-配置相关功能"><a class="markdownIt-Anchor" href="#五-配置相关功能"></a> 五、配置相关功能</h2>
+<h3 id="51-日志记录"><a class="markdownIt-Anchor" href="#51-日志记录"></a> 5.1 日志记录</h3>
+<p>默认情况下，Nginx会在日志中记录由于流量限制而延迟或丢弃的请求，如下所示：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2015</span>/<span class="number">06</span>/<span class="number">13</span> <span class="number">04</span><span class="symbol">:</span><span class="number">20</span><span class="symbol">:</span><span class="number">00</span> [error] <span class="number">120315</span><span class="comment">#0: *32086 limiting requests, excess: 1.000 by zone &quot;mylimit&quot;, client: 192.168.1.2, server: nginx.com, request: &quot;GET / HTTP/1.0&quot;, host: &quot;nginx.com&quot;</span></span><br></pre></td></tr></table></figure>
+<p>日志条目中包含的字段：</p>
+<ul>
+<li><em>limiting requests</em> - 表明日志条目记录的是被“流量限制”请求</li>
+<li><em>excess</em> - 每毫秒超过对应“流量限制”配置的请求数量</li>
+<li><em>zone</em> - 定义实施“流量限制”的区域</li>
+<li><em>client</em> - 发起请求的客户端IP地址</li>
+<li><em>server</em> - 服务器IP地址或主机名</li>
+<li><em>request</em> - 客户端发起的实际HTTP请求</li>
+<li><em>host</em> - HTTP报头中host的值</li>
+</ul>
+<p>默认情况下，Nginx以<code>error</code>级别来记录被拒绝的请求，如上面示例中的<code>[error]</code>所示(Ngin以较低级别记录延时请求，一般是<code>info</code>级别)。如要更改Nginx的日志记录级别，需要使用<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_log_level"><code>limit_req_log_level</code></a>指令。这里，我们将被拒绝请求的日志记录级别设置为<code>warn</code>：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> /login/ &#123;</span><br><span class="line">	<span class="attribute">limit_req</span> zone=mylimit burst=<span class="number">20</span> nodelay;</span><br><span class="line">	<span class="attribute">limit_req_log_level</span> <span class="literal">warn</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="attribute">proxy_pass</span> http://my_upstream;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h3 id="52-发送到客户端的错误代码"><a class="markdownIt-Anchor" href="#52-发送到客户端的错误代码"></a> 5.2 发送到客户端的错误代码</h3>
+<p>一般情况下，客户端超过配置的流量限制时，Nginx响应状态码为<strong>503(Service Temporarily Unavailable)</strong>。可以使用<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status"><code>limit_req_status</code></a>指令来设置为其它状态码(例如下面的<strong>444</strong>状态码):</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> /login/ &#123;</span><br><span class="line">	<span class="attribute">limit_req</span> zone=mylimit burst=<span class="number">20</span> nodelay;</span><br><span class="line">	<span class="attribute">limit_req_status</span> <span class="number">444</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="指定location拒绝所有请求"><a class="markdownIt-Anchor" href="#指定location拒绝所有请求"></a> 指定<code>location</code>拒绝所有请求</h3>
+<p>如果你想拒绝某个指定URL地址的所有请求，而不是仅仅对其限速，只需要在<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location"><code>location</code></a>块中配置<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_access_module.html#deny"><code>deny</code></a> <strong>all</strong>指令：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> /foo.php &#123;</span><br><span class="line">	<span class="attribute">deny</span> all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="六-总结"><a class="markdownIt-Anchor" href="#六-总结"></a> 六、总结</h2>
+<p>前文已经涵盖了Nginx和Nginx Plus提供的“流量限制”的很多功能，包括为HTTP请求的不同loation设置请求速率，给“流量限制”配置<code>burst</code>和<code>nodelay</code>参数。还涵盖了针对客户端IP地址的白名单和黑名单应用不同“流量限制”的高级配置，阐述了如何去日志记录被拒绝和延时的请求。</p>
+<h2 id="七-拓展"><a class="markdownIt-Anchor" href="#七-拓展"></a> 七、拓展</h2>
+<p>动态控制，参考<a target="_blank" rel="noopener" href="https://github.com/openresty/lua-resty-limit-traffic">https://github.com/openresty/lua-resty-limit-traffic</a></p>
+<h2 id="八-参考文档"><a class="markdownIt-Anchor" href="#八-参考文档"></a> 八、参考文档</h2>
+<p><a target="_blank" rel="noopener" href="https://zhaox.github.io/nginx/2019/09/05/explain-nginx-rate-limit">图解Nginx限流配置</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/08/01/Nginx-%E9%99%90%E6%B5%81/">https://lijinzedev.github.io/2021/08/01/Nginx-%E9%99%90%E6%B5%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/nginx/">nginx</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/02/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring 事务传播机制使用</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/31/redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">redis 分布式锁</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/04/02/Nginx配置HTTPS/" title="Nginx配置HTTPS"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-02</div><div class="title">Nginx配置HTTPS</div></div></a></div><div><a href="/2020/12/21/nginx-入门/" title="nginx 入门"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-21</div><div class="title">nginx 入门</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx-%E9%99%90%E6%B5%81%E7%AF%87"><span class="toc-number">1.</span> <span class="toc-text"> Nginx 限流篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text"> 一、前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-docker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text"> 二、Docker环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-nginx%E5%A6%82%E4%BD%95%E9%99%90%E6%B5%81"><span class="toc-number">1.3.</span> <span class="toc-text"> 三、Nginx如何限流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E9%85%8D%E7%BD%AE%E5%9F%BA%E6%9C%AC%E7%9A%84%E9%99%90%E6%B5%81"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 3.1 配置基本的限流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#311-limit_req_zone-%E9%80%9F%E7%8E%87%E6%8E%A7%E5%88%B6"><span class="toc-number">1.3.1.1.</span> <span class="toc-text"> 3.1.1 limit_req_zone  速率控制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3111-%E5%AE%9A%E4%B9%89"><span class="toc-number">1.3.1.1.1.</span> <span class="toc-text"> 3.1.1.1 定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3112-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.1.1.2.</span> <span class="toc-text"> 3.1.1.2 简单使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3113-%E5%A4%84%E7%90%86%E7%AA%81%E5%8F%91"><span class="toc-number">1.3.1.1.3.</span> <span class="toc-text"> 3.1.1.3 处理突发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3114-%E6%97%A0%E5%BB%B6%E8%BF%9F%E7%9A%84%E6%8E%92%E9%98%9F"><span class="toc-number">1.3.1.1.4.</span> <span class="toc-text"> 3.1.1.4 无延迟的排队</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3115-delay"><span class="toc-number">1.3.1.1.5.</span> <span class="toc-text"> 3.1.1.5 delay</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#312-limit_req_conn-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">1.3.1.2.</span> <span class="toc-text"> 3.1.2 limit_req_conn 并发控制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3121-limit_conn"><span class="toc-number">1.3.1.2.1.</span> <span class="toc-text"> 3.1.2.1 limit_conn</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3122-limit_rate-%E9%99%90%E9%80%9F"><span class="toc-number">1.3.1.2.2.</span> <span class="toc-text"> 3.1.2.2 limit_rate 限速</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3123-%E9%85%8D%E7%BD%AE%E9%99%90%E5%88%B6%E5%9B%BA%E5%AE%9A%E8%BF%9E%E6%8E%A5%E6%95%B0"><span class="toc-number">1.3.1.2.3.</span> <span class="toc-text"> 3.1.2.3 配置限制固定连接数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3124-%E9%99%90%E5%88%B6%E6%AF%8F%E4%B8%AA%E5%AE%A2%E6%88%B7%E7%AB%AFip%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%95%B0%E5%90%8C%E6%97%B6%E9%99%90%E5%88%B6%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%80%BB%E6%95%B0"><span class="toc-number">1.3.1.2.4.</span> <span class="toc-text"> 3.1.2.4 限制每个客户端IP与服务器的连接数，同时限制与虚拟服务器的连接总数</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.4.</span> <span class="toc-text"> 四、高级配置示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E7%99%BD%E5%90%8D%E5%8D%95"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 4.1 白名单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#42-location%E5%8C%85%E5%90%AB%E5%A4%9Alimit_req%E6%8C%87%E4%BB%A4"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 4.2 location包含多limit_req指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E9%85%8D%E7%BD%AE%E7%9B%B8%E5%85%B3%E5%8A%9F%E8%83%BD"><span class="toc-number">1.5.</span> <span class="toc-text"> 五、配置相关功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#51-%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 5.1 日志记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#52-%E5%8F%91%E9%80%81%E5%88%B0%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E9%94%99%E8%AF%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.2.</span> <span class="toc-text"> 5.2 发送到客户端的错误代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9Alocation%E6%8B%92%E7%BB%9D%E6%89%80%E6%9C%89%E8%AF%B7%E6%B1%82"><span class="toc-number">1.5.3.</span> <span class="toc-text"> 指定location拒绝所有请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text"> 六、总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E6%8B%93%E5%B1%95"><span class="toc-number">1.7.</span> <span class="toc-text"> 七、拓展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB-%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">1.8.</span> <span class="toc-text"> 八、参考文档</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

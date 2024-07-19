@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>调度引擎调研 | Curiosity的博客</title><meta name="keywords" content="调研"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、Airflow（面向研发人员Python）  是数据工程中最受欢迎的开源工作流管理平台之一，用于管理任务及其工作流的自动化。  Apache Airflow是一个强大的调度器，用于以编程方式编写、调度和监控工作流程。它是一个工作流引擎，可以轻松地调度和运行你的复杂数据管道。它将确保你的数据管道的每个任务将以正确的顺序执行。并确保每个任务得到所需的资源。  1.1 Airflow在行业中的应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="调度引擎调研">
+<meta property="og:url" content="https://lijinzedev.github.io/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一、Airflow（面向研发人员Python）  是数据工程中最受欢迎的开源工作流管理平台之一，用于管理任务及其工作流的自动化。  Apache Airflow是一个强大的调度器，用于以编程方式编写、调度和监控工作流程。它是一个工作流引擎，可以轻松地调度和运行你的复杂数据管道。它将确保你的数据管道的每个任务将以正确的顺序执行。并确保每个任务得到所需的资源。  1.1 Airflow在行业中的应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2024-04-01T14:33:36.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.653Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="调研">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">调度引擎调研</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-01T14:33:36.000Z" title="发表于 2024-04-01 14:33:36">2024-04-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.653Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E/">调度引擎</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一-airflow面向研发人员python"><a class="markdownIt-Anchor" href="#一-airflow面向研发人员python"></a> 一、Airflow（面向研发人员Python）</h1>
+<blockquote>
+<p>是数据工程中最受欢迎的开源工作流管理平台之一，用于管理任务及其工作流的自动化。</p>
+</blockquote>
+<p>Apache Airflow是一个<strong>强大的调度器</strong>，用于以<strong>编程</strong>方式编写、调度和监控工作流程。它是一个工作流引擎，可以轻松地调度和运行你的复杂数据管道。它将确保你的数据管道的每个任务将以正确的顺序执行。并确保每个任务得到所需的资源。</p>
+<h2 id="11-airflow在行业中的应用"><a class="markdownIt-Anchor" href="#11-airflow在行业中的应用"></a> 1.1 Airflow在行业中的应用</h2>
+<ul>
+<li>大数据。</li>
+<li>机器学习。</li>
+<li>计算机软件。</li>
+<li>金融服务。</li>
+<li>IT服务。</li>
+<li>银行业等</li>
+</ul>
+<p><strong>例如：</strong></p>
+<ul>
+<li>运维人员，定时对服务器执行脚本某些脚本，最简单的方式是添加一些crond任务，但如果想追溯各个任务的执行结果时？</li>
+<li>在大数据场景下，每隔一段时间需导出线上数据、导入到大数据平台、触发数据处理等多个子操作，且各个子操作含有<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2817776078%7D">依赖关系</a>时？</li>
+<li>在管理大量主机时，想要一个统一的<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E4%BD%9C%E4%B8%9A%E7%AE%A1%E7%90%86&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2817776078%7D">作业管理</a>平台，能在上面定义各种任务来管理下面的设备？</li>
+</ul>
+<h2 id="12-apache-airflow的特点"><a class="markdownIt-Anchor" href="#12-apache-airflow的特点"></a> 1.2 Apache Airflow的特点</h2>
+<ul>
+<li><strong>易用性</strong>你只需要一点python知识就可以理解。</li>
+<li><strong>开源社区</strong>-Airflow是免费的，并且有一个庞大的活跃用户社区。</li>
+<li><strong>集成</strong>–现成的操作符让你可以将Airflow与云平台（谷歌、AWS、Azure等）集成。</li>
+<li>**用标准的Python编码–**你可以使用Python创建灵活的工作流，而无需了解其他技术或框架。</li>
+<li><strong>图形用户界面</strong>–监控和管理工作流，检查正在进行和已经完成的任务的状态。</li>
+</ul>
+<h2 id="13-缺点"><a class="markdownIt-Anchor" href="#13-缺点"></a> 1.3 缺点</h2>
+<ol>
+<li>
+<p>存在性能问题  dag采用 pull 模式，dag达到一定量级出现明显性能下降</p>
+</li>
+<li>
+<p>Python开发二开难度大</p>
+</li>
+<li>
+<p>镜像大</p>
+</li>
+</ol>
+<h1 id="二-dolphinscheduler可视化为主"><a class="markdownIt-Anchor" href="#二-dolphinscheduler可视化为主"></a> 二、DolphinScheduler（可视化为主）</h1>
+<h2 id="21-定位"><a class="markdownIt-Anchor" href="#21-定位"></a> 2.1 定位</h2>
+<p>DolphinScheduler 的定位是 <strong>大数据</strong> <strong>工作流</strong> 调度 ，针对大数据体系，竞品有 : Oozie、Azkaban、Airflow</p>
+<blockquote>
+<p>注 : kettle,xxl-job ,Spring batch 的定位任务调度,非大数据体系,对大数据体系的支持较弱,而且普遍都非HA,存在单点故障. 因为产品定位的不同,所以不做对比.</p>
+</blockquote>
+<h2 id="22-案例"><a class="markdownIt-Anchor" href="#22-案例"></a> 2.2 案例</h2>
+<p>DolphinScheduler从2019年3月正式发布第一个开源1.0.0版本到现在为止五年</p>
+<p>很多大的企业在使用调度，已超过3000+公司使用</p>
+<p><img src= "/img/loading.gif" data-lazy-src="/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/image-20240403151904734.png" alt="image-20240403151904734"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apache/incubator-dolphinscheduler/issues/57">官方统计地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.slidestalk.com/DolphinScheduler/architecture_breakthrough">用户案例</a></p>
+<h2 id="23-类型支持"><a class="markdownIt-Anchor" href="#23-类型支持"></a> 2.3 类型支持</h2>
+<ul>
+<li>任务类型<br>
+Appendix、Shell、SubProcess、Dynamic、Dependent、Stored Procedure、SQL、Spark、MapReduce、Python、Flink、HTTP、DataX、Sqoop、Pigeon、Conditions、Switch、SeaTunnel、Amazon EMR、Apache Zeppelin、Jupyter、Hive CLI、Kubernetes、MLflow、Openmldb、DVC、Dinky、Java、 SageMaker、 ChunJun、Pytorch、 Amazon DMS、 AWS Datasync、 Kubeflow、Apache Linkis、SSH、Vertica</li>
+<li>数据源中心<br>
+MySQL、PostgreSQL、HIVE、SNOWFLAKE、KYUUBI、Spark、 Amazon Athena、Azure SQL Database、Redshift、 Oracle、 Trino、StarRocks、 DAMENG、OceanBase、SSH、Databend、HANA、Doris</li>
+</ul>
+<h2 id="24-扩展性"><a class="markdownIt-Anchor" href="#24-扩展性"></a> 2.4 扩展性</h2>
+<h3 id="241-功能扩展性"><a class="markdownIt-Anchor" href="#241-功能扩展性"></a> 2.4.1 功能扩展性</h3>
+<ul>
+<li>插件</li>
+<li>支持 Open API 、Python 方式与第三方系统对接。</li>
+<li>支持自定义任务类型</li>
+</ul>
+<h3 id="252-性能"><a class="markdownIt-Anchor" href="#252-性能"></a> 2.5.2 性能</h3>
+<ul>
+<li>调度能力随集群线性增长。</li>
+<li>架构设计上，去中心化的多 Master 和多 Worker , 具备高可用能力。</li>
+<li>弹性伸缩， Master 和 Worker 支持动态上下线。</li>
+<li>采用任务队列避免过载，不会造成机器卡死。</li>
+</ul>
+<h2 id="25技术栈"><a class="markdownIt-Anchor" href="#25技术栈"></a> 2.5技术栈</h2>
+<p>DolphinScheduler技术栈 :</p>
+<blockquote>
+<p>后端: SpringBoot<br>
+前端: VUE<br>
+编译: Maven<br>
+元数据存储: Mysql<br>
+分布式无中心化设计: ZooKeeper<br>
+统一资源管理 : 共享存储[HDFS、S3A、MinIO]</p>
+</blockquote>
+<h1 id="三-应用场景"><a class="markdownIt-Anchor" href="#三-应用场景"></a> 三、应用场景</h1>
+<ul>
+<li>ETL</li>
+<li>业务编排</li>
+<li>性能优化，降低并发过程依赖</li>
+</ul>
+<h1 id="四-对比"><a class="markdownIt-Anchor" href="#四-对比"></a> 四、对比</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>DolphinScheduler</th>
+<th>Airflow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>稳定性</td>
+<td>高（去中心化）</td>
+<td>高（主从架构）</td>
+</tr>
+<tr>
+<td>任务支持类型</td>
+<td><code>30多种且可自定义</code></td>
+<td>中(支持BashOperator、DummyOperator、VySalOperator、HiveOperator、EmailOperator,.HTTPOperator、SqlOperator等)</td>
+</tr>
+<tr>
+<td>暂停/恢复/补数</td>
+<td><code>支持</code></td>
+<td>需要杀死工作流</td>
+</tr>
+<tr>
+<td>多租户支持</td>
+<td><code>支持</code></td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>二开难度</td>
+<td><code>低</code>(基于JAVA语言开发)</td>
+<td>高(基于Python语言开发)</td>
+</tr>
+<tr>
+<td>易用性</td>
+<td><code>好</code>(页面图表拖拉拽生成工作流)</td>
+<td>一般(编写Python脚本上传到DAG目录生成工作流)</td>
+</tr>
+<tr>
+<td>过载处理</td>
+<td>有队列来控制高并发任务量</td>
+<td>任务量大性能会下降</td>
+</tr>
+<tr>
+<td>扩展性</td>
+<td>强(master和worker支持动态上下线)</td>
+<td>一般(Executor水平扩展较为复杂)</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/">https://lijinzedev.github.io/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B0%83%E7%A0%94/">调研</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Ubuntu软件源</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/28/Google-%E6%90%9C%E7%B4%A2%E8%AE%BE%E7%BD%AE/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Google 搜索设置</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-airflow%E9%9D%A2%E5%90%91%E7%A0%94%E5%8F%91%E4%BA%BA%E5%91%98python"><span class="toc-number">1.</span> <span class="toc-text"> 一、Airflow（面向研发人员Python）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-airflow%E5%9C%A8%E8%A1%8C%E4%B8%9A%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 1.1 Airflow在行业中的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-apache-airflow%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text"> 1.2 Apache Airflow的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text"> 1.3 缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-dolphinscheduler%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B8%BA%E4%B8%BB"><span class="toc-number">2.</span> <span class="toc-text"> 二、DolphinScheduler（可视化为主）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E5%AE%9A%E4%BD%8D"><span class="toc-number">2.1.</span> <span class="toc-text"> 2.1 定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E6%A1%88%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text"> 2.2 案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-%E7%B1%BB%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-number">2.3.</span> <span class="toc-text"> 2.3 类型支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#24-%E6%89%A9%E5%B1%95%E6%80%A7"><span class="toc-number">2.4.</span> <span class="toc-text"> 2.4 扩展性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#241-%E5%8A%9F%E8%83%BD%E6%89%A9%E5%B1%95%E6%80%A7"><span class="toc-number">2.4.1.</span> <span class="toc-text"> 2.4.1 功能扩展性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#252-%E6%80%A7%E8%83%BD"><span class="toc-number">2.4.2.</span> <span class="toc-text"> 2.5.2 性能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#25%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">2.5.</span> <span class="toc-text"> 2.5技术栈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">3.</span> <span class="toc-text"> 三、应用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-%E5%AF%B9%E6%AF%94"><span class="toc-number">4.</span> <span class="toc-text"> 四、对比</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

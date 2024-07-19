@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spring MVC多块请求解析器 | Curiosity的博客</title><meta name="keywords" content="源码"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 多块请求解析器  ​		在进入doDispatcher方法后，最先用到的组件是多块请求解析器。多块请求解析器接口 包括以下三个方法。   boolean isMultipart(HttpServletRequest request);   判断是否为多块请求    MultipartHttpServletRequest resolveMultipart(HttpServletRequest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring MVC多块请求解析器">
+<meta property="og:url" content="https://lijinzedev.github.io/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="1 多块请求解析器  ​		在进入doDispatcher方法后，最先用到的组件是多块请求解析器。多块请求解析器接口 包括以下三个方法。   boolean isMultipart(HttpServletRequest request);   判断是否为多块请求    MultipartHttpServletRequest resolveMultipart(HttpServletRequest">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2020-12-06T18:40:56.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.581Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Spring MVC多块请求解析器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-06T18:40:56.000Z" title="发表于 2020-12-06 18:40:56">2020-12-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.581Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%BA%90%E7%A0%81/">源码</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%BA%90%E7%A0%81/SpringMvc%E6%BA%90%E7%A0%81/">SpringMvc源码</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-多块请求解析器"><a class="markdownIt-Anchor" href="#1-多块请求解析器"></a> 1 多块请求解析器</h1>
+<blockquote>
+<p>​		在进入doDispatcher方法后，最先用到的组件是多块请求解析器。多块请求解析器接口 包括以下三个方法。</p>
+</blockquote>
+<ul>
+<li>boolean isMultipart(HttpServletRequest request);</li>
+</ul>
+<blockquote>
+<p>判断是否为多块请求</p>
+</blockquote>
+<ul>
+<li>
+<p>MultipartHttpServletRequest resolveMultipart(HttpServletRequest reuqest)</p>
+<blockquote>
+<p>用于解析多块请求，返回新的包装类型MultipartHttpServletRequest 封装多块请求相关方法与属性</p>
+</blockquote>
+</li>
+<li>
+<p>void cleanupMultipart(MultipartHttpServletRequest  request);</p>
+<blockquote>
+<p>用于在请求处理完成后对多块请求使用的资源执行清理操作</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>默认的多块请求解析器为StandardServletMultipartResolver。在请求处理时候，先使用isMultipart判断是否为多块请求。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否为多块请求</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isMultipart</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line"><span class="comment">//判断前缀</span></span><br><span class="line">    <span class="keyword">return</span> StringUtils.startsWithIgnoreCase(request.getContentType(), <span class="string">&quot;multipart/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="1-处理多块请求逻辑"><a class="markdownIt-Anchor" href="#1-处理多块请求逻辑"></a> 1 处理多块请求逻辑</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> MultipartHttpServletRequest <span class="title function_">resolveMultipart</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> MultipartException &#123;</span><br><span class="line">    <span class="comment">// 对原始request进行包装</span></span><br><span class="line">    <span class="comment">//resolveLazily默认为false,表示实例创建的时候就对请求进行解析</span></span><br><span class="line">    <span class="comment">// 该配置通过spring.servlet.multipart.resolve-lazily修改</span></span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">StandardMultipartHttpServletRequest</span>(request, <span class="built_in">this</span>.resolveLazily);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-standardmultiparthttpservletrequest的构造逻辑"><a class="markdownIt-Anchor" href="#2-standardmultiparthttpservletrequest的构造逻辑"></a> 2 <strong>StandardMultipartHttpServletRequest的构造逻辑</strong></h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">StandardMultipartHttpServletRequest</span><span class="params">(HttpServletRequest request, <span class="type">boolean</span> lazyParsing)</span></span><br><span class="line">      <span class="keyword">throws</span> MultipartException &#123;</span><br><span class="line"><span class="comment">// 调用父类构造器,该类型为对HttpServletRequest的包装类,装饰者模式,用于增强原始类型的功能构造器参数为要包装的对象</span></span><br><span class="line">   <span class="built_in">super</span>(request);</span><br><span class="line">    <span class="comment">// 如果不是懒加载解析,则直接解析请求</span></span><br><span class="line">   <span class="keyword">if</span> (!lazyParsing) &#123;</span><br><span class="line">       <span class="comment">//解析请求</span></span><br><span class="line">      parseRequest(request);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-解析请求的方法"><a class="markdownIt-Anchor" href="#3-解析请求的方法"></a> 3 <strong>解析请求的方法</strong></h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">parseRequest</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 获取多块请求原始的Part类型集合</span></span><br><span class="line">       <span class="comment">// Part结合包括请求参数与请求文件</span></span><br><span class="line">      </span><br><span class="line">      Collection&lt;Part&gt; parts = request.getParts();</span><br><span class="line">       <span class="comment">// 用于保存多块请求的请求参数名称</span></span><br><span class="line">      <span class="built_in">this</span>.multipartParameterNames = <span class="keyword">new</span> <span class="title class_">LinkedHashSet</span>&lt;&gt;(parts.size());</span><br><span class="line">       <span class="comment">// 用于保存多块请求的请求文件</span></span><br><span class="line">      MultiValueMap&lt;String, MultipartFile&gt; files = <span class="keyword">new</span> <span class="title class_">LinkedMultiValueMap</span>&lt;&gt;(parts.size());</span><br><span class="line">      <span class="comment">// 遍历多块数据</span></span><br><span class="line">       <span class="keyword">for</span> (Part part : parts) &#123;</span><br><span class="line">           <span class="comment">//获取当前遍历块的Content-Disposition请求头</span></span><br><span class="line">         <span class="type">String</span> <span class="variable">headerValue</span> <span class="operator">=</span> part.getHeader(HttpHeaders.CONTENT_DISPOSITION);</span><br><span class="line">           <span class="comment">// 解析Content-Disposition请求头为ContentDisposition类型,其中包括请求头内容类型,文件名等信息</span></span><br><span class="line">         <span class="type">ContentDisposition</span> <span class="variable">disposition</span> <span class="operator">=</span> ContentDisposition.parse(headerValue);</span><br><span class="line">           <span class="comment">// 获取块请求的文件名</span></span><br><span class="line">         <span class="type">String</span> <span class="variable">filename</span> <span class="operator">=</span> disposition.getFilename();</span><br><span class="line">           <span class="comment">// 如果文件名不为空</span></span><br><span class="line">         <span class="keyword">if</span> (filename != <span class="literal">null</span>) &#123;</span><br><span class="line">             <span class="comment">// 如果当前块是个文件类型的块,解析文件名</span></span><br><span class="line">            <span class="keyword">if</span> (filename.startsWith(<span class="string">&quot;=?&quot;</span>) &amp;&amp; filename.endsWith(<span class="string">&quot;?=&quot;</span>)) &#123;</span><br><span class="line">               filename = MimeDelegate.decode(filename);</span><br><span class="line">            &#125;</span><br><span class="line">             <span class="comment">// 放入文件Map,key是请求参数名称,value是封装文件块请求与文件名的StandardMultipartFile类型</span></span><br><span class="line">            files.add(part.getName(), <span class="keyword">new</span> <span class="title class_">StandardMultipartFile</span>(part, filename));</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="comment">// 不是文件类型的块请求,把块名放入请求参数名集合</span></span><br><span class="line">            <span class="built_in">this</span>.multipartParameterNames.add(part.getName());</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">       <span class="comment">// 在本实例保存多块请求文件的map,封装为不可修改的Map,防止处理过程中被篡改</span></span><br><span class="line">      setMultipartFiles(files);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">       <span class="comment">// 发生任何异常交给异常处理逻辑抛出异常</span></span><br><span class="line">      handleParseFailure(ex);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-清理资源"><a class="markdownIt-Anchor" href="#4-清理资源"></a> 4 清理资源</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cleanupMultipart</span><span class="params">(MultipartHttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="comment">// 只有是多块请求,且多块请求已经解析的情况下,才执行清理</span></span><br><span class="line">   <span class="keyword">if</span> (!(request <span class="keyword">instanceof</span> AbstractMultipartHttpServletRequest) ||</span><br><span class="line">         ((AbstractMultipartHttpServletRequest) request).isResolved()) &#123;</span><br><span class="line">      <span class="comment">// To be on the safe side: explicitly delete the parts,</span></span><br><span class="line">      <span class="comment">// but only actual file parts (for Resin compatibility)</span></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">// 遍历全部块</span></span><br><span class="line">         <span class="keyword">for</span> (Part part : request.getParts()) &#123;</span><br><span class="line">             <span class="comment">//如果块中包含文件则进行删除操作,清理占用的临时资源</span></span><br><span class="line">            <span class="keyword">if</span> (request.getFile(part.getName()) != <span class="literal">null</span>) &#123;</span><br><span class="line">               part.delete();</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">         LogFactory.getLog(getClass()).warn(<span class="string">&quot;Failed to perform cleanup of multipart items&quot;</span>, ex);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/">https://lijinzedev.github.io/2020/12/06/Spring-MVC%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%BA%90%E7%A0%81/">源码</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/06/SpringMVC%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringMVC文件下载</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/04/Spring-Cacheable-redis/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Spring Cacheable + redis</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/12/09/Mybatis源码学习/" title="Mybatis源码学习"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-09</div><div class="title">Mybatis源码学习</div></div></a></div><div><a href="/2020/11/19/DispatcherServlet详解/" title="DispatcherServlet详解"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-19</div><div class="title">DispatcherServlet详解</div></div></a></div><div><a href="/2020/11/29/Spring-MVC-相关组件以及组件初始化/" title="Spring MVC 相关组件以及组件初始化"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-29</div><div class="title">Spring MVC 相关组件以及组件初始化</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text"> 1 多块请求解析器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A4%84%E7%90%86%E5%A4%9A%E5%9D%97%E8%AF%B7%E6%B1%82%E9%80%BB%E8%BE%91"><span class="toc-number">1.1.</span> <span class="toc-text"> 1 处理多块请求逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-standardmultiparthttpservletrequest%E7%9A%84%E6%9E%84%E9%80%A0%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text"> 2 StandardMultipartHttpServletRequest的构造逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%A7%A3%E6%9E%90%E8%AF%B7%E6%B1%82%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 3 解析请求的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%B8%85%E7%90%86%E8%B5%84%E6%BA%90"><span class="toc-number">1.4.</span> <span class="toc-text"> 4 清理资源</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

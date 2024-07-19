@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curiosity的博客">
+<meta property="og:url" content="https://lijinzedev.github.io/page/12/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:author" content="Curiosity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/page/12/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-19 06:03:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/03/04/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/" title="如何进行面向对象设计">如何进行面向对象设计</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-03-04T10:36:13.000Z" title="发表于 2021-03-04 10:36:13">2021-03-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1/">代码设计</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="content"> 如何进行面向对象设计
+
+面向对象分析的产出就是详细的需求描述，面向对象设计的产出就是类，在面向对象设计环节，将需求描述转化成具体的类的设计。
+
+
+划分职责进而识别有哪些类
+定义类及其属性和方法
+定义类与类之间的交互关系
+将类组装起来并提供执行入口
+
+ 划分职责进而识别有哪些类
+ 方法一：
+
+把需求描述中的名词罗列出来，作为可能的候选类，在进行筛选
+
+ 方法二：
+
+根据需求描述，把其中涉及的功能点，一个一个罗列出来，然后再去看哪些功能点职责相近，操作同样的属性，是否应该归为同一个类
+
+ 定义类及其属性和方法
+
+识别需求描述中的动词，作为候选方法，再进一步过滤筛选，类比一下方法的识别，把功能点设计的名词，作为候选属性，并且不一定所有出现的名词都被定义为类的属性，也可能是方法的参数，不能仅仅依赖当下需求，还需要理解整个业务模型，理解具有哪些属性和方法，这样可以一方面保证类定义的完整性，另一方面为未来的需求做准备
+
+ 定义类与类之间的交互关系
+
+泛化、实现、关联、聚合、组合、依赖
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/02/24/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" title="设计原则">设计原则</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-24T13:22:01.000Z" title="发表于 2021-02-24 13:22:01">2021-02-24</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1/">代码设计</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="content"> 一、SOLID原则
+
+单一职责 S
+开闭 O
+里氏替换 L
+接口隔离 I
+依赖反转 D
+
+ 1 单一职责
+
+单一职责原则的英文是 Single Responsibility Principle，缩写为 SRP。这个原则的英文描述是这样的：A class or module should have a single responsibility。如果我们把它翻译成中文，那就是：一个类或者模块只负责完成一个职责（或者功能）。
+
+ 1 持续重构
+我们可以先写一个粗粒度的类，满足业务需求。随着业务的发展，如果粗粒度的类越来越庞大，代码越来越多，这个时候，我们就可以将这个粗粒度的类，拆分成几个更细粒度的类。这就是所谓的持续重构
+ 2 评判原则
+
+类中的代码行数、函数或属性过多，会影响代码的可读性和可维护性，我们就需要考虑对类进行拆分
+类依赖的其他类过多，或者依赖类的其他类过多，不符合高内聚、低耦合的设计思想，我们就需要考虑对类进行拆分；
+私有方法过多，我们就要考虑能否将私有方法独立到新的类中，设置为 public 方法，供更多的类使用，从而提高代码的复用性；
+比较难给类起一个合适名字，很难用一 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/28/UML%E7%B1%BB%E5%9B%BE/" title="UML类图">UML类图</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-28T11:45:36.000Z" title="发表于 2021-01-28 11:45:36">2021-01-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/UML/">UML</a></span></div><div class="content"> 一 统一建模语言
+
+统一建模语言（Unified Modeling Language，缩写UML）是非专利的第三代建模和规约语言。
+UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。
+
+ 二 UML类图
+
+
+类的表示方法如图，一般分为三层，从上到下依次为类名、属性和方法。
+
+
++：public，-：private，#：protected，~：default
+属性冒号后的内容表示属性的类型
+方法冒号后的内容表示属性的返回值
+类型说明并不是必须的
+
+ 三 类关系表示
+
+ 1 继承(Generalization)
+
+继承关系也叫泛化关系，指的是一个类（称为子类、子接口）继承另外的一个类（称为父类、父接口）的功能，并可以增加它自己的新功能的能力，继承是类与类或者接口与接口之间最常见的关系。
+继承用实线空心箭头表示，由子类指向父类。
+
+ 2 实现(implements)
+
+指的是一个class类实现interface接口（可以是多个）的功能；实现是类与接口之间最常见的关系；在Java中此类关系通过关键字implements明确标识
+
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/27/UML%E6%97%B6%E5%BA%8F%E5%9B%BE/" title="UML时序图">UML时序图</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-27T13:27:12.000Z" title="发表于 2021-01-27 13:27:12">2021-01-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/UML/">UML</a></span></div><div class="content"> UML时序图
+ 一 概述
+ 1 什么是时序图
+
+时序图（Sequence Diagram）又名序列图、循环图、是一种UML交互图，通过扫描对象之间发送消息的时间顺序显示多个对象之间的动态协作
+
+ 2 时序图的元素
+
+Actor （角色）
+
+
+系统角色，可以是人或者其他系统，子系统，以一个小人图标表示
+
+
+Object（对象）
+
+
+
+对象位于时序图的顶部，以一个矩形表示，队形的命名方式一般有三种
+
+对象名和类名
+只显示类名，不显示对象
+只显示对象名，不显示类名
+
+
+
+LifeLine（生命线）
+
+
+
+时序图中每个对象和底部中心都有一条垂直的虚线，这就是对象生命线（对象的时间线），以一条垂直的虚线表
+
+
+Activation （控制焦点）
+
+
+
+Message (消息)
+
+
+
+A 向 B 发送消息message1，其实就是叫 B 去调用 message1这个方法。消息一般分为同步消息，异步消息和返回消息，自关联消息(也就是自己调用自己的方法)
+
+
+
+自关联消息
+
+
+创建对象
+
+
+
+
+【定义】：创建对象也算是消息的一种，通过发送消息的方式创建对象。
+【描述方式】：在时序图的图形表示中，和其 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/26/git-%E9%81%87%E5%88%B0%E7%B4%A7%E6%80%A5%E5%8A%A0%E5%A1%9E%E4%BB%BB%E5%8A%A1%E6%80%8E%E4%B9%88%E5%8A%9E-git-stash%E5%85%A5%E9%97%A8/" title="git 遇到紧急加塞任务怎么办? git stash入门">git 遇到紧急加塞任务怎么办? git stash入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-26T10:34:30.000Z" title="发表于 2021-01-26 10:34:30">2021-01-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git/">Git</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Git/%E6%93%8D%E4%BD%9C/">操作</a></span></div><div class="content">
+今作此文,寻章摘句,权抛砖引玉,遗笑方家处,敬请见谅
+
+场景: 平常我们在开发新的版本或者在探索一些奇妙的东西(手动滑稽)的时候,由于我们手上的的代码还没有生成commit,又没到生成commit的时候或者自己嫌麻烦懒得去做本地rebase了这时候 git stash就派生了用场
+
+ 常用命令
+
+
+git stash :执行存储不添加备注
+
+
+git stash save &quot;save message&quot;  : 在执行的存储上添加备注,避免当stash中的内容过多时造成混淆
+
+
+git stash list  ：查看当前stash中存在哪些存储
+
+
+git stash show ：显示做了哪些改动，默认show第一个存储,如果要显示其他存贮，使用 git stash show stash@&#123;$num&#125;
+
+
+git stash show -p : 显示第一个存储的改动，如果想显示其他存储,可以使用git stash show  stash@&#123;$num&#125;  -p 
+
+
+git stash apply :应用某个存储,但不会把存储从存 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/26/Git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E4%B8%89%E7%A7%8D%E5%8A%9E%E6%B3%95/" title="Git 恢复文件三种办法">Git 恢复文件三种办法</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-26T10:00:42.000Z" title="发表于 2021-01-26 10:00:42">2021-01-26</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git/">Git</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Git/%E6%93%8D%E4%BD%9C/">操作</a></span></div><div class="content"> 命令
+
+这样直接覆盖工作区的文件了
+
+官网文档
+
+git restore --source 某次提交的commitdi -W 要写的文件名
+
+12# 例如，如果我希望文件在工作副本和索引中的内容都与三次提交之前相同，则可以这样写：main.cgit restore --source HEAD~3 --staged --worktree main.c
+
+git cat 可以读取任意某次提交的文件内容，通过重定向到一个新文件，这样不影响现在工作区的修。
+
+
+git cat-file commitid:文件的相对路径 &gt; 新的文件名
+
+
+git reset 与 git checkout
+
+reset hard同时重置仓库 index 工作区
+reset mix同时重置仓库 index
+reset soft重置仓库
+checkout -- 这种用index重置工作区
+
+
+
+ 结论
+只重置工作区，而且不是用index，是用仓库的提交，只能restore
+但是这种操作都可能导致未提交的工作区修改丢失，因为没提交，所以不可逆
+git cat 可以读取任意某次提交的文件内容，通过重定向到一个新 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/24/GateWay/" title="GateWay">GateWay</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-24T16:50:13.000Z" title="发表于 2021-01-24 16:50:13">2021-01-24</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/SpringCloud/Gateway/">Gateway</a></span></div><div class="content"> 一、概念
+官网
+
+GateWay是在Spring生态系统之上构建的API网关服务，基于Spring5，SpringBoot2，和Project Reactor等技术，Gateway只在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤器功能，；例如，熔断、限流、重试等
+
+
+SpringCloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Zuul，在SpringCloud 2.0以上版本中，没有对新版本的Zuul2.0以上最新高性能版本进行集成，仍然使用Zuul1.x非Reactor模式的老版本，为了提升网关的性能，SpringCloud Gateway是基于WebFlux框架实现的，而WebFlux框架底层则使用了高性能的Reactor模式通信框架Netty
+
+
+SpringCloud GateWay的目标提供统一的路由方式且基于Filter链的方式提供了网关的基本功能，例如：安全，监控、指标、和限流
+
+
+ 1 路由
+
+路由是构建网关的基本模块，它由ID，目标URI，一系列的断言和过滤器组成，如果断言为true则匹配该路由
+
+ 2 Pre ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/23/Maven%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Maven常用命令">Maven常用命令</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-23T15:48:33.000Z" title="发表于 2021-01-23 15:48:33">2021-01-23</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Maven/">Maven</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/23/OpenFeign/" title="OpenFeign">OpenFeign</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-23T15:42:33.000Z" title="发表于 2021-01-23 15:42:33">2021-01-23</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud/">SpringCloud</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/SpringCloud/OpenFeign/">OpenFeign</a></span></div><div class="content"> 一、概述
+官网
+
+Feign是一个声明式WebService客户端，使用Feign能让编写WebService客户端更加简单
+
+
+
+
+名称
+解释
+
+
+
+
+@RequestLine
+方法上 定义HttpMethod 和 UriTemplate. UriTemplate 中使用{} 包裹的表达式，可以通过在方法参数上使用
+
+
+@Param
+自动注入 @Param 方法参数 定义模板变量，模板变量的值可以使用名称的方式使用模板注入解析
+
+
+@Headers
+类上或者方法上 定义头部模板变量，使用@Param 注解提供参数值的注入。如果该注解添加在接口类上，则所有的请求都会携带对应的Header信息；如果在方法上，则只会添加到对应的方法请求上
+
+
+@QueryMap
+方法上 定义一个键值对或者 pojo，参数值将会被转换成URL上的 query 字符串上
+
+
+@HeaderMap
+方法上 定义一个HeaderMap, 与 UrlTemplate 和HeaderTemplate 类型，可以使用@Param 注解提供参数值
+
+
+@FeignClient
+注解指定调用的微服务名称，封装了调用 US ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/01/20/Git-Diff%E4%B8%8EGit-Difftool/" title="Git Diff与Git Difftool">Git Diff与Git Difftool</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-20T18:09:36.000Z" title="发表于 2021-01-20 18:09:36">2021-01-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git/">Git</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Git/%E6%93%8D%E4%BD%9C/">操作</a></span></div><div class="content"> 配置Difftool
+ 1 配置
+ 1 meld
+官网
+命令配置
+123456git config --global diff.tool meldgit config --global difftool.prompt falsegit config --global difftool.meld.cmd &#x27;&quot;C:\Program Files (x86)\Meld\Meld.exe&quot; &quot;$LOCAL&quot; &quot;$REMOTE&quot;&#x27;git config --global merge.tool meldgit config --global mergetool.meld.cmd &#x27;&quot;C:\Program Files (x86)\Meld\Meld.exe&quot; &quot;$BASE&quot; &quot;$LOCAL&quot; &quot;$REMOTE&quot; &quot;$MERGED&quot;&#x27;git config --global mergetool.bc3.tru ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/11/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">10</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">操作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">配置</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/NIO/"><span class="card-category-list-name">NIO</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/Stream/"><span class="card-category-list-name">Stream</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/"><span class="card-category-list-name">Mac</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">环境搭建</span><span class="card-category-list-count">2</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BF%90%E7%BB%B4-shell/" style="font-size: 1.1em; color: #999">-运维 - shell</a> <a href="/tags/CI-CD/" style="font-size: 1.16em; color: #999b9e">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.44em; color: #99a7ba">Git</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Java/" style="font-size: 1.16em; color: #999b9e">Java</a> <a href="/tags/Mac/" style="font-size: 1.27em; color: #99a0a9">Mac</a> <a href="/tags/Maven/" style="font-size: 1.21em; color: #999ea4">Maven</a> <a href="/tags/Mybatis/" style="font-size: 1.1em; color: #999">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/SQL%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">SQL案例分析</a> <a href="/tags/Sharding-JDBC/" style="font-size: 1.1em; color: #999">Sharding-JDBC</a> <a href="/tags/Spring/" style="font-size: 1.21em; color: #999ea4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.1em; color: #999">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.27em; color: #99a0a9">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.1em; color: #999">SpringMVC</a> <a href="/tags/SpringMvc/" style="font-size: 1.21em; color: #999ea4">SpringMvc</a> <a href="/tags/SpringSecurity/" style="font-size: 1.1em; color: #999">SpringSecurity</a> <a href="/tags/Spring%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" style="font-size: 1.16em; color: #999b9e">Spring编程核心思想</a> <a href="/tags/UML/" style="font-size: 1.16em; color: #999b9e">UML</a> <a href="/tags/WSL/" style="font-size: 1.16em; color: #999b9e">WSL</a> <a href="/tags/WebRTC/" style="font-size: 1.16em; color: #999b9e">WebRTC</a> <a href="/tags/apt/" style="font-size: 1.16em; color: #999b9e">apt</a> <a href="/tags/cfw/" style="font-size: 1.1em; color: #999">cfw</a> <a href="/tags/docker/" style="font-size: 1.33em; color: #99a2af">docker</a> <a href="/tags/drools/" style="font-size: 1.1em; color: #999">drools</a> <a href="/tags/electron/" style="font-size: 1.1em; color: #999">electron</a> <a href="/tags/elk/" style="font-size: 1.1em; color: #999">elk</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/gitlab/" style="font-size: 1.1em; color: #999">gitlab</a> <a href="/tags/google/" style="font-size: 1.1em; color: #999">google</a> <a href="/tags/idea/" style="font-size: 1.27em; color: #99a0a9">idea</a> <a href="/tags/java/" style="font-size: 1.1em; color: #999">java</a> <a href="/tags/linux/" style="font-size: 1.39em; color: #99a4b4">linux</a> <a href="/tags/logback/" style="font-size: 1.1em; color: #999">logback</a> <a href="/tags/mysql/" style="font-size: 1.5em; color: #99a9bf">mysql</a> <a href="/tags/nginx/" style="font-size: 1.21em; color: #999ea4">nginx</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/redis/" style="font-size: 1.21em; color: #999ea4">redis</a> <a href="/tags/shell/" style="font-size: 1.1em; color: #999">shell</a> <a href="/tags/sql/" style="font-size: 1.1em; color: #999">sql</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">155</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-19T06:03:38.416Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

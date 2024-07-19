@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curiosity的博客">
+<meta property="og:url" content="https://lijinzedev.github.io/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:author" content="Curiosity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-19 06:03:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">     <img class="post_bg" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></span></div><div class="content"> 开场
+介绍项目主要框架
+项目日志如何存储，查询慢如何处理，如何进行归档，数据量大吗
+热⻔房源展示功能用到哪些技术，如何实现？
+ Java基础
+介绍springcloud 和dubbo的区别
+用过哪些主从中心，注册中心的区别
+设计模式
+数据结构
+ Java 并发
+什么是多线程
+多线程的好处
+为什么要使用线程池
+线程池的实现原理
+Java 如何实现多线程之间的通讯和协作？
+如何在两个线程间共享数据？
+在实际项目中运用过多线程问题
+ MySQL
+如何优化count(*)
+自增主键为什么不是连续的
+如何快速的复制一张表
+join语句如何优化
+如何判断一个数据库是不是我出问题了
+mysql如何进行回表
+mysql索引分类
+mysql索引优缺点
+如何理解undo日志，undolog 日志解决了什么问题
+REDO日志的好处 特点
+主从复制的原理
+主从延迟问题原因
+1 和 ”1“ 作为自增ID区别
+ Redis
+ MQ
+消费者消费能力很差，比如很久才能创建一个订单，这个是怎么发现的，以及怎么处理的
+ GIT
+git 代码提交原子性
+git rebase
+git pull 和 git fetch 有什 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/git/">git</a></span></div><div class="content">使用方法：
+将文件中可能包含的字符串输入进行检索
+1a.sh &quot;java|import&quot;
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061#!/bin/bashif [ $# -eq 0 ]; then    echo &quot;Usage: $0 &lt;search_strings&gt;&quot;    exit 1fiSEARCH_STRINGS=&quot;$1&quot;# 运行 git fsck --lost-found 以识别丢失的对象git fsck --lost-found# 定义保存恢复文件的目录的绝对路径RESTORED_DIR=&quot;$(pwd)/restored_files&quot;BLOBS_DIR=&quot;$RESTORED_DIR/blobs&quot;COMMITS_DIR=&quot;$RESTORED_DIR/commits&quot; ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%88%86%E7%B1%BB/">分类</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/windows/">windows</a></span></div><div class="content"> windows Java多版本切换
+目前存在以下解决方案
+
+vfox 推荐
+scoop
+sdkman windows 支持不友好 卡顿，很慢
+Jabba  没研究
+jenv windows 支持不友好
+
+总结：
+
+vfox作用在用户变量，每次修改环境变量的值
+scoop 可以作用在系统变量，但是每个版本都会生成一个，目前体验起来不好用
+sdkman 可以自己设置环境变量后使用这个切换，缺点是太卡了，除了卡就是多一步手动切换的过程
+
+ 1 vfox
+
+原理是增加用户变量，每次切换更新这个用户变量
+似乎不能修改系统变量
+
+vfox Java 插件 文档
+vfox使用文档
+ 2 scoop
+
+切换起来比较笨，也是在环境变量中增加配置，但是他加多余切有问题
+sudo 命令能够添加系统变量
+
+ 什么是 Scoop ？
+Scoop 是 Windows 的命令行安装程序，是一个强大的包管理工具。可以在 github 上找到其项目的相关信息，项目地址,Scoop 等一系列包管理器的诞生，第一大便利就是省去了繁琐的「搜索 - 下载 - 安装」的步骤，让我们能够通过「一行代码」急速安装。💪
+同时，用  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/linux/%E8%BD%AF%E4%BB%B6%E6%BA%90/">软件源</a></span></div><div class="content"> 一、修改 apt 源
+ 查看linux系统发行版本信息
+ ubuntu 20.04
+12345$ lsb_release -aDistributor ID:	UbuntuDescription:	Ubuntu 20.04.1 LTSRelease:	    20.04Codename:	    focal
+可以看到发行版本代号为 focal
+ ubuntu 18.04
+12$ lsb_release -cCodename:	bionic
+可以看到发行版本代号为 bionic
+ 部分ubuntu系统LTS版本代号
+Ubuntu 16.04代号为：xenial
+Ubuntu 17.04代号为：zesty
+Ubuntu 18.04代号为：bionic
+Ubuntu 19.04代号为：disco
+Ubuntu 20.04代号为：focal
+Ubuntu 20.04代号为：focal
+Ubuntu 22.04代号为:  jammy
+ 修改sources.list文件
+1$ sudo vim /etc/apt/sources.list
+ 更新
+12$ sudo apt-get update$ s ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/04/01/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E%E8%B0%83%E7%A0%94/" title="调度引擎调研">调度引擎调研</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-04-01T14:33:36.000Z" title="发表于 2024-04-01 14:33:36">2024-04-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E8%B0%83%E5%BA%A6%E5%BC%95%E6%93%8E/">调度引擎</a></span></div><div class="content"> 一、Airflow（面向研发人员Python）
+
+是数据工程中最受欢迎的开源工作流管理平台之一，用于管理任务及其工作流的自动化。
+
+Apache Airflow是一个强大的调度器，用于以编程方式编写、调度和监控工作流程。它是一个工作流引擎，可以轻松地调度和运行你的复杂数据管道。它将确保你的数据管道的每个任务将以正确的顺序执行。并确保每个任务得到所需的资源。
+ 1.1 Airflow在行业中的应用
+
+大数据。
+机器学习。
+计算机软件。
+金融服务。
+IT服务。
+银行业等
+
+例如：
+
+运维人员，定时对服务器执行脚本某些脚本，最简单的方式是添加一些crond任务，但如果想追溯各个任务的执行结果时？
+在大数据场景下，每隔一段时间需导出线上数据、导入到大数据平台、触发数据处理等多个子操作，且各个子操作含有依赖关系时？
+在管理大量主机时，想要一个统一的作业管理平台，能在上面定义各种任务来管理下面的设备？
+
+ 1.2 Apache Airflow的特点
+
+易用性你只需要一点python知识就可以理解。
+开源社区-Airflow是免费的，并且有一个庞大的活跃用户社区。
+集成–现成的操作符让你可以将Ai ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/28/Google-%E6%90%9C%E7%B4%A2%E8%AE%BE%E7%BD%AE/" title="Google 搜索设置">Google 搜索设置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-28T10:02:52.000Z" title="发表于 2024-03-28 10:02:52">2024-03-28</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%90%9C%E7%B4%A2/">搜索</a></span></div><div class="content"> 一、浏览器语言设置
+Google Search Settings [www.google.com/preferences] &gt; Search Results &gt; Region Settings
+
+设置区域为us
+语言中文
+
+ 二、谷歌搜索结果中屏蔽机器翻译网站
+https://github.com/liubiantao/uBlacklist-Websites
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/27/logback1-2-3%E7%89%88%E6%9C%AC-%E6%97%A5%E5%BF%97%E8%B6%85%E8%BF%87999%E4%B8%8D%E4%BC%9A%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4%EF%BC%8C%E5%AF%BC%E8%87%B4%E7%A3%81%E7%9B%98%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/" title="logback1.2.3版本 日志超过999不会自动删除，导致磁盘堆积问题">logback1.2.3版本 日志超过999不会自动删除，导致磁盘堆积问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-27T14:33:52.000Z" title="发表于 2024-03-27 14:33:52">2024-03-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%BA%90%E7%A0%81/">源码</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E6%BA%90%E7%A0%81/springboot/">springboot</a></span></div><div class="content"> 环境参数说明
+
+Springboot 2.5.2
+JDK 1.8
+logback 1.2.3
+
+ 一、问题现象
+生产环境产生日志堆积，debug日志占用1TB，本地测试日志index在增长到999后，maxFileSize、maxHistory、totalSizeCap均失效，日志无法删除。
+ 二、前置知识
+https://www.cnblogs.com/cainiao-Shun666/p/16348448.html
+ 2.1.基于时间的滚动策略
+为了配置滚动日志，我们可以使用TimeBasedRollingPolicy ，它具有以下属性。
+
+fileNamePattern ：定义了滚动（归档）日志文件的名称。滚动期是由其值中指定的日期模式推断出来的。默认模式为’yyyy-MM-dd’。
+maxHistory （可选）：控制要保留的最大归档文件数量，异步删除旧文件。
+totalSizeCap （可选）：控制所有存档文件的总大小。当超过总大小上限时，最老的档案会被异步删除。
+cleanHistoryOnStart ：默认情况下是假的，这意味着档案移除通常是在滚动期间进行。如果设置为 “ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/16/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="常用命令">常用命令</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack article-meta__icon sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2024-03-16T12:50:38.000Z" title="发表于 2024-03-16 12:50:38">2024-03-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%91%BD%E4%BB%A4/">命令</a></span></div><div class="content"> 一、 常用命令总结
+ 1 liunx
+
+ 2 docker
+
+ 3 git
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/12/22/ja-netfilter%E4%BD%BF%E7%94%A8/" title="ja-netfilter使用">ja-netfilter使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-12-22T21:01:35.000Z" title="发表于 2023-12-22 21:01:35">2023-12-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/idea/">idea</a></span></div><div class="content"> 下载ja-netfilter
+你可以直接下载ja-netfilter 2022.2或到项目release页中寻找合适的版本
+ 1 手动配置
+ 配置JB产品的启动VM参数
+使用合适的编辑器打开以下文件
+1C:\Users\admin\AppData\Roaming\JetBrains\产品名\产品名.exe.vmoptions
+在文件尾部追加以下内容
+1234--add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED--add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED//以上两行仅在Java17时需要添加，即JB产品的2022.2版本开始需要添加 同时本行注释需要删除-javaagent:D:\soft\jetbra\ja-netfilter.jar=jetbrains
+ 2 自动配置
+
+使用ja-netfilter-all\scripts下的配置脚本
+
+Windows系统就选`.vbs`后缀的，其他系统选择`.sh`后缀的。
+
+i ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">10</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">操作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">配置</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/NIO/"><span class="card-category-list-name">NIO</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/Stream/"><span class="card-category-list-name">Stream</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/"><span class="card-category-list-name">Mac</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">环境搭建</span><span class="card-category-list-count">2</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BF%90%E7%BB%B4-shell/" style="font-size: 1.1em; color: #999">-运维 - shell</a> <a href="/tags/CI-CD/" style="font-size: 1.16em; color: #999b9e">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.44em; color: #99a7ba">Git</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Java/" style="font-size: 1.16em; color: #999b9e">Java</a> <a href="/tags/Mac/" style="font-size: 1.27em; color: #99a0a9">Mac</a> <a href="/tags/Maven/" style="font-size: 1.21em; color: #999ea4">Maven</a> <a href="/tags/Mybatis/" style="font-size: 1.1em; color: #999">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/SQL%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">SQL案例分析</a> <a href="/tags/Sharding-JDBC/" style="font-size: 1.1em; color: #999">Sharding-JDBC</a> <a href="/tags/Spring/" style="font-size: 1.21em; color: #999ea4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.1em; color: #999">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.27em; color: #99a0a9">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.1em; color: #999">SpringMVC</a> <a href="/tags/SpringMvc/" style="font-size: 1.21em; color: #999ea4">SpringMvc</a> <a href="/tags/SpringSecurity/" style="font-size: 1.1em; color: #999">SpringSecurity</a> <a href="/tags/Spring%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" style="font-size: 1.16em; color: #999b9e">Spring编程核心思想</a> <a href="/tags/UML/" style="font-size: 1.16em; color: #999b9e">UML</a> <a href="/tags/WSL/" style="font-size: 1.16em; color: #999b9e">WSL</a> <a href="/tags/WebRTC/" style="font-size: 1.16em; color: #999b9e">WebRTC</a> <a href="/tags/apt/" style="font-size: 1.16em; color: #999b9e">apt</a> <a href="/tags/cfw/" style="font-size: 1.1em; color: #999">cfw</a> <a href="/tags/docker/" style="font-size: 1.33em; color: #99a2af">docker</a> <a href="/tags/drools/" style="font-size: 1.1em; color: #999">drools</a> <a href="/tags/electron/" style="font-size: 1.1em; color: #999">electron</a> <a href="/tags/elk/" style="font-size: 1.1em; color: #999">elk</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/gitlab/" style="font-size: 1.1em; color: #999">gitlab</a> <a href="/tags/google/" style="font-size: 1.1em; color: #999">google</a> <a href="/tags/idea/" style="font-size: 1.27em; color: #99a0a9">idea</a> <a href="/tags/java/" style="font-size: 1.1em; color: #999">java</a> <a href="/tags/linux/" style="font-size: 1.39em; color: #99a4b4">linux</a> <a href="/tags/logback/" style="font-size: 1.1em; color: #999">logback</a> <a href="/tags/mysql/" style="font-size: 1.5em; color: #99a9bf">mysql</a> <a href="/tags/nginx/" style="font-size: 1.21em; color: #999ea4">nginx</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/redis/" style="font-size: 1.21em; color: #999ea4">redis</a> <a href="/tags/shell/" style="font-size: 1.1em; color: #999">shell</a> <a href="/tags/sql/" style="font-size: 1.1em; color: #999">sql</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">155</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-19T06:03:38.416Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

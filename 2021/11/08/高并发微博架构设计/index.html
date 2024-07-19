@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>高并发微博架构设计 | Curiosity的博客</title><meta name="keywords" content="架构设计"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、用户的关注如何设计与实现  follower页，展示关注该用户的所有用户信息 attention页，展示用户关注的所有用户信息   主要操作  在上述页面中，用户可以为自己增加，删除attention，即关注某个其他用户或者对其他用户取消关注。可以删除follower，即取消其他某个用户对自己的关注。   业务特点  海量的用户数据。亿级的用户数量，每个用户千级的帖子数量，平均千级的foll">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发微博架构设计">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/11/08/%E9%AB%98%E5%B9%B6%E5%8F%91%E5%BE%AE%E5%8D%9A%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一、用户的关注如何设计与实现  follower页，展示关注该用户的所有用户信息 attention页，展示用户关注的所有用户信息   主要操作  在上述页面中，用户可以为自己增加，删除attention，即关注某个其他用户或者对其他用户取消关注。可以删除follower，即取消其他某个用户对自己的关注。   业务特点  海量的用户数据。亿级的用户数量，每个用户千级的帖子数量，平均千级的foll">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-11-08T16:04:51.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.661Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="架构设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/11/08/%E9%AB%98%E5%B9%B6%E5%8F%91%E5%BE%AE%E5%8D%9A%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">高并发微博架构设计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-08T16:04:51.000Z" title="发表于 2021-11-08 16:04:51">2021-11-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.661Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一-用户的关注如何设计与实现"><a class="markdownIt-Anchor" href="#一-用户的关注如何设计与实现"></a> 一、用户的关注如何设计与实现</h1>
+<ol>
+<li>follower页，展示关注该用户的所有用户信息</li>
+<li>attention页，展示用户关注的所有用户信息</li>
+</ol>
+<h2 id="主要操作"><a class="markdownIt-Anchor" href="#主要操作"></a> 主要操作</h2>
+<blockquote>
+<p>在上述页面中，用户可以为自己增加，删除attention，即关注某个其他用户或者对其他用户取消关注。可以删除follower，即取消其他某个用户对自己的关注。</p>
+</blockquote>
+<h2 id="业务特点"><a class="markdownIt-Anchor" href="#业务特点"></a> 业务特点</h2>
+<ol>
+<li>海量的用户数据。亿级的用户数量，每个用户千级的帖子数量，平均千级的follower/attention数量，</li>
+<li>高访问量，每秒十万量级的平均页面访问，每秒万量级的帖子发布。</li>
+<li>用户分布的非均匀。部分用户的帖子数量followpr数量，相关页面访问数量会超出其他用户一到几个数量级</li>
+<li>时间分布的非均匀分布，某个用户可能突然在某个时间成为热点用户，其follower可能徒增数个量级</li>
+</ol>
+<p>一个典型社交类系统的典型特性归结为三个关键词：大数据量，高访问量，非均匀性</p>
+<h2 id="relation的存储"><a class="markdownIt-Anchor" href="#relation的存储"></a> relation的存储</h2>
+<p>​        最简单的就是基于DB存储，只需要两张表即可table_relation和table_user_info</p>
+<hr>
+<p>**table_relation表：**id主键，关注者id，被关注者id<br>
+**table_user_info表：**id主键，用户信息（头像，名称，注册时间，大v认证，手机号等信息）<br>
+所以这里我们只需要查询两张表就可以查询出关注，粉丝和用户信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> select count (1) from table._relation where 关注者id=&#x27;xx&#x27;</span><br><span class="line">select count（1） from table._relation where 被关注者id=&#x27;xx&#x27;；</span><br></pre></td></tr></table></figure>
+<p>​			随着用户数量的增多，table_relation和table_user_info表的行数增多。千万，亿级用户，每个用户相关关系百级，那么就需要水平拆分。</p>
+<p>​		 对于某个用户的信息查询，首先根据userid计算出它的数据在哪个分片，再在对应的分片info表里查询到相关数据。userld分片的映射关系有多种方式，例如hash取模。userld字段的某几个特殊位，hash取模的一致性hash映射等。</p>
+<p>​		  这里有个问题。table._relation根据follower进行拆分，查询某个用户关注的人很容易，因为相同的followerld的数据一定分布在相同分片上。但是一旦需要查询谁关注了某个用户，这样查询需要路由到所有分片上进行，因为相同的attention_ld的数据分散在不同的分片上，查询效率低。由于查询follower和attention的访问量是相相似的，所以无论根据followerld还是attentionld进行拆分，总会有一半的场景查询效事低下。</p>
+<p>​			所以针对上述问题，进行垂直拆分，分为follower表和attention表，分表记录某个用户的关注者和被关注者，接下来在对follower表和attention表分别基于userid进行水平拆分。<br>
+follower表：主键id、uerld、 followerld<br>
+attention表：主键id、userid、 attentionid</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select count(1) from table_folloler_xx where userid=&#x27;xx&#x27;</span><br><span class="line">select count(1) from table_attention_xx where userid=&#x27;xx&#x27;; </span><br><span class="line">查询用户：</span><br><span class="line">select * from table_user_info wehre userid in (xx);</span><br></pre></td></tr></table></figure>
+<p>​			上述三条语句，前两条可以落在相同的分片上，DB操作次数为两次，但最后一条仍需要查询多次DB。</p>
+<p>​			同时，进行垂直拆分的时候，如果我们要写DB，就提升了一倍。而且上述操作仍然需要count查询，即使在userld上建立了索引仍然会有问题存在:</p>
+<ol>
+<li>
+<p>对于某些用户，他们被很多人关注（比如明星几千万的关注），他们在follower表进行count查询时，需要在<br>
+userld上扫描的行数仍然很多，我们称这些用户为热点用户。每一次展示热点用户的关注者数量的操作都是低效的。另一方面，热点用户由于被很多用户关注，他的timeline页面会被更频繁的访问，使得原本低效的展示操作总是被高频的访问，性能风险进一步扩大。</p>
+</li>
+<li>
+<p>当某个用户的follower较多时，通常在relation页面里无法一页展示完，因此需要进行分页显示，每一页显示<br>
+固定数量的用户，然而DB实现分页时，扫描效率随着offset增加而增加，使得这些热点用户的relation页展示到最后几页的时候，变的低效</p>
+</li>
+<li>
+<p>用户详细信息的展示，每次展示relation页面时，需要对每个follower或者attention分别查询info表，使得info的查询服务能力无法随着info分片线性增加。</p>
+</li>
+</ol>
+<h2 id="引入缓存"><a class="markdownIt-Anchor" href="#引入缓存"></a> 引入缓存</h2>
+<p>引入缓存在服务器进行本地缓存，redis做为后面的缓存</p>
+<p>userinfo添加关注数与被关注数</p>
+<p>follower与attention的count数存在userinfo表里面提升效率</p>
+<p>​      	针对上面的问题，我们这里就需要引入缓存来解决。</p>
+<p>​          同时，在DB层面我们可以在userinfo表的信息中，将每个用户的关注者和被关注者的数量存入DB，这样一来，对于timeline页和feed页的relation摘要展示仅仅通过查询userinfo表即可完成。同时可以再缓存中也添加上关注者和被关注者的数量，一些大V账号，我们也可以进行服务器端的本地缓存进行二级存储。</p>
+<p>引入缓存之后的业务操作实现方式也相应做了调整：</p>
+<ol>
+<li>
+<p>某用户timeline/feed页面的relation摘要信息展示：展示方式首先根据用户作为key查询缓存，未命中时，再查询DB。</p>
+</li>
+<li>
+<p>某用户relation页面详细信息展示，分成两个子页面：follower列表展示和attention展示：</p>
+<ol>
+<li>
+<p>同样首先查询ollower和attention的缓存，对于频繁被查询雨热点用户，它的数据一定在缓存中，由此将DB数据量最多，访问频度最高的用户指在缓存外。</p>
+</li>
+<li>
+<p>对于每个用户的info信息，热点用户由于被更多的用户关注，他更有可能在详情页面被查询到，所以这类用户总在本地缓存中能够被查询到，本地缓存设置一个不长的过期时间。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>​        对于热点用户的follower详情页，由于热点用户过长的缓存list，它们每次被查询都有极高的网络传输，同时因为热点，查询频率也更高，加重了网络负担。info查询中follower和attention的数量随时变化着，为了使得查询的数值实时，系统需要在尽量间隔短的时间重新进行count，对于热点用户，如果期望实现秒级数据延迟，那么意味着每秒需要对百万甚至千万级别的数据进行count。如何解决这些动态变化着的数据的大访问量，实时性成为挑战。</p>
+<p>​		userinfo 表里面新增两个字段，引入缓存</p>
+<p>增加一个用户，直接写redis就ok，db异步的进行写数据</p>
+<p>​      对于count来说，我们引入缓存，把count写入到缓存中，订阅用户收到的变更事件。增加和删除写缓存，异步去写数据库。同时通过对增量化模块中的每个事件记录产生的版本（也可以根据时间本身自增来实现），和对计数器每个key进行版本记录，可以实现去重防丢失等需求。</p>
+<p>​	新增的用户是放在最前面的，往往我们最前面的N页查询是比较频繁的，占总查询的百分之99</p>
+<p>可以单独分出来一个list页，在redis中，我们把新增的关注用户放到list页，我们可以直接去查询这块新增数据</p>
+<p>剩下后面的数据，可以去redislist中去查询，也可以去查询db</p>
+<p>db层做sql优化缩短查询时间，同时我们也可以。查询后面用户的数据，也存在list中，时间设置的稍微长一些</p>
+<p>​         当需要查看某个用户的relation详情页时，涉及对follower和attention列表的分页查询。通常单个用户的关注的人数量有限，绝大用户在1000以内，且每次查询对第一页查询的频率远高于后面的页，那么无论直接将列表存入DB或者是缓存中，都能做到较高的吞吐量。但是对于热点用户的follower，情况就比较复杂一点：follower的数量是不可控的，即使是小概率的翻页操作，对于follower很多热点用户，仍然是高访问量的操作；且每次翻页的扫描成本很高。单个分布式缓存的value列表无法承载过长的follower列表。<br>
+​             针对热点用户的follower列表查询问题，采用基于增量化的实现辅助解决。首先，同一个follower列表的前N页（假设5页）的访问频率占用到总访问量的绝大部分。而前N页的follower个数是常数个；其次follower列表的展示以follow时间进行排序，最近加入的follower通常排在最前面，即增量化模块的最新数据最有可能放在首N页。作为增量化的消费者每次拉取的最近N页条变更事件直接存入热点用户的follower缓存中。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/11/08/%E9%AB%98%E5%B9%B6%E5%8F%91%E5%BE%AE%E5%8D%9A%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">https://lijinzedev.github.io/2021/11/08/%E9%AB%98%E5%B9%B6%E5%8F%91%E5%BE%AE%E5%8D%9A%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/12/Electron%E9%9D%99%E9%BB%98%E6%89%93%E5%8D%B0/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Electron静默打印</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/08/%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA%E6%BA%90%E7%A0%81/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">批量导出源码</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E7%94%A8%E6%88%B7%E7%9A%84%E5%85%B3%E6%B3%A8%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text"> 一、用户的关注如何设计与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text"> 主要操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text"> 业务特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#relation%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">1.3.</span> <span class="toc-text"> relation的存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E7%BC%93%E5%AD%98"><span class="toc-number">1.4.</span> <span class="toc-text"> 引入缓存</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

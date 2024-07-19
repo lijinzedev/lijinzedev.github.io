@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curiosity的博客">
+<meta property="og:url" content="https://lijinzedev.github.io/page/2/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:author" content="Curiosity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/page/2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-19 06:03:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/11/15/Postgrep-sql%E8%AF%AD%E5%8F%A5%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB%E6%93%8D%E4%BD%9C/" title="Postgrep sql语句进行数据库迁移操作">Postgrep sql语句进行数据库迁移操作</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-11-15T09:46:54.000Z" title="发表于 2023-11-15 09:46:54">2023-11-15</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/sql/">sql</a></span></div><div class="content"> 数据新增与删除
+123456insert into mine_config(mine_code, page_type)select mcr.mine_code, 0from mining_codes_relation mcr         left join mine_config mc on mcr.mine_code = mc.mine_codewhere mc.mine_code is null;
+ 跨库操作
+ dblink操作数据库
+12345678910111213141516171819202122232425262728SELECT * FROM dblink(&#x27;host=172.31.54.110 port=5432 user=postgres password=pg-dev123* dbname=mining&#x27;::text,                     &#x27;SELECT * FROM excavation_heading_collection_info&#x27;::text)  as t(                  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/08/14/%E8%AE%B0%E4%B8%80%E6%AC%A1windows%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/" title="记一次windows端口占用问题">记一次windows端口占用问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-14T17:23:14.000Z" title="发表于 2023-08-14 17:23:14">2023-08-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/windows/">windows</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/windows/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="content">在我们开发web程序的时候，常常需要指定端口进行测试，但是在Windows下面，我们常常会遇到端口占用的相关问题，下面将展示端口占用的一些解决方法
+ 1. 常规解决方案
+ a 查询端口
+12345$ netstat -aon|findstr &quot;8080&quot;  # 这里的8080即要查询的端口号# 结果如下 TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       19024 TCP    127.0.0.1:2736         127.0.0.1:8080         ESTABLISHED     8960 TCP    127.0.0.1:8080         127.0.0.1:2736         ESTABLISHED     19024
+ b 查询进程
+123$ tasklist|findstr &quot;19024&quot; # 这里的19024即进程号,根据a查到# 结果如下node.exe                     19024 Cons ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/08/07/Windows-%E5%AE%89%E8%A3%85psping%E5%B7%A5%E5%85%B7/" title="Windows 安装psping工具">Windows 安装psping工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-07T15:17:21.000Z" title="发表于 2023-08-07 15:17:21">2023-08-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/windows/">windows</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/windows/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="content"> 介绍
+PsPing 实现 Ping 功能、TCP ping、延迟和带宽测量。使用以下命令行选项显示每种测试类型的用法：
+ 下载
+https://download.sysinternals.com
+ 官网
+https://learn.microsoft.com/zh-cn/sysinternals/downloads/psping
+ 修改环境变量
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/07/20/Linux-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%E7%BD%91%E7%BB%9C/" title="Linux 性能优化-网络">Linux 性能优化-网络</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-07-20T22:44:06.000Z" title="发表于 2023-07-20 22:44:06">2023-07-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/linux/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></span></div><div class="content"> 一、 Linux 网络基础知识
+同 CPU、内存以及 I/O 一样，网络也是 Linux 系统最核心的功能。网络是一种把不同计算机或网络设备连接到一起的技术，它本质上是一种进程间通信方式，特别是跨系统的进程间通信，必须要通过网络才能进行。随着高并发、分布式、云计算、微服务等技术的普及，网络的性能也变得越来越重要。
+ 1 网络模型
+说到网络，我想你肯定经常提起七层负载均衡、四层负载均衡，或者三层设备、二层设备等等。那么，这里说的二层、三层、四层、七层又都是什么意思呢？
+实际上，这些层都来自国际标准化组织制定的开放式系统互联通信参考模型（Open System Interconnection Reference Model），简称为 OSI 网络模型。
+为了解决网络互联中异构设备的兼容性问题，并解耦复杂的网络包处理流程，OSI 模型把网络互联的框架分为应用层、表示层、会话层、传输层、网络层、数据链路层以及物理层等七层，每个层负责不同的功能。其中，
+
+应用层，负责为应用程序提供统一的接口。
+表示层，负责把数据转换成兼容接收系统的格式。
+会话层，负责维护计算机之间的通信连接。
+传输层，
+负责 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/07/13/Linux-%E6%8A%98%E7%A3%A8%E4%B9%8B%E8%BD%AF%E4%BB%B6Debian%E6%BA%90%E7%9B%B8%E5%85%B3/" title="Linux-折磨之软件Debian源相关">Linux-折磨之软件Debian源相关</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-07-13T23:33:57.000Z" title="发表于 2023-07-13 23:33:57">2023-07-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/linux/%E8%BD%AF%E4%BB%B6%E6%BA%90/">软件源</a></span></div><div class="content"> Debian 9 软件源问题
+ 背景
+
+docker下容器给予debian 9想下载软件包，无奈怎么弄都是失败，apt-update各种报错
+
+ 查看系统版本
+12345678910root@4965c2bf1d67:/# cat /etc/os-releasePRETTY_NAME=&quot;Debian GNU/Linux 9 (stretch)&quot;NAME=&quot;Debian GNU/Linux&quot;VERSION_ID=&quot;9&quot;VERSION=&quot;9 (stretch)&quot;ID=debianHOME_URL=&quot;https://www.debian.org/&quot;SUPPORT_URL=&quot;https://www.debian.org/support&quot;BUG_REPORT_URL=&quot;https://bugs.debian.org/&quot;root@4965c2bf1d67:/#
+ 换源
+
+从2023年4月23日起，debian9的源包地址更换至新地址。 新地址如下：
+
+123 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/07/11/Linux-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CPU/" title="Linux 性能优化-CPU">Linux 性能优化-CPU</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-07-11T23:09:22.000Z" title="发表于 2023-07-11 23:09:22">2023-07-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/linux/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></span></div><div class="content"> 1 环境准备
+123456789101112131415161718192021docker pull  ubuntu:18.04 # 准备镜像docker run -i -t --name ubuntuTest ubuntu bash # 进入容器cat /etc/issue  # 查看ubuntu系统版本docker start -i ubuntuTest  # -i启动容器，可以进入终端交互。vim /etc/apt/sources.list  # 更新软件源deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiversedeb htt ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/06/13/windows10%E4%B8%8B%E5%85%B3%E9%97%AD%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8/" title="windows10下关闭端口占用">windows10下关闭端口占用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-13T10:56:05.000Z" title="发表于 2023-06-13 10:56:05">2023-06-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/win10/">win10</a></span></div><div class="content"> windows10下关闭端口占用
+ 占用查询端口的pid查询
+123C:\Users\helloworld&gt;netstat -ano|findstr &quot;9097&quot;  TCP    0.0.0.0:9097           0.0.0.0:0              LISTENING       6832  TCP    [::]:9097              [::]:0                 LISTENING       6832
+ 关闭对应pid
+12C:\Users\helloworld&gt;taskkill  -F -PID 6832成功: 已终止 PID 为 6832 的进程。
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/12/11/Linux-%E7%8E%AF%E5%A2%83%E4%B8%8B%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97/" title="Linux 环境下查看日志">Linux 环境下查看日志</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-12-11T09:43:07.000Z" title="发表于 2022-12-11 09:43:07">2022-12-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/linux/%E6%97%A5%E5%BF%97/">日志</a></span></div><div class="content"> 一、查看日志
+
+cat service.log
+tail -f service.log
+vim serivice.log
+
+按G跳转到文件的末尾
+按? +关键字搜索对应的记录
+按n往上查询，按N往下查询
+
+
+
+
+面对大文件时候使用grep
+
+比如我们现在得知某个手机号收不到短信验证码，想要看一下这个手机号的日志是怎么样的。于是我们就可以这样搞：
+
+cat -n service.log | grep 13888888888
+
+这样，就能将service.log中所有含有13888888888的记录给搜出来。
+日志上下文
+
+sed -n &quot;29496,29516p&quot; service.log：从29496行开始检索，到29516行结束
+cat -n service.log | tail -n +29496 | head -n 20:从29496行开始检索，往前推20条
+
+如果关键字不太准确（日志输出的记录太多了），我们可以使用more命令来浏览或者输出到文件上再分析：
+
+cat service.log | grep 13 |more ：将查询后的结果交由more输出
+c ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/11/11/ssh%E8%B7%B3%E6%9D%BF%E6%9C%BA%E4%B8%8E%E4%BB%A3%E7%90%86/" title="ssh跳板机与代理">ssh跳板机与代理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-11-11T10:30:45.000Z" title="发表于 2022-11-11 10:30:45">2022-11-11</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ssh/">ssh</a></span></div><div class="content"> 一、ssh跳板机
+ ssh -J 命令
+123456ssh -J root@172.29.1.236 root@10.226.99.149# 多主机之间用逗号隔开，如果某个主机的sshd服务不是默认22端口，需要在IP后加“:port”（冒号和端口号）指定主机端口#mam手册的解释：-J [user@]host[:port]             Connect to the target host by first making a ssh connection to the jump host and then establishing a TCP forwarding to the ultimate destination from there.  Multiple jump hops may be             specified separated by comma characters.  This is a shortcut to specify a ProxyJump configuration directive.
+ ssh免密码和ssh-copy-id ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/07/22/RocketMQ-docker-%E9%9B%86%E7%BE%A4%E7%AC%94%E8%AE%B0/" title="RocketMQ-docker-集群笔记">RocketMQ-docker-集群笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-07-22T21:33:58.000Z" title="发表于 2022-07-22 21:33:58">2022-07-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/mq/">mq</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/mq/rocketmq/">rocketmq</a></span></div><div class="content"> M1使用docker部署rocketmq单机版
+https://www.jianshu.com/p/6ad529a16677
+ 1. 编译rocketmq镜像
+
+先down下代码 ：git clone https://github.com/apache/rocketmq-docker.git
+按照readme中的步骤执行命令
+
+123cd image-buildsh build-image.sh RMQ-VERSION BASE-IMAGE(我执行的:sh build-image.sh 4.8.0 alpine )
+
+上一步成功后运行 docker images
+
+
+ 2.编译rocketmq-console-ng镜像
+
+先down代码： git clone git@github.com:apache/rocketmq-dashboard.git
+执行 mvn clean package -Dmaven.test.skip=true 会在./target目录下生成一个jar包
+将jar包copy到./src/main/docker，然后 进入该目录执行 docker build -t ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">10</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">操作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">配置</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/NIO/"><span class="card-category-list-name">NIO</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/Stream/"><span class="card-category-list-name">Stream</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/"><span class="card-category-list-name">Mac</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">环境搭建</span><span class="card-category-list-count">2</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BF%90%E7%BB%B4-shell/" style="font-size: 1.1em; color: #999">-运维 - shell</a> <a href="/tags/CI-CD/" style="font-size: 1.16em; color: #999b9e">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.44em; color: #99a7ba">Git</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Java/" style="font-size: 1.16em; color: #999b9e">Java</a> <a href="/tags/Mac/" style="font-size: 1.27em; color: #99a0a9">Mac</a> <a href="/tags/Maven/" style="font-size: 1.21em; color: #999ea4">Maven</a> <a href="/tags/Mybatis/" style="font-size: 1.1em; color: #999">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/SQL%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">SQL案例分析</a> <a href="/tags/Sharding-JDBC/" style="font-size: 1.1em; color: #999">Sharding-JDBC</a> <a href="/tags/Spring/" style="font-size: 1.21em; color: #999ea4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.1em; color: #999">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.27em; color: #99a0a9">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.1em; color: #999">SpringMVC</a> <a href="/tags/SpringMvc/" style="font-size: 1.21em; color: #999ea4">SpringMvc</a> <a href="/tags/SpringSecurity/" style="font-size: 1.1em; color: #999">SpringSecurity</a> <a href="/tags/Spring%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" style="font-size: 1.16em; color: #999b9e">Spring编程核心思想</a> <a href="/tags/UML/" style="font-size: 1.16em; color: #999b9e">UML</a> <a href="/tags/WSL/" style="font-size: 1.16em; color: #999b9e">WSL</a> <a href="/tags/WebRTC/" style="font-size: 1.16em; color: #999b9e">WebRTC</a> <a href="/tags/apt/" style="font-size: 1.16em; color: #999b9e">apt</a> <a href="/tags/cfw/" style="font-size: 1.1em; color: #999">cfw</a> <a href="/tags/docker/" style="font-size: 1.33em; color: #99a2af">docker</a> <a href="/tags/drools/" style="font-size: 1.1em; color: #999">drools</a> <a href="/tags/electron/" style="font-size: 1.1em; color: #999">electron</a> <a href="/tags/elk/" style="font-size: 1.1em; color: #999">elk</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/gitlab/" style="font-size: 1.1em; color: #999">gitlab</a> <a href="/tags/google/" style="font-size: 1.1em; color: #999">google</a> <a href="/tags/idea/" style="font-size: 1.27em; color: #99a0a9">idea</a> <a href="/tags/java/" style="font-size: 1.1em; color: #999">java</a> <a href="/tags/linux/" style="font-size: 1.39em; color: #99a4b4">linux</a> <a href="/tags/logback/" style="font-size: 1.1em; color: #999">logback</a> <a href="/tags/mysql/" style="font-size: 1.5em; color: #99a9bf">mysql</a> <a href="/tags/nginx/" style="font-size: 1.21em; color: #999ea4">nginx</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/redis/" style="font-size: 1.21em; color: #999ea4">redis</a> <a href="/tags/shell/" style="font-size: 1.1em; color: #999">shell</a> <a href="/tags/sql/" style="font-size: 1.1em; color: #999">sql</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">155</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-19T06:03:38.416Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

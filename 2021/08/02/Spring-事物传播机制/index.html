@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spring 事务传播机制使用 | Curiosity的博客</title><meta name="keywords" content="Spring,事务传播"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Spring事务  一、前言  1.1 事务的传播 什么是事务的传播？传播，意味着是有两个事务参与的，单个事务是没有 ”传播“ 的概念的 事务的传播机制（propagation behavior），即为在一个事务方法中调用另一个事务方法时，事务该如何执行。 1.2 7种传播属性 ​    事务传播行为类型 说明      PROPAGATION_REQUIRED required 含义是 必须有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 事务传播机制使用">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/08/02/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="Spring事务  一、前言  1.1 事务的传播 什么是事务的传播？传播，意味着是有两个事务参与的，单个事务是没有 ”传播“ 的概念的 事务的传播机制（propagation behavior），即为在一个事务方法中调用另一个事务方法时，事务该如何执行。 1.2 7种传播属性 ​    事务传播行为类型 说明      PROPAGATION_REQUIRED required 含义是 必须有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-08-02T22:07:40.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.581Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="事务传播">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/08/02/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Spring 事务传播机制使用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-02T22:07:40.000Z" title="发表于 2021-08-02 22:07:40">2021-08-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.581Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring/">Spring</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring/Spring%E5%9F%BA%E7%A1%80/">Spring基础</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Spring/Spring%E5%9F%BA%E7%A1%80/%E4%BA%8B%E5%8A%A1/">事务</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="spring事务"><a class="markdownIt-Anchor" href="#spring事务"></a> Spring事务</h1>
+<h2 id="一-前言"><a class="markdownIt-Anchor" href="#一-前言"></a> 一、前言</h2>
+<h3 id="11-事务的传播"><a class="markdownIt-Anchor" href="#11-事务的传播"></a> 1.1 事务的传播</h3>
+<p>什么是事务的传播？传播，意味着是有两个事务参与的，单个事务是没有 ”传播“ 的概念的</p>
+<p>事务的传播机制（<code>propagation behavior</code>），即为在一个事务方法中调用另一个事务方法时，事务该如何执行。</p>
+<p>1.2 7种传播属性</p>
+<p>​</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">事务传播行为类型</th>
+<th style="text-align:center">说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PROPAGATION_REQUIRED</td>
+<td style="text-align:center"><code>required</code> 含义是 <code>必须有事务</code>, 如果存在一个事务，则支持当前事务。如果没有事务则开启一个新的事务。</td>
+<td>没有创建 <code>【默认】</code></td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_SUPPORTS</td>
+<td style="text-align:center"><code>supports</code> 是支持事务，但是单独调用该方法时是没有事务的，如果调用者已经开启了事务，就用调用者的事务。</td>
+<td>有就用，没有拉到</td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_MANDATORY</td>
+<td style="text-align:center"><code>mandatory</code> 意为 <code>强制的</code> ，必须有事务，但是自己又不创建，如果调用者已经开启了事务，就用调用者的事务。调用者没开启事务，就抛异常。</td>
+<td>不创建，如果没有事务就告警</td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_REQUIRES_NEW</td>
+<td style="text-align:center">如果已经有的话就把已经有的挂起。<code>两个事务是独立的,事务A中在提交事务B后如果 rollback 并不会导致事务B 的 rollback</code>。<code>需要使用 JtaTransactionManager作为事务管理器</code></td>
+<td>挂起别人的，创建自己的</td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_NOT_SUPPORTED</td>
+<td style="text-align:center">not_supported<code>即为</code>不支持事务<code> , 调用者如果已有事务就把它挂起，自己以无事务运行。</code>需要使用 JtaTransactionManager作为事务管理器</td>
+<td>挂起别人的，我不用</td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_NEVER</td>
+<td style="text-align:center"><code>never</code> 从来都不需要事务的，如果调用者已有事务，就报错！</td>
+<td>别人有就报错</td>
+</tr>
+<tr>
+<td style="text-align:center">PROPAGATION_NESTED</td>
+<td style="text-align:center">nested<code>嵌套的事务，自己会创建一个新事务，但是这个新事务并不是自己单独提交的，而是等待外层事务一起提交，所以事务B后面 事务A中的其他代码如果造成了</code>rollback<code>则也会导致事务B</code>rollback</td>
+<td>嵌套</td>
+</tr>
+</tbody>
+</table>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210802225137.png" alt="事务"></p>
+<h2 id="二-环境搭建"><a class="markdownIt-Anchor" href="#二-环境搭建"></a> 二、环境搭建</h2>
+<h3 id="21-数据库表"><a class="markdownIt-Anchor" href="#21-数据库表"></a> 2.1 数据库表</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `father` (</span><br><span class="line">  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` VARCHAR(45) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  PRIMARY KEY(`id`)</span><br><span class="line">) ENGINE = InnoDB;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `son` (</span><br><span class="line">  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` VARCHAR(45) NOT NULL DEFAULT &#x27;&#x27;,</span><br><span class="line">  PRIMARY KEY(`id`)</span><br><span class="line">) ENGINE = InnoDB;</span><br></pre></td></tr></table></figure>
+<h2 id="三-propagation_required"><a class="markdownIt-Anchor" href="#三-propagation_required"></a> 三、PROPAGATION_REQUIRED</h2>
+<blockquote>
+<p>如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SonServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">BaseServiceImpl</span>&lt;SonMapper, Son&gt; <span class="keyword">implements</span> <span class="title class_">Handler</span>&lt;Son&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Son son)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addAndThrowException</span><span class="params">(Son son)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FatherServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">BaseServiceImpl</span>&lt;FatherMapper, Father&gt; <span class="keyword">implements</span> <span class="title class_">Handler</span>&lt;Father&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Father father)</span> &#123;</span><br><span class="line">        baseMapper.insert(father);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addAndThrowException</span><span class="params">(Father father)</span> &#123;</span><br><span class="line">  	    baseMapper.insert(father);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="31-外围方法无事务"><a class="markdownIt-Anchor" href="#31-外围方法无事务"></a> 3.1  外围方法无事务</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试没有父事务且抛出异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testNotTransaction</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.addAndThrowException(son);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testNotTransaction</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">2</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testService.testNotTransaction(father,son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="311-结论"><a class="markdownIt-Anchor" href="#311-结论"></a> 3.1.1 结论</h4>
+<p>外围方法未开启事务，插入“joker”、“joker son”方法在自己的事务中独立运行，外围方法异常不影响内部插入“joker”、“joker son”方法独立的事务。</p>
+<p><strong>在外围方法未开启事务的情况下<code>Propagation.REQUIRED</code>修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。</strong></p>
+<h3 id="32-外围方法有事务"><a class="markdownIt-Anchor" href="#32-外围方法有事务"></a> 3.2 外围方法有事务</h3>
+<p><strong>方法一：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**     * 测试有父事务且抛出异常</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithTransaction</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.addAndThrowException(son);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”、“joker son”均未插入。</p>
+<p>外围方法开启事务，内部方法加入外围方法事务，外围方法回滚，内部方法也要回滚。</p>
+</blockquote>
+<p><strong>方法二：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试有父事务且抛出异常</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithTransactionAndThrow</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.add(son);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithTransactionAndThrow</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testService.testWithTransactionAndThrow(father,son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”、“joker son”均未插入。</p>
+<p>外围方法开启事务，内部方法加入外围方法事务，内部方法抛出异常回滚，外围方法感知异常致使整体事务回滚。</p>
+</blockquote>
+<p><strong>方法三:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 测试有父事务且抛出异常</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithTransactionAndTry</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        sonServiceImpl.addAndThrowException(son);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithTransactionAndTry</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testService.testWithTransactionAndTry(father,son);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抛出的异常是</span></span><br><span class="line"><span class="comment">//org.springframework.transaction.UnexpectedRollbackException: Transaction rolled back because it has been marked as rollback-only</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”、“joker son”均未插入。</p>
+<p>外围方法开启事务，内部方法加入外围方法事务，内部方法抛出异常回滚，即使方法被catch不被外围方法感知，整个事务依然回滚。[详见官方文档](</p>
+</blockquote>
+<p>分别执行验证方法，结果：</p>
+<table>
+<thead>
+<tr>
+<th>验证方法序号</th>
+<th>数据库结果</th>
+<th>结果分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>“joker”、“joker son”均未插入。</td>
+<td>外围方法开启事务，内部方法加入外围方法事务，外围方法回滚，内部方法也要回滚。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>“joker”、“joker son”均未插入。</td>
+<td>外围方法开启事务，内部方法加入外围方法事务，内部方法抛出异常回滚，外围方法感知异常致使整体事务回滚。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>“joker”、“joker son”均未插入。</td>
+<td>外围方法开启事务，内部方法加入外围方法事务，内部方法抛出异常回滚，即使方法被catch不被外围方法感知，整个事务依然回滚。<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/5.0.9.RELEASE/spring-framework-reference/data-access.html#tx-propagation-required">详见官方文档</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="321-结论"><a class="markdownIt-Anchor" href="#321-结论"></a> 3.2.1 结论</h4>
+<p><strong>结论：以上试验结果我们证明在外围方法开启事务的情况下<code>Propagation.REQUIRED</code>修饰的内部方法会加入到外围方法的事务中，所有<code>Propagation.REQUIRED</code>修饰的内部方法和外围方法均属于同一事务，只要一个方法回滚，整个事务均回滚。</strong></p>
+<h2 id="四-propagation_requires_new"><a class="markdownIt-Anchor" href="#四-propagation_requires_new"></a> 四、PROPAGATION_REQUIRES_NEW</h2>
+<p><strong>Service</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FatherServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">BaseServiceImpl</span>&lt;FatherMapper, Father&gt; <span class="keyword">implements</span> <span class="title class_">Handler</span>&lt;Father&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Father father)</span> &#123;</span><br><span class="line">        baseMapper.insert(father);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addAndThrowException</span><span class="params">(Father father)</span> &#123;</span><br><span class="line">        baseMapper.insert(father);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addRequiredNew</span><span class="params">(Father user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addRequiredNewAndThrowException</span><span class="params">(Father user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SonServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">BaseServiceImpl</span>&lt;SonMapper, Son&gt; <span class="keyword">implements</span> <span class="title class_">Handler</span>&lt;Son&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Son user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addAndThrowException</span><span class="params">(Son user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addRequiredNew</span><span class="params">(Son user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addRequiredNewAndThrowException</span><span class="params">(Son user)</span> &#123;</span><br><span class="line">        baseMapper.insert(user);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="41-外围方法无事务"><a class="markdownIt-Anchor" href="#41-外围方法无事务"></a> 4.1  外围方法无事务</h3>
+<blockquote>
+<p>略</p>
+</blockquote>
+<h4 id="411-结论"><a class="markdownIt-Anchor" href="#411-结论"></a> 4.1.1 结论</h4>
+<p><strong>在外围方法未开启事务的情况下<code>Propagation.REQUIRES_NEW</code>修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。</strong></p>
+<h3 id="42-外围方法有事务"><a class="markdownIt-Anchor" href="#42-外围方法有事务"></a> 4.2 外围方法有事务</h3>
+<p><strong>方法1： 外部方法抛出异常并且带有事物</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 外部方法抛出异常并且带有事物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> son1</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> son2</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionExceptionRequiredRequiresNewRequiresNew</span><span class="params">(Father father, Son son1, Son son2)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.add(son1);</span><br><span class="line">    sonServiceImpl.addRequiredNew(son2);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionExceptionRequiredRequiresNewRequiresNew</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son1.setId(<span class="number">1</span>);</span><br><span class="line">    son1.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son2.setId(<span class="number">2</span>);</span><br><span class="line">    son2.setName(<span class="string">&quot;joker son and 2&quot;</span>);</span><br><span class="line">    testServiceRequiredNew.transactionExceptionRequiredRequiresNewRequiresNew(father, son1,son2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”未插入，“joker son”未插入，“joker son and 2”插入。</p>
+<p>外围方法开启事务，插入“joker”，“joker son”方法和外围方法一个事务，插入“joker son and 2”方法在独立的新建事务中，外围方法抛出异常只回滚和外围方法同一事务的方法，故插入“joker”，“joker son”的方法回滚。</p>
+</blockquote>
+<p><strong>方法2： 外部方法有事物内部方法抛出异常</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 外部方法有事物内部方法抛出异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionRequiredRequiresNewRequiresNewException</span><span class="params">(Father father, Son son1, Son son2)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.addRequiredNew(son1);</span><br><span class="line">    sonServiceImpl.addRequiredNewAndThrowException(son2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransactionRequiredRequiresNewRequiresNewException</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son2.setId(<span class="number">2</span>);</span><br><span class="line">    son2.setName(<span class="string">&quot;joker son and 2&quot;</span>);</span><br><span class="line">    testServiceRequiredNew.transactionRequiredRequiresNewRequiresNewException(father, son,son2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”未插入，“joker son ”插入，“joker son and 2”未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法开启事务，插入“joker”方法和外围方法一个事务，插入“joker son”方法、插入“joker son and 2”方法分别在独立的新建事务中。插入“joker son and 2”方法抛出异常，首先插入 “joker son and 2”方法的事务被回滚，异常继续抛出被外围方法感知，外围方法事务亦被回滚，故插入“joker”方法也被回滚。</p>
+</blockquote>
+<p><strong>方法3： 外部方法有事物内部方法抛出异常且外部方法捉住异常</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 外部方法有事物内部方法抛出异常且外部方法捉住异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title function_">transactionRequiredRequiresNewRequiresNewExceptionTry</span><span class="params">(Father father, Son son1, Son son2)</span> &#123;</span><br><span class="line">    fatherServiceImpl.add(father);</span><br><span class="line">    sonServiceImpl.addRequiredNew(son1);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        sonServiceImpl.addRequiredNewAndThrowException(son2);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransactionRequiredRequiresNewRequiresNewException</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son2.setId(<span class="number">2</span>);</span><br><span class="line">    son2.setName(<span class="string">&quot;joker son and 2&quot;</span>);</span><br><span class="line">    testServiceRequiredNew.transactionRequiredRequiresNewRequiresNewException(father, son,son2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”插入，“joker son ”插入，“joker son and 2”未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法开启事务，插入“joker”方法和外围方法一个事务，插入“joker son”方法、插入“joker son and 2”方法分别在独立的新建事务中。插入“joker son and 2”方法抛出异常，首先插入“joker son and 2”方法的事务被回滚，异常被catch不会被外围方法感知，外围方法事务不回滚，故插入“joker”方法插入成功。</p>
+</blockquote>
+<h4 id="421-结论"><a class="markdownIt-Anchor" href="#421-结论"></a> 4.2.1 结论</h4>
+<p><strong>结论：在外围方法开启事务的情况下<code>Propagation.REQUIRES_NEW</code>修饰的内部方法依然会单独开启独立事务，且与外部方法事务也独立，内部方法之间、内部方法和外部方法事务均相互独立，互不干扰。</strong></p>
+<h2 id="五-propagation_nested"><a class="markdownIt-Anchor" href="#五-propagation_nested"></a> 五、PROPAGATION_NESTED</h2>
+<h4 id="51-外围方法无事务"><a class="markdownIt-Anchor" href="#51-外围方法无事务"></a> 5.1  外围方法无事务</h4>
+<p>**方法一：**外围方法没有事物内部方法嵌套事物外部方法抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 外围方法没有事物内部方法嵌套事物外部方法抛出异常</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">withoutTransactionExceptionNestedNested</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.addNested(father);</span><br><span class="line">    sonServiceImpl.addNested(son);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithoutTransactionExceptionNestedNested</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testServiceNested.withoutTransactionExceptionNestedNested(father, son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”、“joker son”均插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法未开启事务，插入“joker”、“joker  son”方法在自己的事务中独立运行，外围方法异常不影响内部插入“joker ”、“joker son”方法独立的事务。</p>
+</blockquote>
+<p>**方法二：**外围方法没有事物内部方法嵌套事物内部方法抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 外围方法没有事物内部方法嵌套事物内部方法抛出异常</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">withoutTransactionNestedNestedException</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.addNested(father);</span><br><span class="line">    sonServiceImpl.addNestedException(son);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testWithoutTransactionNestedNestedException</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testServiceNested.withoutTransactionNestedNestedException(father, son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”插入，“joker son”未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法没有事务，插入“joker”、“joker son”方法都在自己的事务中独立运行,所以插入“joker son”方法抛出异常只会回滚插入“joker son”方法，插入“joker”方法不受影响。</p>
+</blockquote>
+<h5 id="511-总结"><a class="markdownIt-Anchor" href="#511-总结"></a> 5.1.1 总结</h5>
+<p><strong>结论：通过这两个方法我们证明了在外围方法未开启事务的情况下<code>Propagation.NESTED</code>和<code>Propagation.REQUIRED</code>作用相同，修饰的内部方法都会新开启自己的事务，且开启的事务相互独立，互不干扰。</strong></p>
+<h4 id="52-外围方法有事务"><a class="markdownIt-Anchor" href="#52-外围方法有事务"></a> 5.2  外围方法有事务</h4>
+<p><strong>方法一:</strong> 外部方法有事物 外部方法抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 外部方法有事物 外部方法抛出异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionExceptionNestedNested</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.addNested(father);</span><br><span class="line">    sonServiceImpl.addNested(son);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransactionExceptionNestedNested</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testServiceNested.transactionExceptionNestedNested(father, son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>均未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法开启事务，内部事务为外围事务的子事务，外围方法回滚，内部方法也要回滚。</p>
+</blockquote>
+<p><strong>方法一:</strong> 外部方法有事物 内部方法抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 外部方法有事物 内部方法抛出异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionNestedNestedException</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.addNested(father);</span><br><span class="line">    sonServiceImpl.addNestedException(son);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransactionNestedNestedException</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">    father.setId(<span class="number">1</span>);</span><br><span class="line">    father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">    son.setId(<span class="number">1</span>);</span><br><span class="line">    son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">    testServiceNested.transactionNestedNestedException(father, son);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>均未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法开启事务，内部事务为外围事务的子事务，内部方法抛出异常回滚，且外围方法感知异常致使整体事务回滚。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 外部方法有事物 内部方法抛出异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> father</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> son</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transactionNestedNestedExceptionTry</span><span class="params">(Father father, Son son)</span> &#123;</span><br><span class="line">    fatherServiceImpl.addNested(father);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        sonServiceImpl.addNestedException(son);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testTransactionNestedNestedExceptionTry</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Father</span>();</span><br><span class="line">        father.setId(<span class="number">1</span>);</span><br><span class="line">        father.setName(<span class="string">&quot;joker&quot;</span>);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Son</span> <span class="variable">son</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line">        son.setId(<span class="number">1</span>);</span><br><span class="line">        son.setName(<span class="string">&quot;joker son &quot;</span>);</span><br><span class="line">        testServiceNested.transactionNestedNestedExceptionTry(father, son);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“joker”插入、“joker son”未插入。</p>
+</blockquote>
+<blockquote>
+<p>外围方法开启事务，内部事务为外围事务的子事务，插入“李四”内部方法抛出异常，可以单独对子事务回滚。</p>
+</blockquote>
+<h5 id="521-总结"><a class="markdownIt-Anchor" href="#521-总结"></a> 5.2.1 总结</h5>
+<p><strong>结论：以上试验结果我们证明在外围方法开启事务的情况下<code>Propagation.NESTED</code>修饰的内部方法属于外部事务的子事务，外围主事务回滚，子事务一定回滚，而内部子事务可以单独回滚而不影响外围主事务和其他子事务</strong></p>
+<h2 id="六-required-requires_new-与-nested区别"><a class="markdownIt-Anchor" href="#六-required-requires_new-与-nested区别"></a> 六、REQUIRED  REQUIRES_NEW  与 NESTED区别</h2>
+<p><strong>NESTED和REQUIRED修饰的内部方法都属于外围方法事务，如果外围方法抛出异常，这两种方法的事务都会被回滚。但是REQUIRED是加入外围方法事务，所以和外围事务同属于一个事务，一旦REQUIRED事务抛出异常被回滚，外围方法事务也将被回滚。而NESTED是外围方法的子事务，有单独的保存点，所以NESTED方法抛出异常被回滚，不会影响到外围方法的事务。</strong></p>
+<p><strong>NESTED和REQUIRES_NEW都可以做到内部方法事务回滚而不影响外围方法事务。但是因为NESTED是嵌套事务，所以外围方法回滚之后，作为外围方法事务的子事务也会被回滚。而REQUIRES_NEW是通过开启新的事务实现的，内部事务和外围事务是两个事务，外围事务回滚不会影响内部事务。</strong></p>
+<h2 id="七-总结"><a class="markdownIt-Anchor" href="#七-总结"></a> 七、总结</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Propagation</th>
+<th style="text-align:left">Calling method (outer)</th>
+<th style="text-align:left">Called method (inner)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">REQUIRED</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">T2</td>
+</tr>
+<tr>
+<td style="text-align:left">REQUIRED</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">T1</td>
+</tr>
+<tr>
+<td style="text-align:left">REQUIRES_NEW</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">T2</td>
+</tr>
+<tr>
+<td style="text-align:left">REQUIRES_NEW</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">T2</td>
+</tr>
+<tr>
+<td style="text-align:left">MANDATORY</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">Exception</td>
+</tr>
+<tr>
+<td style="text-align:left">MANDATORY</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">T1</td>
+</tr>
+<tr>
+<td style="text-align:left">NOT_SUPPORTED</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left">NOT_SUPPORTED</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left">SUPPORTS</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left">SUPPORTS</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">T1</td>
+</tr>
+<tr>
+<td style="text-align:left">NEVER</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">No</td>
+</tr>
+<tr>
+<td style="text-align:left">NEVER</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">Exception</td>
+</tr>
+<tr>
+<td style="text-align:left">NESTED</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">T2</td>
+</tr>
+<tr>
+<td style="text-align:left">NESTED</td>
+<td style="text-align:left">T1</td>
+<td style="text-align:left">T2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-framework/docs/5.0.9.RELEASE/spring-framework-reference/data-access.html#tx-propagation-required">Spring文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/spring-projects/spring-framework/blob/b595dc1dfad9db534ca7b9e8f46bb9926b88ab5a/spring-jdbc/src/test/java/org/springframework/jdbc/support/JdbcTransactionManagerTests.java">Spring-Framework 测试样例JDBC</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/spring-projects/spring-framework/blob/b595dc1dfad9db534ca7b9e8f46bb9926b88ab5a/spring-jdbc/src/test/java/org/springframework/jdbc/datasource/DataSourceTransactionManagerTests.java">Spring-Framework 测试样例 DataSource</a></p>
+<p><a target="_blank" rel="noopener" href="http://aikin.me/2018/05/19/do-not-use-transactional-annotation-on-spring-integration-test/">Don’t Use @Transactional On Spring Boot Integration Test</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/08/02/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/">https://lijinzedev.github.io/2021/08/02/Spring-%E4%BA%8B%E7%89%A9%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring/">Spring</a><a class="post-meta__tags" href="/tags/%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD/">事务传播</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/03/Sharding-JDBC%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Sharding-JDBC数据脱敏</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/01/Nginx-%E9%99%90%E6%B5%81/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Nginx 限流</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/12/04/Spring-Cacheable-redis/" title="Spring Cacheable + redis"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-04</div><div class="title">Spring Cacheable + redis</div></div></a></div><div><a href="/2020/12/12/Spring工具类/" title="Spring工具类"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-12</div><div class="title">Spring工具类</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text"> Spring事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text"> 一、前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%BC%A0%E6%92%AD"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 1.1 事务的传播</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text"> 二、环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 2.1 数据库表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-propagation_required"><span class="toc-number">1.3.</span> <span class="toc-text"> 三、PROPAGATION_REQUIRED</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%97%A0%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 3.1  外围方法无事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#311-%E7%BB%93%E8%AE%BA"><span class="toc-number">1.3.1.1.</span> <span class="toc-text"> 3.1.1 结论</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%9C%89%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 3.2 外围方法有事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#321-%E7%BB%93%E8%AE%BA"><span class="toc-number">1.3.2.1.</span> <span class="toc-text"> 3.2.1 结论</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-propagation_requires_new"><span class="toc-number">1.4.</span> <span class="toc-text"> 四、PROPAGATION_REQUIRES_NEW</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%97%A0%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 4.1  外围方法无事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#411-%E7%BB%93%E8%AE%BA"><span class="toc-number">1.4.1.1.</span> <span class="toc-text"> 4.1.1 结论</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#42-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%9C%89%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 4.2 外围方法有事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#421-%E7%BB%93%E8%AE%BA"><span class="toc-number">1.4.2.1.</span> <span class="toc-text"> 4.2.1 结论</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-propagation_nested"><span class="toc-number">1.5.</span> <span class="toc-text"> 五、PROPAGATION_NESTED</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#51-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%97%A0%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.5.0.1.</span> <span class="toc-text"> 5.1  外围方法无事务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#511-%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.0.1.1.</span> <span class="toc-text"> 5.1.1 总结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#52-%E5%A4%96%E5%9B%B4%E6%96%B9%E6%B3%95%E6%9C%89%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.5.0.2.</span> <span class="toc-text"> 5.2  外围方法有事务</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#521-%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.0.2.1.</span> <span class="toc-text"> 5.2.1 总结</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-required-requires_new-%E4%B8%8E-nested%E5%8C%BA%E5%88%AB"><span class="toc-number">1.6.</span> <span class="toc-text"> 六、REQUIRED  REQUIRES_NEW  与 NESTED区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E6%80%BB%E7%BB%93"><span class="toc-number">1.7.</span> <span class="toc-text"> 七、总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.8.</span> <span class="toc-text"> 参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

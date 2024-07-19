@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Curiosity的博客 - 个人读书笔记</title><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Curiosity的博客">
+<meta property="og:url" content="https://lijinzedev.github.io/page/9/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="SpringBoot | Mybatis | Java | Mysql">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:author" content="Curiosity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/page/9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-07-19 06:03:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Curiosity的博客</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/08/01/Nginx-%E9%99%90%E6%B5%81/" title="Nginx 限流">Nginx 限流</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-08-01T23:50:10.000Z" title="发表于 2021-08-01 23:50:10">2021-08-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/nginx/">nginx</a></span></div><div class="content"> Nginx 限流篇
+实验环境：
+
+树莓派4b ubuntu server
+nginx arm64v8-1.21.1
+
+ 一、前言
+随着业务的扩散，系统并发越来越高时,有三样利器用来保护系统，分别是缓存、降级和限流。
+**缓存:**缓存是现在系统中必不可少的模块,并且已经成为了高并发高性能架构的一个关键组件，缓存的目的是提升系统访问速度和增大系统处理容量。
+**降级:**这个在天猫双11的时候非常常见，降级是当服务出现问题或者影响到核心流程时，需要暂时屏蔽掉，待高峰或者问题解决后再打开。
+**限流:**限流的目的是通过对并发访问/请求进行限速，或者对一个时间窗口内的请求进行限速来保护系统，一旦达到限制速率则可以拒绝服务、排队或等待、降级等处理
+ 二、Docker环境搭建
+1234567891011121314151617181920212223# 创建文件夹mkdir -p /docker/nginx/&#123;html,logs&#125;cd /docker/nginx# 拷贝文件docker run --name tmp-nginx-container -d arm64v8/n ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/31/redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="redis 分布式锁">redis 分布式锁</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-31T17:20:21.000Z" title="发表于 2021-07-31 17:20:21">2021-07-31</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/">redis</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/redis/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a></span></div><div class="content"> 分布式锁篇
+ 一、引言
+​		我们在系统中修改已有数据时，需要先读取，然后进行修改保存，此时很容易遇到并发问题。由于修改和保存不是原子操作，在并发场景下，部分对数据的操作可能会丢失。在单服务器系统我们常用本地锁来避免并发带来的问题，然而，当服务采用集群方式部署时，本地锁无法在多个服务器之间生效，这时候保证数据的一致性就需要分布式锁来实现。
+
+ 二、概述
+​		首先，锁在传统多线程环境下，即保证多个线程取操作共享资源的安全性。扩展到分布式的环境中，由于服务是多节点部署，且网络因素也会有一定的影响，因此要保证分布式环境共享资源的正确性，一致性，因此用的分布式锁。分布式锁提供了多个服务器节点访问共享资源互斥的一种手段。
+ 2.1 常见的分布式锁
+
+基于数据库
+基于缓存
+基于zookeeper实现的分布式锁。
+
+ 2.2 几个重要的概念
+
+分布式锁管理(DLM): Distributed Lock Manager，分配给节点锁和释放锁，对分布式锁进行统一的管理
+租约(lease): 从DLM, 获得锁的有效期，超过有效期，DLM自动回收锁，租约保证了一个客户端不会占用锁很长时间。一定程度上保 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/29/Mysql-%E4%BA%8B%E5%8A%A1/" title="MySQL 事务基础">MySQL 事务基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-29T15:49:56.000Z" title="发表于 2021-07-29 15:49:56">2021-07-29</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/mysql/">mysql</a></span></div><div class="content"> 一、事物
+ 1 事务概述
+ 1.1 存储引擎支持情况
+SHOW ENGINES 命令来查看当前 MySQL 支持的存储引擎都有哪些，以及这些存储引擎是否支持事务。
+
+能看出在 MySQL 中，只有InnoDB 是支持事务的。
+ 1.2  基本概念
+**事务：**一组逻辑操作单元，使数据从一种状态变换到另一种状态。
+**事务处理的原则：**保证所有事务都作为 一个工作单元 来执行，即使出现了故障，都不能改变这种执行方式。当在一个事务中执行多个操作时，要么所有的事务都被提交( commit )，那么这些修改就 永久 地保存下来；要么数据库管理系统将 放弃 所作的所有 修改 ，整个事务==回滚( rollback )==到最初状态。
+ 1.3 事务的属性(ACID)
+
+
+原子性(Atomicity): 原子性是指事物是一个不可分割的单位,事务中的操作要么都发生,要么都不发生
+
+
+一致性(Consistenc):（国内很多网站上对一致性的阐述有误，具体你可以参考 Wikipedia 对Consistency的阐述）
+根据定义，一致性是指事务执行前后，数据从一个 合法性状态 变换到另外一个 合 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/29/Git-Merge-%E4%B8%8E%E6%97%A5%E5%B8%B8%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" title="Git Merge">Git Merge</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-29T10:05:38.000Z" title="发表于 2021-07-29 10:05:38">2021-07-29</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Git/">Git</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Git/%E6%93%8D%E4%BD%9C/">操作</a></span></div><div class="content"> 一、Git Merge
+
+ 参数
+
+--commit和--no-commit
+
+
+--commit参数使得合并后产生一个合并结果的commit节点。该参数可以覆盖--no-commit。
+--no-commit参数使得合并后，为了防止合并失败并不自动提交，能够给使用者一个机会在提交前审视和修改合并结果。
+
+
+--squash
+
+
+根据字面意思，这个操作完成的是压缩的提交；解决的是什么问题呢，由于在dev分支上执行的是开发工作，有一些很小的提交，或者是纠正前面的错误的提交，对于这类提交对整个工程来说不需要单独显示出来一次提交，不然导致项目的提交历史过于复杂；所以基于这种原因，我们可以把dev上的所有提交都合并成一个提交；然后提交到主干。
+
+ 使用条件:
+
+判断是否使用--squash选项最根本的标准是，待合并分支上的历史是否有意义。
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/18/RabbitMQ/" title="RabbitMQ入门">RabbitMQ入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-18T14:14:26.000Z" title="发表于 2021-07-18 14:14:26">2021-07-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/RabbitMQ/">RabbitMQ</a></span></div><div class="content"> 一、中间件
+ 1. 什么是中间件
+
+什么是中间件
+
+我国企业从20世纪80年代开始就逐渐进行信息化建设，由于方法和体系的不成熟，以及企业业务的市场需求的不断变化，一个企业可能同时运行着多个不同的业务系统，这些系统可能基于不同的操作系统、不同的数据库、异构的网络环境。现在的问题是，如何把这些信息系统结合成一个有机地协同工作的整体，真正实现企业跨平台、分布式应用。中间件便是解决之道，它用自己的复杂换取了企业应用的简单。
+中间件（Middleware）是处于操作系统和应用程序之间的软件，也有人认为它应该属于操作系统中的一部分。人们在使用中间件时，往往是一组中间件集成在一起，构成一个平台（包括开发平台和运行平台），但在这组中间件中必须要有一个通信中间件，即中间件+平台+通信，这个定义也限定了只有用于分布式系统中才能称为中间件，同时还可以把它与支撑软件和使用软件区分开来
+
+为什么需要使用消息中间件
+
+具体地说，中间件屏蔽了底层操作系统的复杂性，使程序开发人员面对一个简单而统一的开发环境，减少程序设计的复杂性，将注意力集中在自己的业务上，不必再为程序在不同系统软件上的移植而重复工作，从而大大减少 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/15/ElasticSearch-%E5%85%A5%E9%97%A8/" title="ElasticSearch 入门">ElasticSearch 入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-15T21:03:54.000Z" title="发表于 2021-07-15 21:03:54">2021-07-15</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/elk/">elk</a></span></div><div class="content">环境:
+
+树莓派4b ubuntu 20
+es 7.13.2
+
+ 一 ElasticSearch
+ 什么是Elasticsearch?
+官网
+
+Elasticsearch 是一个分布式的开源搜索和分析引擎，适用于所有类型的数据，包括文本、数字、地理空间、结构化和非结构化数据。Elasticsearch 在 Apache Lucene 的基础上开发而成，由 Elasticsearch N.V.（即现在的 Elastic）于 2010 年首次发布。Elasticsearch 以其简单的 REST 风格 API、分布式特性、速度和可扩展性而闻名，是 Elastic Stack 的核心组件；Elastic Stack 是适用于数据采集、充实、存储、分析和可视化的一组开源工具。人们通常将 Elastic Stack 称为 ELK Stack（代指 Elasticsearch、Logstash 和 Kibana），目前 Elastic Stack 包括一系列丰富的轻量型数据采集代理，这些代理统称为 Beats，可用来向 Elasticsearch 发送数据
+
+着重功能就是用来做数据的检索和分析
+
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/14/docker-%E7%BD%91%E7%BB%9C%E4%B9%8Bmacvaln/" title="docker 网络之macvaln">docker 网络之macvaln</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-14T22:10:38.000Z" title="发表于 2021-07-14 22:10:38">2021-07-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E8%BF%90%E7%BB%B4/">运维</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/%E8%BF%90%E7%BB%B4/docker/">docker</a></span></div><div class="content"> 一 docker macvlan网络配置
+
+在 Docker 中，macvlan 是众多 Docker 网络模型中的一种，并且是一种跨主机的网络模型，作为一种驱动（driver）启用（-d 参数指定），Docker macvlan 只支持 bridge 模式。
+
+ 1 环境搭建
+
+主机上配置的eth0网口或者创建的vlan网口,均需要开启混杂模式,命令 ip link set eth0 promisc on ip link set eth0.100 promisc on
+
+注意 : 如果不开启混杂模式,会导致macvlan网络无法访问外界,具体在不使用vlan时,表现为无法ping通路由,无法ping通同一网络内其他主机
+ 1.1 网络设备
+ip link 命令用于查询或者设置网络设备。
+ 1.2 查看网卡信息
+123root@ubuntu:/home/docker/mysql/config# ip link show eth02: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP mod ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/" title="树莓派安装Ubuntu">树莓派安装Ubuntu</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-13T21:37:45.000Z" title="发表于 2021-07-13 21:37:45">2021-07-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></span></div><div class="content"> 一 前言
+
+由于树莓派的原生系统arm架构在使用docker的时候处处都不方便这边换了Ubuntu系统搭建docker环境
+
+123# 看到armv7就是arm 看到armv8或者aarch64就是arm64ubuntu@ubuntu:~$ uname -aLinux ubuntu 5.4.0-1028-raspi #31-Ubuntu SMP PREEMPT Wed Jan 20 11:30:45 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux
+ 二 系统安装
+ 1 下载地址
+ubuntu server的官方引导下载地址
+清华大学的镜像库下载地址
+
+我下载的是上图这个，arm64版本，因为我在的树莓派上装docker 很多镜像没有对应的arm/v7版本，所以打算装一个arm64版本的ubuntu server。
+ 2 安装教程
+参阅
+ 三 开机配置
+ 1.1 开启ssh
+
+为了能够在没插显示器的情况下，能够进入ssh远程配置
+在boot分区中，新建空白文件ssh，注意没有任何后缀
+
+ 1.2 连接网络
+
+
+因为没插显示器，所以需要开机前配置好网 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/" title="JavaIO文件拷贝剪切删除">JavaIO文件拷贝剪切删除</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-07T22:20:02.000Z" title="发表于 2021-07-07 22:20:02">2021-07-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Java/">Java</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/Java/NIO/">NIO</a></span></div><div class="content"> 一 创建写入文件
+
+
+
+方法名
+
+
+
+
+
+Files.newBufferedReader()
+Java 8
+
+
+Files.write()
+Java 7 推荐
+
+
+PrintWriter
+一行一行写入
+
+
+File.createNewFile
+
+
+
+FileOutputStream.write
+管道流,古老但灵活
+
+
+
+
+Files.newBufferedReader()
+
+1234567Path path=Paths.get(&quot;D:\\delete\\123\\test.txt&quot;);try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8))&#123;    bufferedWriter.write(&quot;hello word&quot;);&#125;try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8,St ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2021/07/04/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85mysql/" title="树莓派安装mysql">树莓派安装mysql</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-07-04T00:11:18.000Z" title="发表于 2021-07-04 00:11:18">2021-07-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></span></div><div class="content"> 树莓派Docker 安装mysql
+1234567891011121314151617181920212223242526# 拉镜像docker pull hypriot/rpi-mysql:latest# 复制配置docker cp  mysql:/etc/mysql /home/docker/mysql# 删除镜像docker rm -f mysql# 启动镜像并且映射sudo docker run -p 3307:3306 --name mysql \    -v /home/mysql/mysql:/etc/mysql \    -v /home/mysql/log:/var/log/mysql \    -v /home/mysql/data:/var/lib/mysql \    -e MYSQL_ROOT_PASSWORD=123456 \    -d hypriot/rpi-mysql# 进入容器docker exec -it mysql /bin/bash# 输入mysql -u root -p# 创建远程登录用户和权限设置use mysql;CREATE USER ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/8/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">10</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E6%93%8D%E4%BD%9C/"><span class="card-category-list-name">操作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/%E9%85%8D%E7%BD%AE/"><span class="card-category-list-name">配置</span><span class="card-category-list-count">3</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/"><span class="card-category-list-name">Java</span><span class="card-category-list-count">2</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/NIO/"><span class="card-category-list-name">NIO</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Java/Stream/"><span class="card-category-list-name">Stream</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/"><span class="card-category-list-name">Mac</span><span class="card-category-list-count">5</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Mac/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">环境搭建</span><span class="card-category-list-count">2</span></a></li></ul></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%BF%90%E7%BB%B4-shell/" style="font-size: 1.1em; color: #999">-运维 - shell</a> <a href="/tags/CI-CD/" style="font-size: 1.16em; color: #999b9e">CI/CD</a> <a href="/tags/Git/" style="font-size: 1.44em; color: #99a7ba">Git</a> <a href="/tags/JMeter/" style="font-size: 1.1em; color: #999">JMeter</a> <a href="/tags/Java/" style="font-size: 1.16em; color: #999b9e">Java</a> <a href="/tags/Mac/" style="font-size: 1.27em; color: #99a0a9">Mac</a> <a href="/tags/Maven/" style="font-size: 1.21em; color: #999ea4">Maven</a> <a href="/tags/Mybatis/" style="font-size: 1.1em; color: #999">Mybatis</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/SQL%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">SQL案例分析</a> <a href="/tags/Sharding-JDBC/" style="font-size: 1.1em; color: #999">Sharding-JDBC</a> <a href="/tags/Spring/" style="font-size: 1.21em; color: #999ea4">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 1.1em; color: #999">SpringBoot</a> <a href="/tags/SpringCloud/" style="font-size: 1.27em; color: #99a0a9">SpringCloud</a> <a href="/tags/SpringMVC/" style="font-size: 1.1em; color: #999">SpringMVC</a> <a href="/tags/SpringMvc/" style="font-size: 1.21em; color: #999ea4">SpringMvc</a> <a href="/tags/SpringSecurity/" style="font-size: 1.1em; color: #999">SpringSecurity</a> <a href="/tags/Spring%E7%BC%96%E7%A8%8B%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3/" style="font-size: 1.16em; color: #999b9e">Spring编程核心思想</a> <a href="/tags/UML/" style="font-size: 1.16em; color: #999b9e">UML</a> <a href="/tags/WSL/" style="font-size: 1.16em; color: #999b9e">WSL</a> <a href="/tags/WebRTC/" style="font-size: 1.16em; color: #999b9e">WebRTC</a> <a href="/tags/apt/" style="font-size: 1.16em; color: #999b9e">apt</a> <a href="/tags/cfw/" style="font-size: 1.1em; color: #999">cfw</a> <a href="/tags/docker/" style="font-size: 1.33em; color: #99a2af">docker</a> <a href="/tags/drools/" style="font-size: 1.1em; color: #999">drools</a> <a href="/tags/electron/" style="font-size: 1.1em; color: #999">electron</a> <a href="/tags/elk/" style="font-size: 1.1em; color: #999">elk</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/gitlab/" style="font-size: 1.1em; color: #999">gitlab</a> <a href="/tags/google/" style="font-size: 1.1em; color: #999">google</a> <a href="/tags/idea/" style="font-size: 1.27em; color: #99a0a9">idea</a> <a href="/tags/java/" style="font-size: 1.1em; color: #999">java</a> <a href="/tags/linux/" style="font-size: 1.39em; color: #99a4b4">linux</a> <a href="/tags/logback/" style="font-size: 1.1em; color: #999">logback</a> <a href="/tags/mysql/" style="font-size: 1.5em; color: #99a9bf">mysql</a> <a href="/tags/nginx/" style="font-size: 1.21em; color: #999ea4">nginx</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/redis/" style="font-size: 1.21em; color: #999ea4">redis</a> <a href="/tags/shell/" style="font-size: 1.1em; color: #999">shell</a> <a href="/tags/sql/" style="font-size: 1.1em; color: #999">sql</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/12/"><span class="card-archive-list-date">十二月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/11/"><span class="card-archive-list-date">十一月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">3</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">155</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-07-19T06:03:38.416Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>软件设计师-数据库 | Curiosity的博客</title><meta name="keywords" content="软件设计师"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库技术基础  数据库DBS；是一个采用了数据库技术，有组织的、动态的存储大量相关技术    一、三级模式-两级映像   二、数据库设计   三、E-R模型   四、关系模型   五、关系代数的运算    选择运算（select）&#x3D;&#x3D;&gt;相当于SQL语句中的WHERE子句的职能    格式：σ选择谓词(关系)   举个栗子：  σSAL&gt;1000(EMP) 上式表示取出查询工资大于1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件设计师-数据库">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/10/18/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="数据库技术基础  数据库DBS；是一个采用了数据库技术，有组织的、动态的存储大量相关技术    一、三级模式-两级映像   二、数据库设计   三、E-R模型   四、关系模型   五、关系代数的运算    选择运算（select）&#x3D;&#x3D;&gt;相当于SQL语句中的WHERE子句的职能    格式：σ选择谓词(关系)   举个栗子：  σSAL&gt;1000(EMP) 上式表示取出查询工资大于1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-10-18T16:45:44.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.657Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="软件设计师">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/10/18/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E6%95%B0%E6%8D%AE%E5%BA%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">软件设计师-数据库</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-18T16:45:44.000Z" title="发表于 2021-10-18 16:45:44">2021-10-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.657Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88/">软件设计师</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据库技术基础"><a class="markdownIt-Anchor" href="#数据库技术基础"></a> 数据库技术基础</h1>
+<blockquote>
+<p>数据库DBS；是一个采用了数据库技术，有组织的、动态的存储大量相关技术</p>
+</blockquote>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110181705784.png" alt="image-20211018170546690"></p>
+<h1 id="一-三级模式-两级映像"><a class="markdownIt-Anchor" href="#一-三级模式-两级映像"></a> 一、三级模式-两级映像</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191727728.png" alt="image-20211019172717624"></p>
+<h1 id="二-数据库设计"><a class="markdownIt-Anchor" href="#二-数据库设计"></a> 二、数据库设计</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191731649.png" alt="image-20211019173156584"></p>
+<h1 id="三-e-r模型"><a class="markdownIt-Anchor" href="#三-e-r模型"></a> 三、E-R模型</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191735752.png" alt="image-20211019173538701"></p>
+<h1 id="四-关系模型"><a class="markdownIt-Anchor" href="#四-关系模型"></a> 四、关系模型</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191736051.png" alt="image-20211019173612020"></p>
+<h1 id="五-关系代数的运算"><a class="markdownIt-Anchor" href="#五-关系代数的运算"></a> 五、关系代数的运算</h1>
+<ul>
+<li>
+<h3 id="选择运算select相当于sql语句中的where子句的职能"><a class="markdownIt-Anchor" href="#选择运算select相当于sql语句中的where子句的职能"></a> 选择运算（select）==&gt;相当于SQL语句中的WHERE子句的职能</h3>
+<ul>
+<li>
+<h4 id="格式σ选择谓词关系"><a class="markdownIt-Anchor" href="#格式σ选择谓词关系"></a> 格式：σ选择谓词(关系)</h4>
+</li>
+<li>
+<p>举个栗子：</p>
+<ul>
+<li>σSAL&gt;1000(EMP)</li>
+<li>上式表示取出查询工资大于1000的所有员工的信息</li>
+<li>等价于下面的SQL语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> SAL <span class="operator">&gt;</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>选择谓词的分类</p>
+<ul>
+<li>比较：=、≠、&lt;、≤、&gt;和≥</li>
+<li>连词：and(∧)、or(∨)和not(¬)==&gt;可以将多个谓词合并成一个大的谓词</li>
+<li>可以包括两个属性（字段的比较）：σCOMM&gt;SAL(EMP)表示抽成大于工资的人</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="投影运算project相当于sql语句中的select子句的职能"><a class="markdownIt-Anchor" href="#投影运算project相当于sql语句中的select子句的职能"></a> 投影运算（project）==&gt;相当于SQL语句中的SELECT子句的职能</h3>
+<ul>
+<li>
+<h4 id="格式字段序列关系"><a class="markdownIt-Anchor" href="#格式字段序列关系"></a> 格式：∏字段序列(关系)</h4>
+</li>
+<li>
+<p>举个栗子</p>
+<ul>
+<li>∏ENAME,SAL(EMP)</li>
+<li>上式表示查看所有员工的姓名和工资</li>
+<li>等价于下面的SQL语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="关系的组合运算就像sql中select-where子句那样的组合效果"><a class="markdownIt-Anchor" href="#关系的组合运算就像sql中select-where子句那样的组合效果"></a> 关系的组合运算==&gt;就像SQL中select、where子句那样的组合效果</h3>
+<ul>
+<li>
+<p>举个栗子</p>
+<ul>
+<li>∏ENAME,SAL(σSAL&gt;1000(EMP))</li>
+<li>上面的式子求出了所有工资大于1000的员工的名字和工资(实际上就是将**σSAL&gt;1000(EMP)**执行的结果当做一个临时的关系，参与了投影运算得到的)</li>
+<li>等价于下面的SQL语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> SAL <span class="operator">&gt;</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>事实关系的组合运算就是那么简单，分析的时候把每个简单运算的结果当做一个新的关系参与后面的运算，这样一层层剥开来，再复杂的语句也变得容易分析</p>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="并运算union相当于sql中union关键字的职能"><a class="markdownIt-Anchor" href="#并运算union相当于sql中union关键字的职能"></a> 并运算（union）==&gt;相当于SQL中UNION关键字的职能</h3>
+<ul>
+<li>
+<h4 id="格式关系r关系s"><a class="markdownIt-Anchor" href="#格式关系r关系s"></a> 格式：（关系r）∪（关系s）</h4>
+</li>
+<li>
+<p>举个栗子</p>
+<ul>
+<li>∏ENAME,SAL(σSAL&gt;1000(EMP)) ∪ ∏ENAME,SAL(σCOMM&gt;300(EMP))</li>
+<li>上面的式子求出了所有工资大于1000或抽成大于300的员工的姓名和工资，等价于下面的SQL语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> SAL <span class="operator">&gt;</span> <span class="number">1000</span></span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> COMM <span class="operator">&gt;</span> <span class="number">300</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>几点需要额外注意的</p>
+<p>：</p>
+<ul>
+<li>此处的并运算是集合运算，所以结果是去重的，结果集中不存在重复的元组（*<strong>而在SQL语句中，指定UNION ALL是可以保留重复的*</strong>）</li>
+<li>关系r与关系s必须是同元的，即它们的属性的数目要求必须相同（这就和SQL语句中UNION使用的时候要求上下两个语句的字段数相同是一样的意思）</li>
+<li>关系r和关系s对应位置的属性域应该是类型兼容的（同样和SQL中UNION使用时，每个对应位置字段类型兼容是一样的意思）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="集合的差运算set-defference相当于sql语句中的except"><a class="markdownIt-Anchor" href="#集合的差运算set-defference相当于sql语句中的except"></a> 集合的差运算（set-defference）==&gt;相当于SQL语句中的EXCEPT</h3>
+<ul>
+<li>
+<h4 id="格式关系r-关系s"><a class="markdownIt-Anchor" href="#格式关系r-关系s"></a> 格式：(关系r)-(关系s)</h4>
+</li>
+<li>
+<p>举个栗子</p>
+<ul>
+<li>∏ENAME,SAL(σSAL&gt;1000(EMP)) - ∏ENAME,SAL(σCOMM&gt;300(EMP))</li>
+<li>上面的式子表示工资大于1000但抽成不大于300的员工的姓名和工资，等价于下面的SQL语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> SAL <span class="operator">&gt;</span> <span class="number">1000</span></span><br><span class="line"><span class="keyword">EXCEPT</span></span><br><span class="line"><span class="keyword">SELECT</span> ENAME, SAL</span><br><span class="line"><span class="keyword">FROM</span> EMP</span><br><span class="line"><span class="keyword">WHERE</span> COMM <span class="operator">&gt;</span> <span class="number">300</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>几点需要额外注意的</p>
+<p>：</p>
+<ul>
+<li>此处的注意同上面的并运算的注意事项</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191739670.png" alt="image-20211019173911623"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191745439.png" alt="image-20211019174556391"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110191744077.png" alt="image-20211019174453035"></p>
+<h1 id="六-规范化基础"><a class="markdownIt-Anchor" href="#六-规范化基础"></a> 六、规范化基础</h1>
+<h1 id="七-函数依赖"><a class="markdownIt-Anchor" href="#七-函数依赖"></a> 七、函数依赖</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110201638446.png" alt="image-20211020163810341"></p>
+<h1 id="八-键与约束"><a class="markdownIt-Anchor" href="#八-键与约束"></a> 八、键与约束</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110201638998.png" alt="image-20211020163836967"></p>
+<h1 id="九-模式分解"><a class="markdownIt-Anchor" href="#九-模式分解"></a> 九、模式分解</h1>
+<p><strong>步骤</strong></p>
+<ol>
+<li>找到L</li>
+<li>找到LR</li>
+<li>找到R</li>
+</ol>
+<p>判断L是不是候选键，如果不是，在LR中任取一个与L构成判断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">st=&gt;start: 求候选键</span><br><span class="line">cond2f=&gt;condition: 非健属性是否部分依赖候选键</span><br><span class="line">cond3f=&gt;condition: 非健属性是否传递依赖于候选键</span><br><span class="line">condBCf=&gt;condition: 所有依赖项的左边是否全为候选键 </span><br><span class="line">1nf=&gt;end: 1NF</span><br><span class="line">2nf=&gt;end: 2NF</span><br><span class="line">3nf=&gt;end: 3NF</span><br><span class="line">bcnf=&gt;end: BCNF</span><br><span class="line">st-&gt;cond2f-&gt;cond3f-&gt;condBCf</span><br><span class="line">cond2f(no)-&gt;cond3f</span><br><span class="line">cond2f(yes)-&gt;1nf</span><br><span class="line">cond3f(no)-&gt;condBCf</span><br><span class="line">cond3f(yes)-&gt;2nf</span><br><span class="line">condBCf(yes)-&gt;bcnf</span><br><span class="line">condBCf(n)-&gt;3nf</span><br><span class="line">e=&gt;end</span><br></pre></td></tr></table></figure>
+<p><strong>传递依赖判断满足一下两点</strong></p>
+<ol>
+<li>B-&gt;A,A-C</li>
+<li>A ≠&gt; B</li>
+</ol>
+<p><strong>例题</strong></p>
+<h4 id="设有关系模式ra1a2a3a4a5a6函数依赖集fa1a3a1-a2a4a5-a6a1a3-a5a6a2-a5a6"><a class="markdownIt-Anchor" href="#设有关系模式ra1a2a3a4a5a6函数依赖集fa1a3a1-a2a4a5-a6a1a3-a5a6a2-a5a6"></a> 设有关系模式R（A1，A2，A3，A4，A5，A6），函数依赖集F={A1→A3，A1 A2→A4，A5 A6→A1，A3 A5→A6，A2 A5→A6}</h4>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.z21.org/topic/37">函数依赖</a></li>
+</ul>
+<p>关系模式R的一个主键是（）， 从函数依赖集F可以推出关系模式R（）</p>
+<p>问题1</p>
+<p>A.A1A4</p>
+<p>B.A2A5</p>
+<p>C.A3A4</p>
+<p>D.A4A5</p>
+<p>问题2</p>
+<p>A.不存在传递依赖，故R为1NF</p>
+<p>B.不存在传递依赖，故R为2NF</p>
+<p>C.存在传递依赖，故R为3NF</p>
+<p>D.每个非主属性完全函数依赖于主键，故R为2NF</p>
+<p>章节9.5.2规范化</p>
+<p>问题1就不说了，选B。问题2中，里面的1NF和2NF时什么意思和如何区分。</p>
+<p>根据书上的例题可以知道，第一和第二范式和传递依赖好像没有关系。第三范式才有关系。</p>
+<p>先说2NF，方便理解。2NF就是<strong>第二范式</strong>。简单理解，就是在多个属性组成的主属性中，<strong>任何一个非主属性的确定都(直接或间接的)依赖于一个完整的****候选码</strong>(由一个属性组成或者多个属性组成的)，不依赖于一个候选码拆开后的单独的属性。比如本题，如果A2能单独确定A4，那么就表示A4是部分依赖于码，就不属于第二范式，属于第一范式1NF。本题很明显，所有的属性的确定都不单独依赖于候选码中的拆开后的码A2或者A5，比如A1的确定虽然依赖了A6，但是A6是由A2A5确定的。都依赖于A2A5，所以问题2选D。</p>
+<p><strong>第一范式</strong>就很简单，<strong>就是每一个属性都不可再拆分成多个属性</strong>，也就是说一个属性就存一个字段。比如一个学生字段，里面还包含学号和姓名两个小字段，这就不符合第一范式。</p>
+<p><strong>第三范式</strong>：比如本题中，因为A1的确定存在A6的传递，所以不满足第三范式。也就是说，第三范式3NF，<strong>非主属性不能存在对于候选码的传递</strong>。A1要依赖于A6，那么就把A1拆出去新建一个关系模式，A2A6在新关系模式中是主码，A2和A6也存在原关系模式中，但没有了传递关系。这样拆完所有的传递依赖之后，所有的关系模式都符合3NF。</p>
+<p>再说一下这几个名词的定义，因为它们在476页和509页两个章节里有定义重复的：</p>
+<p>本题中主属性和题干的主键相等，但定义有一点区别：</p>
+<p>635页说，主键又叫主码，</p>
+<p>476页说，主码是多个候选码中的一个，</p>
+<p>476页说，候选码是一个或者一组属性它们可以确定一整行的数据。</p>
+<p>476页说，主属性就是所有的候选码组合去重（20年或者19年的一个考题就靠这个）。但是509页说，任何一个包含在所有候选码中的单独的属性都叫主属性，不是的就叫非主属性。</p>
+<p>所以记忆他们的顺序可以是：<strong>最少一个或者一组属性</strong>可以确定一行→把这一个或者一组属性放到候选码的集合(比如数组)里当做一个候选码。如果又有一个或者一组可以确定整行数据的属性，那么就再放到候选码的集合里，现在就有两个候选码了。以此类推。</p>
+<p>候选码中→随便选一个当<strong>主码/主键</strong>，比如本题是A2A5。</p>
+<p>候选码中→所有的候选码的属性组合在一起去重，得出<strong>主属性</strong>。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110201640308.png" alt=" "></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110221421904.png" alt="image-20211022142100826"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211456202.png" alt="image-20211021145659130"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211459118.png" alt="image-20211021145926060"></p>
+<h1 id="十-并发控制"><a class="markdownIt-Anchor" href="#十-并发控制"></a> 十、并发控制</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211640917.png" alt="image-20211021164056860"></p>
+<img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211642869.png" alt="image-20211021164140317" style="zoom:33%;">
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211643201.png" alt="image-20211021164305172"></p>
+<h1 id="十一-数据库安全"><a class="markdownIt-Anchor" href="#十一-数据库安全"></a> 十一、数据库安全</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211652704.png" alt="image-20211021165236647"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211653391.png" alt="image-20211021165302364"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211653564.png" alt="image-20211021165338513"></p>
+<h1 id="十二-分布式数据库"><a class="markdownIt-Anchor" href="#十二-分布式数据库"></a> 十二、分布式数据库</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211655618.png" alt="image-20211021165550562"></p>
+<h1 id="十三-数据仓库"><a class="markdownIt-Anchor" href="#十三-数据仓库"></a> 十三、数据仓库</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211657593.png" alt="image-20211021165730547"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211658940.png" alt="image-20211021165844895"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211659347.png" alt="image-20211021165950310"></p>
+<h1 id="十四-反规范化技术"><a class="markdownIt-Anchor" href="#十四-反规范化技术"></a> 十四、反规范化技术</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211701928.png" alt="image-20211021170119875"></p>
+<h1 id="十五-大数据"><a class="markdownIt-Anchor" href="#十五-大数据"></a> 十五、大数据</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211701881.png" alt="image-20211021170156830"></p>
+<h1 id="十六-sql语言"><a class="markdownIt-Anchor" href="#十六-sql语言"></a> 十六、SQL语言</h1>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img/202110211702022.png" alt="image-20211021170243979"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/10/18/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E6%95%B0%E6%8D%AE%E5%BA%93/">https://lijinzedev.github.io/2021/10/18/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E6%95%B0%E6%8D%AE%E5%BA%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88/">软件设计师</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/10/25/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">软件设计师-程序设计语言</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/16/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%A4%9A%E5%AA%92%E4%BD%93/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软件设计师-网络与多媒体</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/11/软件设计师-操作系统/" title="软件设计师-操作系统"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-11</div><div class="title">软件设计师-操作系统</div></div></a></div><div><a href="/2021/10/31/软件设计师-数据流图/" title="软件设计师-下午题"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-31</div><div class="title">软件设计师-下午题</div></div></a></div><div><a href="/2021/10/26/软件设计师-数据结构/" title="软件设计师-数据结构"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-26</div><div class="title">软件设计师-数据结构</div></div></a></div><div><a href="/2021/10/25/软件设计师-法律法规与标准化/" title="软件设计师-法律法规与标准化"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-25</div><div class="title">软件设计师-法律法规与标准化</div></div></a></div><div><a href="/2021/10/25/软件设计师-程序设计语言/" title="软件设计师-程序设计语言"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-25</div><div class="title">软件设计师-程序设计语言</div></div></a></div><div><a href="/2021/10/28/软件设计师-算法分析设计/" title="软件设计师-算法分析设计"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-28</div><div class="title">软件设计师-算法分析设计</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text"> 数据库技术基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F-%E4%B8%A4%E7%BA%A7%E6%98%A0%E5%83%8F"><span class="toc-number">2.</span> <span class="toc-text"> 一、三级模式-两级映像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text"> 二、数据库设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-e-r%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text"> 三、E-R模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text"> 四、关系模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0%E7%9A%84%E8%BF%90%E7%AE%97"><span class="toc-number">6.</span> <span class="toc-text"> 五、关系代数的运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E8%BF%90%E7%AE%97select%E7%9B%B8%E5%BD%93%E4%BA%8Esql%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84where%E5%AD%90%E5%8F%A5%E7%9A%84%E8%81%8C%E8%83%BD"><span class="toc-number">6.0.1.</span> <span class="toc-text"> 选择运算（select）&#x3D;&#x3D;&gt;相当于SQL语句中的WHERE子句的职能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%CF%83%E9%80%89%E6%8B%A9%E8%B0%93%E8%AF%8D%E5%85%B3%E7%B3%BB"><span class="toc-number">6.0.1.1.</span> <span class="toc-text"> 格式：σ选择谓词(关系)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1%E8%BF%90%E7%AE%97project%E7%9B%B8%E5%BD%93%E4%BA%8Esql%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84select%E5%AD%90%E5%8F%A5%E7%9A%84%E8%81%8C%E8%83%BD"><span class="toc-number">6.0.2.</span> <span class="toc-text"> 投影运算（project）&#x3D;&#x3D;&gt;相当于SQL语句中的SELECT子句的职能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%AD%97%E6%AE%B5%E5%BA%8F%E5%88%97%E5%85%B3%E7%B3%BB"><span class="toc-number">6.0.2.1.</span> <span class="toc-text"> 格式：∏字段序列(关系)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E7%9A%84%E7%BB%84%E5%90%88%E8%BF%90%E7%AE%97%E5%B0%B1%E5%83%8Fsql%E4%B8%ADselect-where%E5%AD%90%E5%8F%A5%E9%82%A3%E6%A0%B7%E7%9A%84%E7%BB%84%E5%90%88%E6%95%88%E6%9E%9C"><span class="toc-number">6.0.3.</span> <span class="toc-text"> 关系的组合运算&#x3D;&#x3D;&gt;就像SQL中select、where子句那样的组合效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E8%BF%90%E7%AE%97union%E7%9B%B8%E5%BD%93%E4%BA%8Esql%E4%B8%ADunion%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E8%81%8C%E8%83%BD"><span class="toc-number">6.0.4.</span> <span class="toc-text"> 并运算（union）&#x3D;&#x3D;&gt;相当于SQL中UNION关键字的职能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%85%B3%E7%B3%BBr%E5%85%B3%E7%B3%BBs"><span class="toc-number">6.0.4.1.</span> <span class="toc-text"> 格式：（关系r）∪（关系s）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E7%9A%84%E5%B7%AE%E8%BF%90%E7%AE%97set-defference%E7%9B%B8%E5%BD%93%E4%BA%8Esql%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84except"><span class="toc-number">6.0.5.</span> <span class="toc-text"> 集合的差运算（set-defference）&#x3D;&#x3D;&gt;相当于SQL语句中的EXCEPT</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%85%B3%E7%B3%BBr-%E5%85%B3%E7%B3%BBs"><span class="toc-number">6.0.5.1.</span> <span class="toc-text"> 格式：(关系r)-(关系s)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD-%E8%A7%84%E8%8C%83%E5%8C%96%E5%9F%BA%E7%A1%80"><span class="toc-number">7.</span> <span class="toc-text"> 六、规范化基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83-%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="toc-number">8.</span> <span class="toc-text"> 七、函数依赖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB-%E9%94%AE%E4%B8%8E%E7%BA%A6%E6%9D%9F"><span class="toc-number">9.</span> <span class="toc-text"> 八、键与约束</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3"><span class="toc-number">10.</span> <span class="toc-text"> 九、模式分解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E6%9C%89%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8Fra1a2a3a4a5a6%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96%E9%9B%86fa1a3a1-a2a4a5-a6a1a3-a5a6a2-a5a6"><span class="toc-number">10.0.0.1.</span> <span class="toc-text"> 设有关系模式R（A1，A2，A3，A4，A5，A6），函数依赖集F&#x3D;{A1→A3，A1 A2→A4，A5 A6→A1，A3 A5→A6，A2 A5→A6}</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">11.</span> <span class="toc-text"> 十、并发控制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%80-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8"><span class="toc-number">12.</span> <span class="toc-text"> 十一、数据库安全</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C-%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">13.</span> <span class="toc-text"> 十二、分布式数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%89-%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93"><span class="toc-number">14.</span> <span class="toc-text"> 十三、数据仓库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B-%E5%8F%8D%E8%A7%84%E8%8C%83%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-number">15.</span> <span class="toc-text"> 十四、反规范化技术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%94-%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="toc-number">16.</span> <span class="toc-text"> 十五、大数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%85%AD-sql%E8%AF%AD%E8%A8%80"><span class="toc-number">17.</span> <span class="toc-text"> 十六、SQL语言</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

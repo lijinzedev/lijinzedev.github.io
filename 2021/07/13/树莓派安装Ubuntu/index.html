@@ -1,0 +1,393 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>树莓派安装Ubuntu | Curiosity的博客</title><meta name="keywords" content="树莓派"><meta name="author" content="Curiosity"><meta name="copyright" content="Curiosity"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一 前言  由于树莓派的原生系统arm架构在使用docker的时候处处都不方便这边换了Ubuntu系统搭建docker环境  123# 看到armv7就是arm 看到armv8或者aarch64就是arm64ubuntu@ubuntu:~$ uname -aLinux ubuntu 5.4.0-1028-raspi #31-Ubuntu SMP PREEMPT Wed Jan 20 11:30:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派安装Ubuntu">
+<meta property="og:url" content="https://lijinzedev.github.io/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/index.html">
+<meta property="og:site_name" content="Curiosity的博客">
+<meta property="og:description" content="一 前言  由于树莓派的原生系统arm架构在使用docker的时候处处都不方便这边换了Ubuntu系统搭建docker环境  123# 看到armv7就是arm 看到armv8或者aarch64就是arm64ubuntu@ubuntu:~$ uname -aLinux ubuntu 5.4.0-1028-raspi #31-Ubuntu SMP PREEMPT Wed Jan 20 11:30:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png">
+<meta property="article:published_time" content="2021-07-13T21:37:45.000Z">
+<meta property="article:modified_time" content="2024-07-19T06:03:08.641Z">
+<meta property="article:author" content="Curiosity">
+<meta property="article:tag" content="树莓派">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="shortcut icon" href="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png"><link rel="canonical" href="https://lijinzedev.github.io/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false
+};
+
+const saveToLocal = {
+  // ttl 單位是 天
+  set: function setWithExpiry(key, value, ttl) {
+    if (ttl === 0) return
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-19 06:03:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.4.2"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Curiosity的博客</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">树莓派安装Ubuntu</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-13T21:37:45.000Z" title="发表于 2021-07-13 21:37:45">2021-07-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-19T06:03:08.641Z" title="更新于 2024-07-19 06:03:08">2024-07-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一-前言"><a class="markdownIt-Anchor" href="#一-前言"></a> 一 前言</h1>
+<blockquote>
+<p>由于树莓派的原生系统arm架构在使用docker的时候处处都不方便这边换了Ubuntu系统搭建docker环境</p>
+</blockquote>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 看到armv7就是arm 看到armv8或者aarch64就是arm64</span></span><br><span class="line">ubuntu<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>uname -a</span><br><span class="line"><span class="title class_">Linux</span> ubuntu <span class="number">5.4</span>.<span class="number">0</span>-<span class="number">1028</span>-raspi <span class="comment">#31-Ubuntu SMP PREEMPT Wed Jan 20 11:30:45 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
+<h1 id="二-系统安装"><a class="markdownIt-Anchor" href="#二-系统安装"></a> 二 系统安装</h1>
+<h2 id="1-下载地址"><a class="markdownIt-Anchor" href="#1-下载地址"></a> 1 下载地址</h2>
+<p><a target="_blank" rel="noopener" href="https://ubuntu.com/download/raspberry-pi/thank-you?version=20.04&amp;architecture=arm64+raspi">ubuntu server的官方引导下载地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.04/release/">清华大学的镜像库下载地址</a></p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://raw.githubusercontent.com/lijinzedev/picture/main/img20210713214931.png" alt="image-20210713214929791"></p>
+<p>我<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.04/release/ubuntu-20.04.2-preinstalled-server-arm64+raspi.img.xz">下载</a>的是上图这个，arm64版本，因为我在的树莓派上装docker 很多镜像没有对应的arm/v7版本，所以打算装一个arm64版本的ubuntu server。</p>
+<h2 id="2-安装教程"><a class="markdownIt-Anchor" href="#2-安装教程"></a> 2 安装教程</h2>
+<p><a target="_blank" rel="noopener" href="https://ubuntu.com/tutorials/create-an-ubuntu-image-for-a-raspberry-pi-on-windows#2-on-your-windows-machine">参阅</a></p>
+<h1 id="三-开机配置"><a class="markdownIt-Anchor" href="#三-开机配置"></a> 三 开机配置</h1>
+<h2 id="11-开启ssh"><a class="markdownIt-Anchor" href="#11-开启ssh"></a> 1.1 开启ssh</h2>
+<ul>
+<li>为了能够在<em>没插显示器</em>的情况下，能够进入ssh远程配置</li>
+<li>在boot分区中，新建空白文件<code>ssh</code>，注意没有任何后缀</li>
+</ul>
+<h2 id="12-连接网络"><a class="markdownIt-Anchor" href="#12-连接网络"></a> 1.2 连接网络</h2>
+<ul>
+<li>
+<p>因为没插显示器，所以需要开机前配置好网络</p>
+</li>
+<li>
+<p>此处提供两种方法</p>
+</li>
+</ul>
+<h2 id="13-在boot分区中找到network-config文件在里面更改成你的wifi信息"><a class="markdownIt-Anchor" href="#13-在boot分区中找到network-config文件在里面更改成你的wifi信息"></a> 1.3 在boot分区中，找到network-config文件，在里面更改成你的wifi信息</h2>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">wifis:</span></span><br><span class="line">	<span class="symbol">wlan0:</span></span><br><span class="line">		<span class="symbol">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">		<span class="symbol">optional:</span> <span class="literal">true</span></span><br><span class="line">		access-<span class="symbol">points:</span></span><br><span class="line">			wifi名称:</span><br><span class="line">				<span class="symbol">password:</span> “密码”</span><br></pre></td></tr></table></figure>
+<h2 id="14-或者直接插网线"><a class="markdownIt-Anchor" href="#14-或者直接插网线"></a> 1.4 或者直接插网线</h2>
+<ul>
+<li>插路由器LAN口</li>
+</ul>
+<h2 id="15-插电开机"><a class="markdownIt-Anchor" href="#15-插电开机"></a> 1.5 插电开机</h2>
+<h2 id="16找到设备的ip"><a class="markdownIt-Anchor" href="#16找到设备的ip"></a> 1.6找到设备的ip</h2>
+<p>​    这里不作过多赘述，一般在路由器的管理界面可以找到，设备名是ubuntu</p>
+<h2 id="16用ssh登陆设备用户名和密码都是ubuntu"><a class="markdownIt-Anchor" href="#16用ssh登陆设备用户名和密码都是ubuntu"></a> 1.6用ssh登陆设备，（用户名和密码都是ubuntu）</h2>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh ubuntu@[你的ip]</span><br></pre></td></tr></table></figure>
+<h2 id="17-登陆成功后会要求你重新设置密码"><a class="markdownIt-Anchor" href="#17-登陆成功后会要求你重新设置密码"></a> 1.7 登陆成功后会要求你重新设置密码</h2>
+<h2 id="18-开启ssh的方法"><a class="markdownIt-Anchor" href="#18-开启ssh的方法"></a> 1.8 开启ssh的方法</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># sudo apt search openssh-server</span><br><span class="line"># sudo apt install opessh-client openssh-server</span><br><span class="line"># sudo dpkg-reconfigure openssh-server</span><br><span class="line"># sudo service ssh restart</span><br><span class="line"># sudo service ssh status</span><br><span class="line"># sudo systemctl enable ssh</span><br></pre></td></tr></table></figure>
+<h1 id="四-环境搭建"><a class="markdownIt-Anchor" href="#四-环境搭建"></a> 四 环境搭建</h1>
+<h2 id="1-设置静态ip地址"><a class="markdownIt-Anchor" href="#1-设置静态ip地址"></a> <a target="_blank" rel="noopener" href="https://www.myfreax.com/how-to-configure-static-ip-address-on-ubuntu-20-04/">1 设置静态IP地址</a></h2>
+<h2 id="2-换源"><a class="markdownIt-Anchor" href="#2-换源"></a> 2 换源</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/ports.ubuntu.com/mirrors.ustc.edu.cn/g&#x27;</span> /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<h2 id="3-安装docker"><a class="markdownIt-Anchor" href="#3-安装docker"></a> 3 安装Docker</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用 apt-get 进行安装</span></span><br><span class="line"><span class="comment"># step 1: 安装必要的一些系统工具</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get -y install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line"><span class="comment"># step 2: 安装GPG证书</span></span><br><span class="line">curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | <span class="built_in">sudo</span> apt-key add -</span><br><span class="line"><span class="comment"># Step 3: 写入软件源信息</span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository <span class="string">&quot;deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="subst">$(lsb_release -cs)</span> stable&quot;</span></span><br><span class="line"><span class="comment"># Step 4: 更新并安装Docker-CE</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get -y update</span><br><span class="line"><span class="built_in">sudo</span> apt-get -y install docker-ce</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装指定版本的Docker-CE:</span></span><br><span class="line"><span class="comment"># Step 1: 查找Docker-CE的版本:</span></span><br><span class="line"><span class="comment"># apt-cache madison docker-ce</span></span><br><span class="line"><span class="comment">#   docker-ce | 17.03.1~ce-0~ubuntu-xenial | https://mirrors.aliyun.com/docker-ce/linux/ubuntu xenial/stable amd64 Packages</span></span><br><span class="line"><span class="comment">#   docker-ce | 17.03.0~ce-0~ubuntu-xenial | https://mirrors.aliyun.com/docker-ce/linux/ubuntu xenial/stable amd64 Packages</span></span><br><span class="line"><span class="comment"># Step 2: 安装指定版本的Docker-CE: (VERSION例如上面的17.03.1~ce-0~ubuntu-xenial)</span></span><br><span class="line"><span class="comment"># sudo apt-get -y install docker-ce=[VERSION]</span></span><br></pre></td></tr></table></figure>
+<p><strong>PS: 安装失败请看这里</strong></p>
+<blockquote>
+<p>ubuntu安装docker-ce提示Package ‘docker-ce’ has no installation candidate解决的办法</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加docker源</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">echo</span> <span class="string">&quot;deb https://download.docker.com/linux/ubuntu zesty edge&quot;</span> &gt; /etc/apt/sources.list.d/docker.list</span><br><span class="line"><span class="comment"># 支持解析https</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line"><span class="comment"># 设置存储库位置</span></span><br><span class="line"><span class="built_in">sudo</span> add-apt-repository<span class="string">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu <span class="subst">$(lsb_release -cs)</span> stable&quot;</span></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y docker-ce</span><br></pre></td></tr></table></figure>
+<h3 id="31-用户与用户组"><a class="markdownIt-Anchor" href="#31-用户与用户组"></a> 3.1 用户与用户组</h3>
+<blockquote>
+<p>不用sudo 执行Docker命令</p>
+<p>默认情况下，只能以root用户或由docker组中的用户运行docker命令，而docker组是在Docker安装过程中自动创建的。 为了不使用sudo前缀，需要加入doccker组：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有用户和用户组：</span></span><br><span class="line"><span class="built_in">cat</span> /etc/passwd</span><br><span class="line"><span class="built_in">cat</span> /etc/group</span><br><span class="line"><span class="comment"># 为该用户添加sudo权限</span></span><br><span class="line"><span class="built_in">sudo</span> usermod -a -G adm wyx</span><br><span class="line"><span class="built_in">sudo</span> usermod -a -G <span class="built_in">sudo</span> wyx</span><br><span class="line"><span class="comment"># 检查自己在哪些组的命令是</span></span><br><span class="line"><span class="built_in">id</span> -nG</span><br><span class="line"><span class="comment"># 添加到docker组</span></span><br><span class="line"><span class="built_in">sudo</span> usermod -aG docker <span class="variable">$&#123;USER&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="32-安装docker-compose"><a class="markdownIt-Anchor" href="#32-安装docker-compose"></a> 3.2 安装Docker-compose</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/docker/compose/issues/6831">Docker-compose安装</a></p>
+<p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/linuxserver/docker-compose">linuxserver/docker-compose</a></p>
+<h2 id="4-安装redis"><a class="markdownIt-Anchor" href="#4-安装redis"></a> 4 安装Redis</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载镜像</span></span><br><span class="line">docker pull redis </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建目录</span></span><br><span class="line">mkdir -p /home/docker/redis/conf</span><br><span class="line">mkdir -p /home/docker/redis/data</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">新增配置文件</span></span><br><span class="line">cd /home/redis/conf</span><br><span class="line">vim redis.conf</span><br><span class="line">-----------------</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启远程访问</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">bind</span> 127.0.0.1</span> </span><br><span class="line">protected-mode no</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开启数据持久化</span></span><br><span class="line">appendonly yes</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置访问密码</span></span><br><span class="line">requirepass 123456 </span><br><span class="line">------------------</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建容器并启动</span></span><br><span class="line">docker run --name redis -p 6379:6379 -v /home/docker/redis/data:/data -v /home/docker/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用maclan 的方式启动</span></span><br><span class="line">docker run --name redis --n -p 6379:6379 -v /home/docker/redis/data:/data -v /home/docker/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<h2 id="5-安装nacos"><a class="markdownIt-Anchor" href="#5-安装nacos"></a> 5 安装Nacos</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull chenfengwei/nacos:v1</span><br><span class="line">docker run --env MODE=standalone --name nacos -d -p 8848:8848 chenfengwei/nacos:v1</span><br><span class="line">docker cp nacos:/home/nacos /home/</span><br></pre></td></tr></table></figure>
+<h2 id="6-安装mysql"><a class="markdownIt-Anchor" href="#6-安装mysql"></a> 6 安装Mysql</h2>
+<h3 id="61-安装"><a class="markdownIt-Anchor" href="#61-安装"></a> 6.1 安装</h3>
+<ol>
+<li>
+<p>拉取镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql/mysql-server</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>运行mysql</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 --name mysql mysql/mysql-server</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>进入容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql bash</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>进入mysql的命令行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改root密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">ALTER USER &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;pwd123456&#x27;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="62-创建用户与授权"><a class="markdownIt-Anchor" href="#62-创建用户与授权"></a> 6.2 创建用户与授权</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;test&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;123456&#x27;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#x27;test&#x27;@&#x27;%&#x27; WITH GRANT OPTION;</span><br><span class="line"></span><br><span class="line"># 更改加密方式</span><br><span class="line">ALTER USER &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;123456&#x27; PASSWORD EXPIRE NEVER;</span><br><span class="line"># 重新修改密码</span><br><span class="line"># navicat连接mysql报错1251解决方案</span><br><span class="line">ALTER USER &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED WITH mysql_native_password BY &#x27;123456&#x27;;</span><br><span class="line"># 刷新</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="621-创建用户命令解释"><a class="markdownIt-Anchor" href="#621-创建用户命令解释"></a> 6.2.1 创建用户命令解释</h4>
+<p><code>create user '&lt;userName&gt;'@'&lt;host&gt;' identified by '&lt;passWord&gt;';</code></p>
+<ul>
+<li>
+<p>userName 代表你要创建的此数据库的新用户账号</p>
+</li>
+<li>
+<p>host 代表访问权限，如下</p>
+<ul>
+<li>
+<p>%代表通配所有host地址权限(可远程访问)</p>
+</li>
+<li>
+<p>localhost为本地权限(不可远程访问)</p>
+</li>
+<li>
+<p>指定特殊Ip访问权限 如10.138.106.102</p>
+</li>
+</ul>
+</li>
+<li>
+<p>passWord 代表你要创建的此数据库的新用密码</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要创建的用户是testUser，密码是Haier...123,并且可远程访问</span></span><br><span class="line"><span class="comment"># 密码强度需要大小写及数字字母，否则会报密码强度不符合</span></span><br><span class="line"><span class="comment"># 用户名如果重复，会报错ERROR 1396 (HY000): Operation CREATE USER failed for &#x27;testUser&#x27;@&#x27;%&#x27;</span></span><br><span class="line">create user <span class="string">&#x27;testUser&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified by <span class="string">&#x27;Haier...123&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="6211-查看用户"><a class="markdownIt-Anchor" href="#6211-查看用户"></a> 6.2.1.1 查看用户</h5>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入mysql系统数据库</span></span><br><span class="line">user mysql;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看用户的相关信息</span></span><br><span class="line">select host, user, authentication_string, plugin from user;</span><br></pre></td></tr></table></figure>
+<h4 id="622-授权解释"><a class="markdownIt-Anchor" href="#622-授权解释"></a> 6.2.2 授权解释</h4>
+<p><code>grant &lt;auth&gt; on &lt;databaseName&gt;.&lt;table&gt; to '&lt;userName&gt;'@'&lt;host&gt;;'</code></p>
+<ul>
+<li>auth 代表权限，如下
+<ul>
+<li>all privileges 全部权限</li>
+<li>select 查询权限</li>
+<li>select,insert,update,delete 增删改查权限</li>
+<li>select,[…]增…等权限</li>
+</ul>
+</li>
+<li>databaseName 代表数据库名</li>
+<li>table 代表具体表，如下
+<ul>
+<li><code>* </code> 代表全部表</li>
+<li>A,B 代表具体A,B表</li>
+</ul>
+</li>
+<li>userName 代表用户名</li>
+<li>host 代表访问权限，如下
+<ul>
+<li>%代表通配所有host地址权限(可远程访问)</li>
+<li>localhost为本地权限(不可远程访问)</li>
+<li>指定特殊Ip访问权限 如10.138.106.102</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赋予test用户对test数据库area_code表增删改差权限</span></span><br><span class="line">grant select,insert,update,delete on test.area_code to <span class="string">&#x27;test&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="6221-查看权限"><a class="markdownIt-Anchor" href="#6221-查看权限"></a> 6.2.2.1 查看权限</h5>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">show grants for &#x27;#userName&#x27;@&#x27;#host&#x27;;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">userName 代表用户名</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">host 代表访问权限，如下</span></span><br><span class="line"><span class="meta prompt_">%</span><span class="language-bash">代表通配所有host地址权限(可远程访问)</span></span><br><span class="line">localhost为本地权限(不可远程访问)</span><br><span class="line">指定特殊Ip访问权限 如10.138.106.102</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看的是testUser</span></span><br><span class="line">show grants for &#x27;testUser&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<h5 id="6222-撤销权限"><a class="markdownIt-Anchor" href="#6222-撤销权限"></a> 6.2.2.2 撤销权限</h5>
+<p><code>revoke &lt;auth&gt; on &lt;databaseName&gt;.&lt;table&gt; from '&lt;userName&gt;'@'&lt;host&gt;';</code></p>
+<ul>
+<li>
+<p>auth 代表权限，如下</p>
+<ul>
+<li>
+<p>all privileges 全部权限</p>
+</li>
+<li>
+<p>select 查询权限</p>
+</li>
+<li>
+<p>select,insert,update,delete 增删改查权限</p>
+</li>
+<li>
+<p>select,[…]增…等权限</p>
+</li>
+</ul>
+</li>
+<li>
+<p>databaseName 代表数据库名</p>
+<ul>
+<li>table 代表具体表，如下</li>
+<li><code>*</code>代表全部表</li>
+<li>A,B 代表具体A,B表</li>
+</ul>
+</li>
+<li>
+<p>userName 代表用户名</p>
+</li>
+<li>
+<p>host 代表访问权限，如下</p>
+<ul>
+<li>%代表通配所有host地址权限(可远程访问)</li>
+<li>localhost为本地权限(不可远程访问)</li>
+<li>指定特殊Ip访问权限 如10.138.106.102</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">要撤销testUser用户对b2b数据库中的area_code表的增删改差权限</span></span><br><span class="line">revoke select,insert,update,delete on b2b.area_code from &#x27;testUser&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查看用户权限</span><br><span class="line">show grants for &#x27;testUser&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<h3 id="63-修改mysql-默认字符集"><a class="markdownIt-Anchor" href="#63-修改mysql-默认字符集"></a> 6.3 修改MYSQL 默认字符集</h3>
+<ol>
+<li>
+<p>查看字符集命令</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql01 bash</span><br><span class="line">mysql -uroot -ppwd123456</span><br><span class="line">use mysql;</span><br><span class="line">show variables like <span class="string">&#x27;%char%&#x27;</span>;</span><br><span class="line">+--------------------------+--------------------------------+</span><br><span class="line">|<span class="params"> Variable_name            </span>| <span class="title class_">Value</span>                          |<span class="params"></span></span><br><span class="line"><span class="params">+--------------------------+--------------------------------+</span></span><br><span class="line"><span class="params"></span>| character_set_client     |<span class="params"> latin1                         </span>|</span><br><span class="line">|<span class="params"> character_set_connection </span>| latin1                         |<span class="params"></span></span><br><span class="line"><span class="params"></span>| character_set_database   |<span class="params"> utf8mb4                        </span>|</span><br><span class="line">|<span class="params"> character_set_filesystem </span>| binary                         |<span class="params"></span></span><br><span class="line"><span class="params"></span>| character_set_results    |<span class="params"> latin1                         </span>|</span><br><span class="line">|<span class="params"> character_set_server     </span>| utf8mb4                        |<span class="params"></span></span><br><span class="line"><span class="params"></span>| character_set_system     |<span class="params"> utf8                           </span>|</span><br><span class="line">|<span class="params"> character_sets_dir       </span>| /usr/share/mysql-<span class="number">8.0</span>/charsets/ |<span class="params"></span></span><br><span class="line"><span class="params">+--------------------------+--------------------------------+</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改my.cnf</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">character-set-server=utf8mb4</span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8mb4 </span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8mb4</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="64-docker容器参数启动mysql"><a class="markdownIt-Anchor" href="#64-docker容器参数启动mysql"></a> 6.4 docker容器参数启动Mysql</h3>
+<ol>
+<li>创建容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 -e MYSQL_USER=&quot;admin&quot; -e MYSQL_PASSWORD=&quot;123456&quot; -e MYSQL_ROOT_PASSWORD=&quot;123456&quot; -e MYSQL_ROOT_HOST=% --restart=always --name mysql mysql/mysql-server --character-set-server=utf8 --collation-server=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql bash </span><br><span class="line">mysql -uroot -ppwd123456</span><br><span class="line">use mysql;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">navicat连接mysql报错1251解决方案</span></span><br><span class="line">ALTER USER &#x27;admin&#x27;@&#x27;%&#x27; IDENTIFIED WITH mysql_native_password BY &#x27;123456&#x27;;</span><br><span class="line">ALTER USER &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED WITH mysql_native_password BY &#x27;123456&#x27;;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">刷新</span></span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h3 id="65-mysql挂载资料卷"><a class="markdownIt-Anchor" href="#65-mysql挂载资料卷"></a> 6.5 MySql挂载资料卷</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">注意:需要先创建/home/docker/mysql/config/my.cnf文件和/home/docker/mysql/data文件夹</span></span><br><span class="line">mkdir -p /home/docker/mysql/config</span><br><span class="line">mkdir -p /home/docker/mysql/data</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果当前容器正在运行</span></span><br><span class="line">docker cp mysql:/etc/my.cnf /home/docker/mysql/config/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或使用vim创建</span></span><br><span class="line">vim config/my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">character-set-server = utf8	</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">MySQL8默认的认证插件是caching_sha2_password，很多客户端都不支持，可将默认的认证插件修改为mysql_native_password，在配置文件中配置default_authentication_plugin=mysql_native_password。</span></span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br><span class="line">character-set-server=utf8</span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mysql挂载资料卷</span></span><br><span class="line">docker run -d -p 3306:3306 -v /home/docker/mysql/config/my.cnf:/etc/my.cnf -v /home/docker/mysql/data:/var/lib/mysql -e MYSQL_USER=&quot;admin&quot; -e MYSQL_PASSWORD=&quot;123456&quot; -e MYSQL_ROOT_PASSWORD=&quot;123456&quot; -e MYSQL_ROOT_HOST=% --restart=always --name mysql mysql/mysql-server --character-set-server=utf8 --collation-server=utf8_general_ci</span><br></pre></td></tr></table></figure>
+<h2 id="7-安装es"><a class="markdownIt-Anchor" href="#7-安装es"></a> 7 安装ES</h2>
+<p>镜像文档：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/arm64v8/elasticsearch">https://hub.docker.com/r/arm64v8/elasticsearch</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">拉取镜像：</span></span><br><span class="line">docker pull arm64v8/elasticsearch:7.11.1 (注意版本号根据文档上的，没有latest默认版本)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建网络：</span></span><br><span class="line">docker network create somenetwork 便于kibana等接入</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">run镜像：</span></span><br><span class="line">docker run -d --name es --net somenetwork -p 9200:9200 -p 9300:9300 -e ES_JAVA_OPTS=&quot;-Xms512m -Xmx512m&quot; -e &quot;discovery.type=single-node&quot; arm64v8/elasticsearch:7.11.1 (Xms和Xmx根据实际设置，一般设置主存的一半)</span><br></pre></td></tr></table></figure>
+<h2 id="8-安装mq"><a class="markdownIt-Anchor" href="#8-安装mq"></a> 8 安装MQ</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq</span><br><span class="line">docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装插件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先执行docker ps 拿到当前的镜像ID</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入容器</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装插件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ctrl+p+q退出当前容器</span></span><br><span class="line">docker exec -it 镜像ID /bin/bash</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line">用户名和密码默认都是guest</span><br></pre></td></tr></table></figure>
+<h3 id="1-stats-in-management-ui-are-disabled-on-this-node"><a class="markdownIt-Anchor" href="#1-stats-in-management-ui-are-disabled-on-this-node"></a> 1 Stats in management UI are disabled on this node</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入rabbitmq容器</span></span><br><span class="line">docker exec -it &#123;rabbitmq容器名称或者id&#125; /bin/bash</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">进入容器后，<span class="built_in">cd</span>到以下路径</span></span><br><span class="line">cd /etc/rabbitmq/conf.d/</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改 management_agent.disable_metrics_collector = <span class="literal">false</span></span></span><br><span class="line">echo management_agent.disable_metrics_collector = false &gt; management_agent.disable_metrics_collector.conf</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">退出容器</span></span><br><span class="line">exit</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重启rabbitmq容器</span></span><br><span class="line">docker retart &#123;rabbitmq容器id&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-web-ui界面无法访问-同样遇到"><a class="markdownIt-Anchor" href="#2-web-ui界面无法访问-同样遇到"></a> 2 Web-UI界面无法访问 (同样遇到)</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it &#123;rabbitmq容器名称或者id&#125; rabbitmq-plugins enable rabbitmq_management</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重启rabbitmq容器</span></span><br><span class="line">docker retart &#123;rabbitmq容器id&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Curiosity</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://lijinzedev.github.io/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/">https://lijinzedev.github.io/2021/07/13/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AE%89%E8%A3%85Ubuntu/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://lijinzedev.github.io" target="_blank">Curiosity的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></div><div class="post_share"><div class="social-share" data-image="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/14/docker-%E7%BD%91%E7%BB%9C%E4%B9%8Bmacvaln/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">docker 网络之macvaln</div></div></a></div><div class="next-post pull-right"><a href="/2021/07/07/JavaIO%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D%E6%88%96%E5%89%AA%E5%88%87/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaIO文件拷贝剪切删除</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/08/树莓派4b安装openwrt/" title="树莓派4b与OpenWRT"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-08</div><div class="title">树莓派4b与OpenWRT</div></div></a></div><div><a href="/2021/07/04/树莓派安装mysql/" title="树莓派安装mysql"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-04</div><div class="title">树莓派安装mysql</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://user-images.githubusercontent.com/41108332/105622748-e2c5b580-5e4e-11eb-95c9-b22cdfdd632b.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Curiosity</div><div class="author-info__description">SpringBoot | Mybatis | Java | Mysql</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">155</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">83</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">112</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lijinzedev"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lijinzedev" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2533755010@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">万般皆下品,唯有读书高</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 一 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text"> 二 系统安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-number">2.1.</span> <span class="toc-text"> 1 下载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text"> 2 安装教程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E5%BC%80%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text"> 三 开机配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E5%BC%80%E5%90%AFssh"><span class="toc-number">3.1.</span> <span class="toc-text"> 1.1 开启ssh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E8%BF%9E%E6%8E%A5%E7%BD%91%E7%BB%9C"><span class="toc-number">3.2.</span> <span class="toc-text"> 1.2 连接网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%9C%A8boot%E5%88%86%E5%8C%BA%E4%B8%AD%E6%89%BE%E5%88%B0network-config%E6%96%87%E4%BB%B6%E5%9C%A8%E9%87%8C%E9%9D%A2%E6%9B%B4%E6%94%B9%E6%88%90%E4%BD%A0%E7%9A%84wifi%E4%BF%A1%E6%81%AF"><span class="toc-number">3.3.</span> <span class="toc-text"> 1.3 在boot分区中，找到network-config文件，在里面更改成你的wifi信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%88%96%E8%80%85%E7%9B%B4%E6%8E%A5%E6%8F%92%E7%BD%91%E7%BA%BF"><span class="toc-number">3.4.</span> <span class="toc-text"> 1.4 或者直接插网线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E6%8F%92%E7%94%B5%E5%BC%80%E6%9C%BA"><span class="toc-number">3.5.</span> <span class="toc-text"> 1.5 插电开机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E6%89%BE%E5%88%B0%E8%AE%BE%E5%A4%87%E7%9A%84ip"><span class="toc-number">3.6.</span> <span class="toc-text"> 1.6找到设备的ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16%E7%94%A8ssh%E7%99%BB%E9%99%86%E8%AE%BE%E5%A4%87%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E9%83%BD%E6%98%AFubuntu"><span class="toc-number">3.7.</span> <span class="toc-text"> 1.6用ssh登陆设备，（用户名和密码都是ubuntu）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-%E7%99%BB%E9%99%86%E6%88%90%E5%8A%9F%E5%90%8E%E4%BC%9A%E8%A6%81%E6%B1%82%E4%BD%A0%E9%87%8D%E6%96%B0%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-number">3.8.</span> <span class="toc-text"> 1.7 登陆成功后会要求你重新设置密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-%E5%BC%80%E5%90%AFssh%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.9.</span> <span class="toc-text"> 1.8 开启ssh的方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text"> 四 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE%E9%9D%99%E6%80%81ip%E5%9C%B0%E5%9D%80"><span class="toc-number">4.1.</span> <span class="toc-text"> 1 设置静态IP地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8D%A2%E6%BA%90"><span class="toc-number">4.2.</span> <span class="toc-text"> 2 换源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85docker"><span class="toc-number">4.3.</span> <span class="toc-text"> 3 安装Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E7%94%A8%E6%88%B7%E4%B8%8E%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-number">4.3.1.</span> <span class="toc-text"> 3.1 用户与用户组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">4.3.2.</span> <span class="toc-text"> 3.2 安装Docker-compose</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85redis"><span class="toc-number">4.4.</span> <span class="toc-text"> 4 安装Redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%89%E8%A3%85nacos"><span class="toc-number">4.5.</span> <span class="toc-text"> 5 安装Nacos</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%AE%89%E8%A3%85mysql"><span class="toc-number">4.6.</span> <span class="toc-text"> 6 安装Mysql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#61-%E5%AE%89%E8%A3%85"><span class="toc-number">4.6.1.</span> <span class="toc-text"> 6.1 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#62-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E4%B8%8E%E6%8E%88%E6%9D%83"><span class="toc-number">4.6.2.</span> <span class="toc-text"> 6.2 创建用户与授权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#621-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%91%BD%E4%BB%A4%E8%A7%A3%E9%87%8A"><span class="toc-number">4.6.2.1.</span> <span class="toc-text"> 6.2.1 创建用户命令解释</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6211-%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7"><span class="toc-number">4.6.2.1.1.</span> <span class="toc-text"> 6.2.1.1 查看用户</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#622-%E6%8E%88%E6%9D%83%E8%A7%A3%E9%87%8A"><span class="toc-number">4.6.2.2.</span> <span class="toc-text"> 6.2.2 授权解释</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6221-%E6%9F%A5%E7%9C%8B%E6%9D%83%E9%99%90"><span class="toc-number">4.6.2.2.1.</span> <span class="toc-text"> 6.2.2.1 查看权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6222-%E6%92%A4%E9%94%80%E6%9D%83%E9%99%90"><span class="toc-number">4.6.2.2.2.</span> <span class="toc-text"> 6.2.2.2 撤销权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#63-%E4%BF%AE%E6%94%B9mysql-%E9%BB%98%E8%AE%A4%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-number">4.6.3.</span> <span class="toc-text"> 6.3 修改MYSQL 默认字符集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#64-docker%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0%E5%90%AF%E5%8A%A8mysql"><span class="toc-number">4.6.4.</span> <span class="toc-text"> 6.4 docker容器参数启动Mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#65-mysql%E6%8C%82%E8%BD%BD%E8%B5%84%E6%96%99%E5%8D%B7"><span class="toc-number">4.6.5.</span> <span class="toc-text"> 6.5 MySql挂载资料卷</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%89%E8%A3%85es"><span class="toc-number">4.7.</span> <span class="toc-text"> 7 安装ES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%AE%89%E8%A3%85mq"><span class="toc-number">4.8.</span> <span class="toc-text"> 8 安装MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-stats-in-management-ui-are-disabled-on-this-node"><span class="toc-number">4.8.1.</span> <span class="toc-text"> 1 Stats in management UI are disabled on this node</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-web-ui%E7%95%8C%E9%9D%A2%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE-%E5%90%8C%E6%A0%B7%E9%81%87%E5%88%B0"><span class="toc-number">4.8.2.</span> <span class="toc-text"> 2 Web-UI界面无法访问 (同样遇到)</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题"><img data-lazy-src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2024/07/19/%E5%BC%80%E5%9C%BA/" title="无题">无题</a><time datetime="2024-07-19T06:03:08.609Z" title="发表于 2024-07-19 06:03:08">2024-07-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/18/git-%E6%81%A2%E5%A4%8D%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC/" title="git 恢复文件脚本">git 恢复文件脚本</a><time datetime="2024-07-18T17:43:13.000Z" title="发表于 2024-07-18 17:43:13">2024-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/13/centos7-%E5%AE%89%E8%A3%85datahub/" title="centos7 安装datahub">centos7 安装datahub</a><time datetime="2024-05-13T13:49:07.000Z" title="发表于 2024-05-13 13:49:07">2024-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/22/windows-Java%E5%A4%9A%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2/" title="windows Java多版本切换">windows Java多版本切换</a><time datetime="2024-04-22T10:37:48.000Z" title="发表于 2024-04-22 10:37:48">2024-04-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/04/05/Ubuntu%E8%BD%AF%E4%BB%B6%E6%BA%90/" title="Ubuntu软件源">Ubuntu软件源</a><time datetime="2024-04-05T23:33:57.000Z" title="发表于 2024-04-05 23:33:57">2024-04-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Curiosity</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
