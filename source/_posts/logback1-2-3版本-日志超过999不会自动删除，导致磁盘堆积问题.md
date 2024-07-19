@@ -27,6 +27,8 @@ summary:
 
 # 二、前置知识
 
+https://www.cnblogs.com/cainiao-Shun666/p/16348448.html
+
 ## 2.1.基于时间的滚动策略
 
 为了配置滚动日志，我们可以使用`TimeBasedRollingPolicy` ，它具有以下属性。
